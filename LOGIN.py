@@ -140,11 +140,11 @@ class Application:
         
     def btn(self):
         global sts
-        print ("fui clickado!")
         usr = self.user.get()
         pwd = self.password.get()
 
         if usr == "K" and pwd == "F":
+            print ("Fazendo Login como: " + usr)
             root.destroy()
             sts = not sts
             return sts

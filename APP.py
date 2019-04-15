@@ -5,7 +5,7 @@ from tkinter import *
 from time import sleep, time
 from PIL import Image, ImageTk
 from tkinter import ttk
-import LOGIN
+#import LOGIN
 import threading
 global operando
 import fdb
@@ -66,10 +66,9 @@ bgRodape        = PhotoImage(file="rodape.png")
 class Application:
     
     def __init__(self, master=None):
-        Log = LOGIN.sts
+        #Log = LOGIN.sts
 
-        if Log == True:
-            print("DEU CERTO")
+        #if Log == True:
             self.montaTela()
 
     def montaTela(self, master=None):
@@ -277,7 +276,7 @@ class Application:
         self.btnStop["height"] = 50
         self.btnStop.pack(pady=5)
 
-        self.btnBusca = Button(self.containerBotoes, image=searchButton, bg=bgCinza, relief=FLAT, anchor="w", command=self.busca)
+        self.btnBusca = Button(self.containerBotoes, image=searchButton, bg=bgCinza, relief=FLAT, anchor="w", command=self.exibeLista)
         self.btnBusca["width"] = 130
         self.btnBusca["height"] = 50
         self.btnBusca.pack(pady=5)
@@ -287,10 +286,10 @@ class Application:
         self.btnPula["height"] = 50
         self.btnPula.pack(pady=5)
 
-        self.btnBusca = Button(self.containerBotoes, image=paradaButton, bg=bgCinza, relief=FLAT, anchor="w")
-        self.btnBusca["width"] = 130
-        self.btnBusca["height"] = 50
-        self.btnBusca.pack(pady=5)
+        self.btnParada = Button(self.containerBotoes, image=paradaButton, bg=bgCinza, relief=FLAT, anchor="w")
+        self.btnParada["width"] = 130
+        self.btnParada["height"] = 50
+        self.btnParada.pack(pady=5)
 
         self.btnMenu = Button(self.containerBotoes, image=menuButton, bg=bgCinza, relief=FLAT, anchor="w")
         self.btnMenu["width"] = 130
@@ -326,6 +325,9 @@ class Application:
             ele.destroy()
 
         Application()
+
+    def exibeLista(self):          
+        lst = __import__('ListaDeCorte')
 
     def busca(self):
         pd = PD()
