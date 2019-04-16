@@ -21,7 +21,7 @@ root.title('Operação')
 root.geometry("1024x600+0+0")
 root.attributes('-fullscreen', True)
 root.bind('<Escape>',lambda e: root.destroy())
-root.resizable(width=False, height=False)
+root.resizable(width=True, height=True)
 
 ID = StringVar()
 REQNUM = StringVar()
@@ -266,32 +266,32 @@ class Application:
         self.lblAcabamento4.pack(fill=BOTH, expand=1, pady=5)
 
         #--- Botões ---#                        
-        self.btnStart = Button(self.containerBotoes, image=startButton, bg=bgCinza, relief=FLAT, anchor="w", command=self.opera)
+        self.btnStart = Button(self.containerBotoes, image=startButton, bg=bgCinza, relief=FLAT, anchor="w", command=self.opera, bd=0,  highlightthickness=0)
         self.btnStart["width"] = 130
         self.btnStart["height"] = 50
         self.btnStart.pack(pady=5)
         
-        self.btnStop = Button(self.containerBotoes, image=stopButton, bg=bgCinza, relief=FLAT, anchor="w", command=self.stop)
+        self.btnStop = Button(self.containerBotoes, image=stopButton, bg=bgCinza, relief=FLAT, anchor="w", command=self.stop, bd=0,  highlightthickness=0)
         self.btnStop["width"] = 130
         self.btnStop["height"] = 50
         self.btnStop.pack(pady=5)
 
-        self.btnBusca = Button(self.containerBotoes, image=searchButton, bg=bgCinza, relief=FLAT, anchor="w", command=self.exibeLista)
+        self.btnBusca = Button(self.containerBotoes, image=searchButton, bg=bgCinza, anchor="w", command=self.exibeLista, bd=0, highlightthickness=0) 
         self.btnBusca["width"] = 130
         self.btnBusca["height"] = 50
         self.btnBusca.pack(pady=5)
 
-        self.btnPula = Button(self.containerBotoes, image=pularButton, bg=bgCinza, relief=FLAT, anchor="w")
+        self.btnPula = Button(self.containerBotoes, image=pularButton, bg=bgCinza, relief=FLAT, anchor="w", bd=0,  highlightthickness=0)
         self.btnPula["width"] = 130
         self.btnPula["height"] = 50
         self.btnPula.pack(pady=5)
 
-        self.btnParada = Button(self.containerBotoes, image=paradaButton, bg=bgCinza, relief=FLAT, anchor="w")
+        self.btnParada = Button(self.containerBotoes, image=paradaButton, bg=bgCinza, relief=FLAT, anchor="w", bd=0,  highlightthickness=0)
         self.btnParada["width"] = 130
         self.btnParada["height"] = 50
         self.btnParada.pack(pady=5)
 
-        self.btnMenu = Button(self.containerBotoes, image=menuButton, bg=bgCinza, relief=FLAT, anchor="w")
+        self.btnMenu = Button(self.containerBotoes, image=menuButton, bg=bgCinza, relief=FLAT, anchor="w", bd=0,  highlightthickness=0)
         self.btnMenu["width"] = 130
         self.btnMenu["height"] = 50
         self.btnMenu.pack(pady=5)        
@@ -327,6 +327,8 @@ class Application:
         Application()
 
     def exibeLista(self):          
+        self.limpaTela()
+        
         lst = __import__('ListaDeCorte')
 
     def busca(self):

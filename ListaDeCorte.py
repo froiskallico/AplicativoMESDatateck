@@ -5,15 +5,13 @@ from PIL import Image, ImageTk
 from tkinter import ttk
 import functools as partial
 
-vKBVisible = False
-
 #--- Tela Principal ---#
 new = Tk()
 new.title('Login')
 new.geometry("1024x600+0+0")
 new.attributes('-fullscreen', True)
 new.bind('<Escape>',lambda e: new.destroy())
-new.resizable(width=False, height=False)
+new.resizable(width=True, height=True)
 
 #--- CORES ---#
 bgCinza     = "#333333"

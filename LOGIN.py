@@ -13,7 +13,7 @@ root.title('Login')
 root.geometry("1024x600+0+0")
 root.attributes('-fullscreen', True)
 root.bind('<Escape>',lambda e: root.destroy())
-root.resizable(width=False, height=False)
+root.resizable(width=True, height=True)
 
 #--- CORES ---#
 bgCinza     = "#333333"
