@@ -3,7 +3,7 @@ import sqlite3
 class BANCO():
 
     def __init__(self):
-        self.conexao = sqlite3.connect('TESTEPDS.db')
+        self.conexao = sqlite3.connect('database/TESTEPDS.db')
         self.conexao.text_factory = lambda x: str(x, 'cp1252')
         self.createTable()
 

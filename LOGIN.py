@@ -1,17 +1,22 @@
 #--- Imports ---#
-
 from tkinter import *
 from PIL import Image, ImageTk
 from tkinter import ttk
 import functools as partial
+import configparser as cfgprsr
+
+#--- Configurações ---#
+config = cfgprsr.ConfigParser()
+config.read('config.ini')
+
 
 vKBVisible = False
 
 #--- Tela Principal ---#
 root = Tk()
 root.title('Login')
-root.geometry("1024x600+0+0")
-root.attributes('-fullscreen', True)
+root.geometry(config['DISPLAY']['RES'])
+root.attributes('-fullscreen', config['DISPLAY']['Tela Cheia'])
 root.bind('<Escape>',lambda e: root.destroy())
 root.resizable(width=True, height=True)
 
@@ -21,9 +26,9 @@ bgVerde     = "#00d455"
 letraVerde  = "#66ff00"
 
 #--- IMAGENS ---#
-logo            = PhotoImage(file="logoL.png")
-loginIcon       = PhotoImage(file="loginIcon.png")
-loginButton     = PhotoImage(file="loginButton.png")
+logo            = PhotoImage(file="src/images/logos/logoL.png")
+loginIcon       = PhotoImage(file="src/images/icons/loginIcon.png")
+loginButton     = PhotoImage(file="src/images/buttons/loginButton.png")
 
 sts = False
 
@@ -143,7 +148,7 @@ class Application:
         usr = self.user.get()
         pwd = self.password.get()
 
-        if usr == "K" and pwd == "F":
+        if usr == config['LOGIN']['Usuario'] and pwd == config['LOGIN']['Senha']:
             print ("Fazendo Login como: " + usr)
             root.destroy()
             sts = not sts

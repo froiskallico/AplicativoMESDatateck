@@ -1,6 +1,5 @@
 #--- Imports ---#
 from PD import PD
-from TEMPOS import TEMPOS
 from tkinter import *
 from time import sleep, time
 from PIL import Image, ImageTk
@@ -8,18 +7,24 @@ from tkinter import ttk
 #import LOGIN
 import threading
 global operando
-import fdb
+import configparser as cfgprsr
+
+#--- Configurações ---#
+config = cfgprsr.ConfigParser()
+config.read('config.ini')
+
+maquina = config['DEFAULT']['Maquina']
+
 
 #--- Declarações ---#
 operando = False
-buscado = False
-maquina = "CL-560"
+
 
 #--- Tela Principal ---#
 root = Tk()
 root.title('Operação')
-root.geometry("1024x600+0+0")
-root.attributes('-fullscreen', False)
+root.geometry(config['DISPLAY']['RES'])
+root.attributes('-fullscreen', config['DISPLAY']['Tela Cheia'])
 root.bind('<Escape>',lambda e: root.destroy())
 root.resizable(width=True, height=True)
 
@@ -46,20 +51,18 @@ PROX_DECAPEB = StringVar()
 
 
 #--- CORES ---#
-bgCinza     = "#333333"
-bgVerde     = "#00d455"
-letraVerde  = "#66ff00"
+bgCinza		= "#333333"
+bgVerde		= "#00d455"
+letraVerde	= "#66ff00"
 
 #--- IMAGENS ---#
-logo            = PhotoImage(file="logo.png")
-startButton     = PhotoImage(file="startButton.png")
-stopButton      = PhotoImage(file="stopButton.png")
-searchButton    = PhotoImage(file="searchButton.png")
-pularButton     = PhotoImage(file="pularButton.png")
-paradaButton    = PhotoImage(file="paradaButton.png")
-menuButton      = PhotoImage(file="menuButton.png")
-bgRodape        = PhotoImage(file="rodape.png")
-
+logo			= PhotoImage(file="src/images/logos/logo.png")
+startButton		= PhotoImage(file="src/images/buttons/startButton.png")
+stopButton		= PhotoImage(file="src/images/buttons/stopButton.png")
+searchButton	= PhotoImage(file="src/images/buttons/searchButton.png")
+pularButton		= PhotoImage(file="src/images/buttons/pularButton.png")
+paradaButton	= PhotoImage(file="src/images/buttons/paradaButton.png")
+menuButton		= PhotoImage(file="src/images/buttons/menuButton.png")
 
 
 #--- Declaração de Classe ---#
@@ -91,7 +94,7 @@ class Application:
 
 		####--- Cabecalho PD ---####
 		self.containerCabecalhoPD = Frame(self.containerDadosPD, bg=bgCinza)
-		self.containerCabecalhoPD.pack(fill=X, pady=(20,35), padx=20)    
+		self.containerCabecalhoPD.pack(fill=X, pady=(20,35), padx=20)	 
 
 		####--- Medidas PD ---####
 		self.containerMedidasPD = Frame(self.containerDadosPD, bg=bgCinza)
@@ -123,7 +126,7 @@ class Application:
 
 		######--- Quantidade ---######
 		self.containerQuantidade = Frame(self.containerDetalhesMeio, bg=bgCinza)
-		self.containerQuantidade.pack(fill=BOTH, expand=1)   
+		self.containerQuantidade.pack(fill=BOTH, expand=1)	 
 
 		######--- Observação ---######
 		self.containerObservacao = Frame(self.containerDetalhesMeio, bg=bgCinza)
@@ -265,13 +268,13 @@ class Application:
 		self.lblAcabamento4 = Label(self.containerAcabamento4, text=ACAB4.get(), bg="#ccc", fg=bgCinza, font=self.fonte)
 		self.lblAcabamento4.pack(fill=BOTH, expand=1, pady=5)
 
-		#--- Botões ---#                        
-		self.btnStart = Button(self.containerBotoes, image=startButton, bg=bgCinza, relief=FLAT, anchor="w", command=self.opera, bd=0,  highlightthickness=0)
+		#--- Botões ---#						
+		self.btnStart = Button(self.containerBotoes, image=startButton, bg=bgCinza, relief=FLAT, anchor="w", command=self.opera, bd=0,	highlightthickness=0)
 		self.btnStart["width"] = 130
 		self.btnStart["height"] = 50
 		self.btnStart.pack(pady=5)
 		
-		self.btnStop = Button(self.containerBotoes, image=stopButton, bg=bgCinza, relief=FLAT, anchor="w", command=self.stop, bd=0,  highlightthickness=0)
+		self.btnStop = Button(self.containerBotoes, image=stopButton, bg=bgCinza, relief=FLAT, anchor="w", command=self.stop, bd=0,	 highlightthickness=0)
 		self.btnStop["width"] = 130
 		self.btnStop["height"] = 50
 		self.btnStop.pack(pady=5)
@@ -294,7 +297,7 @@ class Application:
 		self.btnMenu = Button(self.containerBotoes, image=menuButton, bg=bgCinza, relief=FLAT, anchor="w", bd=0,  highlightthickness=0)
 		self.btnMenu["width"] = 130
 		self.btnMenu["height"] = 50
-		self.btnMenu.pack(pady=5)        
+		self.btnMenu.pack(pady=5)		 
 		
 		#--- Rodape ---#
 		self.lblProxCabo = Label(self.containerProxCabo, text=PROX_CABO.get(), bg="#454545", fg="#888")
@@ -326,36 +329,47 @@ class Application:
 
 		Application()
 
-	def exibeLista(self):          
+
+	def exibeLista(self):		   
 		for ele in self.containerEsquerda.winfo_children():
 			ele.destroy()
-	
-		#--- ListBox ---#
-		self.lbPDs = Listbox(self.containerEsquerda, font=("Play", 16), bg="seashell3", fg="black", width=50, height=15)
-		self.lbPDs.pack()
+			
+		style = ttk.Style()
+		style.configure("TTvw", foreground="black", font=("Play", 16), highlightthickness=0, rowheight=30)
+		style.layout("TTvw", [('mystyle.Treeview.treearea', {'sticky': 'nswe'})]) 
+				
+		self.tvw = ttk.Treeview(self.containerEsquerda, style="TTvw")
+		self.oferta = self.tvw.insert('', 'end', 'ofertas', text='Ofertas do dia')
+		self.idMono = self.tvw.insert('ofertas', 'end', text='Monociclos')
+		self.idDici = self.tvw.insert('ofertas', 'end', text='Diciclos')
+		self.idPati = self.tvw.insert('ofertas', 'end', text='Patinetes')
+		self.idBici = self.tvw.insert('ofertas', 'end', text='Bicicletas')
+
+		self.idMonoMarca1 = self.tvw.insert(self.idMono, 'end', text='Marca1')
+		self.idMonoMarca2 = self.tvw.insert(self.idMono, 'end', text='Marca2')
+		self.idMonoMarca3 = self.tvw.insert(self.idMono, 'end', text='Marca3')
+
+		self.idDiciMarca1 = self.tvw.insert(self.idDici, 'end', text='Marca11')
+		self.idDiciMarca2 = self.tvw.insert(self.idDici, 'end', text='Marca21')
+		self.idDiciMarca3 = self.tvw.insert(self.idDici, 'end', text='Marca31')
+
+		self.idPatiMarca1 = self.tvw.insert(self.idPati, 'end', text='Marca12')
+		self.idPatiMarca2 = self.tvw.insert(self.idPati, 'end', text='Marca22')
+		self.idPatiMarca3 = self.tvw.insert(self.idPati, 'end', text='Marca32')
+
+		self.idBiciMarca1 = self.tvw.insert(self.idBici, 'end', text='Marca12')
+		self.idBiciMarca2 = self.tvw.insert(self.idBici, 'end', text='Marca22')
+		self.idBiciMarca3 = self.tvw.insert(self.idBici, 'end', text='Marca32')		
+		self.tvw.pack(fill=BOTH, pady=15, padx=15, expand=1)
 
 		self.btnConfirma = Button(self.containerEsquerda, text="Carregar", font=("Play", 16), bg=bgCinza, fg="white")
-		self.btnConfirma.pack(pady=15)
-
-		self.lbPDs.insert(1, "A")
-		self.lbPDs.insert(2, "B")
-		self.lbPDs.insert(3, "C")
-		self.lbPDs.insert(4, "D")
-		self.lbPDs.insert(5, "A")
-		self.lbPDs.insert(6, "B")
-		self.lbPDs.insert(7, "C")
-		self.lbPDs.insert(8, "D")
-		self.lbPDs.insert(9, "A")
-		self.lbPDs.insert(10, "B")
-		self.lbPDs.insert(11, "C")
-		self.lbPDs.insert(12, "D")
-
-				
+		self.btnConfirma.pack(pady=10)
+		
 	def busca(self):
 		pd = PD()
 		pd.buscarPD(maquina)
 		
-		#tempos = TEMPOS()        
+		#tempos = TEMPOS()		  
 
 		ID.set(pd.ID)
 		REQNUM.set(pd.REQNUM)
@@ -380,31 +394,31 @@ class Application:
 
 		self.limpaTela()
 		
-##        global qtdCortada
-##        global buscado
+##		  global qtdCortada
+##		  global buscado
 ##
-##        qtdCortada = int(pd.QTD_CORT)
-##        buscado = True
+##		  qtdCortada = int(pd.QTD_CORT)
+##		  buscado = True
 ##
-##        global setupTempoInicio
+##		  global setupTempoInicio
 ##
-##        setupTempoInicio = time()
-###        self.atualizaSetup()
+##		  setupTempoInicio = time()
+###		   self.atualizaSetup()
 ##
-##    def atualizaSetup(self):
-##        tempos = TEMPOS()
-##        tempoAtualSetup = int(time() - setupTempoInicio)
-##        tempos.setup(tempoAtualSetup)
-##        if not operando:
-##            root.after(1000, self.atualizaSetup)
-##                       
+##	  def atualizaSetup(self):
+##		  tempos = TEMPOS()
+##		  tempoAtualSetup = int(time() - setupTempoInicio)
+##		  tempos.setup(tempoAtualSetup)
+##		  if not operando:
+##			  root.after(1000, self.atualizaSetup)
+##						 
 	def opera(self):
 		global tempoInicio
 		tempoInicio = int(time())
 		global operando
 		operando = True
 		
-		self.atualizaCronografo()            
+		self.atualizaCronografo()			 
 
 		
 	def atualizaCronografo(self):
@@ -429,7 +443,7 @@ class Application:
 		if (operando):
 			operando = False
 
-##        QUANTIDADE_CORTADA.set(QUANTIDADE.get())
+##		  QUANTIDADE_CORTADA.set(QUANTIDADE.get())
 		self.limpaTela()
 		pd.atualizaQuantidadeCortada(ID.get(), QUANTIDADE_CORTADA.get())
 		
@@ -451,4 +465,4 @@ class Application:
 
 		
 Application(root)
-root.mainloop()                               
+root.mainloop()								  
