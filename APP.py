@@ -320,7 +320,6 @@ class Application:
 		
 		self.lblProxDecapeB = Label(self.containerProxMedidas, text=PROX_DECAPEB.get(), bg="#454545", fg="#888")
 		self.lblProxDecapeB.grid(column=2, row=1)
-	
 
 
 	def limpaTela(self):
@@ -333,38 +332,51 @@ class Application:
 	def exibeLista(self):		   
 		for ele in self.containerEsquerda.winfo_children():
 			ele.destroy()
-			
+
 		style = ttk.Style()
-		style.configure("TTvw", foreground="black", font=("Play", 16), highlightthickness=0, rowheight=30)
-		style.layout("TTvw", [('mystyle.Treeview.treearea', {'sticky': 'nswe'})]) 
-				
-		self.tvw = ttk.Treeview(self.containerEsquerda, style="TTvw")
-		self.oferta = self.tvw.insert('', 'end', 'ofertas', text='Ofertas do dia')
-		self.idMono = self.tvw.insert('ofertas', 'end', text='Monociclos')
-		self.idDici = self.tvw.insert('ofertas', 'end', text='Diciclos')
-		self.idPati = self.tvw.insert('ofertas', 'end', text='Patinetes')
-		self.idBici = self.tvw.insert('ofertas', 'end', text='Bicicletas')
+		style.configure("mystyle.Treeview", highlightthickness=0, bd=0, font=('Calibri', 16), rowheight=35)
+		style.configure("mystyle.Treeview.Heading", font=('Calibri', 16, 'bold'))
+		style.layout("mystyle.Treeview", [('mystyle.Treeview.treearea', {'sticky': 'nswe'})])
 
-		self.idMonoMarca1 = self.tvw.insert(self.idMono, 'end', text='Marca1')
-		self.idMonoMarca2 = self.tvw.insert(self.idMono, 'end', text='Marca2')
-		self.idMonoMarca3 = self.tvw.insert(self.idMono, 'end', text='Marca3')
+		self.dataCols = ('Master', 'Modelo', 'Marca')
 
-		self.idDiciMarca1 = self.tvw.insert(self.idDici, 'end', text='Marca11')
-		self.idDiciMarca2 = self.tvw.insert(self.idDici, 'end', text='Marca21')
-		self.idDiciMarca3 = self.tvw.insert(self.idDici, 'end', text='Marca31')
+		self.tvw = ttk.Treeview(self.containerEsquerda, style="mystyle.Treeview", columns=self.dataCols, show ='headings')
 
-		self.idPatiMarca1 = self.tvw.insert(self.idPati, 'end', text='Marca12')
-		self.idPatiMarca2 = self.tvw.insert(self.idPati, 'end', text='Marca22')
-		self.idPatiMarca3 = self.tvw.insert(self.idPati, 'end', text='Marca32')
+		for c in self.dataCols:
+			self.tvw.heading(c, text=c.title())
 
-		self.idBiciMarca1 = self.tvw.insert(self.idBici, 'end', text='Marca12')
-		self.idBiciMarca2 = self.tvw.insert(self.idBici, 'end', text='Marca22')
-		self.idBiciMarca3 = self.tvw.insert(self.idBici, 'end', text='Marca32')		
 		self.tvw.pack(fill=BOTH, pady=15, padx=15, expand=1)
 
 		self.btnConfirma = Button(self.containerEsquerda, text="Carregar", font=("Play", 16), bg=bgCinza, fg="white")
 		self.btnConfirma.pack(pady=10)
-		
+
+		self.listaCount = Label(self.containerEsquerda)
+		self.listaCount.pack()
+
+		self.populaLBO()
+
+
+	def populaLBO(self):
+
+		self.data = [
+			('ofertas', 'Monociclos', 'Marca1'),
+			('ofertas', 'Monociclos', 'Marca2'),
+			('ofertas', 'Monociclos', 'Marca3'),
+			('ofertas', 'Diciclos', 'Marca11'),
+			('ofertas', 'Diciclos', 'Marca21'),
+			('ofertas', 'Diciclos', 'Marca31'),
+			('ofertas', 'Patinetes', 'Marca1'),
+			('ofertas', 'Monociclos', 'Marca1'),
+			('ofertas', 'Monociclos', 'Marca1'),
+			('ofertas', 'Monociclos', 'Marca1'),
+			('ofertas', 'Monociclos', 'Marca1'),
+			('ofertas', 'Monociclos', 'Marca1')]
+
+		for item in self.data:
+			self.tvw.insert('', 'end', values=item)
+
+		print(len(self.data))
+		#self.listaCount.configure(self.data.len())
 	def busca(self):
 		pd = PD()
 		pd.buscarPD(maquina)
