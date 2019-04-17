@@ -333,25 +333,25 @@ class Application:
 		for ele in self.containerEsquerda.winfo_children():
 			ele.destroy()
 
+		self.listaCount = Label(self.containerEsquerda, bg=bgCinza, fg="white", font=("Play", 12), anchor=SE)
+		self.listaCount.pack(side=TOP, fill=X, padx=(0,15))
+
 		style = ttk.Style()
 		style.configure("mystyle.Treeview", highlightthickness=0, bd=0, font=('Calibri', 16), rowheight=35)
 		style.configure("mystyle.Treeview.Heading", font=('Calibri', 16, 'bold'))
 		style.layout("mystyle.Treeview", [('mystyle.Treeview.treearea', {'sticky': 'nswe'})])
 
-		self.dataCols = ('Master', 'Modelo', 'Marca')
+		self.dataCols = ('ENTREGA', 'CABO', 'PD', '123', '456', '789')
 
-		self.tvw = ttk.Treeview(self.containerEsquerda, style="mystyle.Treeview", columns=self.dataCols, show ='headings')
+		self.tvw = ttk.Treeview(self.containerEsquerda, style="mystyle.Treeview", columns=self.dataCols, show='headings')
 
 		for c in self.dataCols:
 			self.tvw.heading(c, text=c.title())
 
-		self.tvw.pack(fill=BOTH, pady=15, padx=15, expand=1)
+		self.tvw.pack(fill=BOTH, pady=(0, 15), padx=15, expand=1)
 
 		self.btnConfirma = Button(self.containerEsquerda, text="Carregar", font=("Play", 16), bg=bgCinza, fg="white")
 		self.btnConfirma.pack(pady=10)
-
-		self.listaCount = Label(self.containerEsquerda)
-		self.listaCount.pack()
 
 		self.populaLBO()
 
@@ -359,23 +359,23 @@ class Application:
 	def populaLBO(self):
 
 		self.data = [
-			('ofertas', 'Monociclos', 'Marca1'),
-			('ofertas', 'Monociclos', 'Marca2'),
-			('ofertas', 'Monociclos', 'Marca3'),
-			('ofertas', 'Diciclos', 'Marca11'),
-			('ofertas', 'Diciclos', 'Marca21'),
-			('ofertas', 'Diciclos', 'Marca31'),
-			('ofertas', 'Patinetes', 'Marca1'),
-			('ofertas', 'Monociclos', 'Marca1'),
-			('ofertas', 'Monociclos', 'Marca1'),
-			('ofertas', 'Monociclos', 'Marca1'),
-			('ofertas', 'Monociclos', 'Marca1'),
-			('ofertas', 'Monociclos', 'Marca1')]
+			('ofertas', 'Monociclos', 'Marca1', 'abc', 'abc', 'abc'),
+			('ofertas', 'Monociclos', 'Marca2', 'abc', 'abc', 'abc'),
+			('ofertas', 'Monociclos', 'Marca3', 'abc', 'abc', 'abc'),
+			('ofertas', 'Diciclos', 'Marca11', 'abc', 'abc', 'abc'),
+			('ofertas', 'Diciclos', 'Marca21', 'abc', 'abc', 'abc'),
+			('ofertas', 'Diciclos', 'Marca31', 'abc', 'abc', 'abc'),
+			('ofertas', 'Patinetes', 'Marca1', 'abc', 'abc', 'abc'),
+			('ofertas', 'Monociclos', 'Marca1', 'abc', 'abc', 'abc'),
+			('ofertas', 'Monociclos', 'Marca1', 'abc', 'abc', 'abc'),
+			('ofertas', 'Monociclos', 'Marca1', 'abc', 'abc', 'abc'),
+			('ofertas', 'Monociclos', 'Marca1', 'abc', 'abc', 'abc'),
+			('ofertas', 'Monociclos', 'Marca1', 'abc', 'abc', 'abc')]
 
 		for item in self.data:
 			self.tvw.insert('', 'end', values=item)
 
-		print(len(self.data))
+		self.listaCount.configure(text='Total de PDs: ' + str(len(self.data)))
 		#self.listaCount.configure(self.data.len())
 	def busca(self):
 		pd = PD()
