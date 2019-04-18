@@ -73,7 +73,7 @@ class Application:
 
 		#if Log == True:
 			self.montaTela()
-			# self.exibeLista()
+			self.exibeLista()
 	def montaTela(self, master=None):
 		#--- Fonte Padrão ---#
 		self.fonte = ("Play", 12)
@@ -350,7 +350,24 @@ class Application:
 		style.configure("mystyle.Treeview.Heading", font=('Calibri', 16, 'bold'))
 		style.layout("mystyle.Treeview", [('mystyle.Treeview.treearea', {'sticky': 'nswe'})])
 
-		self.dataCols = ('ENTREGA', 'CABO', 'PD', '123', '456', '789', 'XYZ','ENTREGA', 'CABO', 'PD', '123', '456', '789', 'XYZ')
+		self.dataCols = ('ID',
+						 'Requisição',
+						 'PD',
+						 'CABO',
+						 'DECAPE A',
+						 'DECAPE B',
+						 'MEDIDA',
+						 'ACABAMENTO 1',
+						 'ACABAMENTO 2',
+						 'OBSERVAÇÃO',
+						 'PRODUTO FINAL',
+						 'QUANTIDADE',
+						 'QTD. CORTADA',
+						 'ENTREGA',
+						 'PRIORIDADE',
+						 'MÁQUINA',
+						 'PRI. MEDIDA',
+						 'ULT. MEDIDA')
 
 		self.tvw = ttk.Treeview(
 			self.containerEsquerda,
@@ -362,7 +379,7 @@ class Application:
 		self.hsb['command'] = self.tvw.xview
 
 		for c in self.dataCols:
-			self.tvw.heading(c, text=c.title())
+			self.tvw.heading(c, text=str(c.title()))
 			self.tvw.column(c, stretch=False, width=100)
 
 		# self.tvw.pack(fill=BOTH, pady=(0, 15), padx=15, expand=1)
@@ -373,24 +390,26 @@ class Application:
 		self.btnConfirma = Button(self.containerEsquerda, text="Carregar", font=("Play", 16), bg=bgCinza, fg="white")
 		self.btnConfirma.grid(column=0, row=3, ipadx=5)
 
-		self.populaLBO()
+		self.populaLista()
 
+	def populaLista(self):
+		pd = PD()
+		pd.buscarPD(maquina)
 
-	def populaLBO(self):
-
-		self.data = [
-			('ofertas', 'Monociclos', 'Marca1', 'abc', 'abc', 'abc'),
-			('ofertas', 'Monociclos', 'Marca2', 'abc', 'abc', 'abc'),
-			('ofertas', 'Monociclos', 'Marca3', 'abc', 'abc', 'abc'),
-			('ofertas', 'Diciclos', 'Marca11', 'abc', 'abc', 'abc'),
-			('ofertas', 'Diciclos', 'Marca21', 'abc', 'abc', 'abc'),
-			('ofertas', 'Diciclos', 'Marca31', 'abc', 'abc', 'abc'),
-			('ofertas', 'Patinetes', 'Marca1', 'abc', 'abc', 'abc'),
-			('ofertas', 'Monociclos', 'Marca1', 'abc', 'abc', 'abc'),
-			('ofertas', 'Monociclos', 'Marca1', 'abc', 'abc', 'abc'),
-			('ofertas', 'Monociclos', 'Marca1', 'abc', 'abc', 'abc'),
-			('ofertas', 'Monociclos', 'Marca1', 'abc', 'abc', 'abc'),
-			('ofertas', 'Monociclos', 'Marca1', 'abc', 'abc', 'abc')]
+		self.data = pd.info
+		# self.data = [
+		# 	('ofertas', 'Monociclos', 'Marca1', 'abc', 'abc', 'abc'),
+		# 	('ofertas', 'Monociclos', 'Marca2', 'abc', 'abc', 'abc'),
+		# 	('ofertas', 'Monociclos', 'Marca3', 'abc', 'abc', 'abc'),
+		# 	('ofertas', 'Diciclos', 'Marca11', 'abc', 'abc', 'abc'),
+		# 	('ofertas', 'Diciclos', 'Marca21', 'abc', 'abc', 'abc'),
+		# 	('ofertas', 'Diciclos', 'Marca31', 'abc', 'abc', 'abc'),
+		# 	('ofertas', 'Patinetes', 'Marca1', 'abc', 'abc', 'abc'),
+		# 	('ofertas', 'Monociclos', 'Marca1', 'abc', 'abc', 'abc'),
+		# 	('ofertas', 'Monociclos', 'Marca1', 'abc', 'abc', 'abc'),
+		# 	('ofertas', 'Monociclos', 'Marca1', 'abc', 'abc', 'abc'),
+		# 	('ofertas', 'Monociclos', 'Marca1', 'abc', 'abc', 'abc'),
+		# 	('ofertas', 'Monociclos', 'Marca1', 'abc', 'abc', 'abc')]
 
 		for item in self.data:
 			self.tvw.insert('', 'end', values=item)

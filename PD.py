@@ -29,7 +29,21 @@ class PD(object):
 
         try:
             c = banco.conexao.cursor()
-            c.execute('SELECT * FROM pds where MAQUINA = "%s" and QTD > QTD_CORT order by CABO, MEDIDA desc limit 1' % maquina)
+            c.execute('''   SELECT 
+                                *
+                            FROM 
+                                PDS
+                            WHERE
+                                MAQUINA = "%s" and 
+                                QTD > QTD_CORT 
+                            ORDER BY 
+                                CABO,
+                                MEDIDA DESC 
+                            --LIMIT
+                            --    5   ''' % maquina)
+
+            self.info = c.fetchall()
+
             for linha in c:
                 self.ID = linha[0]
                 self.REQNUM = linha[1]
