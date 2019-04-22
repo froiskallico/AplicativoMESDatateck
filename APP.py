@@ -15,10 +15,8 @@ config.read('config.ini')
 
 maquina = config['DEFAULT']['Maquina']
 
-
 #--- Declarações ---#
 operando = False
-
 
 #--- Tela Principal ---#
 root = Tk()
@@ -323,13 +321,11 @@ class Application:
 		self.lblProxDecapeB = Label(self.containerProxMedidas, text=PROX_DECAPEB.get(), bg="#454545", fg="#888")
 		self.lblProxDecapeB.grid(column=2, row=1)
 
-
 	def limpaTela(self):
 		for ele in root.winfo_children():
 			ele.destroy()
 
 		Application()
-
 
 	def exibeLista(self):		   
 		for ele in self.containerEsquerda.winfo_children():
@@ -378,9 +374,9 @@ class Application:
 		self.vsb['command'] = self.tvw.yview
 		self.hsb['command'] = self.tvw.xview
 
-		for c in self.dataCols:
-			self.tvw.heading(c, text=str(c.title()))
-			self.tvw.column(c, stretch=False, width=100)
+		for field in self.dataCols:
+			self.tvw.heading(field, text=str(c.title()))
+			self.tvw.column(field, stretch=False, width=100)
 
 		# self.tvw.pack(fill=BOTH, pady=(0, 15), padx=15, expand=1)
 		self.tvw.grid(column=0, row=0, sticky='nswe')
@@ -388,28 +384,25 @@ class Application:
 		self.hsb.grid(column=0, row=1, sticky='we')
 
 		self.btnConfirma = Button(self.containerEsquerda, text="Carregar", font=("Play", 16), bg=bgCinza, fg="white")
+		self.btnConfirma.bind("<Button-1>", self.listaSelectBtn)
 		self.btnConfirma.grid(column=0, row=3, ipadx=5)
 
+
 		self.populaLista()
+
+	def listaSelectBtn(self, master):
+		self.itemSel = self.tvw.focus()
+		self.itemData = self.tvw.item(self.itemSel)
+
+		for field in self.dataCols:
+			field.set(self.itemData.get('values')[field])
+			print ("%S : %S" %field;
 
 	def populaLista(self):
 		pd = PD()
 		pd.buscarPD(maquina)
 
 		self.data = pd.info
-		# self.data = [
-		# 	('ofertas', 'Monociclos', 'Marca1', 'abc', 'abc', 'abc'),
-		# 	('ofertas', 'Monociclos', 'Marca2', 'abc', 'abc', 'abc'),
-		# 	('ofertas', 'Monociclos', 'Marca3', 'abc', 'abc', 'abc'),
-		# 	('ofertas', 'Diciclos', 'Marca11', 'abc', 'abc', 'abc'),
-		# 	('ofertas', 'Diciclos', 'Marca21', 'abc', 'abc', 'abc'),
-		# 	('ofertas', 'Diciclos', 'Marca31', 'abc', 'abc', 'abc'),
-		# 	('ofertas', 'Patinetes', 'Marca1', 'abc', 'abc', 'abc'),
-		# 	('ofertas', 'Monociclos', 'Marca1', 'abc', 'abc', 'abc'),
-		# 	('ofertas', 'Monociclos', 'Marca1', 'abc', 'abc', 'abc'),
-		# 	('ofertas', 'Monociclos', 'Marca1', 'abc', 'abc', 'abc'),
-		# 	('ofertas', 'Monociclos', 'Marca1', 'abc', 'abc', 'abc'),
-		# 	('ofertas', 'Monociclos', 'Marca1', 'abc', 'abc', 'abc')]
 
 		for item in self.data:
 			self.tvw.insert('', 'end', values=item)
@@ -444,7 +437,6 @@ class Application:
 		PROX_DECAPEB.set("-")
 
 		self.limpaTela()
-		
 ##		  global qtdCortada
 ##		  global buscado
 ##
@@ -471,7 +463,6 @@ class Application:
 		
 		self.atualizaCronografo()			 
 
-		
 	def atualizaCronografo(self):
 		if operando:
 			tempoAtual = int(time() - tempoInicio)
