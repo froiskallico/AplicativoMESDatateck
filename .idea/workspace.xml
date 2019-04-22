@@ -11,49 +11,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/config.ini">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="2" selection-start-line="2" selection-end-line="2" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/APP.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="532">
-              <caret line="506" selection-start-line="506" selection-end-line="506" />
-              <folding>
-                <element signature="e#1861#12834#0" />
-                <element signature="e#1915#1935#0" />
-                <element signature="e#5200#5216#0" />
-                <element signature="e#5770#5790#0" />
-                <element signature="e#7340#7362#0" />
-                <element signature="e#9482#9504#0" />
-                <element signature="e#12861#12928#0" />
-                <element signature="e#12961#14871#0" />
-                <element signature="e#13809#14153#0" />
-                <element signature="e#14394#14482#0" />
-                <element signature="e#14981#15173#0" />
-                <element signature="e#15093#15173#0" />
-                <element signature="e#15198#15396#0" />
-                <element signature="e#15888#16420#0" />
-                <element signature="e#16424#16447#0" />
-                <element signature="e#16871#16987#0" />
-                <element signature="e#17026#17403#0" />
-                <element signature="e#17042#17403#0" />
-                <element signature="e#17113#17241#0" />
-                <element signature="e#17426#17630#0" />
-                <element signature="e#17654#17929#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -84,7 +42,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -96,6 +53,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -315,7 +273,7 @@
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.3297546" />
-      <window_info anchor="bottom" id="Version Control" order="7" weight="0.3267974" />
+      <window_info anchor="bottom" id="Version Control" order="7" weight="0.32668713" />
       <window_info anchor="bottom" id="Terminal" order="8" weight="0.32822084" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
       <window_info anchor="bottom" id="Python Console" order="10" weight="0.29907975" />
@@ -393,13 +351,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/APP_BKP.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6239">
-          <caret line="373" column="47" selection-start-line="373" selection-start-column="47" selection-end-line="373" selection-end-column="47" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/BANCO.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="153">
@@ -407,10 +358,43 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/scratch_5.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/APP_BKP.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="599">
+          <caret line="373" column="47" selection-start-line="373" selection-start-column="47" selection-end-line="373" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/PD.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="42" column="52" selection-start-line="42" selection-start-column="52" selection-end-line="42" selection-end-column="52" />
+        <state relative-caret-position="-306" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/APP.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2">
+          <caret line="74" column="20" selection-start-line="74" selection-start-column="20" selection-end-line="74" selection-end-column="20" />
+          <folding>
+            <element signature="e#1744#1821#0" />
+            <element signature="e#1744#1760#0" />
+            <element signature="e#1859#12832#0" />
+            <element signature="e#1913#1933#0" />
+            <element signature="e#5198#5214#0" />
+            <element signature="e#5768#5788#0" />
+            <element signature="e#7338#7360#0" />
+            <element signature="e#9480#9502#0" />
+            <element signature="e#12858#12925#0" />
+            <element signature="e#15086#15796#0" />
+            <element signature="e#16390#16506#0" />
+            <element signature="e#16542#16919#0" />
+            <element signature="e#16558#16919#0" />
+            <element signature="e#16629#16757#0" />
+            <element signature="e#16942#17146#0" />
+            <element signature="e#17170#17445#0" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -418,39 +402,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="34">
           <caret line="2" selection-start-line="2" selection-end-line="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/scratch_5.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/APP.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="532">
-          <caret line="506" selection-start-line="506" selection-end-line="506" />
-          <folding>
-            <element signature="e#1861#12834#0" />
-            <element signature="e#1915#1935#0" />
-            <element signature="e#5200#5216#0" />
-            <element signature="e#5770#5790#0" />
-            <element signature="e#7340#7362#0" />
-            <element signature="e#9482#9504#0" />
-            <element signature="e#12861#12928#0" />
-            <element signature="e#12961#14871#0" />
-            <element signature="e#13809#14153#0" />
-            <element signature="e#14394#14482#0" />
-            <element signature="e#14981#15173#0" />
-            <element signature="e#15093#15173#0" />
-            <element signature="e#15198#15396#0" />
-            <element signature="e#15888#16420#0" />
-            <element signature="e#16424#16447#0" />
-            <element signature="e#16871#16987#0" />
-            <element signature="e#17026#17403#0" />
-            <element signature="e#17042#17403#0" />
-            <element signature="e#17113#17241#0" />
-            <element signature="e#17426#17630#0" />
-            <element signature="e#17654#17929#0" />
-          </folding>
         </state>
       </provider>
     </entry>

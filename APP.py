@@ -346,39 +346,45 @@ class Application:
 		style.configure("mystyle.Treeview.Heading", font=('Calibri', 16, 'bold'))
 		style.layout("mystyle.Treeview", [('mystyle.Treeview.treearea', {'sticky': 'nswe'})])
 
-		self.dataCols = ('ID',
+		# self.dataCols = ('ID',
+		# 				 'Requisição',
+		# 				 'PD',
+		# 				 'CABO',
+		# 				 'DECAPE A',
+		# 				 'DECAPE B',
+		# 				 'MEDIDA',
+		# 				 'ACABAMENTO 1',
+		# 				 'ACABAMENTO 2',
+		# 				 'OBSERVAÇÃO',
+		# 				 'PRODUTO FINAL',
+		# 				 'QUANTIDADE',
+		# 				 'QTD. CORTADA',
+		# 				 'ENTREGA',
+		# 				 'PRIORIDADE',
+		# 				 'MÁQUINA',
+		# 				 'PRI. MEDIDA',
+		# 				 'ULT. MEDIDA')
+
+		self.dataCols = ('Medida',
+						 'Quantidade',
 						 'Requisição',
-						 'PD',
-						 'CABO',
-						 'DECAPE A',
-						 'DECAPE B',
-						 'MEDIDA',
-						 'ACABAMENTO 1',
-						 'ACABAMENTO 2',
-						 'OBSERVAÇÃO',
-						 'PRODUTO FINAL',
-						 'QUANTIDADE',
-						 'QTD. CORTADA',
-						 'ENTREGA',
-						 'PRIORIDADE',
-						 'MÁQUINA',
-						 'PRI. MEDIDA',
-						 'ULT. MEDIDA')
+						 'PD')
 
 		self.tvw = ttk.Treeview(
 			self.containerEsquerda,
 			style="mystyle.Treeview",
 			columns=self.dataCols,
-			show='headings')
+			show='tree headings')
 
 		self.vsb['command'] = self.tvw.yview
 		self.hsb['command'] = self.tvw.xview
 
+		self.tvw.heading("#0", text="Cabo/PD")
+
 		for field in self.dataCols:
-			self.tvw.heading(field, text=str(c.title()))
+			self.tvw.heading(field, text=str(field.title()))
 			self.tvw.column(field, stretch=False, width=100)
 
-		# self.tvw.pack(fill=BOTH, pady=(0, 15), padx=15, expand=1)
 		self.tvw.grid(column=0, row=0, sticky='nswe')
 		self.vsb.grid(column=1, row=0, sticky='ns')
 		self.hsb.grid(column=0, row=1, sticky='we')
@@ -387,16 +393,39 @@ class Application:
 		self.btnConfirma.bind("<Button-1>", self.listaSelectBtn)
 		self.btnConfirma.grid(column=0, row=3, ipadx=5)
 
-
 		self.populaLista()
 
 	def listaSelectBtn(self, master):
 		self.itemSel = self.tvw.focus()
 		self.itemData = self.tvw.item(self.itemSel)
 
-		for field in self.dataCols:
-			field.set(self.itemData.get('values')[field])
-			print ("%S : %S" %field;
+		print(self.itemData)
+
+		ID.set(self.itemData.get('values')[4])
+		REQNUM.set(self.itemData.get('values')[2])
+		PDNUM.set(self.itemData.get('values')[3])
+		PAI.set("-")
+		DECAPEA.set("-")
+		DECAPEB.set("-")
+		MEDIDA.set(self.itemData.get('values')[0])
+		CABO.set(self.itemData.get('text'))
+		QUANTIDADE.set(self.itemData.get('values')[1])
+		QUANTIDADE_CORTADA.set("-")
+		ACAB1.set("-")
+		ACAB2.set("-")
+		ACAB3.set("-")
+		ACAB4.set("-")
+		OBSERVACAO.set("-")
+		GRAVACAO.set("-")
+		PROX_CABO.set("-")
+		PROX_DECAPEA.set("-")
+		PROX_MEDIDA.set("-")
+		PROX_DECAPEB.set("-")
+
+		for ele in root.winfo_children():
+			ele.destroy()
+
+		self.montaTela()
 
 	def populaLista(self):
 		pd = PD()
@@ -404,57 +433,21 @@ class Application:
 
 		self.data = pd.info
 
+		cabos = []
 		for item in self.data:
-			self.tvw.insert('', 'end', values=item)
+			if item[3] not in cabos:
+				cabos.append(str(item[3]))
+
+		for cabo in cabos:
+				self.tvw.insert('', 'end', cabo, text=cabo)
+
+		print (cabos)
+
+		for item in self.data:
+			self.tvw.insert(item[3], 'end', text=item[3], values=(item[6], item[11], item[1], item[2], item[0]))
 
 		self.listaCount.configure(text='Total de PDs: ' + str(len(self.data)))
 
-	def busca(self):
-		pd = PD()
-		pd.buscarPD(maquina)
-		
-		#tempos = TEMPOS()		  
-
-		ID.set(pd.ID)
-		REQNUM.set(pd.REQNUM)
-		PDNUM.set(pd.PD)
-		PAI.set(pd.PAI)
-		DECAPEA.set(pd.DECAPEA)
-		DECAPEB.set(pd.DECAPEB)
-		MEDIDA.set(pd.MEDIDA)
-		CABO.set(pd.CABO)
-		QUANTIDADE.set(pd.QTD)
-		QUANTIDADE_CORTADA.set(pd.QTD_CORT)
-		ACAB1.set(pd.ACAB1)
-		ACAB2.set(pd.ACAB2)
-		ACAB3.set("-")
-		ACAB4.set("-")
-		OBSERVACAO.set(pd.OBS)
-		GRAVACAO.set("-")
-		PROX_CABO.set("-")
-		PROX_DECAPEA.set("-")
-		PROX_MEDIDA.set("-")
-		PROX_DECAPEB.set("-")
-
-		self.limpaTela()
-##		  global qtdCortada
-##		  global buscado
-##
-##		  qtdCortada = int(pd.QTD_CORT)
-##		  buscado = True
-##
-##		  global setupTempoInicio
-##
-##		  setupTempoInicio = time()
-###		   self.atualizaSetup()
-##
-##	  def atualizaSetup(self):
-##		  tempos = TEMPOS()
-##		  tempoAtualSetup = int(time() - setupTempoInicio)
-##		  tempos.setup(tempoAtualSetup)
-##		  if not operando:
-##			  root.after(1000, self.atualizaSetup)
-##						 
 	def opera(self):
 		global tempoInicio
 		tempoInicio = int(time())
