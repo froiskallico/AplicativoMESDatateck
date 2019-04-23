@@ -62,9 +62,9 @@ menuButton			= PhotoImage(file="src/images/buttons/menuButton.png")
 class Application:
 
     def __init__(self, master=None):
-        #Log = LOGIN.sts
+        Log = LOGIN.sts
 
-        #if Log == True:
+        if Log == True:
             self.montaTela()
             self.exibeLista()
     def montaTela(self, master=None):
