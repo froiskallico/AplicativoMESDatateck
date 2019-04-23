@@ -2,7 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1669bfa9-4d23-45d3-8e49-192f3859084d" name="Default Changelist" comment="Criado Documento com TODO do Projeto">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/APP.py" beforeDir="false" afterPath="$PROJECT_DIR$/APP.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TODO.html" beforeDir="false" afterPath="$PROJECT_DIR$/TODO.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/images/buttons/loginButton.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/images/buttons/loginButton.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/images/buttons/menuButton.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/images/buttons/menuButton.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/images/buttons/searchButton.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/images/buttons/searchButton.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/images/buttons/startButton.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/images/buttons/startButton.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/images/buttons/stopButton.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/images/buttons/stopButton.png" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -11,23 +17,16 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/BANCO.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="258">
-              <caret line="32" column="8" selection-start-line="32" selection-start-column="8" selection-end-line="32" selection-end-column="8" />
-            </state>
-          </provider>
-        </entry>
-      </file>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/TODO.html">
+        <entry file="file://$PROJECT_DIR$/APP.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
-              <caret line="8" column="25" lean-forward="true" selection-start-line="8" selection-start-column="25" selection-end-line="8" selection-end-column="25" />
+            <state relative-caret-position="528">
+              <caret line="494" selection-start-line="494" selection-end-line="494" />
               <folding>
-                <element signature="n#style#0;n#li#11;n#ul#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="e#183#299#0" />
+                <element signature="e#952#1045#0" />
+                <element signature="e#1814#17787#0" />
               </folding>
             </state>
           </provider>
@@ -41,6 +40,20 @@
         <option value="HTML File" />
       </list>
     </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>bgCinza</find>
+      <find>config</find>
+      <find>root</find>
+      <find>maquina</find>
+    </findStrings>
+    <replaceStrings>
+      <replace>configFile</replace>
+      <replace>configuracoes.root</replace>
+      <replace>root</replace>
+      <replace>configuracoes.maquina</replace>
+    </replaceStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -56,8 +69,9 @@
         <option value="$PROJECT_DIR$/APP_BKP.py" />
         <option value="$PROJECT_DIR$/PD.py" />
         <option value="$PROJECT_DIR$/config.ini" />
-        <option value="$PROJECT_DIR$/APP.py" />
+        <option value="$APPLICATION_CONFIG_DIR$/scratches/scratch_6.py" />
         <option value="$PROJECT_DIR$/TODO.html" />
+        <option value="$PROJECT_DIR$/APP.py" />
       </list>
     </option>
   </component>
@@ -78,6 +92,24 @@
             <path>
               <item name="AplicativoMESDatateck" type="b2602c69:ProjectViewProjectNode" />
               <item name="AplicativoMESDatateck" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AplicativoMESDatateck" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AplicativoMESDatateck" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AplicativoMESDatateck" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AplicativoMESDatateck" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="images" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AplicativoMESDatateck" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AplicativoMESDatateck" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="images" type="462c0819:PsiDirectoryNode" />
+              <item name="buttons" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -110,7 +142,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.APP">
+  <component name="RunManager" selected="Python.scratch_6">
     <configuration name="APP" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="AplicativoMESDatateck" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -174,27 +206,6 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="scratch_2" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="AplicativoMESDatateck" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$APPLICATION_CONFIG_DIR$/scratches" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$APPLICATION_CONFIG_DIR$/scratches/scratch_2.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <configuration name="scratch_3" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="AplicativoMESDatateck" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -237,13 +248,34 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="scratch_6" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="AplicativoMESDatateck" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$APPLICATION_CONFIG_DIR$/scratches" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$APPLICATION_CONFIG_DIR$/scratches/scratch_6.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.scratch_6" />
         <item itemvalue="Python.APP" />
         <item itemvalue="Python.PD" />
         <item itemvalue="Python.scratch_4" />
         <item itemvalue="Python.scratch_3" />
-        <item itemvalue="Python.scratch_2" />
       </list>
     </recent_temporary>
   </component>
@@ -305,13 +337,13 @@
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32843137" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.30228758" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39869282" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32843137" />
-      <window_info active="true" anchor="bottom" id="Version Control" order="7" visible="true" weight="0.3251634" />
+      <window_info anchor="bottom" id="Version Control" order="7" weight="0.3251634" />
       <window_info anchor="bottom" id="Terminal" order="8" weight="0.32822084" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
       <window_info anchor="bottom" id="Python Console" order="10" weight="0.29907975" />
@@ -400,31 +432,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/APP.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2">
-          <caret line="74" column="20" selection-start-line="74" selection-start-column="20" selection-end-line="74" selection-end-column="20" />
-          <folding>
-            <element signature="e#1744#1821#0" />
-            <element signature="e#1744#1760#0" />
-            <element signature="e#1859#12832#0" />
-            <element signature="e#1913#1933#0" />
-            <element signature="e#5198#5214#0" />
-            <element signature="e#5768#5788#0" />
-            <element signature="e#7338#7360#0" />
-            <element signature="e#9480#9502#0" />
-            <element signature="e#12858#12925#0" />
-            <element signature="e#15086#15796#0" />
-            <element signature="e#16390#16506#0" />
-            <element signature="e#16542#16919#0" />
-            <element signature="e#16558#16919#0" />
-            <element signature="e#16629#16757#0" />
-            <element signature="e#16942#17146#0" />
-            <element signature="e#17170#17445#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/config.ini">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="34">
@@ -439,19 +446,49 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/images/buttons/origin/button.svg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37-32/Lib/tkinter/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2463">
+          <caret line="3512" column="16" selection-start-line="3512" selection-start-column="16" selection-end-line="3512" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/scratch_6.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/BANCO.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="258">
+        <state relative-caret-position="328">
           <caret line="32" column="8" selection-start-line="32" selection-start-column="8" selection-end-line="32" selection-end-column="8" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/TODO.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="25" lean-forward="true" selection-start-line="8" selection-start-column="25" selection-end-line="8" selection-end-column="25" />
+        <state relative-caret-position="-102">
+          <caret line="15" column="20" selection-start-line="15" selection-start-column="20" selection-end-line="15" selection-end-column="20" />
           <folding>
+            <element signature="n#style#0;n#li#0;n#ul#0;n#li#0;n#ul#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#li#1;n#ul#0;n#li#0;n#ul#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#li#2;n#ul#0;n#li#0;n#ul#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#li#3;n#ul#0;n#li#0;n#ul#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#li#4;n#ul#0;n#li#0;n#ul#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#li#11;n#ul#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/APP.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="528">
+          <caret line="494" selection-start-line="494" selection-end-line="494" />
+          <folding>
+            <element signature="e#183#299#0" />
+            <element signature="e#952#1045#0" />
+            <element signature="e#1814#17787#0" />
           </folding>
         </state>
       </provider>
