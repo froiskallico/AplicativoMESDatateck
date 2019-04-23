@@ -1,5 +1,5 @@
 #--- Imports ---#
-from PD import PD
+from pd import PD
 from tkinter import *
 from time import sleep, time
 from PIL import Image, ImageTk

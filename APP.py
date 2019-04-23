@@ -1,9 +1,9 @@
 #--- Imports ---#
-from PD import PD
+from pd import PD
 from tkinter import *
 from time import sleep, time
 from tkinter import ttk
-import LOGIN
+#import login
 import configparser as cfgprsr
 
 class configuracoes():

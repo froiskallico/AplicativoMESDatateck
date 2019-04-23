@@ -1,4 +1,4 @@
-from BANCO import BANCO
+from banco import BANCO
 
 class PD(object):
     

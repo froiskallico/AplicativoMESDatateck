@@ -1,5 +1,5 @@
 from time import time
-from BANCO import BANCO
+from banco import BANCO
 class TEMPOS():
 
     def __init__(self, TMP_ID = 0, ID_PD = 0, DATA = 0, TEMPO_SETUP = 0, TEMPO_CICLO = 0, QTD_CORTADA = 0):
