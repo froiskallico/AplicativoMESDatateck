@@ -6,10 +6,12 @@ from tkinter import ttk
 #import login
 import configparser as cfgprsr
 
+
 class configuracoes():
     configFile = cfgprsr.ConfigParser()
     configFile.read('config.ini')
     maquina = configFile['DEFAULT']['Maquina']
+
 
 root = Tk()
 root.title('Operação')
@@ -18,45 +20,50 @@ root.attributes('-fullscreen', configuracoes.configFile['DISPLAY']['Tela Cheia']
 root.bind('<Escape>',lambda e: root.destroy())
 root.resizable(width=True, height=True)
 
-ID = StringVar()
-REQNUM = StringVar()
-PDNUM = StringVar()
-PAI = StringVar()
-DECAPEA = StringVar()
-DECAPEB = StringVar()
-MEDIDA = StringVar()
-CABO = StringVar()
-QUANTIDADE = StringVar()
-QUANTIDADE_CORTADA = StringVar()
-ACAB1 = StringVar()
-ACAB2 = StringVar()
-ACAB3 = StringVar()
-ACAB4 = StringVar()
-OBSERVACAO = StringVar()
-GRAVACAO = StringVar()
-PROX_CABO = StringVar()
-PROX_DECAPEA = StringVar()
-PROX_MEDIDA = StringVar()
-PROX_DECAPEB = StringVar()
+
+class variaveis():
+    ID = StringVar()
+    REQNUM = StringVar()
+    PDNUM = StringVar()
+    PAI = StringVar()
+    DECAPEA = StringVar()
+    DECAPEB = StringVar()
+    MEDIDA = StringVar()
+    CABO = StringVar()
+    QUANTIDADE = StringVar()
+    QUANTIDADE_CORTADA = StringVar()
+    ACAB1 = StringVar()
+    ACAB2 = StringVar()
+    ACAB3 = StringVar()
+    ACAB4 = StringVar()
+    OBSERVACAO = StringVar()
+    GRAVACAO = StringVar()
+    PROX_CABO = StringVar()
+    PROX_DECAPEA = StringVar()
+    PROX_MEDIDA = StringVar()
+    PROX_DECAPEB = StringVar()
+
 
 class cores():
-
     # Cores padrão do aplicativo
     bgCinza= "#333333"
-    bgVerde		= "#00d455"
-    letraVerde	= "#66ff00"
+    bgVerde     = "#00d455"
+    letraVerde  = "#66ff00"
 
-#--- IMAGENS ---#
-logo				= PhotoImage(file="src/images/logos/logo.png")
-startButton			= PhotoImage(file="src/images/buttons/startButton.png")
-stopButton			= PhotoImage(file="src/images/buttons/stopButton.png")
-searchButton		= PhotoImage(file="src/images/buttons/searchButton.png")
-setupStartButton	= PhotoImage(file="src/images/buttons/setupStartButton.png")
-setupStopButton 	= PhotoImage(file="src/images/buttons/setupStopButton.png")
-pularButton			= PhotoImage(file="src/images/buttons/pularButton.png")
-paradaButton		= PhotoImage(file="src/images/buttons/paradaButton.png")
-retomarButton		= PhotoImage(file="src/images/buttons/retomarButton.png")
-menuButton			= PhotoImage(file="src/images/buttons/menuButton.png")
+
+class imagens():
+    #--- IMAGENS ---#
+    logo                = PhotoImage(file="src/images/logos/logo.png")
+    startButton         = PhotoImage(file="src/images/buttons/startButton.png")
+    stopButton          = PhotoImage(file="src/images/buttons/stopButton.png")
+    searchButton        = PhotoImage(file="src/images/buttons/searchButton.png")
+    setupStartButton    = PhotoImage(file="src/images/buttons/setupStartButton.png")
+    setupStopButton     = PhotoImage(file="src/images/buttons/setupStopButton.png")
+    pularButton         = PhotoImage(file="src/images/buttons/pularButton.png")
+    paradaButton        = PhotoImage(file="src/images/buttons/paradaButton.png")
+    retomarButton       = PhotoImage(file="src/images/buttons/retomarButton.png")
+    menuButton          = PhotoImage(file="src/images/buttons/menuButton.png")
+
 
 #--- Declaração de Classe ---#
 class Application:
@@ -163,7 +170,7 @@ class Application:
 
         #--- Labels ---#
         ##------ Cabeçalho ------##
-        self.logo = Label(self.containerCabecalho, text="Datateck", font=("Play", 18, "bold"), image=logo, bg=cores.bgCinza, fg="white")
+        self.logo = Label(self.containerCabecalho, text="Datateck", font=("Play", 18, "bold"), image=imagens.logo, bg=cores.bgCinza, fg="white")
         self.logo.pack(side=LEFT)
 
         self.maquina = Label(self.containerCabecalho, text=configuracoes.maquina, bg=cores.bgCinza, fg="white")
@@ -176,30 +183,30 @@ class Application:
 
         ##--- Dados PD ---##
         ###--- Cabecalho PD ---###
-        self.lblReq = Label(self.containerCabecalhoPD, text="Requisição: %s" % (REQNUM.get()), bg=cores.bgCinza, fg="white", font=self.fonte, anchor="w")
+        self.lblReq = Label(self.containerCabecalhoPD, text="Requisição: %s" % (variaveis.REQNUM.get()), bg=cores.bgCinza, fg="white", font=self.fonte, anchor="w")
         self.lblReq.pack(side=LEFT)
 
-        self.lblPD = Label(self.containerCabecalhoPD, text="PD: %s" % PDNUM.get(), bg=cores.bgCinza, fg=cores.letraVerde, font=("Play", 16, "bold"), anchor="center")
+        self.lblPD = Label(self.containerCabecalhoPD, text="PD: %s" % variaveis.PDNUM.get(), bg=cores.bgCinza, fg=cores.letraVerde, font=("Play", 16, "bold"), anchor="center")
         self.lblPD.pack(side=LEFT, fill=X, expand=1)
 
-        self.lblReq = Label(self.containerCabecalhoPD, text="Produto Pai: %s" % PAI.get(), bg=cores.bgCinza, fg="white", font=self.fonte, anchor="e")
+        self.lblReq = Label(self.containerCabecalhoPD, text="Produto Pai: %s" % variaveis.PAI.get(), bg=cores.bgCinza, fg="white", font=self.fonte, anchor="e")
         self.lblReq.pack(side=LEFT)
 
         ###--- Medidas PD ---###
-        self.lblDecapeA = Label(self.containerMedidasPD, text=DECAPEA.get(), bg=cores.bgCinza, fg=cores.letraVerde, font=("Play", 16, "bold"))
+        self.lblDecapeA = Label(self.containerMedidasPD, text=variaveis.DECAPEA.get(), bg=cores.bgCinza, fg=cores.letraVerde, font=("Play", 16, "bold"))
         self.lblDecapeA.grid(column=0, row=0)
 
-        self.lblMedida = Label(self.containerMedidasPD, text=MEDIDA.get(), bg=cores.bgCinza, fg=cores.letraVerde, font=("Play", 16, "bold"), width=30)
+        self.lblMedida = Label(self.containerMedidasPD, text=variaveis.MEDIDA.get(), bg=cores.bgCinza, fg=cores.letraVerde, font=("Play", 16, "bold"), width=30)
         self.lblMedida.grid(column=1, row=0)
 
-        self.lblDecapeB = Label(self.containerMedidasPD, text=DECAPEB.get(), bg=cores.bgCinza, fg=cores.letraVerde, font=("Play", 16, "bold"))
+        self.lblDecapeB = Label(self.containerMedidasPD, text=variaveis.DECAPEB.get(), bg=cores.bgCinza, fg=cores.letraVerde, font=("Play", 16, "bold"))
         self.lblDecapeB.grid(column=2, row=0)
 
         ###--- Cabo ---###
         self.lblLadoACabo = Label(self.containerCabo, text="", bg="#ff9955", width=10, height=1)
         self.lblLadoACabo.grid(column=0, row=0)
 
-        self.lblCabo = Label(self.containerCabo, text=CABO.get(), bg="white", fg=cores.bgCinza, font=self.fonte, width=40, height=2)
+        self.lblCabo = Label(self.containerCabo, text=variaveis.CABO.get(), bg="white", fg=cores.bgCinza, font=self.fonte, width=40, height=2)
         self.lblCabo.grid(column=1, row=0)
 
         self.lblLadoBCabo = Label(self.containerCabo, text="", bg="#ff9955", width=10, height=1)
@@ -212,24 +219,24 @@ class Application:
         self.lblLabelAcabamento1 = Label(self.containerAcabamento1, text="Acabamento 1", bg="#00d455", fg=cores.bgCinza, font=self.fonte, width=20)
         self.lblLabelAcabamento1.pack(fill=BOTH, expand=1, pady=5)
 
-        self.lblAcabamento1 = Label(self.containerAcabamento1, text=ACAB1.get(), bg="#00d455", fg=cores.bgCinza, font=self.fonte)
+        self.lblAcabamento1 = Label(self.containerAcabamento1, text=variaveis.ACAB1.get(), bg="#00d455", fg=cores.bgCinza, font=self.fonte)
         self.lblAcabamento1.pack(fill=BOTH, expand=1, pady=5)
 
         #####--- Acabamento 3 ---#####
         self.lblLabelAcabamento3 = Label(self.containerAcabamento3, text="Acabamento 3", bg="#ccc", fg=cores.bgCinza, font=self.fonte, width=20)
         self.lblLabelAcabamento3.pack(fill=BOTH, expand=1, pady=5)
 
-        self.lblAcabamento3 = Label(self.containerAcabamento3, text=ACAB3.get(), bg="#ccc", fg=cores.bgCinza, font=self.fonte)
+        self.lblAcabamento3 = Label(self.containerAcabamento3, text=variaveis.ACAB3.get(), bg="#ccc", fg=cores.bgCinza, font=self.fonte)
         self.lblAcabamento3.pack(fill=BOTH, expand=1, pady=5)
 
         ####--- Quantidade ---####
         self.lblLabelQuantidade = Label(self.containerQuantidade, text="Quantidade", font=("Play", 18, "bold"), bg=cores.bgCinza, fg=cores.letraVerde)
         self.lblLabelQuantidade.pack()
 
-        self.lblQuantidade = Label(self.containerQuantidade, text=QUANTIDADE.get(), font=("Play", 32, "bold"), bg=cores.bgCinza, fg=cores.letraVerde, anchor="ne")
+        self.lblQuantidade = Label(self.containerQuantidade, text=variaveis.QUANTIDADE.get(), font=("Play", 32, "bold"), bg=cores.bgCinza, fg=cores.letraVerde, anchor="ne")
         self.lblQuantidade.pack()
 
-        self.lblQuantidadeCortada = Label(self.containerQuantidade, text=QUANTIDADE_CORTADA.get(), font=("Play", 16, "bold"), bg=cores.bgCinza, fg="red", anchor="sw")
+        self.lblQuantidadeCortada = Label(self.containerQuantidade, text=variaveis.QUANTIDADE_CORTADA.get(), font=("Play", 16, "bold"), bg=cores.bgCinza, fg="red", anchor="sw")
         #self.lblQuantidadeCortada.bind("<Button-1>", self.clicked)
         self.lblQuantidadeCortada.pack()
 
@@ -238,14 +245,14 @@ class Application:
         self.lblLabelObservacao = Label(self.containerObservacao, text="Observação", font=self.fonte, bg=cores.bgCinza, fg="#999")
         self.lblLabelObservacao.pack()
 
-        self.lblObservacao = Label(self.containerObservacao, text=OBSERVACAO.get(), font=self.fonte, bg=cores.bgCinza, fg="white")
+        self.lblObservacao = Label(self.containerObservacao, text=variaveis.OBSERVACAO.get(), font=self.fonte, bg=cores.bgCinza, fg="white")
         self.lblObservacao.pack()
 
         ####--- Gravacao ---####
         self.lblLabelGravacao = Label(self.containerObservacao, text="Gravação", font=self.fonte, bg=cores.bgCinza, fg="#999")
         self.lblLabelGravacao.pack()
 
-        self.lblGravacao = Label(self.containerObservacao, text=GRAVACAO.get(), font=self.fonte, bg=cores.bgCinza, fg="white")
+        self.lblGravacao = Label(self.containerObservacao, text=variaveis.GRAVACAO.get(), font=self.fonte, bg=cores.bgCinza, fg="white")
         self.lblGravacao.pack()
 
         ####--- Labo B ---####
@@ -253,49 +260,49 @@ class Application:
         self.lblLabelAcabamento2 = Label(self.containerAcabamento2, text="Acabamento 2", bg="#00d455", fg=cores.bgCinza, font=self.fonte, width=20)
         self.lblLabelAcabamento2.pack(fill=BOTH, expand=1, pady=5)
 
-        self.lblAcabamento2 = Label(self.containerAcabamento2, text=ACAB2.get(), bg="#00d455", fg=cores.bgCinza, font=self.fonte)
+        self.lblAcabamento2 = Label(self.containerAcabamento2, text=variaveis.ACAB2.get(), bg="#00d455", fg=cores.bgCinza, font=self.fonte)
         self.lblAcabamento2.pack(fill=BOTH, expand=1, pady=5)
 
         #####--- Acabamento 4 ---#####
         self.lblLabelAcabamento4 = Label(self.containerAcabamento4, text="Acabamento 4", bg="#ccc", fg=cores.bgCinza, font=self.fonte, width=20)
         self.lblLabelAcabamento4.pack(fill=BOTH, expand=1, pady=5)
 
-        self.lblAcabamento4 = Label(self.containerAcabamento4, text=ACAB4.get(), bg="#ccc", fg=cores.bgCinza, font=self.fonte)
+        self.lblAcabamento4 = Label(self.containerAcabamento4, text=variaveis.ACAB4.get(), bg="#ccc", fg=cores.bgCinza, font=self.fonte)
         self.lblAcabamento4.pack(fill=BOTH, expand=1, pady=5)
 
         #--- Botões ---#
-        self.btnStart = Button(self.containerBotoes, image=startButton, bg=cores.bgCinza, relief=FLAT, anchor="w", command=self.opera, bd=0,	highlightthickness=0)
+        self.btnStart = Button(self.containerBotoes, image=imagens.startButton, bg=cores.bgCinza, relief=FLAT, anchor="w", command=self.opera, bd=0,    highlightthickness=0)
         self.btnStart["width"] = 130
         self.btnStart["height"] = 50
         self.btnStart.pack(pady=5)
 
-        self.btnStop = Button(self.containerBotoes, image=stopButton, bg=cores.bgCinza, relief=FLAT, anchor="w", command=self.stop, bd=0,	 highlightthickness=0)
+        self.btnStop = Button(self.containerBotoes, image=imagens.stopButton, bg=cores.bgCinza, relief=FLAT, anchor="w", command=self.stop, bd=0,    highlightthickness=0)
         self.btnStop["width"] = 130
         self.btnStop["height"] = 50
         self.btnStop.pack(pady=5)
 
-        self.btnBusca = Button(self.containerBotoes, image=searchButton, bg=cores.bgCinza, anchor="w", command=self.exibeLista, bd=0, highlightthickness=0)
+        self.btnBusca = Button(self.containerBotoes, image=imagens.searchButton, bg=cores.bgCinza, anchor="w", command=self.exibeLista, bd=0, highlightthickness=0)
         self.btnBusca["width"] = 130
         self.btnBusca["height"] = 50
         self.btnBusca.pack(pady=5)
 
-        self.btnPula = Button(self.containerBotoes, image=pularButton, bg=cores.bgCinza, relief=FLAT, anchor="w", bd=0,  highlightthickness=0)
+        self.btnPula = Button(self.containerBotoes, image=imagens.pularButton, bg=cores.bgCinza, relief=FLAT, anchor="w", bd=0,  highlightthickness=0)
         self.btnPula["width"] = 130
         self.btnPula["height"] = 50
         self.btnPula.pack(pady=5)
 
-        self.btnParada = Button(self.containerBotoes, image=paradaButton, bg=cores.bgCinza, relief=FLAT, anchor="w", bd=0,  highlightthickness=0)
+        self.btnParada = Button(self.containerBotoes, image=imagens.paradaButton, bg=cores.bgCinza, relief=FLAT, anchor="w", bd=0,  highlightthickness=0)
         self.btnParada["width"] = 130
         self.btnParada["height"] = 50
         self.btnParada.pack(pady=5)
 
-        self.btnMenu = Button(self.containerBotoes, image=menuButton, bg=cores.bgCinza, relief=FLAT, anchor="w", bd=0,  highlightthickness=0)
+        self.btnMenu = Button(self.containerBotoes, image=imagens.menuButton, bg=cores.bgCinza, relief=FLAT, anchor="w", bd=0,  highlightthickness=0)
         self.btnMenu["width"] = 130
         self.btnMenu["height"] = 50
         self.btnMenu.pack(pady=5)
 
         #--- Rodape ---#
-        self.lblProxCabo = Label(self.containerProxCabo, text=PROX_CABO.get(), bg="#454545", fg="#888")
+        self.lblProxCabo = Label(self.containerProxCabo, text=variaveis.PROX_CABO.get(), bg="#454545", fg="#888")
         self.lblProxCabo.pack(side=TOP, fill=X, expand=1)
 
         self.lblLabelProxDecapeA = Label(self.containerProxMedidas, text="Decape A", bg="#454545", fg="#888")
@@ -307,13 +314,13 @@ class Application:
         self.lblLabelProxDecapeB = Label(self.containerProxMedidas, text="Decape B", bg="#454545", fg="#888")
         self.lblLabelProxDecapeB.grid(column=2, row=0)
 
-        self.lblProxDecapeA = Label(self.containerProxMedidas, text=PROX_DECAPEA.get(), bg="#454545", fg="#888")
+        self.lblProxDecapeA = Label(self.containerProxMedidas, text=variaveis.PROX_DECAPEA.get(), bg="#454545", fg="#888")
         self.lblProxDecapeA.grid(column=0, row=1)
 
-        self.lblProxMedida = Label(self.containerProxMedidas, text=PROX_MEDIDA.get(), bg="#454545", fg="#888")
+        self.lblProxMedida = Label(self.containerProxMedidas, text=variaveis.PROX_MEDIDA.get(), bg="#454545", fg="#888")
         self.lblProxMedida.grid(column=1, row=1)
 
-        self.lblProxDecapeB = Label(self.containerProxMedidas, text=PROX_DECAPEB.get(), bg="#454545", fg="#888")
+        self.lblProxDecapeB = Label(self.containerProxMedidas, text=variaveis.PROX_DECAPEB.get(), bg="#454545", fg="#888")
         self.lblProxDecapeB.grid(column=2, row=1)
 
     def limpaTela(self):
@@ -342,23 +349,23 @@ class Application:
         style.layout("mystyle.Treeview", [('mystyle.Treeview.treearea', {'sticky': 'nswe'})])
 
         # self.dataCols = ('ID',
-        # 				 'Requisição',
-        # 				 'PD',
-        # 				 'CABO',
-        # 				 'DECAPE A',
-        # 				 'DECAPE B',
-        # 				 'MEDIDA',
-        # 				 'ACABAMENTO 1',
-        # 				 'ACABAMENTO 2',
-        # 				 'OBSERVAÇÃO',
-        # 				 'PRODUTO FINAL',
-        # 				 'QUANTIDADE',
-        # 				 'QTD. CORTADA',
-        # 				 'ENTREGA',
-        # 				 'PRIORIDADE',
-        # 				 'MÁQUINA',
-        # 				 'PRI. MEDIDA',
-        # 				 'ULT. MEDIDA')
+        #                'Requisição',
+        #                'PD',
+        #                'CABO',
+        #                'DECAPE A',
+        #                'DECAPE B',
+        #                'MEDIDA',
+        #                'ACABAMENTO 1',
+        #                'ACABAMENTO 2',
+        #                'OBSERVAÇÃO',
+        #                'PRODUTO FINAL',
+        #                'QUANTIDADE',
+        #                'QTD. CORTADA',
+        #                'ENTREGA',
+        #                'PRIORIDADE',
+        #                'MÁQUINA',
+        #                'PRI. MEDIDA',
+        #                'ULT. MEDIDA')
 
         self.dataCols = ('Medida',
                          'Quantidade',
@@ -396,22 +403,22 @@ class Application:
 
         print(self.itemData)
 
-        ID.set(self.itemData.get('values')[4])
-        REQNUM.set(self.itemData.get('values')[2])
-        PDNUM.set(self.itemData.get('values')[3])
-        PAI.set("-")
-        DECAPEA.set("-")
-        DECAPEB.set("-")
-        MEDIDA.set(self.itemData.get('values')[0])
-        CABO.set(self.itemData.get('text'))
-        QUANTIDADE.set(self.itemData.get('values')[1])
-        QUANTIDADE_CORTADA.set("-")
-        ACAB1.set("-")
-        ACAB2.set("-")
-        ACAB3.set("-")
-        ACAB4.set("-")
-        OBSERVACAO.set("-")
-        GRAVACAO.set("-")
+        variaveis.ID.set(self.itemData.get('values')[4])
+        variaveis.REQNUM.set(self.itemData.get('values')[2])
+        variaveis.PDNUM.set(self.itemData.get('values')[3])
+        variaveis.PAI.set("-")
+        variaveis.DECAPEA.set("-")
+        variaveis.DECAPEB.set("-")
+        variaveis.MEDIDA.set(self.itemData.get('values')[0])
+        variaveis.CABO.set(self.itemData.get('text'))
+        variaveis.QUANTIDADE.set(self.itemData.get('values')[1])
+        variaveis.QUANTIDADE_CORTADA.set("-")
+        variaveis.ACAB1.set("-")
+        variaveis.ACAB2.set("-")
+        variaveis.ACAB3.set("-")
+        variaveis.ACAB4.set("-")
+        variaveis.OBSERVACAO.set("-")
+        variaveis.GRAVACAO.set("-")
         PROX_CABO.set("-")
         PROX_DECAPEA.set("-")
         PROX_MEDIDA.set("-")
@@ -473,7 +480,7 @@ class Application:
         if (operando):
             operando = False
 
-##		  QUANTIDADE_CORTADA.set(QUANTIDADE.get())
+##        QUANTIDADE_CORTADA.set(QUANTIDADE.get())
         self.limpaTela()
         pd.atualizaQuantidadeCortada(ID.get(), QUANTIDADE_CORTADA.get())
 
