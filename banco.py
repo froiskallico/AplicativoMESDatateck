@@ -59,15 +59,15 @@ class BANCO():
         c.execute("""CREATE TABlE IF NOT EXISTS REGISTROS_QUALIDADE (
                      PK_RGQ         integer primary key autoincrement,
                      DATA           integer,
-					 FK_ID			integer,
-					 FK_TRG			integer,
-					 VALOR_REGISTRO	real,
-					 LADO			text,
-					 FK_USU			integer,
-					 MAQUINA		text,
-					 FOREIGN KEY(FK_ID)     REFERENCES PDS(ID),
-					 FOREIGN KEY(FK_TRG)	REFERENCES TIPOS_REGISTROS(PK_TRG),
-					 FOREIGN KEY(FK_USU) 	REFERENCES USUARIOS(FK_USU))""")
+                     FK_ID			integer,
+                     FK_TRG			integer,
+                     VALOR_REGISTRO	real,
+                     LADO			text,
+                     FK_USU			integer,
+                     MAQUINA		text,
+                     FOREIGN KEY(FK_ID)     REFERENCES PDS(ID),
+                     FOREIGN KEY(FK_TRG)	REFERENCES TIPOS_REGISTROS(PK_TRG),
+                     FOREIGN KEY(FK_USU) 	REFERENCES USUARIOS(FK_USU))""")
 
         self.conexao.commit()
         c.close()

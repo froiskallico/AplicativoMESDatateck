@@ -71,22 +71,6 @@ class PD(object):
         except:
             return "Ocorreu um erro na busca do PD"
 
-    def STATUS(self, ID):
-
-        banco = BANCO()
-
-        c = banco.conexao.cursor()
-
-        self.ID = ID
-        c.execute("SELECT CRT_FINAL FROM pds WHERE ID = %s;" % (self.ID))
-
-        for linha in c:
-            self.status = linha[0]
-
-        return self.status
-
-        c.close()
-
     def atualizaQuantidadeCortada(self, pdID, qtdCortada):
 
         banco = BANCO()
