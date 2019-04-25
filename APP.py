@@ -11,7 +11,7 @@ class Definicoes():
     configFile = cfgprsr.ConfigParser()
     configFile.read('config.ini')
     maquina = configFile['DEFAULT']['Maquina']
-    
+
 
 root = Tk()
 root.title('Operação')
@@ -23,26 +23,28 @@ root.resizable(width=True, height=True)
 
 
 class Variaveis():
-    ID = StringVar()
-    REQNUM = StringVar()
-    PDNUM = StringVar()
-    PAI = StringVar()
-    DECAPEA = StringVar()
-    DECAPEB = StringVar()
-    MEDIDA = StringVar()
-    CABO = StringVar()
-    QUANTIDADE = StringVar()
-    QUANTIDADE_CORTADA = StringVar()
-    ACAB1 = StringVar()
-    ACAB2 = StringVar()
-    ACAB3 = StringVar()
-    ACAB4 = StringVar()
-    OBSERVACAO = StringVar()
-    GRAVACAO = StringVar()
-    PROX_CABO = StringVar()
-    PROX_DECAPEA = StringVar()
-    PROX_MEDIDA = StringVar()
-    PROX_DECAPEB = StringVar()
+    campos = {
+        "ID": "",
+        "REQNUM": "",
+        "PDNUM": "",
+        "PAI": "",
+        "DECAPEA": "",
+        "DECAPEB": "",
+        "MEDIDA": "",
+        "CABO": "",
+        "QUANTIDADE": "",
+        "QUANTIDADE_CORTADA": "",
+        "ACAB1": "",
+        "ACAB2": "",
+        "ACAB3": "",
+        "ACAB4": "",
+        "OBSERVACAO": "",
+        "GRAVACAO": "",
+        "PROX_CABO": "",
+        "PROX_DECAPEA": "",
+        "PROX_MEDIDA": "",
+        "PROX_DECAPEB": ""
+    }
 
 
 class Fontes():
@@ -61,6 +63,7 @@ class Cores():
     bgAcabamentosAux = "#CCC"
     bgRodape = "#454545"
     bgCobre = "#ff9955"
+
 
 class Imagens():
     # --- IMAGENS ---#
@@ -93,7 +96,7 @@ class Application:
         # Log = LOGIN.sts
         # if Log == True:
         self.montaTelaPrincipal()
-        self.montaLista()
+        # self.montaLista()
 
     # --- Geração do Layout Principal --- #
     def montaTelaPrincipal(self, master=None):
@@ -246,22 +249,22 @@ class Application:
                              font=Fontes.fonteCabecalho,
                              bg=Cores.bgCinza,
                              fg="white")
-        self.maquina.pack(side=LEFT, 
-                          fill=X, 
+        self.maquina.pack(side=LEFT,
+                          fill=X,
                           expand=1)
 
-        self.relogio = Label(self.containerCabecalho, 
+        self.relogio = Label(self.containerCabecalho,
                              text="00:00:00",
                              font=Fontes.fonteCabecalho,
                              padx=10,
-                             fg=Cores.letraVerde, 
+                             fg=Cores.letraVerde,
                              bg=Cores.bgCinza)
         self.relogio.pack(side=LEFT)
 
         ##--- Dados PD ---##
         ###--- Cabecalho PD ---###
         self.lblRequisicao = Label(self.containerCabecalhoPD,
-                            text="Requisição: %s" % (Variaveis.REQNUM.get()),
+                            text="Requisição: %s" % (Variaveis.campos.get("REQNUM")),
                             font=Fontes.fontePadrao,
                             bg=Cores.bgCinza,
                             fg="white",
@@ -269,7 +272,7 @@ class Application:
         self.lblRequisicao.pack(side=LEFT)
 
         self.lblPD = Label(self.containerCabecalhoPD,
-                           text="PD: %s" % Variaveis.PDNUM.get(),
+                           text="PD: %s" % Variaveis.campos.get("PDNUM"),
                            font=Fontes.fonteCabecalho,
                            bg=Cores.bgCinza,
                            fg=Cores.letraVerde,
@@ -279,7 +282,7 @@ class Application:
                         expand=1)
 
         self.lblProdutoFinal = Label(self.containerCabecalhoPD,
-                            text="Produto Final: %s" % Variaveis.PAI.get(),
+                            text="Produto Final: %s" % Variaveis.campos.get("REQNUM"),
                             font=Fontes.fontePadrao,
                             bg=Cores.bgCinza,
                             fg="white",
@@ -288,7 +291,7 @@ class Application:
 
         ###--- Medidas PD ---###
         self.lblDecapeA = Label(self.containerMedidasPD,
-                                text=Variaveis.DECAPEA.get(),
+                                text=Variaveis.campos.get("DECAPEA"),
                                 font=Fontes.fonteCabecalho,
                                 bg=Cores.bgCinza,
                                 fg=Cores.letraVerde)
@@ -296,7 +299,7 @@ class Application:
                              row=0)
 
         self.lblMedida = Label(self.containerMedidasPD,
-                               text=Variaveis.MEDIDA.get(),
+                               text=Variaveis.campos.get("MEDIDA"),
                                font=Fontes.fonteCabecalho,
                                bg=Cores.bgCinza,
                                fg=Cores.letraVerde,
@@ -305,7 +308,7 @@ class Application:
                             row=0)
 
         self.lblDecapeB = Label(self.containerMedidasPD,
-                                text=Variaveis.DECAPEB.get(),
+                                text=Variaveis.campos.get("DECAPEB"),
                                 font=Fontes.fonteCabecalho,
                                 bg=Cores.bgCinza,
                                 fg=Cores.letraVerde)
@@ -322,7 +325,7 @@ class Application:
                                row=0)
 
         self.lblCabo = Label(self.containerCabo,
-                             text=Variaveis.CABO.get(),
+                             text=Variaveis.campos.get("CABO"),
                              font=Fontes.fontePadrao,
                              bg=Cores.bgCorDoCabo,
                              fg=Cores.bgCinza,
@@ -353,7 +356,7 @@ class Application:
                                       pady=5)
 
         self.lblAcabamento1 = Label(self.containerAcabamento1,
-                                    text=Variaveis.ACAB1.get(),
+                                    text=Variaveis.campos.get("ACAB1"),
                                     font=Fontes.fontePadrao,
                                     bg=Cores.bgVerde,
                                     fg=Cores.bgCinza)
@@ -373,7 +376,7 @@ class Application:
                                       pady=5)
 
         self.lblAcabamento3 = Label(self.containerAcabamento3,
-                                    text=Variaveis.ACAB3.get(),
+                                    text=Variaveis.campos.get("ACAB3"),
                                     font=Fontes.fontePadrao,
                                     bg=Cores.bgAcabamentosAux,
                                     fg=Cores.bgCinza)
@@ -390,7 +393,7 @@ class Application:
         self.lblLabelQuantidade.pack()
 
         self.lblQuantidadePendente = Label(self.containerQuantidade,
-                                           text=Variaveis.QUANTIDADE.get(),
+                                           text=Variaveis.campos.get("QUANTIDADE"),
                                            font=Fontes.fonteQuantidadePendente,
                                            bg=Cores.bgCinza,
                                            fg=Cores.letraVerde,
@@ -398,7 +401,7 @@ class Application:
         self.lblQuantidadePendente.pack()
 
         self.lblQuantidadeCortada = Label(self.containerQuantidade,
-                                          text=Variaveis.QUANTIDADE_CORTADA.get(),
+                                          text=Variaveis.campos.get("QUANTIDADE_CORTADA"),
                                           font=Fontes.fonteQuantidadeCortada,
                                           bg=Cores.bgCinza,
                                           fg="red",
@@ -416,7 +419,7 @@ class Application:
         self.lblLabelObservacao.pack()
 
         self.lblObservacao = Label(self.containerObservacao,
-                                   text=Variaveis.OBSERVACAO.get(),
+                                   text=Variaveis.campos.get("OBSERVACAO"),
                                    font=Fontes.fontePadrao,
                                    bg=Cores.bgCinza,
                                    fg="white")
@@ -431,7 +434,7 @@ class Application:
         self.lblLabelGravacao.pack()
 
         self.lblGravacao = Label(self.containerObservacao,
-                                 text=Variaveis.GRAVACAO.get(),
+                                 text=Variaveis.campos.get("GRAVACAO"),
                                  font=Fontes.fontePadrao,
                                  bg=Cores.bgCinza,
                                  fg="white")
@@ -450,7 +453,7 @@ class Application:
                                       pady=5)
 
         self.lblAcabamento2 = Label(self.containerAcabamento2,
-                                    text=Variaveis.ACAB2.get(),
+                                    text=Variaveis.campos.get("ACAB2"),
                                     font=Fontes.fontePadrao,
                                     bg=Cores.bgVerde,
                                     fg=Cores.bgCinza)
@@ -470,7 +473,7 @@ class Application:
                                       pady=5)
 
         self.lblAcabamento4 = Label(self.containerAcabamento4,
-                                    text=Variaveis.ACAB4.get(),
+                                    text=Variaveis.campos.get("ACAB4"),
                                     font=Fontes.fontePadrao,
                                     bg=Cores.bgAcabamentosAux,
                                     fg=Cores.bgCinza)
@@ -480,7 +483,7 @@ class Application:
 
         # --- Rodape ---#
         self.lblProxCabo = Label(self.containerProxCabo,
-                                 text=Variaveis.PROX_CABO.get(),
+                                 text=Variaveis.campos.get("PROX_CABO"),
                                  bg=Cores.bgRodape,
                                  fg=Cores.bgAcabamentosAux)
         self.lblProxCabo.pack(side=TOP,
@@ -510,20 +513,20 @@ class Application:
                                       row=0)
 
         self.lblProxDecapeA = Label(self.containerProxMedidas,
-                                    text=Variaveis.PROX_DECAPEA.get(),
+                                    text=Variaveis.campos.get("PROX_DECAPEA"),
                                     bg=Cores.bgRodape,
                                     fg=Cores.bgAcabamentosAux)
         self.lblProxDecapeA.grid(column=0,
                                  row=1)
 
         self.lblProxMedida = Label(self.containerProxMedidas,
-                                   text=Variaveis.PROX_MEDIDA.get(),
+                                   text=Variaveis.campos.get("PROX_MEDIDA"),
                                    bg=Cores.bgRodape,
                                    fg="#888")
         self.lblProxMedida.grid(column=1, row=1)
 
         self.lblProxDecapeB = Label(self.containerProxMedidas,
-                                    text=Variaveis.PROX_DECAPEB.get(),
+                                    text=Variaveis.campos.get("PROX_DECAPEB"),
                                     bg=Cores.bgRodape,
                                     fg=Cores.bgAcabamentosAux)
         self.lblProxDecapeB.grid(column=2,
@@ -656,7 +659,7 @@ class Application:
 
         self.listaCount = Label(self.containerEsquerda,
                                 bg=Cores.bgCinza,
-                                fg="white", 
+                                fg="white",
                                 font=Fontes.fontePadrao,
                                 anchor=NE)
         self.listaCount.grid(column=0,
@@ -712,26 +715,26 @@ class Application:
 
         print(self.itemData)
 
-        Variaveis.ID.set(self.itemData.get('values')[4])
-        Variaveis.REQNUM.set(self.itemData.get('values')[2])
-        Variaveis.PDNUM.set(self.itemData.get('values')[3])
-        Variaveis.PAI.set("-")
-        Variaveis.DECAPEA.set("-")
-        Variaveis.DECAPEB.set("-")
-        Variaveis.MEDIDA.set(self.itemData.get('values')[0])
-        Variaveis.CABO.set(self.itemData.get('text'))
-        Variaveis.QUANTIDADE.set(self.itemData.get('values')[1])
-        Variaveis.QUANTIDADE_CORTADA.set("-")
-        Variaveis.ACAB1.set("-")
-        Variaveis.ACAB2.set("-")
-        Variaveis.ACAB3.set("-")
-        Variaveis.ACAB4.set("-")
-        Variaveis.OBSERVACAO.set("-")
-        Variaveis.GRAVACAO.set("-")
-        Variaveis.PROX_CABO.set("-")
-        Variaveis.PROX_DECAPEA.set("-")
-        Variaveis.PROX_MEDIDA.set("-")
-        Variaveis.PROX_DECAPEB.set("-")
+        Variaveis.campos["ID"] = self.itemData.get('values')[4]
+        Variaveis.campos["REQNUM"] = self.itemData.get('values')[2]
+        Variaveis.campos["PDNUM"] = self.itemData.get('values')[3]
+        Variaveis.campos["PAI"] = "-"
+        Variaveis.campos["DECAPEA"] = "-"
+        Variaveis.campos["DECAPEB"] = "-"
+        Variaveis.campos["MEDIDA"] = self.itemData.get('values')[0]
+        Variaveis.campos["CABO"] = self.itemData.get('text')
+        Variaveis.campos["QUANTIDADE"] = self.itemData.get('values')[1]
+        Variaveis.campos["QUANTIDADE_CORTADA"] = "-"
+        Variaveis.campos["ACAB1"] = "-"
+        Variaveis.campos["ACAB2"] = "-"
+        Variaveis.campos["ACAB3"] = "-"
+        Variaveis.campos["ACAB4"] = "-"
+        Variaveis.campos["OBSERVACAO"] = "-"
+        Variaveis.campos["GRAVACAO"] = "-"
+        Variaveis.campos["PROX_CABO"] = "-"
+        Variaveis.campos["PROX_DECAPEA"] = "-"
+        Variaveis.campos["PROX_MEDIDA"] = "-"
+        Variaveis.campos["PROX_DECAPEB"] = "-"
 
         for ele in root.winfo_children():
             ele.destroy()
@@ -747,7 +750,7 @@ class Application:
                 self.lblQuantidadeCortada.configure(
                     text=QUANTIDADE_CORTADA.get())
 
-            if QUANTIDADE_CORTADA.get() == QUANTIDADE.get():
+            if Variaveis.campos.get("QUANTIDADE_CORTADA") == Variaveis.campos.get("QUANTIDADE"):
                 self.stop()
 
             self.relogio.configure(text=tempoAtual)
@@ -763,7 +766,7 @@ class Application:
 
         ##		  QUANTIDADE_CORTADA.set(QUANTIDADE.get())
         self.limpaTela()
-        pd.atualizaQuantidadeCortada(ID.get(), QUANTIDADE_CORTADA.get())
+        pd.atualizaQuantidadeCortada(Variavies.campos.get("ID"), Variaveis.campos.get("QUANTIDADE_CORTADA"))
 
 
 Application(root)
