@@ -24,26 +24,36 @@ root.resizable(width=True, height=True)
 
 class Variaveis():
     campos = {
-        "ID": "",
-        "REQNUM": "",
-        "PDNUM": "",
-        "PAI": "",
-        "DECAPEA": "",
-        "DECAPEB": "",
-        "MEDIDA": "",
-        "CABO": "",
-        "QUANTIDADE": "",
-        "QUANTIDADE_CORTADA": "",
-        "ACAB1": "",
-        "ACAB2": "",
-        "ACAB3": "",
-        "ACAB4": "",
-        "OBSERVACAO": "",
-        "GRAVACAO": "",
-        "PROX_CABO": "",
-        "PROX_DECAPEA": "",
-        "PROX_MEDIDA": "",
-        "PROX_DECAPEB": ""
+        "PK_IPC":                   "",
+        "REQUISICAO":               "",
+        "CELULA":                   "",
+        "DATA GERAÇÃO":             "",
+        "DATA ENTREGA":             "",
+        "OBSERVAÇÃO REQ":           "",
+        "CHICOTE":                  "",
+        "QTD. CHICOTE PENDENTE":    "",
+        "PD":                       "",
+        "CABO":                     "",
+        "FK_CRS":                   "",
+        "VIAS":                     "",
+        "BITOLA":                   "",
+        "UNIDADE":                  "",
+        "QTD PD REQ":               "",
+        "MEDIDA":                   "",
+        "DECAPE A":                 "",
+        "DECAPE B":                 "",
+        "ACABAMENTO 1":             "",
+        "PONTE 1":                  "",
+        "ACABAMENTO 2":             "",
+        "PONTE 2":                  "",
+        "ACABAMENTO 3":             "",
+        "PONTE 3":                  "",
+        "ACABAMENTO 4":             "",
+        "PONTE 4":                  "",
+        "OBSERVAÇÃO":               "",
+        "GRAVAÇÃO":                 "",
+        "MÁQUINA":                  "",
+        "NR. ORDEM CORTE":          ""
     }
 
 
@@ -264,7 +274,7 @@ class Application:
         ##--- Dados PD ---##
         ###--- Cabecalho PD ---###
         self.lblRequisicao = Label(self.containerCabecalhoPD,
-                            text="Requisição: %s" % (Variaveis.campos.get("REQNUM")),
+                            text="Requisição: %s" % (Variaveis.campos.get("REQUISICAO")),
                             font=Fontes.fontePadrao,
                             bg=Cores.bgCinza,
                             fg="white",
@@ -272,7 +282,7 @@ class Application:
         self.lblRequisicao.pack(side=LEFT)
 
         self.lblPD = Label(self.containerCabecalhoPD,
-                           text="PD: %s" % Variaveis.campos.get("PDNUM"),
+                           text="PD: %s" % Variaveis.campos.get("PD"),
                            font=Fontes.fonteCabecalho,
                            bg=Cores.bgCinza,
                            fg=Cores.letraVerde,
@@ -282,7 +292,7 @@ class Application:
                         expand=1)
 
         self.lblProdutoFinal = Label(self.containerCabecalhoPD,
-                            text="Produto Final: %s" % Variaveis.campos.get("REQNUM"),
+                            text="Produto Final: %s" % Variaveis.campos.get("CHICOTE"),
                             font=Fontes.fontePadrao,
                             bg=Cores.bgCinza,
                             fg="white",
@@ -291,7 +301,7 @@ class Application:
 
         ###--- Medidas PD ---###
         self.lblDecapeA = Label(self.containerMedidasPD,
-                                text=Variaveis.campos.get("DECAPEA"),
+                                text=Variaveis.campos.get("DECAPE A"),
                                 font=Fontes.fonteCabecalho,
                                 bg=Cores.bgCinza,
                                 fg=Cores.letraVerde)
@@ -308,7 +318,7 @@ class Application:
                             row=0)
 
         self.lblDecapeB = Label(self.containerMedidasPD,
-                                text=Variaveis.campos.get("DECAPEB"),
+                                text=Variaveis.campos.get("DECAPE B"),
                                 font=Fontes.fonteCabecalho,
                                 bg=Cores.bgCinza,
                                 fg=Cores.letraVerde)
@@ -356,7 +366,7 @@ class Application:
                                       pady=5)
 
         self.lblAcabamento1 = Label(self.containerAcabamento1,
-                                    text=Variaveis.campos.get("ACAB1"),
+                                    text=Variaveis.campos.get("ACABAMENTO 1"),
                                     font=Fontes.fontePadrao,
                                     bg=Cores.bgVerde,
                                     fg=Cores.bgCinza)
@@ -376,7 +386,7 @@ class Application:
                                       pady=5)
 
         self.lblAcabamento3 = Label(self.containerAcabamento3,
-                                    text=Variaveis.campos.get("ACAB3"),
+                                    text=Variaveis.campos.get("ACABAMENTO 3"),
                                     font=Fontes.fontePadrao,
                                     bg=Cores.bgAcabamentosAux,
                                     fg=Cores.bgCinza)
@@ -393,7 +403,7 @@ class Application:
         self.lblLabelQuantidade.pack()
 
         self.lblQuantidadePendente = Label(self.containerQuantidade,
-                                           text=Variaveis.campos.get("QUANTIDADE"),
+                                           text=Variaveis.campos.get("QTD PD REQ"),
                                            font=Fontes.fonteQuantidadePendente,
                                            bg=Cores.bgCinza,
                                            fg=Cores.letraVerde,
@@ -419,7 +429,7 @@ class Application:
         self.lblLabelObservacao.pack()
 
         self.lblObservacao = Label(self.containerObservacao,
-                                   text=Variaveis.campos.get("OBSERVACAO"),
+                                   text=Variaveis.campos.get("OBSERVAÇÃO"),
                                    font=Fontes.fontePadrao,
                                    bg=Cores.bgCinza,
                                    fg="white")
@@ -434,7 +444,7 @@ class Application:
         self.lblLabelGravacao.pack()
 
         self.lblGravacao = Label(self.containerObservacao,
-                                 text=Variaveis.campos.get("GRAVACAO"),
+                                 text=Variaveis.campos.get("GRAVAÇÃO"),
                                  font=Fontes.fontePadrao,
                                  bg=Cores.bgCinza,
                                  fg="white")
@@ -453,7 +463,7 @@ class Application:
                                       pady=5)
 
         self.lblAcabamento2 = Label(self.containerAcabamento2,
-                                    text=Variaveis.campos.get("ACAB2"),
+                                    text=Variaveis.campos.get("ACABAMENTO 2"),
                                     font=Fontes.fontePadrao,
                                     bg=Cores.bgVerde,
                                     fg=Cores.bgCinza)
@@ -473,7 +483,7 @@ class Application:
                                       pady=5)
 
         self.lblAcabamento4 = Label(self.containerAcabamento4,
-                                    text=Variaveis.campos.get("ACAB4"),
+                                    text=Variaveis.campos.get("ACABAMENTO 4"),
                                     font=Fontes.fontePadrao,
                                     bg=Cores.bgAcabamentosAux,
                                     fg=Cores.bgCinza)
@@ -623,7 +633,7 @@ class Application:
         self.dataCols = ('Medida',
                          'Quantidade',
                          'Requisição',
-                         'PD')
+                         'ID')
 
 
         self.containerEsquerda.grid_rowconfigure(0, weight=1)
@@ -693,19 +703,28 @@ class Application:
 
         self.data = pd.info
 
+
         cabos = []
+
+
         for item in self.data:
-            if item[3] not in cabos:
-                cabos.append(str(item[3]))
+            if item[9] not in cabos:
+                cabos.append(str(item[9]))
 
         for cabo in cabos:
             self.tvw.insert('', 'end', cabo, text=cabo)
 
-        print(cabos)
 
         for item in self.data:
-            self.tvw.insert(item[3], 'end', text=item[3], values=(
-                item[6], item[11], item[1], item[2], item[0]))
+            self.tvw.insert(
+                            item[9],
+                            'end',
+                            text=item[9], values=(
+                                                item[8],
+                                                item[15],
+                                                int(item[14]),
+                                                item[1],
+                                                item[0]))
 
         self.listaCount.configure(text='Total de PDs: ' + str(len(self.data)))
 
@@ -715,10 +734,10 @@ class Application:
 
         print(self.itemData)
 
-        Variaveis.campos["ID"] = self.itemData.get('values')[4]
+        Variaveis.campos["PK_IPC"] = self.itemData.get('values')[4]
         Variaveis.campos["REQNUM"] = self.itemData.get('values')[2]
         Variaveis.campos["PDNUM"] = self.itemData.get('values')[3]
-        Variaveis.campos["PAI"] = "-"
+        Variaveis.campos["CHICOTE"] = "-"
         Variaveis.campos["DECAPEA"] = "-"
         Variaveis.campos["DECAPEB"] = "-"
         Variaveis.campos["MEDIDA"] = self.itemData.get('values')[0]
@@ -766,7 +785,7 @@ class Application:
 
         ##		  QUANTIDADE_CORTADA.set(QUANTIDADE.get())
         self.limpaTela()
-        pd.atualizaQuantidadeCortada(Variavies.campos.get("ID"), Variaveis.campos.get("QUANTIDADE_CORTADA"))
+        pd.atualizaQuantidadeCortada(Variavies.campos.get("PK_IPC"), Variaveis.campos.get("QUANTIDADE_CORTADA"))
 
 
 Application(root)

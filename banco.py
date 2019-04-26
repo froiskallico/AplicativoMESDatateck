@@ -4,31 +4,31 @@ class BANCO():
 
     def __init__(self):
         self.conexao = sqlite3.connect('database/TESTEPDS.db')
-        self.conexao.text_factory = lambda x: str(x, 'cp1252')
+        # self.conexao.text_factory = lambda x: str(x, 'cp1252')
         self.createTable()
 
     def createTable(self):
         c = self.conexao.cursor()
 
-        c.execute("""CREATE TABLE IF NOT EXISTS PDS (
-                     ID             integer primary key autoincrement,
-                     REQNUM         integer,
-                     PD             integer,
-                     CABO           text,
-                     DECAPEA        integer,
-                     DECAPEB        integer,
-                     MEDIDA         integer,
-                     ACAB1          text,
-                     ACAB2          text,
-                     OBS            text,
-                     PAI            text,
-                     QTD            integer,
-                     QTD_CORT       integer,
-                     ENTREGA        integer,
-                     PRIOR          integer,
-				     MAQUINA        text,
-				     PRI_MEDIDA     integer,
-				     ULT_MEDIDA     interger)""")
+        # c.execute("""CREATE TABLE IF NOT EXISTS PDS (
+        #              ID             integer primary key autoincrement,
+        #              REQNUM         integer,
+        #              PD             integer,
+        #              CABO           text,
+        #              DECAPEA        integer,
+        #              DECAPEB        integer,
+        #              MEDIDA         integer,
+        #              ACAB1          text,
+        #              ACAB2          text,
+        #              OBS            text,
+        #              PAI            text,
+        #              QTD            integer,
+        #              QTD_CORT       integer,
+        #              ENTREGA        integer,
+        #              PRIOR          integer,
+		# 		     MAQUINA        text,
+		# 		     PRI_MEDIDA     integer,
+		# 		     ULT_MEDIDA     interger)""")
 
         c.execute("""CREATE TABLE IF NOT EXISTS TEMPOS (
                      PK_TEM                 integer primary key autoincrement,
