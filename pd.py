@@ -3,7 +3,8 @@ from banco import BANCO
 class PD(object):
     
     def __init__(self, ID = 0, REQNUM = 0, PD = 0, CABO = "", DECAPEA = 0, DECAPEB = 0, MEDIDA = 0, ACAB1 = "", ACAB2 = "", OBS = "", PAI = "", QTD = 0, QTD_CORT = 0, ENTREGA = 0, PRIOR = 0, MAQUINA = "", PRI_MEDIDA = 0, ULT_MEDIDA = 0):
-        self.info = {}
+        self.lista = {}
+        self.dadosPD = ()
         # self.ID = ID
         # self.REQNUM = REQNUM
         # self.PD = PD
@@ -23,7 +24,7 @@ class PD(object):
         # self.PRI_MEDIDA = PRI_MEDIDA
         # self.ULT_MEDIDA = ULT_MEDIDA
 
-    def buscarPD(self, maquina):
+    def buscaLista(self, maquina):
 
         banco = BANCO()
 
@@ -33,32 +34,11 @@ class PD(object):
                                 *
                             FROM 
                                 PDS
-                            --WHERE
-                            --    MÁQUINA = "%s"
-                            --LIMIT
-                            --    5   ''' % maquina)
+                            WHERE
+                                MÁQUINA = "%s"
+                       ''' % maquina)
 
-            self.info = c.fetchall()
-
-            # for linha in c:
-            #     self.ID = linha[0]
-            #     self.REQNUM = linha[1]
-            #     self.PD = linha[2]
-            #     self.CABO = linha[3]
-            #     self.DECAPEA = linha[4]
-            #     self.DECAPEB = linha[5]
-            #     self.MEDIDA = linha[6]
-            #     self.ACAB1 = linha[7]
-            #     self.ACAB2 = linha[8]
-            #     self.OBS = linha[9]
-            #     self.PAI = linha[10]
-            #     self.QTD = linha[11]
-            #     self.QTD_CORT = linha[12]
-            #     self.ENTREGA = linha[13]
-            #     self.PRIOR = linha[14]
-            #     self.MAQUINA = linha[15]
-            #     self.PRI_MEDIDA = linha[16]
-            #     self.ULT_MEDIDA = linha[17]
+            self.lista = c.fetchall()
 
             c.close()
 
@@ -66,6 +46,35 @@ class PD(object):
 
         except:
             return "Ocorreu um erro na busca do PD"
+
+
+    def buscaPD(self, ID):
+        banco = BANCO()
+
+        try:
+            curDados = banco.conexao.cursor()
+
+            curDados.execute('''SELECT
+                                PDS.*, 
+                                CORES.DESCRICAO, 
+                                CORES.PRIMARIA, 
+                                CORES.SECUNDARIA, 
+                                CORES.COR_TEXTO
+                            FROM
+                                PDS
+                            LEFT JOIN
+                                CORES ON (CORES.PK_CRS = PDS.FK_CRS) 
+                            WHERE
+                                PK_IQC = "%s"
+                       ''' % ID)
+
+            self.dadosPD = curDados.fetchone()
+
+            return "Busca feita com sucesso!"
+
+        except:
+            return "Ocorreu um erro na busca do PD"
+
 
     def atualizaQuantidadeCortada(self, pdID, qtdCortada):
 

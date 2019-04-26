@@ -5,6 +5,7 @@ from time import sleep, time
 from tkinter import ttk
 # import login
 import configparser as cfgprsr
+from collections import OrderedDict
 
 
 class Definicoes():
@@ -23,6 +24,43 @@ root.resizable(width=True, height=True)
 
 
 class Variaveis():
+    colunas = (
+        "PK_IPC",
+        "REQUISICAO",
+        "CELULA",
+        "DATA GERAÇÃO",
+        "DATA ENTREGA",
+        "OBSERVAÇÃO REQ",
+        "CHICOTE",
+        "QTD. CHICOTE PENDENTE",
+        "PD",
+        "CABO",
+        "FK_CRS",
+        "VIAS",
+        "BITOLA",
+        "UNIDADE",
+        "QTD PD REQ",
+        "MEDIDA",
+        "DECAPE A",
+        "DECAPE B",
+        "ACABAMENTO 1",
+        "PONTE 1",
+        "ACABAMENTO 2",
+        "PONTE 2",
+        "ACABAMENTO 3",
+        "PONTE 3",
+        "ACABAMENTO 4",
+        "PONTE 4",
+        "OBSERVAÇÃO",
+        "GRAVAÇÃO",
+        "MÁQUINA",
+        "NR. ORDEM CORTE",
+        "DESCRICAO",
+        "PRIMARIA",
+        "SECUNDARIA",
+        "COR_TEXTO"
+    )
+
     campos = {
         "PK_IPC":                   "",
         "REQUISICAO":               "",
@@ -53,7 +91,11 @@ class Variaveis():
         "OBSERVAÇÃO":               "",
         "GRAVAÇÃO":                 "",
         "MÁQUINA":                  "",
-        "NR. ORDEM CORTE":          ""
+        "NR. ORDEM CORTE":          "",
+        "DESCRICAO":                "",
+        "PRIMARIA":                 "",
+        "SECUNDARIA":               "",
+        "COR_TEXTO":                ""
     }
 
 
@@ -67,6 +109,8 @@ class Fontes():
 class Cores():
     # Cores padrão do aplicativo
     bgCorDoCabo = "white"
+    bgCorDaListra = "white"
+    fgCorDoCabo = "#333333"
     bgCinza = "#333333"
     bgVerde = "#00D455"
     letraVerde = "#66FF00"
@@ -227,22 +271,22 @@ class Application:
         self.containerAcabamento4.pack(side=TOP)
 
         ###--- Rodape ---###
-        self.containerRodape = Frame(self.containerEsquerda,
-                                     bg=Cores.bgRodape)
-        self.containerRodape.pack(side=BOTTOM,
-                                  ipadx=100)
-
-        ####--- Proximo Cabo ---####
-        self.containerProxCabo = Frame(self.containerRodape,
-                                       bg=Cores.bgRodape)
-        self.containerProxCabo.pack(side=TOP,
-                                    fill=X,
-                                    expand=1)
-
-        ####--- Label Prox Medidas ---####
-        self.containerProxMedidas = Frame(self.containerRodape,
-                                          bg=Cores.bgRodape)
-        self.containerProxMedidas.pack()
+        # self.containerRodape = Frame(self.containerEsquerda,
+        #                              bg=Cores.bgRodape)
+        # self.containerRodape.pack(side=BOTTOM,
+        #                           ipadx=100)
+        #
+        # ####--- Proximo Cabo ---####
+        # self.containerProxCabo = Frame(self.containerRodape,
+        #                                bg=Cores.bgRodape)
+        # self.containerProxCabo.pack(side=TOP,
+        #                             fill=X,
+        #                             expand=1)
+        #
+        # ####--- Label Prox Medidas ---####
+        # self.containerProxMedidas = Frame(self.containerRodape,
+        #                                   bg=Cores.bgRodape)
+        # self.containerProxMedidas.pack()
 
     def montaLabels(self, master=None):
         ##------ Cabeçalho ------##
@@ -330,27 +374,54 @@ class Application:
                                   text="",
                                   bg=Cores.bgCobre,
                                   width=10,
-                                  height=1)
+                                  bd=0,
+                                  height=2)
         self.lblLadoACabo.grid(column=0,
-                               row=0)
+                               row=0,
+                               rowspan=3)
+
+        self.lblCaboSec1 = Label(self.containerCabo,
+                             text="",
+                             font=Fontes.fontePadrao,
+                             bg=Cores.bgCorDoCabo,
+                             fg=Cores.fgCorDoCabo,
+                             width=40,
+                             bd=0,
+                             height=1)
+        self.lblCaboSec1.grid(column=1,
+                          row=0)
 
         self.lblCabo = Label(self.containerCabo,
                              text=Variaveis.campos.get("CABO"),
                              font=Fontes.fontePadrao,
-                             bg=Cores.bgCorDoCabo,
-                             fg=Cores.bgCinza,
+                             bg=Cores.bgCorDaListra,
+                             fg=Cores.fgCorDoCabo,
                              width=40,
-                             height=2)
+                             bd=0,
+                             height=1)
         self.lblCabo.grid(column=1,
-                          row=0)
+                          row=1)
+
+        self.lblCaboSec2 = Label(self.containerCabo,
+                                 text="",
+                                 font=Fontes.fontePadrao,
+                                 bg=Cores.bgCorDoCabo,
+                                 fg=Cores.fgCorDoCabo,
+                                 width=40,
+                                 bd=0,
+                                 height=1)
+        self.lblCaboSec2.grid(column=1,
+                              row=2)
 
         self.lblLadoBCabo = Label(self.containerCabo,
                                   text="",
                                   bg=Cores.bgCobre,
                                   width=10,
-                                  height=1)
+                                  bd=0,
+                                  height=2)
         self.lblLadoBCabo.grid(column=2,
-                               row=0)
+                               row=0,
+                               rowspan=3)
 
         ###--- Detalhes ---###
         ####--- Lado A ---####
@@ -492,55 +563,55 @@ class Application:
                                  pady=5)
 
         # --- Rodape ---#
-        self.lblProxCabo = Label(self.containerProxCabo,
-                                 text=Variaveis.campos.get("PROX_CABO"),
-                                 bg=Cores.bgRodape,
-                                 fg=Cores.bgAcabamentosAux)
-        self.lblProxCabo.pack(side=TOP,
-                              fill=X,
-                              expand=1)
-
-        self.lblLabelProxDecapeA = Label(self.containerProxMedidas,
-                                         text="Decape A",
-                                         bg=Cores.bgRodape,
-                                         fg=Cores.bgAcabamentosAux)
-        self.lblLabelProxDecapeA.grid(column=0,
-                                      row=0)
-
-        self.lblLabelProxMedida = Label(self.containerProxMedidas,
-                                        text="Medida",
-                                        bg=Cores.bgRodape,
-                                        fg=Cores.bgAcabamentosAux,
-                                        width=30)
-        self.lblLabelProxMedida.grid(column=1,
-                                     row=0)
-
-        self.lblLabelProxDecapeB = Label(self.containerProxMedidas,
-                                         text="Decape B",
-                                         bg=Cores.bgRodape,
-                                         fg=Cores.bgAcabamentosAux)
-        self.lblLabelProxDecapeB.grid(column=2,
-                                      row=0)
-
-        self.lblProxDecapeA = Label(self.containerProxMedidas,
-                                    text=Variaveis.campos.get("PROX_DECAPEA"),
-                                    bg=Cores.bgRodape,
-                                    fg=Cores.bgAcabamentosAux)
-        self.lblProxDecapeA.grid(column=0,
-                                 row=1)
-
-        self.lblProxMedida = Label(self.containerProxMedidas,
-                                   text=Variaveis.campos.get("PROX_MEDIDA"),
-                                   bg=Cores.bgRodape,
-                                   fg="#888")
-        self.lblProxMedida.grid(column=1, row=1)
-
-        self.lblProxDecapeB = Label(self.containerProxMedidas,
-                                    text=Variaveis.campos.get("PROX_DECAPEB"),
-                                    bg=Cores.bgRodape,
-                                    fg=Cores.bgAcabamentosAux)
-        self.lblProxDecapeB.grid(column=2,
-                                 row=1)
+        # self.lblProxCabo = Label(self.containerProxCabo,
+        #                          text=Variaveis.campos.get("PROX_CABO"),
+        #                          bg=Cores.bgRodape,
+        #                          fg=Cores.bgAcabamentosAux)
+        # self.lblProxCabo.pack(side=TOP,
+        #                       fill=X,
+        #                       expand=1)
+        #
+        # self.lblLabelProxDecapeA = Label(self.containerProxMedidas,
+        #                                  text="Decape A",
+        #                                  bg=Cores.bgRodape,
+        #                                  fg=Cores.bgAcabamentosAux)
+        # self.lblLabelProxDecapeA.grid(column=0,
+        #                               row=0)
+        #
+        # self.lblLabelProxMedida = Label(self.containerProxMedidas,
+        #                                 text="Medida",
+        #                                 bg=Cores.bgRodape,
+        #                                 fg=Cores.bgAcabamentosAux,
+        #                                 width=30)
+        # self.lblLabelProxMedida.grid(column=1,
+        #                              row=0)
+        #
+        # self.lblLabelProxDecapeB = Label(self.containerProxMedidas,
+        #                                  text="Decape B",
+        #                                  bg=Cores.bgRodape,
+        #                                  fg=Cores.bgAcabamentosAux)
+        # self.lblLabelProxDecapeB.grid(column=2,
+        #                               row=0)
+        #
+        # self.lblProxDecapeA = Label(self.containerProxMedidas,
+        #                             text=Variaveis.campos.get("PROX_DECAPEA"),
+        #                             bg=Cores.bgRodape,
+        #                             fg=Cores.bgAcabamentosAux)
+        # self.lblProxDecapeA.grid(column=0,
+        #                          row=1)
+        #
+        # self.lblProxMedida = Label(self.containerProxMedidas,
+        #                            text=Variaveis.campos.get("PROX_MEDIDA"),
+        #                            bg=Cores.bgRodape,
+        #                            fg="#888")
+        # self.lblProxMedida.grid(column=1, row=1)
+        #
+        # self.lblProxDecapeB = Label(self.containerProxMedidas,
+        #                             text=Variaveis.campos.get("PROX_DECAPEB"),
+        #                             bg=Cores.bgRodape,
+        #                             fg=Cores.bgAcabamentosAux)
+        # self.lblProxDecapeB.grid(column=2,
+        #                          row=1)
 
     def montaBotoes(self, master=None):
         # --- Botões ---#
@@ -699,9 +770,9 @@ class Application:
 
     def populaLista(self):
         pd = PD()
-        pd.buscarPD(Definicoes.maquina)
+        pd.buscaLista(Definicoes.maquina)
 
-        self.data = pd.info
+        self.data = pd.lista
 
 
         cabos = []
@@ -711,6 +782,7 @@ class Application:
             if item[9] not in cabos:
                 cabos.append(str(item[9]))
 
+
         for cabo in cabos:
             self.tvw.insert('', 'end', cabo, text=cabo)
 
@@ -719,10 +791,10 @@ class Application:
             self.tvw.insert(
                             item[9],
                             'end',
-                            text=item[9], values=(
-                                                item[8],
+                            text=item[8], values=(
+                                                # item[8],
                                                 item[15],
-                                                int(item[14]),
+                                                round(item[14]),
                                                 item[1],
                                                 item[0]))
 
@@ -731,33 +803,31 @@ class Application:
     def listaSelectBtn(self, master=None):
         self.itemSel = self.tvw.focus()
         self.itemData = self.tvw.item(self.itemSel)
+        self.IDSelecionado = self.itemData.get('values')[3]
 
-        print(self.itemData)
+        self.carregaDadosDoPDNaTela(self.IDSelecionado)
 
-        Variaveis.campos["PK_IPC"] = self.itemData.get('values')[4]
-        Variaveis.campos["REQNUM"] = self.itemData.get('values')[2]
-        Variaveis.campos["PDNUM"] = self.itemData.get('values')[3]
-        Variaveis.campos["CHICOTE"] = "-"
-        Variaveis.campos["DECAPEA"] = "-"
-        Variaveis.campos["DECAPEB"] = "-"
-        Variaveis.campos["MEDIDA"] = self.itemData.get('values')[0]
-        Variaveis.campos["CABO"] = self.itemData.get('text')
-        Variaveis.campos["QUANTIDADE"] = self.itemData.get('values')[1]
-        Variaveis.campos["QUANTIDADE_CORTADA"] = "-"
-        Variaveis.campos["ACAB1"] = "-"
-        Variaveis.campos["ACAB2"] = "-"
-        Variaveis.campos["ACAB3"] = "-"
-        Variaveis.campos["ACAB4"] = "-"
-        Variaveis.campos["OBSERVACAO"] = "-"
-        Variaveis.campos["GRAVACAO"] = "-"
-        Variaveis.campos["PROX_CABO"] = "-"
-        Variaveis.campos["PROX_DECAPEA"] = "-"
-        Variaveis.campos["PROX_MEDIDA"] = "-"
-        Variaveis.campos["PROX_DECAPEB"] = "-"
+    def carregaDadosDoPDNaTela(self, ID):
+        pd = PD()
+
+        pd.buscaPD(ID)
+
+        dadosDoPD = pd.dadosPD
+
+        for i in range(len(dadosDoPD)):
+            try:
+                Variaveis.campos[Variaveis.colunas[i]] = round(dadosDoPD[i])
+            except:
+                Variaveis.campos[Variaveis.colunas[i]] = dadosDoPD[i]
 
         for ele in root.winfo_children():
             ele.destroy()
 
+        Cores.bgCorDoCabo = Variaveis.campos.get("PRIMARIA")
+        Cores.bgCorDaListra = Variaveis.campos.get("SECUNDARIA")
+        Cores.fgCorDoCabo = Variaveis.campos.get("COR_TEXTO")
+
+        print (Cores.bgCorDoCabo)
         self.montaTelaPrincipal()
 
     def atualizaCronografo(self):

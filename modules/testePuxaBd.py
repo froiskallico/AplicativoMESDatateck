@@ -7,13 +7,13 @@ conOrigem = fdb.connect(dsn='192.168.1.100:/app/database/DADOS_PCP.FDB',
                         charset='WIN1252')
 curOrigem = conOrigem.cursor()
 curOrigem.execute("""SELECT 
-                        FIRST 10 * 
+                        * 
                     FROM 
                         PDS_PENDENTES_CORTE 
-                    WHERE 
-                        "MÁQUINA" = 'Samec' 
                     ORDER BY 
-                        PK_IQC""")
+                        "DATA ENTREGA",
+                        "CABO"
+                        """)
 
 
 conDestino = sqlite3.connect(database='../database/TESTEPDS.db')
@@ -39,10 +39,11 @@ for linha in dadosDestino:
     print("INSERT INTO PDS VALUES %s" % str(linha))
     try:
         curDestino.execute("INSERT INTO PDS VALUES %s" % str(linha))
-        conDestino.commit()
+
     except:
         pass
 
+conDestino.commit()
 
 print("Linhas na Origem: %i" % len(dadosOrigem))
 print("Linhas na Destino: %i" % len(dadosDestino))
