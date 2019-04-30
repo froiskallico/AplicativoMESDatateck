@@ -1,11 +1,11 @@
 # --- Imports ---#
 from pd import PD
+import tempos
 from tkinter import *
 from time import sleep, time
 from tkinter import ttk
-# import login
+import login
 import configparser as cfgprsr
-from collections import OrderedDict
 
 
 class Definicoes():
@@ -141,15 +141,17 @@ class Imagens():
         file="src/images/buttons/retomarButton.png")
     menuButton = PhotoImage(
         file="src/images/buttons/menuButton.png")
+    sairButton = PhotoImage(
+        file="src/images/buttons/sairButton.png")
 
 
 class Application:
 
     # --- Inicialização do Aplicativo --- #
     def __init__(self, master=None):
-        # Log = LOGIN.sts
-        # if Log == True:
-        self.montaTelaPrincipal()
+        self.idUsuarioLogado = login.idUsuario
+        if self.idUsuarioLogado > 0:
+            self.montaTelaPrincipal()
         # self.montaLista()
 
     # --- Geração do Layout Principal --- #
@@ -614,7 +616,32 @@ class Application:
         #                          row=1)
 
     def montaBotoes(self, master=None):
+
         # --- Botões ---#
+        self.btnBusca = Button(self.containerBotoes,
+                               image=Imagens.searchButton,
+                               width=130,
+                               height=50,
+                               bg=Cores.bgCinza,
+                               relief=FLAT,
+                               anchor="w",
+                               bd=0,
+                               highlightthickness=0)
+        self.btnBusca["command"] = self.montaLista
+        self.btnBusca.pack(pady=5)
+
+        self.btnSetup = Button(self.containerBotoes,
+                               image=Imagens.setupStartButton,
+                               width=130,
+                               height=50,
+                               bg=Cores.bgCinza,
+                               relief=FLAT,
+                               anchor="w",
+                               bd=0,
+                               highlightthickness=0)
+        # self.btnSetup["command"] =
+        self.btnSetup.pack(pady=5)
+
         self.btnStart = Button(self.containerBotoes,
                                image=Imagens.startButton,
                                width=130,
@@ -637,31 +664,19 @@ class Application:
                               bd=0,
                               highlightthickness=0)
         self.btnStop["command"] = self.stop
-        self.btnStop.pack(pady=5)
+        # self.btnStop.pack(pady=5)
 
-        self.btnBusca = Button(self.containerBotoes,
-                               image=Imagens.searchButton,
-                               width=130,
-                               height=50,
-                               bg=Cores.bgCinza,
-                               relief=FLAT,
-                               anchor="w",
-                               bd=0,
-                               highlightthickness=0)
-        self.btnBusca["command"] = self.montaLista
-        self.btnBusca.pack(pady=5)
-
-        self.btnPula = Button(self.containerBotoes,
-                              image=Imagens.pularButton,
-                              width=130,
-                              height=50,
-                              bg=Cores.bgCinza,
-                              relief=FLAT,
-                              anchor="w",
-                              bd=0,
-                              highlightthickness=0)
-        # self.btnPula["command"] =
-        self.btnPula.pack(pady=5)
+        # self.btnPula = Button(self.containerBotoes,
+        #                       image=Imagens.pularButton,
+        #                       width=130,
+        #                       height=50,
+        #                       bg=Cores.bgCinza,
+        #                       relief=FLAT,
+        #                       anchor="w",
+        #                       bd=0,
+        #                       highlightthickness=0)
+        # # self.btnPula["command"] =
+        # self.btnPula.pack(pady=5)
 
         self.btnParada = Button(self.containerBotoes,
                                 image=Imagens.paradaButton,
@@ -686,8 +701,21 @@ class Application:
                               highlightthickness=0)
         # self.btnMenu["command"] =
         self.btnMenu.pack(pady=5)
+        
+        self.btnSair = Button(self.containerBotoes,
+                              image=Imagens.sairButton,
+                              width=130,
+                              height=50,
+                              bg=Cores.bgCinza,
+                              relief=FLAT,
+                              anchor="w",
+                              bd=0,
+                              highlightthickness=0)
+        self.btnSair["command"] = root.destroy
+        self.btnSair.pack(pady=5)
 
     # --- Limpeza de Layouts --- #
+
     def limpaTela(self):
         for ele in root.winfo_children():
             ele.destroy()
@@ -732,6 +760,7 @@ class Application:
         self.tvw = ttk.Treeview(self.containerEsquerda,
                                 style="mystyle.Treeview",
                                 columns=self.dataCols)
+        self.tvw.bind("<ButtonRelease-1>", self.abrirOuFecharNode)
 
         self.tvw.heading("#0", text="Cabo/PD")
 
@@ -800,6 +829,12 @@ class Application:
 
         self.listaCount.configure(text='Total de PDs: ' + str(len(self.data)))
 
+    def abrirOuFecharNode(self, master=None):
+        self.nodeSel = self.tvw.focus()
+        self.nodeIsOpen = self.tvw.item(self.nodeSel, option='open')
+
+        self.tvw.item(self.nodeSel, open= not self.nodeIsOpen)
+
     def listaSelectBtn(self, master=None):
         self.itemSel = self.tvw.focus()
         self.itemData = self.tvw.item(self.itemSel)
@@ -827,7 +862,10 @@ class Application:
         Cores.bgCorDaListra = Variaveis.campos.get("SECUNDARIA")
         Cores.fgCorDoCabo = Variaveis.campos.get("COR_TEXTO")
 
-        print (Cores.bgCorDoCabo)
+        t = tempos.TEMPOS()
+
+        t.tomaTempoInicioCiclo(ID, 1, 'Samec')
+
         self.montaTelaPrincipal()
 
     def atualizaCronografo(self):
@@ -853,7 +891,7 @@ class Application:
         if (operando):
             operando = False
 
-        ##		  QUANTIDADE_CORTADA.set(QUANTIDADE.get())
+        ##        QUANTIDADE_CORTADA.set(QUANTIDADE.get())
         self.limpaTela()
         pd.atualizaQuantidadeCortada(Variavies.campos.get("PK_IPC"), Variaveis.campos.get("QUANTIDADE_CORTADA"))
 

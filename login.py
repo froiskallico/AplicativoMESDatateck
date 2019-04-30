@@ -1,14 +1,11 @@
 #--- Imports ---#
 from tkinter import *
-from PIL import Image, ImageTk
-from tkinter import ttk
-import functools as partial
+from banco import BANCO
 import configparser as cfgprsr
 
 #--- Configurações ---#
 config = cfgprsr.ConfigParser()
 config.read('config.ini')
-
 
 vKBVisible = False
 
@@ -30,7 +27,9 @@ logo            = PhotoImage(file="src/images/logos/logoL.png")
 loginIcon       = PhotoImage(file="src/images/icons/loginIcon.png")
 loginButton     = PhotoImage(file="src/images/buttons/loginButton.png")
 
-sts = False
+global idUsuario
+
+idUsuario = 0
 
 class Application:
 
@@ -77,9 +76,13 @@ class Application:
         self.btnLogin["height"] = 50
         self.btnLogin.pack(side=TOP)
 
+        #--- Mensagem ---#
+        self.lblMensagem = Label(self.containerMeio, text='', font=("Play", 12 ), bg=bgCinza, fg='white', justify="center")
+        self.lblMensagem.pack(side=TOP)
 
     def vKBUser(self, master):
         self.user.delete(0, END)
+        self.lblMensagem["text"] = ''
         self.vKB(self, self.user) 
     
     def vKBPass(self, master):
@@ -122,42 +125,46 @@ class Application:
                     self.kbKey[k] = Button(self.kbRowFrame[r], text=self.btn_list[r][k], width=5, height=3, bg="black", fg="white", font=("Play", 12, "bold"))
                     self.kbKey[k]['command'] = cmd
                     self.kbKey[k].pack(side=LEFT)
-                    
 
     def kp(self, master, keyValue, parent):
         parent.insert(END, keyValue)
-    
-        
-        
-    ##    btn = list(range(len(btn_list)))
 
-    ##    for r in btn_list:
-    ##        
-    ##    for label in btn_list:
-    ##        #cmd = partial(click, label)
-    ##        btn[n] = Button(kbFrame, text=label, width=5, height=3)
-    ##        btn[n].pack(side=LEFT)
-    ##        n += 1
-    ##        c += 1
-    ##        if c == 10:
-    ##            c = 0
-    ##            r += 1
-        
     def btn(self):
-        global sts
+        global idUsuario
+
+        banco = BANCO()
+        cur = banco.conexao.cursor()
+
         usr = self.user.get()
         pwd = self.password.get()
 
-        if usr == config['LOGIN']['Usuario'] and pwd == config['LOGIN']['Senha']:
-            print ("Fazendo Login como: " + usr)
+        try:
+            cur.execute(""" SELECT
+                                    PK_USU,
+                                    SENHA
+                                FROM
+                                    USUARIOS
+                                WHERE
+                                    NOME = "%s"
+                            """ % usr)
+
+            dados = cur.fetchone()
+            idUsuario = dados[0]
+            pwdbco = dados[1]
+
+        except:
+            self.lblMensagem["text"] = "Usuário não encontrado"
+
+        if pwdbco == pwd:
+            self.lblMensagem["text"] = "Login OK"
+
             root.destroy()
-            sts = not sts
-            return sts
+
+            return idUsuario
+
+        else:
+            self.lblMensagem["text"] = "Senha incorreta"
+
         
-        
-    
-
-
-
-Application(root)            
+Application(root)
 root.mainloop()                                

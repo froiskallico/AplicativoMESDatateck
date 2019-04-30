@@ -2,7 +2,7 @@ from banco import BANCO
 
 class PD(object):
     
-    def __init__(self, ID = 0, REQNUM = 0, PD = 0, CABO = "", DECAPEA = 0, DECAPEB = 0, MEDIDA = 0, ACAB1 = "", ACAB2 = "", OBS = "", PAI = "", QTD = 0, QTD_CORT = 0, ENTREGA = 0, PRIOR = 0, MAQUINA = "", PRI_MEDIDA = 0, ULT_MEDIDA = 0):
+    def __init__(self):
         self.lista = {}
         self.dadosPD = ()
         # self.ID = ID
@@ -47,7 +47,6 @@ class PD(object):
         except:
             return "Ocorreu um erro na busca do PD"
 
-
     def buscaPD(self, ID):
         banco = BANCO()
 
@@ -74,7 +73,6 @@ class PD(object):
 
         except:
             return "Ocorreu um erro na busca do PD"
-
 
     def atualizaQuantidadeCortada(self, pdID, qtdCortada):
 
