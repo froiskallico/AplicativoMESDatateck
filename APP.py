@@ -2,7 +2,8 @@
 from pd import PD
 import tempos
 from tkinter import *
-from time import sleep, time
+from time import time
+import datetime
 from tkinter import ttk
 import login
 import configparser as cfgprsr
@@ -13,7 +14,6 @@ class Definicoes():
     configFile.read('config.ini')
     maquina = configFile['DEFAULT']['Maquina']
 
-
 root = Tk()
 root.title('Operação')
 root.geometry(Definicoes.configFile['DISPLAY']['RES'])
@@ -23,42 +23,44 @@ root.resizable(width=True, height=True)
 
 
 class Variaveis():
-    colunas = (
-        "PK_IPC",
-        "REQUISICAO",
-        "CELULA",
-        "DATA GERAÇÃO",
-        "DATA ENTREGA",
-        "OBSERVAÇÃO REQ",
-        "CHICOTE",
-        "QTD. CHICOTE PENDENTE",
-        "PD",
-        "CABO",
-        "FK_CRS",
-        "VIAS",
-        "BITOLA",
-        "UNIDADE",
-        "QTD PD REQ",
-        "MEDIDA",
-        "DECAPE A",
-        "DECAPE B",
-        "ACABAMENTO 1",
-        "PONTE 1",
-        "ACABAMENTO 2",
-        "PONTE 2",
-        "ACABAMENTO 3",
-        "PONTE 3",
-        "ACABAMENTO 4",
-        "PONTE 4",
-        "OBSERVAÇÃO",
-        "GRAVAÇÃO",
-        "MÁQUINA",
-        "NR. ORDEM CORTE",
-        "DESCRICAO",
-        "PRIMARIA",
-        "SECUNDARIA",
-        "COR_TEXTO"
-    )
+    inicioSecao = datetime.datetime.now().strftime('%d-%m-%Y  %H:%M:%S')
+    idUsuarioLogado = 0
+    nomeUsuarioLogado = None
+
+    colunas = ('PK_IPC',
+               'REQUISICAO',
+               'CELULA',
+               'DATA GERAÇÃO',
+               'DATA ENTREGA',
+               'OBSERVAÇÃO REQ',
+               'CHICOTE',
+               'QTD. CHICOTE PENDENTE',
+               'PD',
+               'CABO',
+               'FK_CRS',
+               'VIAS',
+               'BITOLA',
+               'UNIDADE',
+               'QTD PD REQ',
+               'MEDIDA',
+               'DECAPE A',
+               'DECAPE B',
+               'ACABAMENTO 1',
+               'PONTE 1',
+               'ACABAMENTO 2',
+               'PONTE 2',
+               'ACABAMENTO 3',
+               'PONTE 3',
+               'ACABAMENTO 4',
+               'PONTE 4',
+               'OBSERVAÇÃO',
+               'GRAVAÇÃO',
+               'MÁQUINA',
+               'NR. ORDEM CORTE',
+               'DESCRICAO',
+               'PRIMARIA',
+               'SECUNDARIA',
+               'COR_TEXTO')
 
     campos = {
         "PK_IPC":                   "",
@@ -94,8 +96,23 @@ class Variaveis():
         "DESCRICAO":                "",
         "PRIMARIA":                 "",
         "SECUNDARIA":               "",
-        "COR_TEXTO":                ""
-    }
+        "COR_TEXTO":                ""}
+
+    estados = ('Ocioso', 
+               'Carregado', 
+               'Em Setup',
+               'Setup Finalizado',
+               'Em Corte',
+               'Corte Finalizado',
+               'Parado')
+
+    estadoEquipamento = 0
+
+    tempoInicio = 0
+
+    ID = None
+
+
 
 
 class Fontes():
@@ -146,9 +163,13 @@ class Application:
 
     # --- Inicialização do Aplicativo --- #
     def __init__(self, master=None):
-        self.idUsuarioLogado = login.idUsuario
-        if self.idUsuarioLogado > 0:
+
+        Variaveis.idUsuarioLogado = login.idUsuario
+        Variaveis.nomeUsuarioLogado = login.nomeUsuario
+
+        if Variaveis.idUsuarioLogado > 0:
             self.montaTelaPrincipal()
+
 
     # --- Geração do Layout Principal --- #
     def montaTelaPrincipal(self, master=None):
@@ -268,12 +289,12 @@ class Application:
                                           bg=Cores.bgAcabamentosAux)
         self.containerAcabamento4.pack(side=TOP)
 
-        ###--- Rodape ---###
-        # self.containerRodape = Frame(self.containerEsquerda,
-        #                              bg=Cores.bgRodape)
-        # self.containerRodape.pack(side=BOTTOM,
-        #                           ipadx=100)
-        #
+        ##--- Rodape ---###
+        self.containerRodape = Frame(self.containerEsquerda,
+                                     bg=Cores.bgCinza)
+        self.containerRodape.pack(side=BOTTOM,
+                                  anchor=SW)
+
         # ####--- Proximo Cabo ---####
         # self.containerProxCabo = Frame(self.containerRodape,
         #                                bg=Cores.bgRodape)
@@ -296,22 +317,22 @@ class Application:
                           fg="white")
         self.logo.pack(side=LEFT)
 
-        self.maquina = Label(self.containerCabecalho,
-                             text=Definicoes.maquina,
-                             font=Fontes.fonteCabecalho,
-                             bg=Cores.bgCinza,
-                             fg="white")
-        self.maquina.pack(side=LEFT,
-                          fill=X,
-                          expand=1)
+        self.lblMaquina = Label(self.containerCabecalho,
+                                text=Definicoes.maquina,
+                                font=Fontes.fonteCabecalho,
+                                bg=Cores.bgCinza,
+                                fg="white")
+        self.lblMaquina.pack(side=LEFT,
+                             fill=X,
+                             expand=1)
 
-        self.relogio = Label(self.containerCabecalho,
-                             text="00:00:00",
-                             font=Fontes.fonteCabecalho,
-                             padx=10,
-                             fg=Cores.letraVerde,
-                             bg=Cores.bgCinza)
-        self.relogio.pack(side=LEFT)
+        self.lblRelogio = Label(self.containerCabecalho,
+                                text="00:00:00",
+                                font=Fontes.fonteCabecalho,
+                                padx=10,
+                                fg=Cores.letraVerde,
+                                bg=Cores.bgCinza)
+        self.lblRelogio.pack(side=LEFT)
 
         ##--- Dados PD ---##
         ###--- Cabecalho PD ---###
@@ -561,6 +582,16 @@ class Application:
                                  pady=5)
 
         # --- Rodape ---#
+        self.lblRodape = Label(self.containerRodape,
+                               text="%s - Logado desde:  %s" %
+                                    (Variaveis.nomeUsuarioLogado,
+                                     Variaveis.inicioSecao),
+                               bg=Cores.bgCinza,
+                               fg='white',
+                               anchor='sw')
+        self.lblRodape.pack()
+
+
         # self.lblProxCabo = Label(self.containerProxCabo,
         #                          text=Variaveis.campos.get("PROX_CABO"),
         #                          bg=Cores.bgRodape,
@@ -635,7 +666,7 @@ class Application:
                                anchor="w",
                                bd=0,
                                highlightthickness=0)
-        # self.btnSetup["command"] =
+        self.btnSetup["command"] = self.iniciaSetup
         self.btnSetup.pack(pady=5)
 
         self.btnStart = Button(self.containerBotoes,
@@ -833,15 +864,13 @@ class Application:
     def listaSelectBtn(self, master=None):
         self.itemSel = self.tvw.focus()
         self.itemData = self.tvw.item(self.itemSel)
-        self.IDSelecionado = self.itemData.get('values')[3]
+        Variaveis.ID = self.itemData.get('values')[3]
 
-        self.carregaDadosDoPDNaTela(self.IDSelecionado)
+        self.carregaDadosDoPDNaTela(Variaveis.ID)
 
     def carregaDadosDoPDNaTela(self, ID):
         pd = PD()
-
         pd.buscaPD(ID)
-
         dadosDoPD = pd.dadosPD
 
         for i in range(len(dadosDoPD)):
@@ -857,23 +886,38 @@ class Application:
         Cores.bgCorDaListra = Variaveis.campos.get("SECUNDARIA")
         Cores.fgCorDoCabo = Variaveis.campos.get("COR_TEXTO")
 
-        t = tempos.TEMPOS()
+        Variaveis.estadoEquipamento = 1
 
-        t.tomaTempoInicioCiclo(ID, 1, 'Samec')
+        t = tempos.TEMPOS()
+        t.tomaTempoInicioCiclo(ID,
+                               1,
+                               Definicoes.maquina)
 
         self.montaTelaPrincipal()
 
+    def iniciaSetup(self):
+        if Variaveis.estadoEquipamento == 1:
+            Variaveis.estadoEquipamento = 2
+            t = tempos.TEMPOS()
+            t.tomaTempoInicioCiclo(Variaveis.ID, 3, Definicoes.maquina)
+
+            #TODO:
+            # corrigir a QUERY que carrega o tempo no banco (t.tomaTempoInicioCiclo)
+            # definir a Variaveis.operando para habilitar o cronógrafo (em fase de teste)
+
+            Variaveis.tempoInicio = time()
+
+            self.atualizaCronografo()
+        
     def atualizaCronografo(self):
-        if operando:
-            tempoAtual = int(time() - tempoInicio)
+        tempoAtual = (time() - Variaveis.tempoInicio)
 
-            if tempoAtual % 1 == 0:
-                QUANTIDADE_CORTADA.set(int(QUANTIDADE_CORTADA.get()) + 1)
-                self.lblQuantidadeCortada.configure(
-                    text=QUANTIDADE_CORTADA.get())
+        horas = int(tempoAtual/3600)
+        minutos = int((tempoAtual - horas*3600)/60)
+        segundos = int(tempoAtual - (horas * 3600) - (minutos * 60))
 
-            if Variaveis.campos.get("QUANTIDADE_CORTADA") == Variaveis.campos.get("QUANTIDADE"):
-                self.stop()
+        if Variaveis.operando:
+            tempoAtual = '%02d:%02d:%02d' % (horas, minutos, segundos)
 
             self.relogio.configure(text=tempoAtual)
             root.after(1000, self.atualizaCronografo)

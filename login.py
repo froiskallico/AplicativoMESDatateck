@@ -17,9 +17,9 @@ root.resizable(width=True, height=True)
 
 
 vKBVisible = False
-global idUsuario
+global idUsuario, nomeUsuario
 idUsuario = 0
-
+nomeUsuario = None
 
 class Fontes():
     fontePadrao = ("Play", 12)
@@ -200,7 +200,7 @@ class Application:
         parent.insert(END, keyValue)
 
     def botaoLogin(self):
-        global idUsuario
+        global idUsuario, nomeUsuario
 
         banco = BANCO()
         cur = banco.conexao.cursor()
@@ -212,6 +212,7 @@ class Application:
         try:
             cur.execute(""" SELECT
                                     PK_USU,
+                                    NOME,
                                     SENHA
                                 FROM
                                     USUARIOS
@@ -219,16 +220,14 @@ class Application:
                                     NOME = "%s"
                             """ % usr)
 
-            dados = cur.fetchone()
-            idUsuario = dados[0]
-            pwdbco = dados[1]
+            dadosUsuario = cur.fetchone()
+            idUsuario = dadosUsuario[0]
+            nomeUsuario = dadosUsuario[1]
+            pwdbco = dadosUsuario[2]
 
             if pwdbco == pwd:
                 self.lblMensagem["text"] = "Login OK"
-
                 root.destroy()
-
-                return idUsuario
 
             else:
                 self.lblMensagem["text"] = "Senha incorreta"
