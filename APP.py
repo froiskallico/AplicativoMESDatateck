@@ -17,8 +17,7 @@ class Definicoes():
 root = Tk()
 root.title('Operação')
 root.geometry(Definicoes.configFile['DISPLAY']['RES'])
-root.attributes('-fullscreen',
-                Definicoes.configFile['DISPLAY']['Tela Cheia'])
+root.attributes('-fullscreen', Definicoes.configFile['DISPLAY']['Tela Cheia'])
 root.bind('<Escape>', lambda e: root.destroy())
 root.resizable(width=True, height=True)
 
@@ -107,7 +106,6 @@ class Fontes():
 
 
 class Cores():
-    # Cores padrão do aplicativo
     bgCorDoCabo = "white"
     bgCorDaListra = "white"
     fgCorDoCabo = "#333333"
@@ -120,7 +118,6 @@ class Cores():
 
 
 class Imagens():
-    # --- IMAGENS ---#
     logo = PhotoImage(
         file="src/images/logos/logo.png")
     startButton = PhotoImage(
@@ -152,7 +149,6 @@ class Application:
         self.idUsuarioLogado = login.idUsuario
         if self.idUsuarioLogado > 0:
             self.montaTelaPrincipal()
-        # self.montaLista()
 
     # --- Geração do Layout Principal --- #
     def montaTelaPrincipal(self, master=None):
@@ -715,7 +711,6 @@ class Application:
         self.btnSair.pack(pady=5)
 
     # --- Limpeza de Layouts --- #
-
     def limpaTela(self):
         for ele in root.winfo_children():
             ele.destroy()
