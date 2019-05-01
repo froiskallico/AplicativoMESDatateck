@@ -107,12 +107,8 @@ class Variaveis():
                'Parado')
 
     estadoEquipamento = 0
-
     tempoInicio = 0
-
     ID = None
-
-
 
 
 class Fontes():
@@ -889,9 +885,10 @@ class Application:
         Variaveis.estadoEquipamento = 1
 
         t = tempos.TEMPOS()
-        t.tomaTempoInicioCiclo(ID,
-                               1,
-                               Definicoes.maquina)
+        t.tomaTempoEvento(Variaveis.ID,
+                          1,
+                          Variaveis.idUsuarioLogado,
+                          Definicoes.maquina)
 
         self.montaTelaPrincipal()
 
@@ -899,7 +896,11 @@ class Application:
         if Variaveis.estadoEquipamento == 1:
             Variaveis.estadoEquipamento = 2
             t = tempos.TEMPOS()
-            t.tomaTempoInicioCiclo(Variaveis.ID, 3, Definicoes.maquina)
+
+            t.tomaTempoEvento(Variaveis.ID,
+                              3,
+                              Variaveis.idUsuarioLogado,
+                              Definicoes.maquina)
 
             #TODO:
             # corrigir a QUERY que carrega o tempo no banco (t.tomaTempoInicioCiclo)
@@ -916,10 +917,10 @@ class Application:
         minutos = int((tempoAtual - horas*3600)/60)
         segundos = int(tempoAtual - (horas * 3600) - (minutos * 60))
 
-        if Variaveis.operando:
+        if Variaveis.estadoEquipamento in (2, 4):
             tempoAtual = '%02d:%02d:%02d' % (horas, minutos, segundos)
 
-            self.relogio.configure(text=tempoAtual)
+            self.lblRelogio.configure(text=tempoAtual)
             root.after(1000, self.atualizaCronografo)
 
     def stop(self):

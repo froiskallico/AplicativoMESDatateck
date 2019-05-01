@@ -6,7 +6,7 @@ class TEMPOS():
     def __init__(self):
         self.info = {}
 
-    def tomaTempoInicioCiclo(self, ID, USU, MAQ):
+    def tomaTempoEvento(self, FK_ID, FK_TTM, FK_USU, MAQ):
 
         banco = BANCO()
         agora = dt.now()
@@ -26,9 +26,9 @@ class TEMPOS():
                             %i,
                             "%s")
                             """ %   (agora,
-                                    ID,
-                                    1,
-                                    USU,
+                                    FK_ID,
+                                    FK_TTM,
+                                    FK_USU,
                                     MAQ))
 
         banco.conexao.commit()
