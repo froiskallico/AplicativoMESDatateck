@@ -5,7 +5,7 @@ from tkinter import *
 from time import time
 import datetime
 from tkinter import ttk
-import login
+# import login
 import configparser as cfgprsr
 
 
@@ -107,7 +107,7 @@ class Variaveis():
                'Parado')
 
     estadoEquipamento = 0
-    tempoInicio = 0
+    t0 = 0
     ID = None
 
 
@@ -143,14 +143,12 @@ class Imagens():
         file="src/images/buttons/setupStartButton.png")
     setupStopButton = PhotoImage(
         file="src/images/buttons/setupStopButton.png")
-    pularButton = PhotoImage(
-        file="src/images/buttons/pularButton.png")
     paradaButton = PhotoImage(
         file="src/images/buttons/paradaButton.png")
     retomarButton = PhotoImage(
         file="src/images/buttons/retomarButton.png")
     menuButton = PhotoImage(
-        file="src/images/buttons/menuButton.png")
+        file="src/images/buttons/iBtn.png")
     sairButton = PhotoImage(
         file="src/images/buttons/sairButton.png")
 
@@ -159,11 +157,10 @@ class Application:
 
     # --- Inicialização do Aplicativo --- #
     def __init__(self, master=None):
-
-        Variaveis.idUsuarioLogado = login.idUsuario
-        Variaveis.nomeUsuarioLogado = login.nomeUsuario
-
-        if Variaveis.idUsuarioLogado > 0:
+        # Variaveis.idUsuarioLogado = login.idUsuario
+        # Variaveis.nomeUsuarioLogado = login.nomeUsuario
+        #
+        # if Variaveis.idUsuarioLogado > 0:
             self.montaTelaPrincipal()
 
 
@@ -319,8 +316,18 @@ class Application:
                                 bg=Cores.bgCinza,
                                 fg="white")
         self.lblMaquina.pack(side=LEFT,
-                             fill=X,
+                             fill=BOTH,
                              expand=1)
+
+        self.lblEstado = Label(self.containerCabecalho,
+                               text=Variaveis.estados[Variaveis.estadoEquipamento],
+                               font=Fontes.fontePadrao,
+                               bg=Cores.bgCinza,
+                               fg="white",
+                               anchor=CENTER,
+                               justify=CENTER)
+        self.lblEstado.pack(side=TOP,
+                            fill=BOTH)
 
         self.lblRelogio = Label(self.containerCabecalho,
                                 text="00:00:00",
@@ -328,7 +335,8 @@ class Application:
                                 padx=10,
                                 fg=Cores.letraVerde,
                                 bg=Cores.bgCinza)
-        self.lblRelogio.pack(side=LEFT)
+        self.lblRelogio.pack(side=LEFT,
+                             fill=Y)
 
         ##--- Dados PD ---##
         ###--- Cabecalho PD ---###
@@ -662,7 +670,7 @@ class Application:
                                anchor="w",
                                bd=0,
                                highlightthickness=0)
-        self.btnSetup["command"] = self.iniciaSetup
+        self.btnSetup["command"] = self.setupStartStop
         self.btnSetup.pack(pady=5)
 
         self.btnStart = Button(self.containerBotoes,
@@ -686,8 +694,8 @@ class Application:
                               anchor="w",
                               bd=0,
                               highlightthickness=0)
-        self.btnStop["command"] = self.stop
-        # self.btnStop.pack(pady=5)
+        # self.btnStop["command"] = self.stop
+        self.btnStop.pack(pady=5)
 
         # self.btnPula = Button(self.containerBotoes,
         #                       image=Imagens.pularButton,
@@ -748,76 +756,77 @@ class Application:
 
     # --- Busca Lista de Corte --- #
     def montaLista(self):
-        self.limpaContainerEsquerda()
+        if Variaveis.estadoEquipamento <= 1:
+            self.limpaContainerEsquerda()
 
 
-        self.dataCols = ('Medida',
-                         'Quantidade',
-                         'Requisição',
-                         'ID')
+            self.dataCols = ('Medida',
+                             'Quantidade',
+                             'Requisição',
+                             'ID')
 
 
-        self.containerEsquerda.grid_rowconfigure(0, weight=1)
-        self.containerEsquerda.grid_columnconfigure(0, weight=1)
-        self.containerEsquerda.configure(padx=15, pady=15)
+            self.containerEsquerda.grid_rowconfigure(0, weight=1)
+            self.containerEsquerda.grid_columnconfigure(0, weight=1)
+            self.containerEsquerda.configure(padx=15, pady=15)
 
 
-        style = ttk.Style()
-        style.configure("mystyle.Treeview",
-                        highlightthickness=0,
-                        bd=0,
-                        font=("Calibri", 18),
-                        rowheight=50)
-        style.configure("mystyle.Treeview.Heading",
-                        font=('Calibri', 16, 'bold'))
-        style.layout("mystyle.Treeview",
-                     [('mystyle.Treeview.treearea', {'sticky': 'nswe'})])
+            style = ttk.Style()
+            style.configure("mystyle.Treeview",
+                            highlightthickness=0,
+                            bd=0,
+                            font=("Calibri", 18),
+                            rowheight=50)
+            style.configure("mystyle.Treeview.Heading",
+                            font=('Calibri', 16, 'bold'))
+            style.layout("mystyle.Treeview",
+                         [('mystyle.Treeview.treearea', {'sticky': 'nswe'})])
 
 
-        self.vsb = ttk.Scrollbar(self.containerEsquerda,
-                                 orient="vertical")
-        self.hsb = ttk.Scrollbar(self.containerEsquerda,
-                                 orient="horizontal")
+            self.vsb = ttk.Scrollbar(self.containerEsquerda,
+                                     orient="vertical")
+            self.hsb = ttk.Scrollbar(self.containerEsquerda,
+                                     orient="horizontal")
 
-        self.tvw = ttk.Treeview(self.containerEsquerda,
-                                style="mystyle.Treeview",
-                                columns=self.dataCols)
-        self.tvw.bind("<ButtonRelease-1>", self.abrirOuFecharNode)
+            self.tvw = ttk.Treeview(self.containerEsquerda,
+                                    style="mystyle.Treeview",
+                                    columns=self.dataCols)
+            self.tvw.bind("<ButtonRelease-1>", self.abrirOuFecharNode)
 
-        self.tvw.heading("#0", text="Cabo/PD")
+            self.tvw.heading("#0", text="Cabo/PD")
 
-        self.vsb['command'] = self.tvw.yview
-        self.hsb['command'] = self.tvw.xview
+            self.vsb['command'] = self.tvw.yview
+            self.hsb['command'] = self.tvw.xview
 
-        self.listaCount = Label(self.containerEsquerda,
-                                bg=Cores.bgCinza,
-                                fg="white",
-                                font=Fontes.fontePadrao,
-                                anchor=NE)
-        self.listaCount.grid(column=0,
-                             row=2,
-                             sticky='ne')
+            self.listaCount = Label(self.containerEsquerda,
+                                    bg=Cores.bgCinza,
+                                    fg="white",
+                                    font=Fontes.fontePadrao,
+                                    anchor=NE)
+            self.listaCount.grid(column=0,
+                                 row=2,
+                                 sticky='ne')
 
 
-        for field in self.dataCols:
-            self.tvw.heading(field, text=str(field.title()))
-            self.tvw.column(field, stretch=False, width=120)
+            for field in self.dataCols:
+                self.tvw.heading(field, text=str(field.title()))
+                self.tvw.column(field, stretch=False, width=120)
 
-        self.tvw.grid(column=0, row=0, sticky='nswe')
-        self.vsb.grid(column=1, row=0, sticky='ns')
-        self.hsb.grid(column=0, row=1, sticky='we')
+            self.tvw.grid(column=0, row=0, sticky='nswe')
+            self.vsb.grid(column=1, row=0, sticky='ns')
+            self.hsb.grid(column=0, row=1, sticky='we')
 
-        self.btnConfirma = Button(self.containerEsquerda,
-                                  text="Carregar",
-                                  font=Fontes.fonteCabecalho,
-                                  bg=Cores.bgCinza,
-                                  fg="white")
-        self.btnConfirma.bind("<Button-1>", self.listaSelectBtn)
-        self.btnConfirma.grid(column=0,
-                              row=3,
-                              ipadx=5)
+            self.btnConfirma = Button(self.containerEsquerda,
+                                      text="Carregar",
+                                      font=Fontes.fonteCabecalho,
+                                      bg=Cores.bgCinza,
+                                      fg="white")
+            self.btnConfirma.bind("<Button-1>", self.listaSelectBtn)
+            self.btnConfirma.grid(column=0,
+                                  row=3,
+                                  ipadx=5)
 
-        self.populaLista()
+            self.populaLista()
 
     def populaLista(self):
         pd = PD()
@@ -892,8 +901,8 @@ class Application:
 
         self.montaTelaPrincipal()
 
-    def iniciaSetup(self):
-        if Variaveis.estadoEquipamento == 1:
+    def setupStartStop(self):
+        if Variaveis.estadoEquipamento in (1, 3):
             Variaveis.estadoEquipamento = 2
             t = tempos.TEMPOS()
 
@@ -902,39 +911,47 @@ class Application:
                               Variaveis.idUsuarioLogado,
                               Definicoes.maquina)
 
-            #TODO:
-            # corrigir a QUERY que carrega o tempo no banco (t.tomaTempoInicioCiclo)
-            # definir a Variaveis.operando para habilitar o cronógrafo (em fase de teste)
-
-            Variaveis.tempoInicio = time()
+            Variaveis.t0 = time()
 
             self.atualizaCronografo()
-        
+
+            self.btnSetup.configure(image=Imagens.setupStopButton)
+            self.atualizaEstado()
+
+        elif Variaveis.estadoEquipamento == 2:
+            Variaveis.estadoEquipamento = 3
+            t = tempos.TEMPOS()
+
+            t.tomaTempoEvento(Variaveis.ID,
+                              4,
+                              Variaveis.idUsuarioLogado,
+                              Definicoes.maquina)
+
+            self.zeraCronografo()
+
+            self.btnSetup.configure(image=Imagens.setupStartButton)
+            self.atualizaEstado()
+
+    def zeraCronografo(self):
+        self.lblRelogio.configure(text='00:00:00')
+
     def atualizaCronografo(self):
-        tempoAtual = (time() - Variaveis.tempoInicio)
-
-        horas = int(tempoAtual/3600)
-        minutos = int((tempoAtual - horas*3600)/60)
-        segundos = int(tempoAtual - (horas * 3600) - (minutos * 60))
-
         if Variaveis.estadoEquipamento in (2, 4):
+
+            tempoAtual = (time() - Variaveis.t0)
+
+            horas = int(tempoAtual/3600)
+            minutos = int((tempoAtual - horas*3600)/60)
+            segundos = int(tempoAtual - (horas * 3600) - (minutos * 60))
+
             tempoAtual = '%02d:%02d:%02d' % (horas, minutos, segundos)
 
             self.lblRelogio.configure(text=tempoAtual)
             root.after(1000, self.atualizaCronografo)
 
-    def stop(self):
-        pd = PD()
-
-        global operando
-
-        if (operando):
-            operando = False
-
-        ##        QUANTIDADE_CORTADA.set(QUANTIDADE.get())
-        self.limpaTela()
-        pd.atualizaQuantidadeCortada(Variavies.campos.get("PK_IPC"), Variaveis.campos.get("QUANTIDADE_CORTADA"))
-
+    def atualizaEstado(self):
+        self.lblEstado.configure(
+            text=Variaveis.estados[Variaveis.estadoEquipamento])
 
 Application(root)
 root.mainloop()

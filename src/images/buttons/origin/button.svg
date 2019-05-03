@@ -17,7 +17,7 @@
    id="svg219"
    inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
    sodipodi:docname="button.svg"
-   inkscape:export-filename="C:\Users\Usuario\Desktop\GIT\Repositório\AplicativoMESDatateck\src\images\buttons\loginButton.png"
+   inkscape:export-filename="C:\Users\Usuario\Desktop\GIT\Repositório\AplicativoMESDatateck\src\images\Buttons\redButtons\rqButton.png"
    inkscape:export-xdpi="96"
    inkscape:export-ydpi="96">
   <defs
@@ -57,9 +57,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="5.12"
-     inkscape:cx="76.075025"
-     inkscape:cy="14.328504"
+     inkscape:zoom="2.56"
+     inkscape:cx="96.488251"
+     inkscape:cy="57.662149"
      inkscape:document-units="mm"
      inkscape:current-layer="g2111"
      showgrid="false"
@@ -68,8 +68,8 @@
      fit-margin-right="0"
      fit-margin-bottom="0"
      inkscape:window-width="1366"
-     inkscape:window-height="746"
-     inkscape:window-x="1358"
+     inkscape:window-height="706"
+     inkscape:window-x="-8"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
      inkscape:snap-page="true"
@@ -78,7 +78,8 @@
      inkscape:snap-bbox-midpoints="true"
      inkscape:snap-bbox-edge-midpoints="true"
      inkscape:bbox-nodes="true"
-     inkscape:bbox-paths="true" />
+     inkscape:bbox-paths="true"
+     showguides="false" />
   <metadata
      id="metadata216">
     <rdf:RDF>
@@ -87,7 +88,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -99,27 +100,6 @@
     <g
        id="g2111"
        transform="translate(69380.758,9829.1654)">
-      <path
-         sodipodi:nodetypes="ssssccs"
-         inkscape:connector-curvature="0"
-         id="rect869-6"
-         d="m 240.70433,169.04261 c -4.44624,0 -4.16683,0.2467 -4.16683,3.58347 v 5.93384 c 0,3.33678 -0.27941,3.71186 4.16683,3.71186 h 30.229 v -13.22917 z"
-         style="fill:#00d455;fill-opacity:1;stroke:none;stroke-width:0.32202145"
-         inkscape:export-filename="C:\Users\Usuario\Desktop\GIT\Repositório\AplicativoMESDatateck\src\images\buttons\retomarButton.png"
-         inkscape:export-xdpi="96"
-         inkscape:export-ydpi="96" />
-      <text
-         transform="scale(0.99613907,1.0038759)"
-         id="text5105-8-9-3"
-         y="176.32162"
-         x="259.70041"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.13753843px;line-height:1.25;font-family:BigNoodleTitling;-inkscape-font-specification:BigNoodleTitling;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.25859615"
-         xml:space="preserve"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:pLAY;-inkscape-font-specification:'pLAY Bold';fill:#ffffff;fill-opacity:1;stroke-width:0.25859615"
-           y="176.32162"
-           x="259.70041"
-           id="tspan5103-2-6-74"
-           sodipodi:role="line">MENU</tspan></text>
       <flowRoot
          xml:space="preserve"
          id="flowRoot1122"
@@ -164,57 +144,69 @@
            id="tspan1191-0"
            x="87.009048"
            y="357.62891" /></text>
+      <path
+         sodipodi:nodetypes="ssssccs"
+         inkscape:connector-curvature="0"
+         id="rect869-6-5-6"
+         d="m 240.70431,169.0426 c -4.44624,0 -4.16683,0.2467 -4.16683,3.58347 v 5.93384 c 0,3.33678 -0.27941,3.71186 4.16683,3.71186 h 30.229 V 169.0426 Z"
+         style="fill:#1a1a1a;fill-opacity:1;stroke:none;stroke-width:0.32202145"
+         inkscape:export-filename="C:\Users\Usuario\Desktop\GIT\Repositório\AplicativoMESDatateck\src\images\buttons\retomarButton.png"
+         inkscape:export-xdpi="96"
+         inkscape:export-ydpi="96" />
+      <path
+         sodipodi:nodetypes="ssssccs"
+         inkscape:connector-curvature="0"
+         id="rect869-6-9-7"
+         d="m 241.42778,184.64889 c -4.44624,0 -4.16683,0.2467 -4.16683,3.58347 v 5.93384 c 0,3.33678 -0.27941,3.71186 4.16683,3.71186 h 30.229 v -13.22917 z"
+         style="fill:#ff0000;fill-opacity:1;stroke:none;stroke-width:0.32202145"
+         inkscape:export-filename="C:\Users\Usuario\Desktop\GIT\Repositório\AplicativoMESDatateck\src\images\buttons\retomarButton.png"
+         inkscape:export-xdpi="96"
+         inkscape:export-ydpi="96" />
+      <path
+         sodipodi:nodetypes="ssssccs"
+         inkscape:connector-curvature="0"
+         id="rect869-6-9-3"
+         d="m 240.4976,153.53967 c -4.44624,0 -4.16683,0.2467 -4.16683,3.58347 v 5.93384 c 0,3.33678 -0.27941,3.71186 4.16683,3.71186 h 30.229 v -13.22917 z"
+         style="fill:#00d455;fill-opacity:1;stroke:none;stroke-width:0.32202145"
+         inkscape:export-filename="C:\Users\Usuario\Desktop\GIT\Repositório\AplicativoMESDatateck\src\images\buttons\retomarButton.png"
+         inkscape:export-xdpi="96"
+         inkscape:export-ydpi="96" />
+      <path
+         id="path2766"
+         d="m 243.90155,173.72289 v -2.19211 h -3.22369 c -0.21437,0 -0.38684,0.17247 -0.38684,0.38684 v 3.73947 h -0.90263 c -0.071,0 -0.12895,0.058 -0.12895,0.12895 v 0.25789 c 0,0.0709 0.058,0.12895 0.12895,0.12895 h 2.27108 c 0.0484,0 0.0935,0.0274 0.11606,0.071 l 0.32076,0.64152 0.91552,-1.83266 c 0.0468,-0.0951 0.18374,-0.0951 0.23049,0 l 0.55931,1.12022 h 1.13151 c 0.14184,0 0.25789,0.11605 0.25789,0.25789 0,0.14184 -0.11605,0.2579 -0.25789,0.2579 h -1.44905 l -0.35621,-0.71243 -0.91552,1.83266 c -0.0468,0.0951 -0.18376,0.0951 -0.2305,0 l -0.56092,-1.12023 h -1.1299 v 2.7079 c 0,0.21437 0.17247,0.38684 0.38684,0.38684 h 5.41579 c 0.21437,0 0.38684,-0.17247 0.38684,-0.38684 v -5.28684 h -2.1921 c -0.21276,0 -0.38684,-0.17408 -0.38684,-0.38684 z m 2.46611,-0.49967 -1.57799,-1.57961 c -0.0726,-0.0726 -0.17086,-0.11283 -0.27402,-0.11283 h -0.0983 v 2.06316 h 2.06316 v -0.0983 c 0,-0.10155 -0.0403,-0.19987 -0.11283,-0.2724 z"
+         inkscape:connector-curvature="0"
+         style="fill:#ffffff;stroke-width:0.01611841" />
       <g
-         transform="matrix(0.84462241,0,0,0.84462241,-19.95486,-128.77082)"
-         id="g1055-1">
-        <rect
-           ry="0.48039365"
-           y="356.06561"
-           x="307.14471"
-           height="4.0794272"
-           width="4.4612331"
-           id="rect433-2-6"
-           style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.04423781" />
-        <rect
-           ry="0.48039365"
-           y="356.06561"
-           x="311.99588"
-           height="4.0794272"
-           width="4.4612331"
-           id="rect433-7-33-2"
-           style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.04423781" />
-        <rect
-           ry="0.48039365"
-           y="360.64691"
-           x="311.99588"
-           height="1.9543017"
-           width="2.1372106"
-           id="rect433-5-2-8"
-           style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.02119268" />
-        <rect
-           ry="0.48039365"
-           y="360.64691"
-           x="314.31992"
-           height="1.9543017"
-           width="2.1372106"
-           id="rect433-7-6-4-4"
-           style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.02119268" />
-        <rect
-           ry="0.48039365"
-           y="362.84164"
-           x="311.99588"
-           height="1.9543017"
-           width="2.1372106"
-           id="rect433-7-3-4-6-0"
-           style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.02119268" />
-        <rect
-           ry="0.48039365"
-           y="360.64886"
-           x="307.14471"
-           height="4.1470742"
-           width="4.4612331"
-           id="rect433-2-3-0"
-           style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.0446031" />
+         id="g2800"
+         transform="translate(0,-0.32336707)">
+        <text
+           xml:space="preserve"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.13753843px;line-height:1.25;font-family:BigNoodleTitling;-inkscape-font-specification:BigNoodleTitling;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.25859615"
+           x="260.2316"
+           y="174.74022"
+           id="text5105-8-9-3-7-4"
+           transform="scale(0.99613907,1.0038759)"><tspan
+             id="tspan2777"
+             sodipodi:role="line"
+             x="260.2316"
+             y="174.74022"
+             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:3.52777767px;line-height:0px;font-family:pLAY;-inkscape-font-specification:'pLAY Bold';fill:#ffffff;fill-opacity:1;stroke-width:0.25859615">REGISTROS</tspan><tspan
+             id="tspan2781"
+             sodipodi:role="line"
+             x="260.2316"
+             y="179.91214"
+             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:0px;font-family:pLAY;-inkscape-font-specification:'pLAY Bold';fill:#ffffff;fill-opacity:1;stroke-width:0.25859615" /></text>
+        <text
+           id="text2793"
+           y="178.84215"
+           x="249.25809"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.52777767px;line-height:0;font-family:Dubai;-inkscape-font-specification:Dubai;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+           xml:space="preserve"><tspan
+             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:3.52777767px;font-family:pLAY;-inkscape-font-specification:'pLAY Bold';fill:#ffffff;stroke-width:0.26458332"
+             y="178.84215"
+             x="249.25809"
+             id="tspan2791"
+             sodipodi:role="line">QUALIDADE</tspan></text>
       </g>
     </g>
   </g>
