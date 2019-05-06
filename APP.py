@@ -14,6 +14,7 @@ class Definicoes():
     configFile.read('config.ini')
     maquina = configFile['DEFAULT']['Maquina']
 
+
 root = Tk()
 root.title('Operação')
 root.geometry(Definicoes.configFile['DISPLAY']['RES'])
@@ -112,6 +113,8 @@ class Variaveis():
 
     RQPreenchido = False
 
+    virtualKeyPadVisible = False
+
 
 class Fontes():
     fontePadrao = ("Play", 12)
@@ -157,6 +160,7 @@ class activeButtons():
     confirmarButton = PhotoImage(
         file="src/images/buttons/activeButtons/confirmarButton.png")
 
+
 class inactiveButtons():
     buscarButton = PhotoImage(
         file="src/images/buttons/inactiveButtons/buscarButton.png")
@@ -174,6 +178,7 @@ class inactiveButtons():
         file="src/images/buttons/inactiveButtons/startButton.png")
     confirmarButton = PhotoImage(
         file="src/images/buttons/inactiveButtons/confirmarButton.png")
+
 
 class redButtons():
     buscarButton = PhotoImage(
@@ -194,6 +199,7 @@ class redButtons():
         file="src/images/buttons/redButtons/startButton.png")
     cancelarButton = PhotoImage(
         file="src/images/buttons/redButtons/cancelarButton.png")
+
 
 class Application:
 
@@ -1041,7 +1047,7 @@ class Application:
                                          text="REGISTROS DE QUALIDADE",
                                          font=Fontes.fonteCabecalho,
                                          bg=Cores.bgCinza,
-                                         fg=Cores.bgAcabamentosAux,
+                                         fg='azure2',
                                          justify=CENTER)
 
             self.lblPriMedida = Label(self.frameCamposRQ,
@@ -1110,7 +1116,7 @@ class Application:
                                       justify=CENTER)
 
             self.lblTracao = Label(self.frameCamposRQ,
-                                   text="Tração",
+                                   text="Tração (kgf)",
                                    font=Fontes.fontePadrao,
                                    bg=Cores.bgCinza,
                                    fg='white',
@@ -1121,28 +1127,60 @@ class Application:
                                       font=Fontes.fonteCabecalho,
                                       justify=CENTER)
 
-            self.lblRegQualidade.grid(column=0, row=0, columnspan=5)
+            self.lblRegQualidade.grid(column=0,
+                                      row=0,
+                                      columnspan=5,
+                                      pady=10)
 
-            self.lblPriMedida.grid(column=0, row=1, columnspan=3, pady=10)
-            self.entryPriMedida.grid(column=0, row=2, columnspan=3)
+            self.lblPriMedida.grid(column=0,
+                                   row=1,
+                                   columnspan=3,
+                                   pady=10)
+            self.entryPriMedida.grid(column=0,
+                                     row=2,
+                                     columnspan=3)
 
-            self.lblLadoA.grid(column=0, row=3)
-            self.lblLadoB.grid(column=2, row=3)
+            self.lblLadoA.grid(column=0,
+                               row=3)
+            self.lblLadoB.grid(column=2,
+                               row=3)
 
-            self.entryAlturaIsolanteA.grid(column=0, row=4)
-            self.lblAlturaIsolante.grid(column=1, row=4)
-            self.entryAlturaIsolanteB.grid(column=2, row=4)
+            self.entryAlturaIsolanteA.grid(column=0,
+                                           row=4)
+            self.lblAlturaIsolante.grid(column=1,
+                                        row=4)
+            self.entryAlturaIsolanteB.grid(column=2,
+                                           row=4)
 
-            self.entryAlturaCondutorA.grid(column=0, row=5)
-            self.lblAlturaCondutor.grid(column=1, row=5, pady=10)
-            self.entryAlturaCondutorB.grid(column=2, row=5)
+            self.entryAlturaCondutorA.grid(column=0,
+                                           row=5)
+            self.lblAlturaCondutor.grid(column=1,
+                                        row=5,
+                                        pady=10)
+            self.entryAlturaCondutorB.grid(column=2,
+                                           row=5)
 
-            self.entryTracaoA.grid(column=0, row=6)
-            self.lblTracao.grid(column=1, row=6)
-            self.entryTracaoB.grid(column=2, row=6)
+            self.entryTracaoA.grid(column=0,
+                                   row=6)
+            self.lblTracao.grid(column=1,
+                                row=6)
+            self.entryTracaoB.grid(column=2,
+                                   row=6)
 
-            self.btnConfirmaRQ.pack(side=LEFT, anchor='center', fill=X, expand=1)
-            self.btnCancelaRQ.pack(side=LEFT, anchor='center', fill=X, expand=1)
+            self.btnConfirmaRQ.pack(side=LEFT,
+                                    anchor='center',
+                                    fill=X,
+                                    expand=1)
+            self.btnCancelaRQ.pack(side=LEFT,
+                                   anchor='center',
+                                   fill=X,
+                                   expand=1)
+
+    def virtualNumPad(self, parent):
+        if Variaveis.virtualKeyPadVisible:
+            Variaveis.virtualKeyPadVisible = not Variaveis.virtualKeyPadVisible
+
+
 
 Application(root)
 root.mainloop()
