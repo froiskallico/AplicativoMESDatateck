@@ -110,6 +110,8 @@ class Variaveis():
     t0 = 0
     ID = None
 
+    RQPreenchido = False
+
 
 class Fontes():
     fontePadrao = ("Play", 12)
@@ -133,25 +135,65 @@ class Cores():
 class Imagens():
     logo = PhotoImage(
         file="src/images/logos/logo.png")
-    startButton = PhotoImage(
-        file="src/images/buttons/startButton.png")
-    stopButton = PhotoImage(
-        file="src/images/buttons/stopButton.png")
-    searchButton = PhotoImage(
-        file="src/images/buttons/searchButton.png")
-    setupStartButton = PhotoImage(
-        file="src/images/buttons/setupStartButton.png")
-    setupStopButton = PhotoImage(
-        file="src/images/buttons/setupStopButton.png")
-    paradaButton = PhotoImage(
-        file="src/images/buttons/paradaButton.png")
-    retomarButton = PhotoImage(
-        file="src/images/buttons/retomarButton.png")
+
+
+class activeButtons():
+    buscarButton = PhotoImage(
+        file="src/images/buttons/activeButtons/buscarButton.png")
+    finalizarButton = PhotoImage(
+        file="src/images/buttons/activeButtons/finalizarButton.png")
     menuButton = PhotoImage(
-        file="src/images/buttons/iBtn.png")
+        file="src/images/buttons/activeButtons/menuButton.png")
+    retomarButton = PhotoImage(
+        file="src/images/buttons/activeButtons/retomarButton.png")
+    rqButton = PhotoImage(
+        file="src/images/buttons/activeButtons/rqButton.png")
+    setupButton = PhotoImage(
+        file="src/images/buttons/activeButtons/setupButton.png")
+    startButton = PhotoImage(
+        file="src/images/buttons/activeButtons/startButton.png")
     sairButton = PhotoImage(
         file="src/images/buttons/sairButton.png")
+    confirmarButton = PhotoImage(
+        file="src/images/buttons/activeButtons/confirmarButton.png")
 
+class inactiveButtons():
+    buscarButton = PhotoImage(
+        file="src/images/buttons/inactiveButtons/buscarButton.png")
+    finalizarButton = PhotoImage(
+        file="src/images/buttons/inactiveButtons/finalizarButton.png")
+    menuButton = PhotoImage(
+        file="src/images/buttons/inactiveButtons/menuButton.png")
+    retomarButton = PhotoImage(
+        file="src/images/buttons/inactiveButtons/retomarButton.png")
+    rqButton = PhotoImage(
+        file="src/images/buttons/inactiveButtons/rqButton.png")
+    setupButton = PhotoImage(
+        file="src/images/buttons/inactiveButtons/setupButton.png")
+    startButton = PhotoImage(
+        file="src/images/buttons/inactiveButtons/startButton.png")
+    confirmarButton = PhotoImage(
+        file="src/images/buttons/inactiveButtons/confirmarButton.png")
+
+class redButtons():
+    buscarButton = PhotoImage(
+        file="src/images/buttons/redButtons/buscarButton.png")
+    finalizarButton = PhotoImage(
+        file="src/images/buttons/redButtons/finalizarButton.png")
+    menuButton = PhotoImage(
+        file="src/images/buttons/redButtons/menuButton.png")
+    paradaButton = PhotoImage(
+        file="src/images/buttons/redButtons/paradaButton.png")
+    retomarButton = PhotoImage(
+        file="src/images/buttons/redButtons/retomarButton.png")
+    rqButton = PhotoImage(
+        file="src/images/buttons/redButtons/rqButton.png")
+    setupButton = PhotoImage(
+        file="src/images/buttons/redButtons/setupButton.png")
+    startButton = PhotoImage(
+        file="src/images/buttons/redButtons/startButton.png")
+    cancelarButton = PhotoImage(
+        file="src/images/buttons/redButtons/cancelarButton.png")
 
 class Application:
 
@@ -162,7 +204,6 @@ class Application:
         #
         # if Variaveis.idUsuarioLogado > 0:
             self.montaTelaPrincipal()
-
 
     # --- Geração do Layout Principal --- #
     def montaTelaPrincipal(self, master=None):
@@ -649,22 +690,22 @@ class Application:
     def montaBotoes(self, master=None):
 
         # --- Botões ---#
-        self.btnBusca = Button(self.containerBotoes,
-                               image=Imagens.searchButton,
-                               width=130,
-                               height=50,
-                               bg=Cores.bgCinza,
-                               relief=FLAT,
-                               anchor="w",
-                               bd=0,
-                               highlightthickness=0)
-        self.btnBusca["command"] = self.montaLista
-        self.btnBusca.pack(pady=5)
+        self.btnBuscar = Button(self.containerBotoes,
+                                image=activeButtons.buscarButton,
+                                width=130,
+                                height=50,
+                                bg=Cores.bgCinza,
+                                relief=FLAT,
+                                anchor="w",
+                                bd=0,
+                                highlightthickness=0)
+        self.btnBuscar["command"] = self.montaLista
+        self.btnBuscar.pack(pady=5)
 
         self.btnSetup = Button(self.containerBotoes,
-                               image=Imagens.setupStartButton,
+                               image=inactiveButtons.setupButton,
                                width=130,
-                               height=50,
+                                   height=50,
                                bg=Cores.bgCinza,
                                relief=FLAT,
                                anchor="w",
@@ -674,7 +715,7 @@ class Application:
         self.btnSetup.pack(pady=5)
 
         self.btnStart = Button(self.containerBotoes,
-                               image=Imagens.startButton,
+                               image=inactiveButtons.startButton,
                                width=130,
                                height=50,
                                bg=Cores.bgCinza,
@@ -685,8 +726,8 @@ class Application:
         # self.btnStart["command"] =
         self.btnStart.pack(pady=5)
 
-        self.btnStop = Button(self.containerBotoes,
-                              image=Imagens.stopButton,
+        self.btnRQ = Button(self.containerBotoes,
+                              image=inactiveButtons.rqButton,
                               width=130,
                               height=50,
                               bg=Cores.bgCinza,
@@ -694,23 +735,11 @@ class Application:
                               anchor="w",
                               bd=0,
                               highlightthickness=0)
-        # self.btnStop["command"] = self.stop
-        self.btnStop.pack(pady=5)
-
-        # self.btnPula = Button(self.containerBotoes,
-        #                       image=Imagens.pularButton,
-        #                       width=130,
-        #                       height=50,
-        #                       bg=Cores.bgCinza,
-        #                       relief=FLAT,
-        #                       anchor="w",
-        #                       bd=0,
-        #                       highlightthickness=0)
-        # # self.btnPula["command"] =
-        # self.btnPula.pack(pady=5)
+        self.btnRQ["command"] = self.abrirPopUpRQSetup
+        self.btnRQ.pack(pady=5)
 
         self.btnParada = Button(self.containerBotoes,
-                                image=Imagens.paradaButton,
+                                image=redButtons.paradaButton,
                                 width=130,
                                 height=50,
                                 bg=Cores.bgCinza,
@@ -722,7 +751,7 @@ class Application:
         self.btnParada.pack(pady=5)
 
         self.btnMenu = Button(self.containerBotoes,
-                              image=Imagens.menuButton,
+                              image=activeButtons.menuButton,
                               width=130,
                               height=50,
                               bg=Cores.bgCinza,
@@ -734,7 +763,7 @@ class Application:
         self.btnMenu.pack(pady=5)
         
         self.btnSair = Button(self.containerBotoes,
-                              image=Imagens.sairButton,
+                              image=activeButtons.sairButton,
                               width=130,
                               height=50,
                               bg=Cores.bgCinza,
@@ -756,6 +785,8 @@ class Application:
 
     # --- Busca Lista de Corte --- #
     def montaLista(self):
+        self.btnBuscar.configure(image=inactiveButtons.buscarButton)
+
         if Variaveis.estadoEquipamento <= 1:
             self.limpaContainerEsquerda()
 
@@ -834,9 +865,7 @@ class Application:
 
         self.data = pd.lista
 
-
         cabos = []
-
 
         for item in self.data:
             if item[9] not in cabos:
@@ -846,13 +875,11 @@ class Application:
         for cabo in cabos:
             self.tvw.insert('', 'end', cabo, text=cabo)
 
-
         for item in self.data:
             self.tvw.insert(
                             item[9],
                             'end',
                             text=item[8], values=(
-                                                # item[8],
                                                 item[15],
                                                 round(item[14]),
                                                 item[1],
@@ -901,9 +928,12 @@ class Application:
 
         self.montaTelaPrincipal()
 
+        self.btnSetup.configure(image=activeButtons.setupButton)
+
     def setupStartStop(self):
         if Variaveis.estadoEquipamento in (1, 3):
             Variaveis.estadoEquipamento = 2
+
             t = tempos.TEMPOS()
 
             t.tomaTempoEvento(Variaveis.ID,
@@ -915,7 +945,10 @@ class Application:
 
             self.atualizaCronografo()
 
-            self.btnSetup.configure(image=Imagens.setupStopButton)
+            self.btnBuscar.configure(image=inactiveButtons.buscarButton)
+            self.btnSetup.configure(image=redButtons.setupButton)
+            self.btnRQ.configure(image=activeButtons.rqButton)
+
             self.atualizaEstado()
 
         elif Variaveis.estadoEquipamento == 2:
@@ -929,7 +962,9 @@ class Application:
 
             self.zeraCronografo()
 
-            self.btnSetup.configure(image=Imagens.setupStartButton)
+            self.btnSetup.configure(image=activeButtons.setupButton)
+            self.btnRQ.configure(image=inactiveButtons.rqButton)
+
             self.atualizaEstado()
 
     def zeraCronografo(self):
@@ -952,6 +987,36 @@ class Application:
     def atualizaEstado(self):
         self.lblEstado.configure(
             text=Variaveis.estados[Variaveis.estadoEquipamento])
+
+    def abrirPopUpRQSetup(self):
+        if Variaveis.estadoEquipamento == 2:
+            self.popUpRQSetup = Toplevel(bg=Cores.bgCinza,
+                                         bd=7,
+                                         relief=RAISED)
+            self.popUpRQSetup.overrideredirect(1)
+            self.popUpRQSetup.bind('<Escape>', lambda e: self.popUpRQSetup.destroy())
+            self.popUpRQSetup.geometry('600x400+300+200')
+            self.popUpRQSetup.focus()
+
+            self.btnConfirmaRQ = Button(self.popUpRQSetup,
+                                         text="Fechar",
+                                         font=Fontes.fontePadrao,
+                                         bg=Cores.bgCinza,
+                                         fg='white',
+                                         relief=FLAT,
+                                         image=inactiveButtons.confirmarButton)
+            self.btnConfirmaRQ.pack(side=LEFT, padx=10)
+            # self.btnConfirmaRQ["command"] = self.popUpRQSetup.destroy
+
+            self.btnCancelaRQ = Button(self.popUpRQSetup,
+                                         text="Fechar",
+                                         font=Fontes.fontePadrao,
+                                         bg=Cores.bgCinza,
+                                         fg='white',
+                                         relief=FLAT,
+                                         image=redButtons.cancelarButton)
+            self.btnCancelaRQ.pack(side=LEFT, padx=10)
+            self.btnCancelaRQ["command"] = self.popUpRQSetup.destroy
 
 Application(root)
 root.mainloop()
