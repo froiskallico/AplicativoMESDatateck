@@ -851,7 +851,10 @@ class Application:
                                       text="Carregar",
                                       font=Fontes.fonteCabecalho,
                                       bg=Cores.bgCinza,
-                                      fg="white")
+                                      fg="white",
+                                      bd=0,
+                                      relief=FLAT,
+                                      image=activeButtons.confirmarButton)
             self.btnConfirma.bind("<Button-1>", self.listaSelectBtn)
             self.btnConfirma.grid(column=0,
                                   row=3,
@@ -989,34 +992,157 @@ class Application:
             text=Variaveis.estados[Variaveis.estadoEquipamento])
 
     def abrirPopUpRQSetup(self):
-        if Variaveis.estadoEquipamento == 2:
+        # if Variaveis.estadoEquipamento == 2:
             self.popUpRQSetup = Toplevel(bg=Cores.bgCinza,
                                          bd=7,
                                          relief=RAISED)
             self.popUpRQSetup.overrideredirect(1)
-            self.popUpRQSetup.bind('<Escape>', lambda e: self.popUpRQSetup.destroy())
-            self.popUpRQSetup.geometry('600x400+300+200')
+            self.popUpRQSetup.bind('<Escape>', 
+                                   lambda e: self.popUpRQSetup.destroy())
+            self.popUpRQSetup.geometry('+300+200')
             self.popUpRQSetup.focus()
+        
+            self.frameCamposRQ = Frame(self.popUpRQSetup,
+                                       bg=Cores.bgCinza)
+            self.frameCamposRQ.pack(side=TOP,
+                                    fill=BOTH,
+                                    expand=1,
+                                    padx=15,
+                                    pady=(5,10))
 
-            self.btnConfirmaRQ = Button(self.popUpRQSetup,
-                                         text="Fechar",
-                                         font=Fontes.fontePadrao,
-                                         bg=Cores.bgCinza,
-                                         fg='white',
-                                         relief=FLAT,
-                                         image=inactiveButtons.confirmarButton)
-            self.btnConfirmaRQ.pack(side=LEFT, padx=10)
-            # self.btnConfirmaRQ["command"] = self.popUpRQSetup.destroy
+            self.botoesRQ = Frame(self.popUpRQSetup,
+                                  bg=Cores.bgCinza)
+            self.botoesRQ.pack(side=BOTTOM,
+                               fill=X,
+                               expand=1,
+                               padx=10,
+                               pady=10)
 
-            self.btnCancelaRQ = Button(self.popUpRQSetup,
-                                         text="Fechar",
-                                         font=Fontes.fontePadrao,
-                                         bg=Cores.bgCinza,
-                                         fg='white',
-                                         relief=FLAT,
-                                         image=redButtons.cancelarButton)
-            self.btnCancelaRQ.pack(side=LEFT, padx=10)
+            self.btnConfirmaRQ = Button(self.botoesRQ,
+                                        text="Fechar",
+                                        font=Fontes.fontePadrao,
+                                        bg=Cores.bgCinza,
+                                        fg='white',
+                                        relief=FLAT,
+                                        image=inactiveButtons.confirmarButton)
+
+            # self.btnConfirmaRQ["command"] =
+
+            self.btnCancelaRQ = Button(self.botoesRQ,
+                                       text="Fechar",
+                                       font=Fontes.fontePadrao,
+                                       bg=Cores.bgCinza,
+                                       fg='white',
+                                       relief=FLAT,
+                                       image=redButtons.cancelarButton)
             self.btnCancelaRQ["command"] = self.popUpRQSetup.destroy
+
+            self.lblRegQualidade = Label(self.frameCamposRQ,
+                                         text="REGISTROS DE QUALIDADE",
+                                         font=Fontes.fonteCabecalho,
+                                         bg=Cores.bgCinza,
+                                         fg=Cores.bgAcabamentosAux,
+                                         justify=CENTER)
+
+            self.lblPriMedida = Label(self.frameCamposRQ,
+                                      text="PRIMEIRA MEDIDA (mm)",
+                                      font=Fontes.fontePadrao,
+                                      bg=Cores.bgCinza,
+                                      fg=Cores.letraVerde,
+                                      justify=CENTER)
+
+            self.entryPriMedida = Entry(self.frameCamposRQ,
+                                        width=10,
+                                        font=Fontes.fonteCabecalho,
+                                        justify=CENTER)
+
+            self.lblLadoA = Label(self.frameCamposRQ,
+                                  text="LADO A",
+                                  font=Fontes.fontePadrao,
+                                  bg=Cores.bgCinza,
+                                  fg=Cores.letraVerde,
+                                  justify=CENTER)
+
+            self.lblLadoB = Label(self.frameCamposRQ,
+                                  text="LADO B",
+                                  font=Fontes.fontePadrao,
+                                  bg=Cores.bgCinza,
+                                  fg=Cores.letraVerde,
+                                  justify=CENTER)
+
+            self.entryAlturaIsolanteA = Entry(self.frameCamposRQ,
+                                              width=10,
+                                              font=Fontes.fonteCabecalho,
+                                              justify=CENTER)
+
+            self.lblAlturaIsolante = Label(self.frameCamposRQ,
+                                           text="Altura Isolante (mm)",
+                                           font=Fontes.fontePadrao,
+                                           bg=Cores.bgCinza,
+                                           fg='white',
+                                           justify=CENTER)
+
+            self.entryAlturaIsolanteB = Entry(self.frameCamposRQ,
+                                              width=10,
+                                              font=Fontes.fonteCabecalho,
+                                              justify=CENTER)
+
+            self.entryAlturaCondutorA = Entry(self.frameCamposRQ,
+                                              width=10,
+                                              font=Fontes.fonteCabecalho,
+                                              justify=CENTER)
+
+            self.lblAlturaCondutor = Label(self.frameCamposRQ,
+                                           text="Altura Condutor (mm)",
+                                           font=Fontes.fontePadrao,
+                                           bg=Cores.bgCinza,
+                                           fg='white',
+                                           justify=CENTER)
+
+            self.entryAlturaCondutorB = Entry(self.frameCamposRQ,
+                                              width=10,
+                                              font=Fontes.fonteCabecalho,
+                                              justify=CENTER)
+
+            self.entryTracaoA = Entry(self.frameCamposRQ,
+                                      width=10,
+                                      font=Fontes.fonteCabecalho,
+                                      justify=CENTER)
+
+            self.lblTracao = Label(self.frameCamposRQ,
+                                   text="Tração",
+                                   font=Fontes.fontePadrao,
+                                   bg=Cores.bgCinza,
+                                   fg='white',
+                                   justify=CENTER)
+
+            self.entryTracaoB = Entry(self.frameCamposRQ,
+                                      width=10,
+                                      font=Fontes.fonteCabecalho,
+                                      justify=CENTER)
+
+            self.lblRegQualidade.grid(column=0, row=0, columnspan=5)
+
+            self.lblPriMedida.grid(column=0, row=1, columnspan=3, pady=10)
+            self.entryPriMedida.grid(column=0, row=2, columnspan=3)
+
+            self.lblLadoA.grid(column=0, row=3)
+            self.lblLadoB.grid(column=2, row=3)
+
+            self.entryAlturaIsolanteA.grid(column=0, row=4)
+            self.lblAlturaIsolante.grid(column=1, row=4)
+            self.entryAlturaIsolanteB.grid(column=2, row=4)
+
+            self.entryAlturaCondutorA.grid(column=0, row=5)
+            self.lblAlturaCondutor.grid(column=1, row=5, pady=10)
+            self.entryAlturaCondutorB.grid(column=2, row=5)
+
+            self.entryTracaoA.grid(column=0, row=6)
+            self.lblTracao.grid(column=1, row=6)
+            self.entryTracaoB.grid(column=2, row=6)
+
+            self.btnConfirmaRQ.pack(side=LEFT, anchor='center', fill=X, expand=1)
+            self.btnCancelaRQ.pack(side=LEFT, anchor='center', fill=X, expand=1)
 
 Application(root)
 root.mainloop()
