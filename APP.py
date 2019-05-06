@@ -22,7 +22,6 @@ root.bind('<Escape>', lambda e: root.destroy())
 root.resizable(width=True, height=True)
 
 
-<<<<<<< HEAD
 class Variaveis():
     inicioSecao = datetime.datetime.now().strftime('%d-%m-%Y  %H:%M:%S')
     idUsuarioLogado = 0
@@ -197,17 +196,6 @@ class redButtons():
         file="src/images/buttons/redButtons/cancelarButton.png")
 
 class Application:
-=======
-    def __init__(self, master=None):
-        Log = LOGIN.sts
-
-        if Log == True:
-            self.montaTela()
-            self.exibeLista()
-    def montaTela(self, master=None):
-        #--- Fonte Padrão ---#
-        self.fonte = ("Play", 12)
->>>>>>> 79a5139e2431561d04c4caa6ab5b80d0f84d5624
 
     # --- Inicialização do Aplicativo --- #
     def __init__(self, master=None):
