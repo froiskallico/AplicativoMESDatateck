@@ -173,26 +173,28 @@ class Application:
             self.containerTecladoLinha = list(range(len(self.listaDeTeclas)))
             
             for linha in self.containerTecladoLinha:
-                self.containerTecladoLinha[linha] = Frame(self.containerTeclado)
+                self.containerTecladoLinha[linha] = Frame(self.containerTeclado,
+                                                          bg=Cores.bgCinza)
                 self.containerTecladoLinha[linha].pack(side=TOP)
 
-                self.Teclas = list(range(len(self.listaDeTeclas[linha])))
+                self.teclas = list(range(len(self.listaDeTeclas[linha])))
 
-                for tecla in self.Teclas:
+                for tecla in self.teclas:
                     cmd = lambda x = self.listaDeTeclas[linha][tecla]: self.kp(self,
                                                                        x,
                                                                        parent)
                     
-                    self.Teclas[tecla] = Button(self.containerTecladoLinha[linha],
+                    self.teclas[tecla] = Button(self.containerTecladoLinha[linha],
                                                 text=self.listaDeTeclas[linha][tecla],
                                                 width=5,
                                                 height=3,
-                                                relief=FLAT,
+                                                relief=RIDGE,
+                                                bd=2,
                                                 bg='black',
                                                 fg='white',
-                                                font=Fontes.fontePadraoBold)
-                    self.Teclas[tecla]['command'] = cmd
-                    self.Teclas[tecla].pack(side=LEFT,
+                                                font=Fontes.fontePadraoBold,
+                                                command=cmd)
+                    self.teclas[tecla].pack(side=LEFT,
                                             padx=1,
                                             pady=1)
 

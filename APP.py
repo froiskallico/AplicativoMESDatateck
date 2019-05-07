@@ -119,6 +119,7 @@ class Variaveis():
 
 class Fontes():
     fontePadrao = ("Play", 12)
+    fontePadraoBold = ("Play", 12, "bold")
     fonteCabecalho = ("Play", 18, "bold")
     fonteQuantidadePendente = ("Play", 32, "bold")
     fonteQuantidadeCortada = ("Play", 16, "bold")
@@ -999,7 +1000,7 @@ class Application:
             text=Variaveis.estados[Variaveis.estadoEquipamento])
 
     def abrirPopUpRQSetup(self):
-        if Variaveis.estadoEquipamento == 2:
+        # if Variaveis.estadoEquipamento == 2:
             Variaveis.estadoEquipamento = 3
 
             self.btnRQ.configure(image=inactiveButtons.rqButton)
@@ -1066,6 +1067,7 @@ class Application:
                                         width=10,
                                         font=Fontes.fonteCabecalho,
                                         justify=CENTER)
+            # self.entryPriMedida.bind("<Button-1>")
 
             self.lblLadoA = Label(self.frameCamposRQ,
                                   text="LADO A",
@@ -1085,6 +1087,9 @@ class Application:
                                               width=10,
                                               font=Fontes.fonteCabecalho,
                                               justify=CENTER)
+
+            # self.entryAlturaIsolanteA.bind("<Button-1>",
+            #                                self.virtualNumPad(self.entryAlturaIsolanteA))
 
             self.lblAlturaIsolante = Label(self.frameCamposRQ,
                                            text="Altura Isolante (mm)",
@@ -1181,8 +1186,6 @@ class Application:
                                    fill=X,
                                    expand=1)
 
-            self.virtualNumPad(None)
-
     def cancelarPopUpRQSetup(self):
         if Variaveis.estadoEquipamento == 3:
             Variaveis.estadoEquipamento = 2
@@ -1195,7 +1198,9 @@ class Application:
 
             self.btnRQ.configure(image=activeButtons.rqButton)
 
-    def virtualNumPad(self, parent):
+    def virtualNumPad(self, master, papai):
+        papai.insert(END, "TESTE")
+
         if not Variaveis.virtualNumPadVisible:
             Variaveis.virtualNumPadVisible = True
 
@@ -1208,6 +1213,56 @@ class Application:
                                    lambda e: self.popUpVNumPad.destroy())
             self.popUpVNumPad.geometry('+800+200')
             self.popUpVNumPad.focus()
+
+            containerNumPad = Frame(self.popUpVNumPad,
+                                    bg=Cores.bgCinza)
+            containerNumPad.pack(side=TOP)
+
+            listaDeTeclas = [
+                ['1', '2', '3'],
+                ['4', '5', '6'],
+                ['7', '8', '9'],
+                [',', '0', '<']
+            ]
+
+            containerNumPadLinha = list(range(len(listaDeTeclas)))
+
+            for linha in containerNumPadLinha:
+                containerNumPadLinha[linha] = Frame(containerNumPad,
+                                                    bg=Cores.bgCinza)
+                containerNumPadLinha[linha].pack(side=TOP)
+
+                teclas = list(range(len(listaDeTeclas[linha])))
+
+                for tecla in teclas:
+                    cmd = lambda x = listaDeTeclas[linha][tecla]: kp(self,
+                                                                     x,
+                                                                     papai)
+
+                    teclas[tecla] = Button(containerNumPadLinha[linha],
+                                           text=listaDeTeclas[linha][tecla],
+                                           width=5,
+                                           height=3,
+                                           relief=RIDGE,
+                                           bd=2,
+                                           bg='black',
+                                           fg='white',
+                                           font=Fontes.fontePadraoBold,
+                                           command=cmd)
+                    teclas[tecla].pack(side=LEFT,
+                                       padx=1,
+                                       pady=1)
+
+        def kp(self, keyValue, parent):
+            print(parent)
+            print(keyValue)
+            if keyValue == "<" and parent.get() != "":
+                parent.delete(END-1, END)
+            else:
+                parent.insert(END, keyValue)
+
+
+
 
 Application(root)
 root.mainloop()
