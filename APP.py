@@ -102,6 +102,7 @@ class Variaveis():
     estados = ('Ocioso', 
                'Carregado', 
                'Em Setup',
+               'Preenchendo RQ',
                'Setup Finalizado',
                'Em Corte',
                'Corte Finalizado',
@@ -113,7 +114,7 @@ class Variaveis():
 
     RQPreenchido = False
 
-    virtualKeyPadVisible = False
+    virtualNumPadVisible = False
 
 
 class Fontes():
@@ -940,7 +941,7 @@ class Application:
         self.btnSetup.configure(image=activeButtons.setupButton)
 
     def setupStartStop(self):
-        if Variaveis.estadoEquipamento in (1, 3):
+        if Variaveis.estadoEquipamento in (1, 4):
             Variaveis.estadoEquipamento = 2
 
             t = tempos.TEMPOS()
@@ -961,7 +962,7 @@ class Application:
             self.atualizaEstado()
 
         elif Variaveis.estadoEquipamento == 2:
-            Variaveis.estadoEquipamento = 3
+            Variaveis.estadoEquipamento = 4
             t = tempos.TEMPOS()
 
             t.tomaTempoEvento(Variaveis.ID,
@@ -980,7 +981,7 @@ class Application:
         self.lblRelogio.configure(text='00:00:00')
 
     def atualizaCronografo(self):
-        if Variaveis.estadoEquipamento in (2, 4):
+        if Variaveis.estadoEquipamento in (2, 3, 5):
 
             tempoAtual = (time() - Variaveis.t0)
 
@@ -998,13 +999,17 @@ class Application:
             text=Variaveis.estados[Variaveis.estadoEquipamento])
 
     def abrirPopUpRQSetup(self):
-        # if Variaveis.estadoEquipamento == 2:
+        if Variaveis.estadoEquipamento == 2:
+            Variaveis.estadoEquipamento = 3
+
+            self.btnRQ.configure(image=inactiveButtons.rqButton)
+
             self.popUpRQSetup = Toplevel(bg=Cores.bgCinza,
                                          bd=7,
                                          relief=RAISED)
             self.popUpRQSetup.overrideredirect(1)
-            self.popUpRQSetup.bind('<Escape>', 
-                                   lambda e: self.popUpRQSetup.destroy())
+            self.popUpRQSetup.attributes('-topmost', 'true')
+            self.popUpRQSetup.bind('<Escape>', self.cancelarPopUpRQSetup)
             self.popUpRQSetup.geometry('+300+200')
             self.popUpRQSetup.focus()
         
@@ -1041,7 +1046,7 @@ class Application:
                                        fg='white',
                                        relief=FLAT,
                                        image=redButtons.cancelarButton)
-            self.btnCancelaRQ["command"] = self.popUpRQSetup.destroy
+            self.btnCancelaRQ["command"] = self.cancelarPopUpRQSetup
 
             self.lblRegQualidade = Label(self.frameCamposRQ,
                                          text="REGISTROS DE QUALIDADE",
@@ -1176,11 +1181,33 @@ class Application:
                                    fill=X,
                                    expand=1)
 
+            self.virtualNumPad(None)
+
+    def cancelarPopUpRQSetup(self):
+        if Variaveis.estadoEquipamento == 3:
+            Variaveis.estadoEquipamento = 2
+
+            if Variaveis.virtualNumPadVisible:
+                self.popUpVNumPad.destroy()
+                Variaveis.virtualNumPadVisible = False
+
+            self.popUpRQSetup.destroy()
+
+            self.btnRQ.configure(image=activeButtons.rqButton)
+
     def virtualNumPad(self, parent):
-        if Variaveis.virtualKeyPadVisible:
-            Variaveis.virtualKeyPadVisible = not Variaveis.virtualKeyPadVisible
+        if not Variaveis.virtualNumPadVisible:
+            Variaveis.virtualNumPadVisible = True
 
-
+            self.popUpVNumPad = Toplevel(bg=Cores.bgCinza,
+                                         bd=7,
+                                         relief=RAISED)
+            self.popUpVNumPad.overrideredirect(1)
+            self.popUpVNumPad.attributes('-topmost', 'true')
+            self.popUpVNumPad.bind('<Escape>',
+                                   lambda e: self.popUpVNumPad.destroy())
+            self.popUpVNumPad.geometry('+800+200')
+            self.popUpVNumPad.focus()
 
 Application(root)
 root.mainloop()
