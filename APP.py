@@ -7,7 +7,7 @@ import datetime
 from tkinter import ttk
 # import login
 import configparser as cfgprsr
-
+import inspect
 
 class Definicoes():
     configFile = cfgprsr.ConfigParser()
@@ -23,7 +23,7 @@ root.bind('<Escape>', lambda e: root.destroy())
 root.resizable(width=True, height=True)
 
 
-class Variaveis():
+class Variaveis:
     inicioSecao = datetime.datetime.now().strftime('%d-%m-%Y  %H:%M:%S')
     idUsuarioLogado = 0
     nomeUsuarioLogado = None
@@ -117,7 +117,7 @@ class Variaveis():
     virtualNumPadVisible = False
 
 
-class Fontes():
+class Fontes:
     fontePadrao = ("Play", 12)
     fontePadraoBold = ("Play", 12, "bold")
     fonteCabecalho = ("Play", 18, "bold")
@@ -125,7 +125,7 @@ class Fontes():
     fonteQuantidadeCortada = ("Play", 16, "bold")
 
 
-class Cores():
+class Cores:
     bgCorDoCabo = "white"
     bgCorDaListra = "white"
     fgCorDoCabo = "#333333"
@@ -137,12 +137,12 @@ class Cores():
     bgCobre = "#ff9955"
 
 
-class Imagens():
+class Imagens:
     logo = PhotoImage(
         file="src/images/logos/logo.png")
 
 
-class activeButtons():
+class activeButtons:
     buscarButton = PhotoImage(
         file="src/images/buttons/activeButtons/buscarButton.png")
     finalizarButton = PhotoImage(
@@ -163,7 +163,8 @@ class activeButtons():
         file="src/images/buttons/activeButtons/confirmarButton.png")
 
 
-class inactiveButtons():
+class inactiveButtons:
+
     buscarButton = PhotoImage(
         file="src/images/buttons/inactiveButtons/buscarButton.png")
     finalizarButton = PhotoImage(
@@ -182,7 +183,7 @@ class inactiveButtons():
         file="src/images/buttons/inactiveButtons/confirmarButton.png")
 
 
-class redButtons():
+class redButtons:
     buscarButton = PhotoImage(
         file="src/images/buttons/redButtons/buscarButton.png")
     finalizarButton = PhotoImage(
@@ -1001,6 +1002,7 @@ class Application:
 
     def abrirPopUpRQSetup(self):
         # if Variaveis.estadoEquipamento == 2:
+            print(Variaveis.campos["ACABAMENTO 1"])
             Variaveis.estadoEquipamento = 3
 
             self.btnRQ.configure(image=inactiveButtons.rqButton)
@@ -1013,7 +1015,7 @@ class Application:
             self.popUpRQSetup.bind('<Escape>', self.cancelarPopUpRQSetup)
             self.popUpRQSetup.geometry('+300+200')
             self.popUpRQSetup.focus()
-        
+
             self.frameCamposRQ = Frame(self.popUpRQSetup,
                                        bg=Cores.bgCinza)
             self.frameCamposRQ.pack(side=TOP,
@@ -1065,9 +1067,14 @@ class Application:
 
             self.entryPriMedida = Entry(self.frameCamposRQ,
                                         width=10,
+                                        bg='lightcyan2',
+                                        disabledbackground='dark slate gray',
                                         font=Fontes.fonteCabecalho,
                                         justify=CENTER)
-            # self.entryPriMedida.bind("<Button-1>")
+            self.entryPriMedida.bind("<Button-1>",
+                                     lambda x:
+                                     self.virtualNumPad(
+                                         self.entryPriMedida))
 
             self.lblLadoA = Label(self.frameCamposRQ,
                                   text="LADO A",
@@ -1085,11 +1092,14 @@ class Application:
 
             self.entryAlturaIsolanteA = Entry(self.frameCamposRQ,
                                               width=10,
+                                              bg='lightcyan2',
+                                              disabledbackground='dark slate gray',
                                               font=Fontes.fonteCabecalho,
                                               justify=CENTER)
-
-            # self.entryAlturaIsolanteA.bind("<Button-1>",
-            #                                self.virtualNumPad(self.entryAlturaIsolanteA))
+            self.entryAlturaIsolanteA.bind("<Button-1>",
+                                     lambda x:
+                                     self.virtualNumPad(
+                                         self.entryAlturaIsolanteA))
 
             self.lblAlturaIsolante = Label(self.frameCamposRQ,
                                            text="Altura Isolante (mm)",
@@ -1100,13 +1110,25 @@ class Application:
 
             self.entryAlturaIsolanteB = Entry(self.frameCamposRQ,
                                               width=10,
+                                              bg='lightcyan2',
+                                              disabledbackground='dark slate gray',
                                               font=Fontes.fonteCabecalho,
                                               justify=CENTER)
+            self.entryAlturaIsolanteB.bind("<Button-1>",
+                                           lambda x:
+                                           self.virtualNumPad(
+                                               self.entryAlturaIsolanteB))
 
             self.entryAlturaCondutorA = Entry(self.frameCamposRQ,
                                               width=10,
+                                              bg='lightcyan2',
+                                              disabledbackground='dark slate gray',
                                               font=Fontes.fonteCabecalho,
                                               justify=CENTER)
+            self.entryAlturaCondutorA.bind("<Button-1>",
+                                           lambda x:
+                                           self.virtualNumPad(
+                                               self.entryAlturaCondutorA))
 
             self.lblAlturaCondutor = Label(self.frameCamposRQ,
                                            text="Altura Condutor (mm)",
@@ -1117,13 +1139,25 @@ class Application:
 
             self.entryAlturaCondutorB = Entry(self.frameCamposRQ,
                                               width=10,
+                                              bg='lightcyan2',
+                                              disabledbackground='dark slate gray',
                                               font=Fontes.fonteCabecalho,
                                               justify=CENTER)
+            self.entryAlturaCondutorB.bind("<Button-1>",
+                                           lambda x:
+                                           self.virtualNumPad(
+                                               self.entryAlturaCondutorB))
 
             self.entryTracaoA = Entry(self.frameCamposRQ,
                                       width=10,
+                                      bg='lightcyan2',
+                                      disabledbackground='dark slate gray',
                                       font=Fontes.fonteCabecalho,
                                       justify=CENTER)
+            self.entryTracaoA.bind("<Button-1>",
+                                           lambda x:
+                                           self.virtualNumPad(
+                                               self.entryTracaoA))
 
             self.lblTracao = Label(self.frameCamposRQ,
                                    text="Tração (kgf)",
@@ -1134,8 +1168,14 @@ class Application:
 
             self.entryTracaoB = Entry(self.frameCamposRQ,
                                       width=10,
+                                      bg='lightcyan2',
+                                      disabledbackground='dark slate gray',
                                       font=Fontes.fonteCabecalho,
                                       justify=CENTER)
+            self.entryTracaoB.bind("<Button-1>",
+                                           lambda x:
+                                           self.virtualNumPad(
+                                               self.entryTracaoB))
 
             self.lblRegQualidade.grid(column=0,
                                       row=0,
@@ -1186,6 +1226,15 @@ class Application:
                                    fill=X,
                                    expand=1)
 
+            self.entryAlturaIsolanteA.configure(state='disabled')
+            self.entryAlturaCondutorA.configure(state='disabled')
+            self.entryTracaoA.configure(state='disabled')
+
+            for ele in self.frameCamposRQ.winfo_children():
+                if ele.winfo_class() == 'Entry':
+                    print(ele.winfo_name())
+                    ele.config(bg='black')
+
     def cancelarPopUpRQSetup(self):
         if Variaveis.estadoEquipamento == 3:
             Variaveis.estadoEquipamento = 2
@@ -1198,10 +1247,17 @@ class Application:
 
             self.btnRQ.configure(image=activeButtons.rqButton)
 
-    def virtualNumPad(self, master, papai):
-        papai.insert(END, "TESTE")
+    def virtualNumPad(self, papai):
+        papai.configure(bg='lightgreen')
+        papai.delete(0, END)
 
-        if not Variaveis.virtualNumPadVisible:
+        if Variaveis.virtualNumPadVisible:
+
+            self.popUpVNumPad.destroy()
+            Variaveis.virtualNumPadVisible = False
+            self.virtualNumPad(papai)
+
+        elif not Variaveis.virtualNumPadVisible:
             Variaveis.virtualNumPadVisible = True
 
             self.popUpVNumPad = Toplevel(bg=Cores.bgCinza,
@@ -1256,8 +1312,9 @@ class Application:
         def kp(self, keyValue, parent):
             print(parent)
             print(keyValue)
-            if keyValue == "<" and parent.get() != "":
-                parent.delete(END-1, END)
+
+            if keyValue == "<":
+                parent.delete(len(parent.get()) - 1, END)
             else:
                 parent.insert(END, keyValue)
 
