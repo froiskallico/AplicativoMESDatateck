@@ -5,7 +5,7 @@ from tkinter import *
 from time import time
 import datetime
 from tkinter import ttk
-# import login
+import login
 import configparser as cfgprsr
 import inspect
 
@@ -208,10 +208,10 @@ class Application:
 
     # --- Inicialização do Aplicativo --- #
     def __init__(self, master=None):
-        # Variaveis.idUsuarioLogado = login.idUsuario
-        # Variaveis.nomeUsuarioLogado = login.nomeUsuario
+        Variaveis.idUsuarioLogado = login.idUsuario
+        Variaveis.nomeUsuarioLogado = login.nomeUsuario
         #
-        # if Variaveis.idUsuarioLogado > 0:
+        if Variaveis.idUsuarioLogado > 0:
             self.montaTelaPrincipal()
 
     # --- Geração do Layout Principal --- #
@@ -1001,7 +1001,7 @@ class Application:
             text=Variaveis.estados[Variaveis.estadoEquipamento])
 
     def abrirPopUpRQSetup(self):
-        # if Variaveis.estadoEquipamento == 2:
+        if Variaveis.estadoEquipamento == 2:
             print(Variaveis.campos["ACABAMENTO 1"])
             Variaveis.estadoEquipamento = 3
 
@@ -1013,7 +1013,7 @@ class Application:
             self.popUpRQSetup.overrideredirect(1)
             self.popUpRQSetup.attributes('-topmost', 'true')
             self.popUpRQSetup.bind('<Escape>', self.cancelarPopUpRQSetup)
-            self.popUpRQSetup.geometry('+300+200')
+            self.popUpRQSetup.geometry('+50+50')
             self.popUpRQSetup.focus()
 
             self.frameCamposRQ = Frame(self.popUpRQSetup,
@@ -1267,7 +1267,7 @@ class Application:
             self.popUpVNumPad.attributes('-topmost', 'true')
             self.popUpVNumPad.bind('<Escape>',
                                    lambda e: self.popUpVNumPad.destroy())
-            self.popUpVNumPad.geometry('+800+200')
+            self.popUpVNumPad.geometry('+700+50')
             self.popUpVNumPad.focus()
 
             containerNumPad = Frame(self.popUpVNumPad,
