@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1669bfa9-4d23-45d3-8e49-192f3859084d" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/APP.py" beforeDir="false" afterPath="$PROJECT_DIR$/APP.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database/TESTEPDS.db" beforeDir="false" afterPath="$PROJECT_DIR$/database/TESTEPDS.db" afterDir="false" />
     </list>
@@ -17,8 +16,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/APP.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="443">
-              <caret line="1231" lean-forward="true" selection-start-line="1231" selection-end-line="1231" />
+            <state relative-caret-position="139">
+              <caret line="1224" column="41" lean-forward="true" selection-start-line="1224" selection-start-column="41" selection-end-line="1224" selection-end-column="41" />
               <folding>
                 <element signature="e#221#337#0" />
                 <element signature="e#758#1688#0" />
@@ -79,7 +78,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>)</find>
       <find>print(&quot;Linhas na Origem: %i&quot; % len(dadosOrigem))</find>
       <find>Origem</find>
       <find>linha.</find>
@@ -109,6 +107,7 @@
       <find>popUpRQSetup</find>
       <find>width=10</find>
       <find>estadoEquipamento = 3</find>
+      <find>print(</find>
     </findStrings>
     <replaceStrings>
       <replace>cores.bgVerde</replace>
@@ -434,7 +433,7 @@
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.4722222" />
-      <window_info anchor="bottom" x="1548" y="327" width="1002" height="111" id="Run" maximized="true" order="2" type="WINDOWED" weight="0.28374234" />
+      <window_info anchor="bottom" x="1366" y="22" width="1366" height="746" id="Run" order="2" type="WINDOWED" weight="0.28374234" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.30555555" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -670,8 +669,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/APP.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="443">
-          <caret line="1231" lean-forward="true" selection-start-line="1231" selection-end-line="1231" />
+        <state relative-caret-position="139">
+          <caret line="1224" column="41" lean-forward="true" selection-start-line="1224" selection-start-column="41" selection-end-line="1224" selection-end-column="41" />
           <folding>
             <element signature="e#221#337#0" />
             <element signature="e#758#1688#0" />

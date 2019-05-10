@@ -1001,8 +1001,7 @@ class Application:
             text=Variaveis.estados[Variaveis.estadoEquipamento])
 
     def abrirPopUpRQSetup(self):
-        # if Variaveis.estadoEquipamento == 2:
-            print(Variaveis.campos["ACABAMENTO 1"])
+        if Variaveis.estadoEquipamento == 2:
             Variaveis.estadoEquipamento = 3
 
             self.btnRQ.configure(image=inactiveButtons.rqButton)
@@ -1226,14 +1225,25 @@ class Application:
                                    fill=X,
                                    expand=1)
 
-            self.entryAlturaIsolanteA.configure(state='disabled')
-            self.entryAlturaCondutorA.configure(state='disabled')
-            self.entryTracaoA.configure(state='disabled')
+            def desabilitaLadosNaoUtilizados(self):
+                if Variaveis.campos["ACABAMENTO 1"] == "None":
+                    self.entryAlturaCondutorA.config(state='disabled')
+                    self.entryAlturaIsolanteA.config(state='disabled')
+                    self.entryTracaoA.config(state='disabled')
+                if Variaveis.campos["ACABAMENTO 2"] == "None":
+                    self.entryAlturaCondutorB.config(state='disabled')
+                    self.entryAlturaIsolanteB.config(state='disabled')
+                    self.entryTracaoB.config(state='disabled')
 
-            for ele in self.frameCamposRQ.winfo_children():
-                if ele.winfo_class() == 'Entry':
-                    print(ele.winfo_name())
-                    ele.config(bg='black')
+
+
+                # if Variaveis.campos["ACABAMENTO 1"] != "None":
+                    # for ele in self.frameCamposRQ.winfo_children():
+                    #     if ele.winfo_class() == 'Entry':
+                    #         print(ele.winfo_name())
+                    #         ele.config(bg='black')
+
+            desabilitaLadosNaoUtilizados(self)
 
     def cancelarPopUpRQSetup(self):
         if Variaveis.estadoEquipamento == 3:
