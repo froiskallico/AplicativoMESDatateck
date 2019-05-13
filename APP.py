@@ -5,7 +5,7 @@ from tkinter import *
 from time import time
 import datetime
 from tkinter import ttk
-import login
+# import login
 import configparser as cfgprsr
 import inspect
 
@@ -28,7 +28,7 @@ class Variaveis:
     idUsuarioLogado = 0
     nomeUsuarioLogado = None
 
-    colunas = ('PK_IPC',
+    colunas = ('PK_IQC',
                'REQUISICAO',
                'CELULA',
                'DATA GERAÇÃO',
@@ -64,7 +64,7 @@ class Variaveis:
                'COR_TEXTO')
 
     campos = {
-        "PK_IPC":                   "",
+        "PK_IQC":                   "",
         "REQUISICAO":               "",
         "CELULA":                   "",
         "DATA GERAÇÃO":             "",
@@ -208,10 +208,10 @@ class Application:
 
     # --- Inicialização do Aplicativo --- #
     def __init__(self, master=None):
-        Variaveis.idUsuarioLogado = login.idUsuario
-        Variaveis.nomeUsuarioLogado = login.nomeUsuario
+        # Variaveis.idUsuarioLogado = login.idUsuario
+        # Variaveis.nomeUsuarioLogado = login.nomeUsuario
         #
-        if Variaveis.idUsuarioLogado > 0:
+        # if Variaveis.idUsuarioLogado > 0:
             self.montaTelaPrincipal()
 
     # --- Geração do Layout Principal --- #
@@ -1001,7 +1001,7 @@ class Application:
             text=Variaveis.estados[Variaveis.estadoEquipamento])
 
     def abrirPopUpRQSetup(self):
-        if Variaveis.estadoEquipamento == 2:
+        # if Variaveis.estadoEquipamento == 2:
             Variaveis.estadoEquipamento = 3
 
             self.btnRQ.configure(image=inactiveButtons.rqButton)
@@ -1039,7 +1039,7 @@ class Application:
                                         relief=FLAT,
                                         image=inactiveButtons.confirmarButton)
 
-            # self.btnConfirmaRQ["command"] =
+            self.btnConfirmaRQ["command"] = self.registraRQSetup
 
             self.btnCancelaRQ = Button(self.botoesRQ,
                                        text="Fechar",
@@ -1065,6 +1065,7 @@ class Application:
                                       justify=CENTER)
 
             self.entryPriMedida = Entry(self.frameCamposRQ,
+                                        name='entry10',
                                         width=10,
                                         bg='lightcyan2',
                                         disabledbackground='dark slate gray',
@@ -1090,6 +1091,7 @@ class Application:
                                   justify=CENTER)
 
             self.entryAlturaIsolanteA = Entry(self.frameCamposRQ,
+                                              name='entry31',
                                               width=10,
                                               bg='lightcyan2',
                                               disabledbackground='dark slate gray',
@@ -1108,6 +1110,7 @@ class Application:
                                            justify=CENTER)
 
             self.entryAlturaIsolanteB = Entry(self.frameCamposRQ,
+                                              name='entry32',
                                               width=10,
                                               bg='lightcyan2',
                                               disabledbackground='dark slate gray',
@@ -1119,6 +1122,7 @@ class Application:
                                                self.entryAlturaIsolanteB))
 
             self.entryAlturaCondutorA = Entry(self.frameCamposRQ,
+                                              name='entry41',
                                               width=10,
                                               bg='lightcyan2',
                                               disabledbackground='dark slate gray',
@@ -1137,6 +1141,7 @@ class Application:
                                            justify=CENTER)
 
             self.entryAlturaCondutorB = Entry(self.frameCamposRQ,
+                                              name='entry42',
                                               width=10,
                                               bg='lightcyan2',
                                               disabledbackground='dark slate gray',
@@ -1148,6 +1153,7 @@ class Application:
                                                self.entryAlturaCondutorB))
 
             self.entryTracaoA = Entry(self.frameCamposRQ,
+                                      name='entry51',
                                       width=10,
                                       bg='lightcyan2',
                                       disabledbackground='dark slate gray',
@@ -1166,6 +1172,7 @@ class Application:
                                    justify=CENTER)
 
             self.entryTracaoB = Entry(self.frameCamposRQ,
+                                      name='entry52',
                                       width=10,
                                       bg='lightcyan2',
                                       disabledbackground='dark slate gray',
@@ -1257,15 +1264,34 @@ class Application:
 
             self.btnRQ.configure(image=activeButtons.rqButton)
 
-    def virtualNumPad(self, papai):
-        papai.configure(bg='lightgreen')
-        papai.delete(0, END)
+    def registraRQSetup(self):
+        # pd = PD
+        # dados.append(self.entryPriMedida.get())
+
+        for L in range(2):
+            print(Variaveis.campos.get("Acabamento %s" % L)
+            if (Variaveis.campos.get("Acabamento %s" % L))  None:
+                for ele in self.frameCamposRQ.winfo_children():
+                    dados = []
+                    dados.append(Variaveis.campos.get("PK_IQC"))
+                    if ele.winfo_class() == 'Entry' and int(ele.winfo_name()[-1:]) > 0:
+                        if int(ele.winfo_name()[-1:]) == 1:
+                            dados.append(int(ele.winfo_name()[-2:-1]))
+                            dados.append(float(ele.get().replace(',', '.')))
+                            dados.append(int(ele.winfo_name()[-1:]))
+                            dados.append(Variaveis.idUsuarioLogado)
+                            dados.append(Definicoes.maquina)
+                            print (dados)
+
+    def virtualNumPad(self, parent):
+        parent.configure(bg='lightgreen')
+        parent.delete(0, END)
 
         if Variaveis.virtualNumPadVisible:
 
             self.popUpVNumPad.destroy()
             Variaveis.virtualNumPadVisible = False
-            self.virtualNumPad(papai)
+            self.virtualNumPad(parent)
 
         elif not Variaveis.virtualNumPadVisible:
             Variaveis.virtualNumPadVisible = True
@@ -1303,7 +1329,7 @@ class Application:
                 for tecla in teclas:
                     cmd = lambda x = listaDeTeclas[linha][tecla]: kp(self,
                                                                      x,
-                                                                     papai)
+                                                                     parent)
 
                     teclas[tecla] = Button(containerNumPadLinha[linha],
                                            text=listaDeTeclas[linha][tecla],
@@ -1327,8 +1353,6 @@ class Application:
                 parent.delete(len(parent.get()) - 1, END)
             else:
                 parent.insert(END, keyValue)
-
-
 
 
 Application(root)

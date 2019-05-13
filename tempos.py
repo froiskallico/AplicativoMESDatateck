@@ -7,7 +7,6 @@ class TEMPOS():
         self.info = {}
 
     def tomaTempoEvento(self, FK_ID, FK_TTM, FK_USU, MAQ):
-
         banco = BANCO()
         agora = dt.now()
 
@@ -25,7 +24,7 @@ class TEMPOS():
                             %i,
                             %i,
                             "%s")
-                            """ %   (agora,
+                            """ % (agora,
                                     FK_ID,
                                     FK_TTM,
                                     FK_USU,

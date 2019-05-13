@@ -1,4 +1,6 @@
 from banco import BANCO
+from datetime import datetime as dt
+
 
 class PD(object):
     
@@ -74,14 +76,30 @@ class PD(object):
         except:
             return "Ocorreu um erro na busca do PD"
 
-    def atualizaQuantidadeCortada(self, pdID, qtdCortada):
+    # def atualizaQuantidadeCortada(self, pdID, qtdCortada):
+    #
+    #     banco = BANCO()
+    #
+    #     c = banco.conexao.cursor()
+    #
+    #     c.execute("UPDATE pds SET QTD_CORT = %s WHERE ID = %s;" % (qtdCortada, pdID))
+    #
+    #     banco.conexao.commit()
+    #     banco.conexao.close()
 
-        banco = BANCO()
-
-        c = banco.conexao.cursor()
-
-        c.execute("UPDATE pds SET QTD_CORT = %s WHERE ID = %s;" % (qtdCortada, pdID))
-
-        banco.conexao.commit()
-        banco.conexao.close()
-
+    # def registraRQSetup(self, pdID, dados=()):
+    #     banco = BANCO
+    #     agora = dt.now()
+    #
+    #     cur = banco.conexao.cursor()
+    #
+    #     cur.execute("""INSERT INTO REGISTROS_QUALIDADE (
+    #                         DATA,
+    #                         FK_ID,
+    #                         FK_TRG,
+    #                         VALOR_REGISTRO,
+    #                         LADO,
+    #                         FK_USU,
+    #                         MAQUINA)
+    #                     VALUES
+    #                         ()""")

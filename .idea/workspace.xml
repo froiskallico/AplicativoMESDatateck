@@ -2,8 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1669bfa9-4d23-45d3-8e49-192f3859084d" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/APP.py" beforeDir="false" afterPath="$PROJECT_DIR$/APP.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database/TESTEPDS.db" beforeDir="false" afterPath="$PROJECT_DIR$/database/TESTEPDS.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pd.py" beforeDir="false" afterPath="$PROJECT_DIR$/pd.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tempos.py" beforeDir="false" afterPath="$PROJECT_DIR$/tempos.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -16,11 +19,13 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/APP.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="139">
-              <caret line="1224" column="41" lean-forward="true" selection-start-line="1224" selection-start-column="41" selection-end-line="1224" selection-end-column="41" />
+            <state relative-caret-position="218">
+              <caret line="1271" column="59" selection-start-line="1271" selection-start-column="59" selection-end-line="1271" selection-end-column="59" />
               <folding>
                 <element signature="e#221#337#0" />
+                <element signature="e#620#3415#0" />
                 <element signature="e#758#1688#0" />
+                <element signature="e#1704#3065#0" />
                 <element signature="e#3082#3302#0" />
                 <element signature="e#3436#3648#0" />
                 <element signature="e#3668#3899#0" />
@@ -53,6 +58,7 @@
                 <element signature="e#36198#36385#0" />
                 <element signature="e#36523#36687#0" />
                 <element signature="e#36740#36928#0" />
+                <element signature="e#36980#37865#0" />
                 <element signature="e#37097#37268#0" />
                 <element signature="e#37905#39034#0" />
                 <element signature="e#37959#38520#0" />
@@ -61,6 +67,32 @@
                 <element signature="e#39160#39607#0" />
                 <element signature="e#39218#39607#0" />
                 <element signature="e#39647#39737#0" />
+                <element signature="e#50949#51772#0" />
+                <element signature="e#51016#51200#0" />
+                <element signature="e#51284#51468#0" />
+                <element signature="e#51488#51536#0" />
+                <element signature="e#51866#52198#0" />
+                <element signature="e#51915#52198#0" />
+                <element signature="e#52011#52093#0" />
+                <element signature="e#52595#55378#0" />
+                <element signature="e#52716#52833#0" />
+                <element signature="e#52896#55129#0" />
+                <element signature="e#53599#53745#0" />
+                <element signature="e#53878#55129#0" />
+                <element signature="e#54183#55129#0" />
+                <element signature="e#55183#55378#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pd.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="366">
+              <caret line="96" column="31" selection-start-line="96" selection-start-column="31" selection-end-line="96" selection-end-column="35" />
+              <folding>
+                <element signature="e#0#23#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -78,9 +110,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>print(&quot;Linhas na Origem: %i&quot; % len(dadosOrigem))</find>
-      <find>Origem</find>
-      <find>linha.</find>
       <find>REQNUM</find>
       <find>PAI</find>
       <find>sts</find>
@@ -108,9 +137,11 @@
       <find>width=10</find>
       <find>estadoEquipamento = 3</find>
       <find>print(</find>
+      <find>PK_IPC</find>
+      <find>Variaveis.campos</find>
+      <find>name='E</find>
     </findStrings>
     <replaceStrings>
-      <replace>cores.bgVerde</replace>
       <replace>Cores</replace>
       <replace>Cores.bgAcabamentosAux</replace>
       <replace>Fontes.fontePadrao</replace>
@@ -140,6 +171,7 @@
       <replace>frameRQ</replace>
       <replace>width=5</replace>
       <replace>estadoEquipamento = 4</replace>
+      <replace>name='e</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -163,24 +195,24 @@
         <option value="$APPLICATION_CONFIG_DIR$/scratches/scratch_1.py" />
         <option value="$PROJECT_DIR$/TODO.html" />
         <option value="$PROJECT_DIR$/modules/testePuxaBd.py" />
-        <option value="$PROJECT_DIR$/pd.py" />
         <option value="$PROJECT_DIR$/banco.py" />
-        <option value="$PROJECT_DIR$/tempos.py" />
         <option value="$PROJECT_DIR$/RQ" />
         <option value="$PROJECT_DIR$/modules/virtualKeyPad.py" />
         <option value="$PROJECT_DIR$/virtualNumPad.py" />
         <option value="$PROJECT_DIR$/login.py" />
         <option value="$APPLICATION_CONFIG_DIR$/scratches/scratch.py" />
         <option value="$PROJECT_DIR$/scratch.py" />
+        <option value="$PROJECT_DIR$/tempos.py" />
+        <option value="$PROJECT_DIR$/pd.py" />
         <option value="$PROJECT_DIR$/APP.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-8" />
-    <option name="y" value="-8" />
-    <option name="width" value="1382" />
-    <option name="height" value="744" />
+    <option name="x" value="1424" />
+    <option name="y" value="157" />
+    <option name="width" value="1280" />
+    <option name="height" value="728" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -193,6 +225,11 @@
             <path>
               <item name="AplicativoMESDatateck" type="b2602c69:ProjectViewProjectNode" />
               <item name="AplicativoMESDatateck" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AplicativoMESDatateck" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AplicativoMESDatateck" type="462c0819:PsiDirectoryNode" />
+              <item name="database" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -273,27 +310,6 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="RQ" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="AplicativoMESDatateck" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/RQ" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <configuration name="login" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="AplicativoMESDatateck" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -307,6 +323,27 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/login.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="pd" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="AplicativoMESDatateck" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/pd.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -360,10 +397,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.APP" />
+        <item itemvalue="Python.pd" />
         <item itemvalue="Python.scratch" />
         <item itemvalue="Python.login" />
         <item itemvalue="Python.virtualNumPad" />
-        <item itemvalue="Python.RQ" />
       </list>
     </recent_temporary>
   </component>
@@ -426,14 +463,14 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <frame x="1358" y="-8" width="1382" height="784" extended-state="6" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49758455" visible="true" weight="0.20089285" />
       <window_info id="Structure" order="1" sideWeight="0.5024155" side_tool="true" weight="0.20089285" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.4722222" />
-      <window_info anchor="bottom" x="1366" y="22" width="1366" height="746" id="Run" order="2" type="WINDOWED" weight="0.28374234" />
+      <window_info anchor="bottom" x="1375" y="31" width="1348" height="728" id="Run" order="2" type="WINDOWED" weight="0.28374234" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.30555555" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -451,16 +488,16 @@
       <window_info id="Structure" order="1" sideWeight="0.5024155" side_tool="true" weight="0.20089285" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.4454023" />
-      <window_info anchor="bottom" x="1366" y="22" width="1366" height="746" id="Run" maximized="true" order="2" type="WINDOWED" visible="true" weight="0.28374234" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.4722222" />
+      <window_info anchor="bottom" x="1366" y="22" width="1366" height="742" id="Run" order="2" type="WINDOWED" weight="0.28374234" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.30555555" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.3275862" />
-      <window_info active="true" anchor="bottom" id="Version Control" order="7" visible="true" weight="0.32352942" />
+      <window_info anchor="bottom" id="Version Control" order="7" weight="0.32352942" />
       <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" />
-      <window_info anchor="bottom" id="Terminal" order="9" weight="0.32614943" />
-      <window_info anchor="bottom" id="Python Console" order="10" weight="0.3275862" />
+      <window_info anchor="bottom" id="Terminal" order="9" weight="0.3251634" />
+      <window_info anchor="bottom" id="Python Console" order="10" weight="0.6862745" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -490,6 +527,11 @@
           <url>file://$PROJECT_DIR$/login.py</url>
           <line>71</line>
           <option name="timeStamp" value="11" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/pd.py</url>
+          <line>78</line>
+          <option name="timeStamp" value="13" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -600,33 +642,8 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pd.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="25" selection-start-line="6" selection-start-column="25" selection-end-line="6" selection-end-column="25" />
-          <folding>
-            <element signature="e#1466#2273#0" />
-            <element signature="e#2344#2544#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/banco.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="461">
-          <caret line="50" selection-start-line="50" selection-end-line="50" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/images/buttons/setupStopButton.png" />
     <entry file="file://$PROJECT_DIR$/src/images/buttons/setupStartButton.png" />
-    <entry file="file://$PROJECT_DIR$/tempos.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="18" column="35" selection-start-line="18" selection-start-column="35" selection-end-line="18" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/images/buttons/sairButton.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
@@ -638,18 +655,28 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/RQ" />
     <entry file="file://$PROJECT_DIR$/virtualNumPad.py" />
-    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37-32/Lib/tkinter/__init__.py">
+    <entry file="file://$PROJECT_DIR$/scratch.py" />
+    <entry file="file://$PROJECT_DIR$/banco.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="1701" selection-start-line="1701" selection-end-line="1701" />
+        <state relative-caret-position="461">
+          <caret line="50" selection-start-line="50" selection-end-line="50" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/scratch.py" />
+    <entry file="file://$PROJECT_DIR$/tempos.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="26" column="34" selection-start-line="26" selection-start-column="34" selection-end-line="26" selection-end-column="34" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/login.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2397">
-          <caret line="195" column="60" selection-start-line="195" selection-start-column="60" selection-end-line="195" selection-end-column="60" />
+        <state relative-caret-position="842">
+          <caret line="176" column="37" lean-forward="true" selection-start-line="176" selection-start-column="37" selection-end-line="176" selection-end-column="37" />
           <folding>
             <element signature="e#120#189#0" />
             <element signature="e#551#662#0" />
@@ -667,13 +694,32 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37-32/Lib/tkinter/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="209">
+          <caret line="2295" selection-start-line="2295" selection-end-line="2295" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pd.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="366">
+          <caret line="96" column="31" selection-start-line="96" selection-start-column="31" selection-end-line="96" selection-end-column="35" />
+          <folding>
+            <element signature="e#0#23#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/APP.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="139">
-          <caret line="1224" column="41" lean-forward="true" selection-start-line="1224" selection-start-column="41" selection-end-line="1224" selection-end-column="41" />
+        <state relative-caret-position="218">
+          <caret line="1271" column="59" selection-start-line="1271" selection-start-column="59" selection-end-line="1271" selection-end-column="59" />
           <folding>
             <element signature="e#221#337#0" />
+            <element signature="e#620#3415#0" />
             <element signature="e#758#1688#0" />
+            <element signature="e#1704#3065#0" />
             <element signature="e#3082#3302#0" />
             <element signature="e#3436#3648#0" />
             <element signature="e#3668#3899#0" />
@@ -706,6 +752,7 @@
             <element signature="e#36198#36385#0" />
             <element signature="e#36523#36687#0" />
             <element signature="e#36740#36928#0" />
+            <element signature="e#36980#37865#0" />
             <element signature="e#37097#37268#0" />
             <element signature="e#37905#39034#0" />
             <element signature="e#37959#38520#0" />
@@ -714,6 +761,20 @@
             <element signature="e#39160#39607#0" />
             <element signature="e#39218#39607#0" />
             <element signature="e#39647#39737#0" />
+            <element signature="e#50949#51772#0" />
+            <element signature="e#51016#51200#0" />
+            <element signature="e#51284#51468#0" />
+            <element signature="e#51488#51536#0" />
+            <element signature="e#51866#52198#0" />
+            <element signature="e#51915#52198#0" />
+            <element signature="e#52011#52093#0" />
+            <element signature="e#52595#55378#0" />
+            <element signature="e#52716#52833#0" />
+            <element signature="e#52896#55129#0" />
+            <element signature="e#53599#53745#0" />
+            <element signature="e#53878#55129#0" />
+            <element signature="e#54183#55129#0" />
+            <element signature="e#55183#55378#0" />
           </folding>
         </state>
       </provider>
