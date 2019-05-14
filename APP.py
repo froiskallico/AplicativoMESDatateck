@@ -943,7 +943,7 @@ class Application:
         self.btnSetup.configure(image=activeButtons.setupButton)
 
     def setupStartStop(self):
-        if Variaveis.estadoEquipamento in (1, 4):
+        if Variaveis.estadoEquipamento in (1, 4) and not Variaveis.RQPreenchido:
             Variaveis.estadoEquipamento = 2
 
             t = tempos.TEMPOS()
@@ -974,8 +974,12 @@ class Application:
 
             self.zeraCronografo()
 
-            self.btnSetup.configure(image=activeButtons.setupButton)
-            self.btnRQ.configure(image=inactiveButtons.rqButton)
+            self.btnSetup.config(image=activeButtons.setupButton)
+            self.btnRQ.config(image=inactiveButtons.rqButton)
+
+            if Variaveis.RQPreenchido:
+                self.btnSetup.config(image=inactiveButtons.setupButton)
+                self.btnStart.config(image=activeButtons.startButton)
 
             self.atualizaEstado()
 
@@ -1001,7 +1005,7 @@ class Application:
             text=Variaveis.estados[Variaveis.estadoEquipamento])
 
     def abrirPopUpRQSetup(self):
-        # if Variaveis.estadoEquipamento == 2:
+        if Variaveis.estadoEquipamento == 2 and not Variaveis.RQPreenchido:
             Variaveis.estadoEquipamento = 3
 
             self.btnRQ.configure(image=inactiveButtons.rqButton)
@@ -1023,15 +1027,15 @@ class Application:
                                     padx=15,
                                     pady=(5,10))
 
-            self.botoesRQ = Frame(self.popUpRQSetup,
-                                  bg=Cores.bgCinza)
-            self.botoesRQ.pack(side=BOTTOM,
-                               fill=X,
-                               expand=1,
-                               padx=10,
-                               pady=10)
+            self.frameBotoesRQ = Frame(self.popUpRQSetup,
+                                       bg=Cores.bgCinza)
+            self.frameBotoesRQ.pack(side=BOTTOM,
+                                    fill=X,
+                                    expand=1,
+                                    padx=10,
+                                    pady=10)
 
-            self.btnConfirmaRQ = Button(self.botoesRQ,
+            self.btnConfirmaRQ = Button(self.frameBotoesRQ,
                                         text="Fechar",
                                         font=Fontes.fontePadrao,
                                         bg=Cores.bgCinza,
@@ -1041,7 +1045,7 @@ class Application:
 
             self.btnConfirmaRQ["command"] = self.registraRQSetup
 
-            self.btnCancelaRQ = Button(self.botoesRQ,
+            self.btnCancelaRQ = Button(self.frameBotoesRQ,
                                        text="Fechar",
                                        font=Fontes.fontePadrao,
                                        bg=Cores.bgCinza,
@@ -1183,6 +1187,13 @@ class Application:
                                            self.virtualNumPad(
                                                self.entryTracaoB))
 
+            self.lblMensagem = Label(self.frameBotoesRQ,
+                                     text= '',
+                                     font=Fontes.fontePadrao,
+                                     bg=Cores.bgCinza,
+                                     fg='red',
+                                     justify=CENTER)
+
             self.lblRegQualidade.grid(column=0,
                                       row=0,
                                       columnspan=5,
@@ -1223,6 +1234,10 @@ class Application:
             self.entryTracaoB.grid(column=2,
                                    row=6)
 
+            self.lblMensagem.pack(side=TOP,
+                                  anchor='center',
+                                  fill=X,
+                                  expand=1)
             self.btnConfirmaRQ.pack(side=LEFT,
                                     anchor='center',
                                     fill=X,
@@ -1265,30 +1280,82 @@ class Application:
             self.btnRQ.configure(image=activeButtons.rqButton)
 
     def registraRQSetup(self):
-        # pd = PD
-        # dados.append(self.entryPriMedida.get())
+        if Variaveis.virtualNumPadVisible:
+            self.popUpVNumPad.destroy()
+            Variaveis.virtualNumPadVisible = False
 
-        for L in range(2):
-            print(Variaveis.campos.get("Acabamento %s" % L)
-            if (Variaveis.campos.get("Acabamento %s" % L))  None:
-                for ele in self.frameCamposRQ.winfo_children():
-                    dados = []
-                    dados.append(Variaveis.campos.get("PK_IQC"))
-                    if ele.winfo_class() == 'Entry' and int(ele.winfo_name()[-1:]) > 0:
-                        if int(ele.winfo_name()[-1:]) == 1:
-                            dados.append(int(ele.winfo_name()[-2:-1]))
-                            dados.append(float(ele.get().replace(',', '.')))
-                            dados.append(int(ele.winfo_name()[-1:]))
-                            dados.append(Variaveis.idUsuarioLogado)
-                            dados.append(Definicoes.maquina)
-                            print (dados)
+        # pd = PD
+        dados = []
+
+        def registraPriMedida():
+
+            if (self.entryPriMedida.get() != ''):
+                registro = []
+                registro.append(Variaveis.campos.get("PK_IQC"))
+                registro.append(1)
+                registro.append(float(self.entryPriMedida.get()))
+                registro.append('')
+                registro.append(Variaveis.idUsuarioLogado)
+                registro.append(Definicoes.maquina)
+                dados.append(list(registro))
+
+            else:
+                self.entryPriMedida.config(bg='indian red')
+                self.lblMensagem.config(text='Informe a Primeira Medida!')
+
+        def registraMedidas():
+            for L in (1, 2):
+                if Variaveis.campos.get("ACABAMENTO %s" % L) != 'None':
+                    print(Variaveis.campos.get("ACABAMENTO %s" % L))
+                    for ele in self.frameCamposRQ.winfo_children():
+                        if ele.winfo_class() == 'Entry' \
+                           and int(ele.winfo_name()[-1:]) == L:
+                            if ele.get() == '':
+                                ele.config(bg='indian red')
+                                self.lblMensagem.config(
+                                    text='Informe as medidas para registro')
+                            else:
+                                registro = []
+                                registro.append(Variaveis.campos.get("PK_IQC"))
+                                registro.append(int(ele.winfo_name()[-2:-1]))
+                                try:
+                                    registro.append(
+                                        float(ele.get().replace(',', '.')))
+                                except:
+                                    self.lblMensagem[
+                                        'text'] = 'Digite corretamente um ' \
+                                                  'valor de medida'
+                                registro.append(int(ele.winfo_name()[-1:]))
+                                registro.append(Variaveis.idUsuarioLogado)
+                                registro.append(Definicoes.maquina)
+                                dados.append(registro)
+
+        registraPriMedida()
+        registraMedidas()
+
+        if self.lblMensagem['text'] == '':
+            print(dados)
+
+            if Variaveis.virtualNumPadVisible:
+                self.popUpVNumPad.destroy()
+                Variaveis.virtualNumPadVisible = False
+
+            self.popUpRQSetup.destroy()
+
+            Variaveis.estadoEquipamento = 2
+            Variaveis.RQPreenchido = True
+
+
+            # ToDo
+            #   aqui, ao invés de dar PRINT nos dados, enviar a var 'dados'
+            #   para módulo 'pd.py' registrar no banco e fechar PopUp Registros
 
     def virtualNumPad(self, parent):
         parent.configure(bg='lightgreen')
         parent.delete(0, END)
+        self.lblMensagem.config(text='')
 
         if Variaveis.virtualNumPadVisible:
-
             self.popUpVNumPad.destroy()
             Variaveis.virtualNumPadVisible = False
             self.virtualNumPad(parent)
@@ -1346,13 +1413,11 @@ class Application:
                                        pady=1)
 
         def kp(self, keyValue, parent):
-            print(parent)
-            print(keyValue)
-
             if keyValue == "<":
                 parent.delete(len(parent.get()) - 1, END)
             else:
                 parent.insert(END, keyValue)
+
 
 
 Application(root)
