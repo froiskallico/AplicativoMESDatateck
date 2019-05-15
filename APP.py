@@ -14,14 +14,15 @@ class Definicoes():
     configFile.read('config.ini')
     maquina = configFile['DEFAULT']['Maquina']
 
-
-root = Tk()
-root.title('Operação')
-root.geometry(Definicoes.configFile['DISPLAY']['RES'])
-root.attributes('-fullscreen', Definicoes.configFile['DISPLAY']['Tela Cheia'])
-root.bind('<Escape>', lambda e: root.destroy())
-root.resizable(width=True, height=True)
-
+def montaRoot():
+    global root
+    root = Tk()
+    root.title('Operação')
+    root.geometry(Definicoes.configFile['DISPLAY']['RES'])
+    root.attributes('-fullscreen', Definicoes.configFile['DISPLAY']['Tela Cheia'])
+    root.bind('<Escape>', lambda e: root.destroy())
+    root.resizable(width=True, height=True)
+montaRoot()
 
 class Variaveis:
     inicioSecao = datetime.datetime.now().strftime('%d-%m-%Y  %H:%M:%S')
@@ -164,7 +165,6 @@ class activeButtons:
 
 
 class inactiveButtons:
-
     buscarButton = PhotoImage(
         file="src/images/buttons/inactiveButtons/buscarButton.png")
     finalizarButton = PhotoImage(
@@ -214,541 +214,534 @@ class Application:
         # if Variaveis.idUsuarioLogado > 0:
             self.montaTelaPrincipal()
 
+            Variaveis.estadoEquipamento = 4
+            Variaveis.RQPreenchido = True
     # --- Geração do Layout Principal --- #
     def montaTelaPrincipal(self, master=None):
-        self.montaContainers()
-        self.montaLabels()
-        self.montaBotoes()
+        def montaContainers(master=None):
+            ##--- Cabecalho ----##
+            self.containerCabecalho = Frame(master,
+                                            bd=5,
+                                            bg=Cores.bgCinza)
+            self.containerCabecalho["padx"] = 5
+            self.containerCabecalho.pack(fill=X,
+                                         side=TOP)
 
-    def montaContainers(self, master=None):
-        ##--- Cabecalho ----##
-        self.containerCabecalho = Frame(master,
-                                        bd=5,
-                                        bg=Cores.bgCinza)
-        self.containerCabecalho["padx"] = 5
-        self.containerCabecalho.pack(fill=X,
-                                     side=TOP)
-
-        ##--- Menu Botoes ---##
-        self.containerBotoes = Frame(master,
-                                     bg=Cores.bgCinza)
-        self.containerBotoes["padx"] = 0
-        self.containerBotoes["pady"] = 10
-        self.containerBotoes.pack(side=RIGHT,
-                                  fill=Y,
-                                  expand=0)
-
-        ##--- Esquerda ---##
-        self.containerEsquerda = Frame(master,
-                                       bg=Cores.bgCinza)
-        self.containerEsquerda.pack(side=LEFT,
-                                    fill=BOTH,
-                                    expand=1)
-
-        ###--- Dados PD ---###
-        self.containerDadosPD = Frame(self.containerEsquerda,
-                                      bg=Cores.bgCinza)
-        self.containerDadosPD.pack(fill=BOTH,
-                                   expand=1,
-                                   padx=(0, 20))
-
-        ####--- Cabecalho PD ---####
-        self.containerCabecalhoPD = Frame(self.containerDadosPD,
-                                          bg=Cores.bgCinza)
-        self.containerCabecalhoPD.pack(fill=X,
-                                       pady=(20, 35),
-                                       padx=20)
-
-        ####--- Medidas PD ---####
-        self.containerMedidasPD = Frame(self.containerDadosPD,
-                                        bg=Cores.bgCinza)
-        self.containerMedidasPD.pack()
-
-        ####--- Cabo ---###
-        self.containerCabo = Frame(self.containerDadosPD,
-                                   bg=Cores.bgCinza)
-        self.containerCabo.pack()
-
-        ####--- Detalhes PD ---####
-        self.containerDetalhesPD = Frame(self.containerDadosPD,
+            ##--- Menu Botoes ---##
+            self.containerBotoes = Frame(master,
                                          bg=Cores.bgCinza)
-        self.containerDetalhesPD.pack(fill=X,
-                                      expand=1)
+            self.containerBotoes["padx"] = 0
+            self.containerBotoes["pady"] = 10
+            self.containerBotoes.pack(side=RIGHT,
+                                      fill=Y,
+                                      expand=0)
 
-        #####--- Acabamentos Lado A ---#####
-        self.containerLadoA = Frame(self.containerDetalhesPD,
-                                    bg=Cores.bgCinza)
-        self.containerLadoA.pack(side=LEFT)
-
-        ######--- Acabamento 1 ---######
-        self.containerAcabamento1 = Frame(self.containerLadoA,
-                                          bg=Cores.bgVerde)
-        self.containerAcabamento1.pack(side=TOP,
-                                       pady=10)
-
-        ######--- Acabamento 3 ---######
-        self.containerAcabamento3 = Frame(self.containerLadoA,
-                                          bg=Cores.bgAcabamentosAux)
-        self.containerAcabamento3.pack(side=TOP)
-
-        #####--- Detalhes Meio ---#####
-        self.containerDetalhesMeio = Frame(self.containerDetalhesPD,
+            ##--- Esquerda ---##
+            self.containerEsquerda = Frame(master,
                                            bg=Cores.bgCinza)
-        self.containerDetalhesMeio.pack(side=LEFT,
-                                        fill=X,
+            self.containerEsquerda.pack(side=LEFT,
+                                        fill=BOTH,
                                         expand=1)
 
-        ######--- Quantidade ---######
-        self.containerQuantidade = Frame(self.containerDetalhesMeio,
-                                         bg=Cores.bgCinza)
-        self.containerQuantidade.pack(fill=BOTH,
-                                      expand=1)
+            ###--- Dados PD ---###
+            self.containerDadosPD = Frame(self.containerEsquerda,
+                                          bg=Cores.bgCinza)
+            self.containerDadosPD.pack(fill=BOTH,
+                                       expand=1,
+                                       padx=(0, 20))
 
-        ######--- Observação ---######
-        self.containerObservacao = Frame(self.containerDetalhesMeio,
-                                         bg=Cores.bgCinza)
-        self.containerObservacao.pack(fill=X,
-                                      expand=1)
+            ####--- Cabecalho PD ---####
+            self.containerCabecalhoPD = Frame(self.containerDadosPD,
+                                              bg=Cores.bgCinza)
+            self.containerCabecalhoPD.pack(fill=X,
+                                           pady=(20, 35),
+                                           padx=20)
 
-        ######--- Gravação ---######
-        self.containerGravacao = Frame(self.containerDetalhesMeio,
+            ####--- Medidas PD ---####
+            self.containerMedidasPD = Frame(self.containerDadosPD,
+                                            bg=Cores.bgCinza)
+            self.containerMedidasPD.pack()
+
+            ####--- Cabo ---###
+            self.containerCabo = Frame(self.containerDadosPD,
                                        bg=Cores.bgCinza)
-        self.containerGravacao.pack(fill=X,
-                                    expand=1)
+            self.containerCabo.pack()
 
-        #####--- Acabamentos Lado B ---#####
-        self.containerLadoB = Frame(self.containerDetalhesPD,
+            ####--- Detalhes PD ---####
+            self.containerDetalhesPD = Frame(self.containerDadosPD,
+                                             bg=Cores.bgCinza)
+            self.containerDetalhesPD.pack(fill=X,
+                                          expand=1)
+
+            #####--- Acabamentos Lado A ---#####
+            self.containerLadoA = Frame(self.containerDetalhesPD,
+                                        bg=Cores.bgCinza)
+            self.containerLadoA.pack(side=LEFT)
+
+            ######--- Acabamento 1 ---######
+            self.containerAcabamento1 = Frame(self.containerLadoA,
+                                              bg=Cores.bgVerde)
+            self.containerAcabamento1.pack(side=TOP,
+                                           pady=10)
+
+            ######--- Acabamento 3 ---######
+            self.containerAcabamento3 = Frame(self.containerLadoA,
+                                              bg=Cores.bgAcabamentosAux)
+            self.containerAcabamento3.pack(side=TOP)
+
+            #####--- Detalhes Meio ---#####
+            self.containerDetalhesMeio = Frame(self.containerDetalhesPD,
+                                               bg=Cores.bgCinza)
+            self.containerDetalhesMeio.pack(side=LEFT,
+                                            fill=X,
+                                            expand=1)
+
+            ######--- Quantidade ---######
+            self.containerQuantidade = Frame(self.containerDetalhesMeio,
+                                             bg=Cores.bgCinza)
+            self.containerQuantidade.pack(fill=BOTH,
+                                          expand=1)
+
+            ######--- Observação ---######
+            self.containerObservacao = Frame(self.containerDetalhesMeio,
+                                             bg=Cores.bgCinza)
+            self.containerObservacao.pack(fill=X,
+                                          expand=1)
+
+            ######--- Gravação ---######
+            self.containerGravacao = Frame(self.containerDetalhesMeio,
+                                           bg=Cores.bgCinza)
+            self.containerGravacao.pack(fill=X,
+                                        expand=1)
+
+            #####--- Acabamentos Lado B ---#####
+            self.containerLadoB = Frame(self.containerDetalhesPD,
+                                        bg=Cores.bgCinza)
+            self.containerLadoB.pack(side=RIGHT)
+
+            ######--- Acabamento 2 ---######
+            self.containerAcabamento2 = Frame(self.containerLadoB,
+                                              bg=Cores.bgVerde)
+            self.containerAcabamento2.pack(side=TOP,
+                                           pady=10)
+
+            ######--- Acabamento 4 ---######
+            self.containerAcabamento4 = Frame(self.containerLadoB,
+                                              bg=Cores.bgAcabamentosAux)
+            self.containerAcabamento4.pack(side=TOP)
+
+            ##--- Rodape ---###
+            self.containerRodape = Frame(self.containerEsquerda,
+                                         bg=Cores.bgCinza)
+            self.containerRodape.pack(side=BOTTOM,
+                                      anchor=SW)
+
+            # ####--- Proximo Cabo ---####
+            # self.containerProxCabo = Frame(self.containerRodape,
+            #                                bg=Cores.bgRodape)
+            # self.containerProxCabo.pack(side=TOP,
+            #                             fill=X,
+            #                             expand=1)
+            #
+            # ####--- Label Prox Medidas ---####
+            # self.containerProxMedidas = Frame(self.containerRodape,
+            #                                   bg=Cores.bgRodape)
+            # self.containerProxMedidas.pack()
+
+        def montaLabels(master=None):
+            ##------ Cabeçalho ------##
+            self.logo = Label(self.containerCabecalho,
+                              text="Datateck",
+                              font=Fontes.fonteCabecalho,
+                              image=Imagens.logo,
+                              bg=Cores.bgCinza,
+                              fg="white")
+            self.logo.pack(side=LEFT)
+
+            self.lblMaquina = Label(self.containerCabecalho,
+                                    text=Definicoes.maquina,
+                                    font=Fontes.fonteCabecalho,
+                                    bg=Cores.bgCinza,
+                                    fg="white")
+            self.lblMaquina.pack(side=LEFT,
+                                 fill=BOTH,
+                                 expand=1)
+
+            self.lblEstado = Label(self.containerCabecalho,
+                                   text=Variaveis.estados[
+                                       Variaveis.estadoEquipamento],
+                                   font=Fontes.fontePadrao,
+                                   bg=Cores.bgCinza,
+                                   fg="white",
+                                   anchor=CENTER,
+                                   justify=CENTER)
+            self.lblEstado.pack(side=TOP,
+                                fill=BOTH)
+
+            self.lblRelogio = Label(self.containerCabecalho,
+                                    text="00:00:00",
+                                    font=Fontes.fonteCabecalho,
+                                    padx=10,
+                                    fg=Cores.letraVerde,
                                     bg=Cores.bgCinza)
-        self.containerLadoB.pack(side=RIGHT)
+            self.lblRelogio.pack(side=LEFT,
+                                 fill=Y)
 
-        ######--- Acabamento 2 ---######
-        self.containerAcabamento2 = Frame(self.containerLadoB,
-                                          bg=Cores.bgVerde)
-        self.containerAcabamento2.pack(side=TOP,
-                                       pady=10)
+            ##--- Dados PD ---##
+            ###--- Cabecalho PD ---###
+            self.lblRequisicao = Label(self.containerCabecalhoPD,
+                                       text="Requisição: %s" % (
+                                           Variaveis.campos.get("REQUISICAO")),
+                                       font=Fontes.fontePadrao,
+                                       bg=Cores.bgCinza,
+                                       fg="white",
+                                       anchor="w")
+            self.lblRequisicao.pack(side=LEFT)
 
-        ######--- Acabamento 4 ---######
-        self.containerAcabamento4 = Frame(self.containerLadoB,
-                                          bg=Cores.bgAcabamentosAux)
-        self.containerAcabamento4.pack(side=TOP)
-
-        ##--- Rodape ---###
-        self.containerRodape = Frame(self.containerEsquerda,
-                                     bg=Cores.bgCinza)
-        self.containerRodape.pack(side=BOTTOM,
-                                  anchor=SW)
-
-        # ####--- Proximo Cabo ---####
-        # self.containerProxCabo = Frame(self.containerRodape,
-        #                                bg=Cores.bgRodape)
-        # self.containerProxCabo.pack(side=TOP,
-        #                             fill=X,
-        #                             expand=1)
-        #
-        # ####--- Label Prox Medidas ---####
-        # self.containerProxMedidas = Frame(self.containerRodape,
-        #                                   bg=Cores.bgRodape)
-        # self.containerProxMedidas.pack()
-
-    def montaLabels(self, master=None):
-        ##------ Cabeçalho ------##
-        self.logo = Label(self.containerCabecalho,
-                          text="Datateck",
-                          font=Fontes.fonteCabecalho,
-                          image=Imagens.logo,
-                          bg=Cores.bgCinza,
-                          fg="white")
-        self.logo.pack(side=LEFT)
-
-        self.lblMaquina = Label(self.containerCabecalho,
-                                text=Definicoes.maquina,
-                                font=Fontes.fonteCabecalho,
-                                bg=Cores.bgCinza,
-                                fg="white")
-        self.lblMaquina.pack(side=LEFT,
-                             fill=BOTH,
-                             expand=1)
-
-        self.lblEstado = Label(self.containerCabecalho,
-                               text=Variaveis.estados[Variaveis.estadoEquipamento],
-                               font=Fontes.fontePadrao,
-                               bg=Cores.bgCinza,
-                               fg="white",
-                               anchor=CENTER,
-                               justify=CENTER)
-        self.lblEstado.pack(side=TOP,
-                            fill=BOTH)
-
-        self.lblRelogio = Label(self.containerCabecalho,
-                                text="00:00:00",
-                                font=Fontes.fonteCabecalho,
-                                padx=10,
-                                fg=Cores.letraVerde,
-                                bg=Cores.bgCinza)
-        self.lblRelogio.pack(side=LEFT,
-                             fill=Y)
-
-        ##--- Dados PD ---##
-        ###--- Cabecalho PD ---###
-        self.lblRequisicao = Label(self.containerCabecalhoPD,
-                            text="Requisição: %s" % (Variaveis.campos.get("REQUISICAO")),
-                            font=Fontes.fontePadrao,
-                            bg=Cores.bgCinza,
-                            fg="white",
-                            anchor="w")
-        self.lblRequisicao.pack(side=LEFT)
-
-        self.lblPD = Label(self.containerCabecalhoPD,
-                           text="PD: %s" % Variaveis.campos.get("PD"),
-                           font=Fontes.fonteCabecalho,
-                           bg=Cores.bgCinza,
-                           fg=Cores.letraVerde,
-                           anchor="center")
-        self.lblPD.pack(side=LEFT,
-                        fill=X,
-                        expand=1)
-
-        self.lblProdutoFinal = Label(self.containerCabecalhoPD,
-                            text="Produto Final: %s" % Variaveis.campos.get("CHICOTE"),
-                            font=Fontes.fontePadrao,
-                            bg=Cores.bgCinza,
-                            fg="white",
-                            anchor="e")
-        self.lblProdutoFinal.pack(side=LEFT)
-
-        ###--- Medidas PD ---###
-        self.lblDecapeA = Label(self.containerMedidasPD,
-                                text=Variaveis.campos.get("DECAPE A"),
-                                font=Fontes.fonteCabecalho,
-                                bg=Cores.bgCinza,
-                                fg=Cores.letraVerde)
-        self.lblDecapeA.grid(column=0,
-                             row=0)
-
-        self.lblMedida = Label(self.containerMedidasPD,
-                               text=Variaveis.campos.get("MEDIDA"),
+            self.lblPD = Label(self.containerCabecalhoPD,
+                               text="PD: %s" % Variaveis.campos.get("PD"),
                                font=Fontes.fonteCabecalho,
                                bg=Cores.bgCinza,
                                fg=Cores.letraVerde,
-                               width=30)
-        self.lblMedida.grid(column=1,
-                            row=0)
+                               anchor="center")
+            self.lblPD.pack(side=LEFT,
+                            fill=X,
+                            expand=1)
 
-        self.lblDecapeB = Label(self.containerMedidasPD,
-                                text=Variaveis.campos.get("DECAPE B"),
-                                font=Fontes.fonteCabecalho,
-                                bg=Cores.bgCinza,
-                                fg=Cores.letraVerde)
-        self.lblDecapeB.grid(column=2,
-                             row=0)
+            self.lblProdutoFinal = Label(self.containerCabecalhoPD,
+                                         text="Produto Final: %s" % Variaveis.campos.get(
+                                             "CHICOTE"),
+                                         font=Fontes.fontePadrao,
+                                         bg=Cores.bgCinza,
+                                         fg="white",
+                                         anchor="e")
+            self.lblProdutoFinal.pack(side=LEFT)
 
-        ###--- Cabo ---###
-        self.lblLadoACabo = Label(self.containerCabo,
-                                  text="",
-                                  bg=Cores.bgCobre,
-                                  width=10,
-                                  bd=0,
-                                  height=2)
-        self.lblLadoACabo.grid(column=0,
-                               row=0,
-                               rowspan=3)
+            ###--- Medidas PD ---###
+            self.lblDecapeA = Label(self.containerMedidasPD,
+                                    text=Variaveis.campos.get("DECAPE A"),
+                                    font=Fontes.fonteCabecalho,
+                                    bg=Cores.bgCinza,
+                                    fg=Cores.letraVerde)
+            self.lblDecapeA.grid(column=0,
+                                 row=0)
 
-        self.lblCaboSec1 = Label(self.containerCabo,
-                             text="",
-                             font=Fontes.fontePadrao,
-                             bg=Cores.bgCorDoCabo,
-                             fg=Cores.fgCorDoCabo,
-                             width=40,
-                             bd=0,
-                             height=1)
-        self.lblCaboSec1.grid(column=1,
-                          row=0)
+            self.lblMedida = Label(self.containerMedidasPD,
+                                   text=Variaveis.campos.get("MEDIDA"),
+                                   font=Fontes.fonteCabecalho,
+                                   bg=Cores.bgCinza,
+                                   fg=Cores.letraVerde,
+                                   width=30)
+            self.lblMedida.grid(column=1,
+                                row=0)
 
-        self.lblCabo = Label(self.containerCabo,
-                             text=Variaveis.campos.get("CABO"),
-                             font=Fontes.fontePadrao,
-                             bg=Cores.bgCorDaListra,
-                             fg=Cores.fgCorDoCabo,
-                             width=40,
-                             bd=0,
-                             height=1)
-        self.lblCabo.grid(column=1,
-                          row=1)
+            self.lblDecapeB = Label(self.containerMedidasPD,
+                                    text=Variaveis.campos.get("DECAPE B"),
+                                    font=Fontes.fonteCabecalho,
+                                    bg=Cores.bgCinza,
+                                    fg=Cores.letraVerde)
+            self.lblDecapeB.grid(column=2,
+                                 row=0)
 
-        self.lblCaboSec2 = Label(self.containerCabo,
-                                 text="",
+            ###--- Cabo ---###
+            self.lblLadoACabo = Label(self.containerCabo,
+                                      text="",
+                                      bg=Cores.bgCobre,
+                                      width=10,
+                                      bd=0,
+                                      height=2)
+            self.lblLadoACabo.grid(column=0,
+                                   row=0,
+                                   rowspan=3)
+
+            self.lblCaboSec1 = Label(self.containerCabo,
+                                     text="",
+                                     font=Fontes.fontePadrao,
+                                     bg=Cores.bgCorDoCabo,
+                                     fg=Cores.fgCorDoCabo,
+                                     width=40,
+                                     bd=0,
+                                     height=1)
+            self.lblCaboSec1.grid(column=1,
+                                  row=0)
+
+            self.lblCabo = Label(self.containerCabo,
+                                 text=Variaveis.campos.get("CABO"),
                                  font=Fontes.fontePadrao,
-                                 bg=Cores.bgCorDoCabo,
+                                 bg=Cores.bgCorDaListra,
                                  fg=Cores.fgCorDoCabo,
                                  width=40,
                                  bd=0,
                                  height=1)
-        self.lblCaboSec2.grid(column=1,
-                              row=2)
+            self.lblCabo.grid(column=1,
+                              row=1)
 
-        self.lblLadoBCabo = Label(self.containerCabo,
-                                  text="",
-                                  bg=Cores.bgCobre,
-                                  width=10,
-                                  bd=0,
-                                  height=2)
-        self.lblLadoBCabo.grid(column=2,
-                               row=0,
-                               rowspan=3)
+            self.lblCaboSec2 = Label(self.containerCabo,
+                                     text="",
+                                     font=Fontes.fontePadrao,
+                                     bg=Cores.bgCorDoCabo,
+                                     fg=Cores.fgCorDoCabo,
+                                     width=40,
+                                     bd=0,
+                                     height=1)
+            self.lblCaboSec2.grid(column=1,
+                                  row=2)
 
-        ###--- Detalhes ---###
-        ####--- Lado A ---####
-        #####--- Acabamento 1 ---#####
-        self.lblLabelAcabamento1 = Label(self.containerAcabamento1,
-                                         text="Acabamento 1",
-                                         font=Fontes.fontePadrao,
-                                         bg=Cores.bgVerde,
-                                         fg=Cores.bgCinza,
-                                         width=20)
-        self.lblLabelAcabamento1.pack(fill=BOTH,
-                                      expand=1,
-                                      pady=5)
+            self.lblLadoBCabo = Label(self.containerCabo,
+                                      text="",
+                                      bg=Cores.bgCobre,
+                                      width=10,
+                                      bd=0,
+                                      height=2)
+            self.lblLadoBCabo.grid(column=2,
+                                   row=0,
+                                   rowspan=3)
 
-        self.lblAcabamento1 = Label(self.containerAcabamento1,
-                                    text=Variaveis.campos.get("ACABAMENTO 1"),
-                                    font=Fontes.fontePadrao,
-                                    bg=Cores.bgVerde,
-                                    fg=Cores.bgCinza)
-        self.lblAcabamento1.pack(fill=BOTH,
-                                 expand=1,
-                                 pady=5)
+            ###--- Detalhes ---###
+            ####--- Lado A ---####
+            #####--- Acabamento 1 ---#####
+            self.lblLabelAcabamento1 = Label(self.containerAcabamento1,
+                                             text="Acabamento 1",
+                                             font=Fontes.fontePadrao,
+                                             bg=Cores.bgVerde,
+                                             fg=Cores.bgCinza,
+                                             width=20)
+            self.lblLabelAcabamento1.pack(fill=BOTH,
+                                          expand=1,
+                                          pady=5)
 
-        #####--- Acabamento 3 ---#####
-        self.lblLabelAcabamento3 = Label(self.containerAcabamento3,
-                                         text="Acabamento 3",
-                                         font=Fontes.fontePadrao,
-                                         bg=Cores.bgAcabamentosAux,
-                                         fg=Cores.bgCinza,
-                                         width=20)
-        self.lblLabelAcabamento3.pack(fill=BOTH,
-                                      expand=1,
-                                      pady=5)
-
-        self.lblAcabamento3 = Label(self.containerAcabamento3,
-                                    text=Variaveis.campos.get("ACABAMENTO 3"),
-                                    font=Fontes.fontePadrao,
-                                    bg=Cores.bgAcabamentosAux,
-                                    fg=Cores.bgCinza)
-        self.lblAcabamento3.pack(fill=BOTH,
-                                 expand=1,
-                                 pady=5)
-
-        ####--- Quantidade ---####
-        self.lblLabelQuantidade = Label(self.containerQuantidade,
-                                        text="Quantidade",
-                                        font=Fontes.fonteCabecalho,
-                                        bg=Cores.bgCinza,
-                                        fg=Cores.letraVerde)
-        self.lblLabelQuantidade.pack()
-
-        self.lblQuantidadePendente = Label(self.containerQuantidade,
-                                           text=Variaveis.campos.get("QTD PD REQ"),
-                                           font=Fontes.fonteQuantidadePendente,
-                                           bg=Cores.bgCinza,
-                                           fg=Cores.letraVerde,
-                                           anchor="ne")
-        self.lblQuantidadePendente.pack()
-
-        self.lblQuantidadeCortada = Label(self.containerQuantidade,
-                                          text=Variaveis.campos.get("QUANTIDADE_CORTADA"),
-                                          font=Fontes.fonteQuantidadeCortada,
-                                          bg=Cores.bgCinza,
-                                          fg="red",
-                                          anchor="sw")
-        # self.lblQuantidadeCortada.bind("<Button-1>",
-        #                                self.informarQuantidadeCortada)
-        self.lblQuantidadeCortada.pack()
-
-        ####--- Observacao ---####
-        self.lblLabelObservacao = Label(self.containerObservacao,
-                                        text="Observação",
+            self.lblAcabamento1 = Label(self.containerAcabamento1,
+                                        text=Variaveis.campos.get(
+                                            "ACABAMENTO 1"),
                                         font=Fontes.fontePadrao,
-                                        bg=Cores.bgCinza,
-                                        fg=Cores.bgAcabamentosAux)
-        self.lblLabelObservacao.pack()
+                                        bg=Cores.bgVerde,
+                                        fg=Cores.bgCinza)
+            self.lblAcabamento1.pack(fill=BOTH,
+                                     expand=1,
+                                     pady=5)
 
-        self.lblObservacao = Label(self.containerObservacao,
-                                   text=Variaveis.campos.get("OBSERVAÇÃO"),
-                                   font=Fontes.fontePadrao,
+            #####--- Acabamento 3 ---#####
+            self.lblLabelAcabamento3 = Label(self.containerAcabamento3,
+                                             text="Acabamento 3",
+                                             font=Fontes.fontePadrao,
+                                             bg=Cores.bgAcabamentosAux,
+                                             fg=Cores.bgCinza,
+                                             width=20)
+            self.lblLabelAcabamento3.pack(fill=BOTH,
+                                          expand=1,
+                                          pady=5)
+
+            self.lblAcabamento3 = Label(self.containerAcabamento3,
+                                        text=Variaveis.campos.get(
+                                            "ACABAMENTO 3"),
+                                        font=Fontes.fontePadrao,
+                                        bg=Cores.bgAcabamentosAux,
+                                        fg=Cores.bgCinza)
+            self.lblAcabamento3.pack(fill=BOTH,
+                                     expand=1,
+                                     pady=5)
+
+            ####--- Quantidade ---####
+            self.lblLabelQuantidade = Label(self.containerQuantidade,
+                                            text="Quantidade",
+                                            font=Fontes.fonteCabecalho,
+                                            bg=Cores.bgCinza,
+                                            fg=Cores.letraVerde)
+            self.lblLabelQuantidade.pack()
+
+            self.lblQuantidadePendente = Label(self.containerQuantidade,
+                                               text=Variaveis.campos.get(
+                                                   "QTD PD REQ"),
+                                               font=Fontes.fonteQuantidadePendente,
+                                               bg=Cores.bgCinza,
+                                               fg=Cores.letraVerde,
+                                               anchor="ne")
+            self.lblQuantidadePendente.pack()
+
+            self.lblQuantidadeCortada = Label(self.containerQuantidade,
+                                              text=Variaveis.campos.get(
+                                                  "QUANTIDADE_CORTADA"),
+                                              font=Fontes.fonteQuantidadeCortada,
+                                              bg=Cores.bgCinza,
+                                              fg="red",
+                                              anchor="sw")
+            # self.lblQuantidadeCortada.bind("<Button-1>",
+            #                                self.informarQuantidadeCortada)
+            self.lblQuantidadeCortada.pack()
+
+            ####--- Observacao ---####
+            self.lblLabelObservacao = Label(self.containerObservacao,
+                                            text="Observação",
+                                            font=Fontes.fontePadrao,
+                                            bg=Cores.bgCinza,
+                                            fg=Cores.bgAcabamentosAux)
+            self.lblLabelObservacao.pack()
+
+            self.lblObservacao = Label(self.containerObservacao,
+                                       text=Variaveis.campos.get("OBSERVAÇÃO"),
+                                       font=Fontes.fontePadrao,
+                                       bg=Cores.bgCinza,
+                                       fg="white")
+            self.lblObservacao.pack()
+
+            ####--- Gravacao ---####
+            self.lblLabelGravacao = Label(self.containerObservacao,
+                                          text="Gravação",
+                                          font=Fontes.fontePadrao,
+                                          bg=Cores.bgCinza,
+                                          fg=Cores.bgAcabamentosAux)
+            self.lblLabelGravacao.pack()
+
+            self.lblGravacao = Label(self.containerObservacao,
+                                     text=Variaveis.campos.get("GRAVAÇÃO"),
+                                     font=Fontes.fontePadrao,
+                                     bg=Cores.bgCinza,
+                                     fg="white")
+            self.lblGravacao.pack()
+
+            ####--- Labo B ---####
+            #####--- Acabamento 2 ---#####
+            self.lblLabelAcabamento2 = Label(self.containerAcabamento2,
+                                             text="Acabamento 2",
+                                             font=Fontes.fontePadrao,
+                                             bg=Cores.bgVerde,
+                                             fg=Cores.bgCinza,
+                                             width=20)
+            self.lblLabelAcabamento2.pack(fill=BOTH,
+                                          expand=1,
+                                          pady=5)
+
+            self.lblAcabamento2 = Label(self.containerAcabamento2,
+                                        text=Variaveis.campos.get(
+                                            "ACABAMENTO 2"),
+                                        font=Fontes.fontePadrao,
+                                        bg=Cores.bgVerde,
+                                        fg=Cores.bgCinza)
+            self.lblAcabamento2.pack(fill=BOTH,
+                                     expand=1,
+                                     pady=5)
+
+            #####--- Acabamento 4 ---#####
+            self.lblLabelAcabamento4 = Label(self.containerAcabamento4,
+                                             text="Acabamento 4",
+                                             font=Fontes.fontePadrao,
+                                             bg=Cores.bgAcabamentosAux,
+                                             fg=Cores.bgCinza,
+                                             width=20)
+            self.lblLabelAcabamento4.pack(fill=BOTH,
+                                          expand=1,
+                                          pady=5)
+
+            self.lblAcabamento4 = Label(self.containerAcabamento4,
+                                        text=Variaveis.campos.get(
+                                            "ACABAMENTO 4"),
+                                        font=Fontes.fontePadrao,
+                                        bg=Cores.bgAcabamentosAux,
+                                        fg=Cores.bgCinza)
+            self.lblAcabamento4.pack(fill=BOTH,
+                                     expand=1,
+                                     pady=5)
+
+            # --- Rodape ---#
+            self.lblRodape = Label(self.containerRodape,
+                                   text="%s - Logado desde:  %s" %
+                                        (Variaveis.nomeUsuarioLogado,
+                                         Variaveis.inicioSecao),
                                    bg=Cores.bgCinza,
-                                   fg="white")
-        self.lblObservacao.pack()
+                                   fg='white',
+                                   anchor='sw')
+            self.lblRodape.pack()
 
-        ####--- Gravacao ---####
-        self.lblLabelGravacao = Label(self.containerObservacao,
-                                      text="Gravação",
-                                      font=Fontes.fontePadrao,
-                                      bg=Cores.bgCinza,
-                                      fg=Cores.bgAcabamentosAux)
-        self.lblLabelGravacao.pack()
+            # self.lblProxCabo = Label(self.containerProxCabo,
+            #                          text=Variaveis.campos.get("PROX_CABO"),
+            #                          bg=Cores.bgRodape,
+            #                          fg=Cores.bgAcabamentosAux)
+            # self.lblProxCabo.pack(side=TOP,
+            #                       fill=X,
+            #                       expand=1)
+            #
+            # self.lblLabelProxDecapeA = Label(self.containerProxMedidas,
+            #                                  text="Decape A",
+            #                                  bg=Cores.bgRodape,
+            #                                  fg=Cores.bgAcabamentosAux)
+            # self.lblLabelProxDecapeA.grid(column=0,
+            #                               row=0)
+            #
+            # self.lblLabelProxMedida = Label(self.containerProxMedidas,
+            #                                 text="Medida",
+            #                                 bg=Cores.bgRodape,
+            #                                 fg=Cores.bgAcabamentosAux,
+            #                                 width=30)
+            # self.lblLabelProxMedida.grid(column=1,
+            #                              row=0)
+            #
+            # self.lblLabelProxDecapeB = Label(self.containerProxMedidas,
+            #                                  text="Decape B",
+            #                                  bg=Cores.bgRodape,
+            #                                  fg=Cores.bgAcabamentosAux)
+            # self.lblLabelProxDecapeB.grid(column=2,
+            #                               row=0)
+            #
+            # self.lblProxDecapeA = Label(self.containerProxMedidas,
+            #                             text=Variaveis.campos.get("PROX_DECAPEA"),
+            #                             bg=Cores.bgRodape,
+            #                             fg=Cores.bgAcabamentosAux)
+            # self.lblProxDecapeA.grid(column=0,
+            #                          row=1)
+            #
+            # self.lblProxMedida = Label(self.containerProxMedidas,
+            #                            text=Variaveis.campos.get("PROX_MEDIDA"),
+            #                            bg=Cores.bgRodape,
+            #                            fg="#888")
+            # self.lblProxMedida.grid(column=1, row=1)
+            #
+            # self.lblProxDecapeB = Label(self.containerProxMedidas,
+            #                             text=Variaveis.campos.get("PROX_DECAPEB"),
+            #                             bg=Cores.bgRodape,
+            #                             fg=Cores.bgAcabamentosAux)
+            # self.lblProxDecapeB.grid(column=2,
+            #                          row=1)
 
-        self.lblGravacao = Label(self.containerObservacao,
-                                 text=Variaveis.campos.get("GRAVAÇÃO"),
-                                 font=Fontes.fontePadrao,
-                                 bg=Cores.bgCinza,
-                                 fg="white")
-        self.lblGravacao.pack()
+        def montaBotoes(master=None):
+            # --- Botões ---#
+            self.btnBuscar = Button(self.containerBotoes,
+                                    image=activeButtons.buscarButton,
+                                    width=130,
+                                    height=50,
+                                    bg=Cores.bgCinza,
+                                    relief=FLAT,
+                                    anchor="w",
+                                    bd=0,
+                                    highlightthickness=0)
+            self.btnBuscar["command"] = self.montaLista
+            self.btnBuscar.pack(pady=5)
 
-        ####--- Labo B ---####
-        #####--- Acabamento 2 ---#####
-        self.lblLabelAcabamento2 = Label(self.containerAcabamento2,
-                                         text="Acabamento 2",
-                                         font=Fontes.fontePadrao,
-                                         bg=Cores.bgVerde,
-                                         fg=Cores.bgCinza,
-                                         width=20)
-        self.lblLabelAcabamento2.pack(fill=BOTH,
-                                      expand=1,
-                                      pady=5)
-
-        self.lblAcabamento2 = Label(self.containerAcabamento2,
-                                    text=Variaveis.campos.get("ACABAMENTO 2"),
-                                    font=Fontes.fontePadrao,
-                                    bg=Cores.bgVerde,
-                                    fg=Cores.bgCinza)
-        self.lblAcabamento2.pack(fill=BOTH,
-                                 expand=1,
-                                 pady=5)
-
-        #####--- Acabamento 4 ---#####
-        self.lblLabelAcabamento4 = Label(self.containerAcabamento4,
-                                         text="Acabamento 4",
-                                         font=Fontes.fontePadrao,
-                                         bg=Cores.bgAcabamentosAux,
-                                         fg=Cores.bgCinza,
-                                         width=20)
-        self.lblLabelAcabamento4.pack(fill=BOTH,
-                                      expand=1,
-                                      pady=5)
-
-        self.lblAcabamento4 = Label(self.containerAcabamento4,
-                                    text=Variaveis.campos.get("ACABAMENTO 4"),
-                                    font=Fontes.fontePadrao,
-                                    bg=Cores.bgAcabamentosAux,
-                                    fg=Cores.bgCinza)
-        self.lblAcabamento4.pack(fill=BOTH,
-                                 expand=1,
-                                 pady=5)
-
-        # --- Rodape ---#
-        self.lblRodape = Label(self.containerRodape,
-                               text="%s - Logado desde:  %s" %
-                                    (Variaveis.nomeUsuarioLogado,
-                                     Variaveis.inicioSecao),
-                               bg=Cores.bgCinza,
-                               fg='white',
-                               anchor='sw')
-        self.lblRodape.pack()
-
-
-        # self.lblProxCabo = Label(self.containerProxCabo,
-        #                          text=Variaveis.campos.get("PROX_CABO"),
-        #                          bg=Cores.bgRodape,
-        #                          fg=Cores.bgAcabamentosAux)
-        # self.lblProxCabo.pack(side=TOP,
-        #                       fill=X,
-        #                       expand=1)
-        #
-        # self.lblLabelProxDecapeA = Label(self.containerProxMedidas,
-        #                                  text="Decape A",
-        #                                  bg=Cores.bgRodape,
-        #                                  fg=Cores.bgAcabamentosAux)
-        # self.lblLabelProxDecapeA.grid(column=0,
-        #                               row=0)
-        #
-        # self.lblLabelProxMedida = Label(self.containerProxMedidas,
-        #                                 text="Medida",
-        #                                 bg=Cores.bgRodape,
-        #                                 fg=Cores.bgAcabamentosAux,
-        #                                 width=30)
-        # self.lblLabelProxMedida.grid(column=1,
-        #                              row=0)
-        #
-        # self.lblLabelProxDecapeB = Label(self.containerProxMedidas,
-        #                                  text="Decape B",
-        #                                  bg=Cores.bgRodape,
-        #                                  fg=Cores.bgAcabamentosAux)
-        # self.lblLabelProxDecapeB.grid(column=2,
-        #                               row=0)
-        #
-        # self.lblProxDecapeA = Label(self.containerProxMedidas,
-        #                             text=Variaveis.campos.get("PROX_DECAPEA"),
-        #                             bg=Cores.bgRodape,
-        #                             fg=Cores.bgAcabamentosAux)
-        # self.lblProxDecapeA.grid(column=0,
-        #                          row=1)
-        #
-        # self.lblProxMedida = Label(self.containerProxMedidas,
-        #                            text=Variaveis.campos.get("PROX_MEDIDA"),
-        #                            bg=Cores.bgRodape,
-        #                            fg="#888")
-        # self.lblProxMedida.grid(column=1, row=1)
-        #
-        # self.lblProxDecapeB = Label(self.containerProxMedidas,
-        #                             text=Variaveis.campos.get("PROX_DECAPEB"),
-        #                             bg=Cores.bgRodape,
-        #                             fg=Cores.bgAcabamentosAux)
-        # self.lblProxDecapeB.grid(column=2,
-        #                          row=1)
-
-    def montaBotoes(self, master=None):
-
-        # --- Botões ---#
-        self.btnBuscar = Button(self.containerBotoes,
-                                image=activeButtons.buscarButton,
-                                width=130,
-                                height=50,
-                                bg=Cores.bgCinza,
-                                relief=FLAT,
-                                anchor="w",
-                                bd=0,
-                                highlightthickness=0)
-        self.btnBuscar["command"] = self.montaLista
-        self.btnBuscar.pack(pady=5)
-
-        self.btnSetup = Button(self.containerBotoes,
-                               image=inactiveButtons.setupButton,
-                               width=130,
+            self.btnSetup = Button(self.containerBotoes,
+                                   image=inactiveButtons.setupButton,
+                                   width=130,
                                    height=50,
-                               bg=Cores.bgCinza,
-                               relief=FLAT,
-                               anchor="w",
-                               bd=0,
-                               highlightthickness=0)
-        self.btnSetup["command"] = self.setupStartStop
-        self.btnSetup.pack(pady=5)
+                                   bg=Cores.bgCinza,
+                                   relief=FLAT,
+                                   anchor="w",
+                                   bd=0,
+                                   highlightthickness=0)
+            self.btnSetup["command"] = self.setupStartStop
+            self.btnSetup.pack(pady=5)
 
-        self.btnStart = Button(self.containerBotoes,
-                               image=inactiveButtons.startButton,
-                               width=130,
-                               height=50,
-                               bg=Cores.bgCinza,
-                               relief=FLAT,
-                               anchor="w",
-                               bd=0,
-                               highlightthickness=0)
-        # self.btnStart["command"] =
-        self.btnStart.pack(pady=5)
+            self.btnStart = Button(self.containerBotoes,
+                                   image=inactiveButtons.startButton,
+                                   width=130,
+                                   height=50,
+                                   bg=Cores.bgCinza,
+                                   relief=FLAT,
+                                   anchor="w",
+                                   bd=0,
+                                   highlightthickness=0)
+            self.btnStart["command"] = self.corteStartStop
+            self.btnStart.pack(pady=5)
 
-        self.btnRQ = Button(self.containerBotoes,
-                              image=inactiveButtons.rqButton,
-                              width=130,
-                              height=50,
-                              bg=Cores.bgCinza,
-                              relief=FLAT,
-                              anchor="w",
-                              bd=0,
-                              highlightthickness=0)
-        self.btnRQ["command"] = self.abrirPopUpRQSetup
-        self.btnRQ.pack(pady=5)
-
-        self.btnParada = Button(self.containerBotoes,
-                                image=redButtons.paradaButton,
+            self.btnRQ = Button(self.containerBotoes,
+                                image=inactiveButtons.rqButton,
                                 width=130,
                                 height=50,
                                 bg=Cores.bgCinza,
@@ -756,32 +749,48 @@ class Application:
                                 anchor="w",
                                 bd=0,
                                 highlightthickness=0)
-        # self.btnParada["command"] =
-        self.btnParada.pack(pady=5)
+            self.btnRQ["command"] = self.popUpRQSetup
+            self.btnRQ.pack(pady=5)
 
-        self.btnMenu = Button(self.containerBotoes,
-                              image=activeButtons.menuButton,
-                              width=130,
-                              height=50,
-                              bg=Cores.bgCinza,
-                              relief=FLAT,
-                              anchor="w",
-                              bd=0,
-                              highlightthickness=0)
-        # self.btnMenu["command"] =
-        self.btnMenu.pack(pady=5)
-        
-        self.btnSair = Button(self.containerBotoes,
-                              image=activeButtons.sairButton,
-                              width=130,
-                              height=50,
-                              bg=Cores.bgCinza,
-                              relief=FLAT,
-                              anchor="w",
-                              bd=0,
-                              highlightthickness=0)
-        self.btnSair["command"] = root.destroy
-        self.btnSair.pack(pady=5)
+            self.btnParada = Button(self.containerBotoes,
+                                    image=redButtons.paradaButton,
+                                    width=130,
+                                    height=50,
+                                    bg=Cores.bgCinza,
+                                    relief=FLAT,
+                                    anchor="w",
+                                    bd=0,
+                                    highlightthickness=0)
+            # self.btnParada["command"] =
+            self.btnParada.pack(pady=5)
+
+            self.btnMenu = Button(self.containerBotoes,
+                                  image=activeButtons.menuButton,
+                                  width=130,
+                                  height=50,
+                                  bg=Cores.bgCinza,
+                                  relief=FLAT,
+                                  anchor="w",
+                                  bd=0,
+                                  highlightthickness=0)
+            # self.btnMenu["command"] =
+            self.btnMenu.pack(pady=5)
+
+            self.btnSair = Button(self.containerBotoes,
+                                  image=activeButtons.sairButton,
+                                  width=130,
+                                  height=50,
+                                  bg=Cores.bgCinza,
+                                  relief=FLAT,
+                                  anchor="w",
+                                  bd=0,
+                                  highlightthickness=0)
+            self.btnSair["command"] = root.destroy
+            self.btnSair.pack(pady=5)
+
+        montaContainers()
+        montaLabels()
+        montaBotoes()
 
     # --- Limpeza de Layouts --- #
     def limpaTela(self):
@@ -794,17 +803,91 @@ class Application:
 
     # --- Busca Lista de Corte --- #
     def montaLista(self):
+        def listaSelectBtn(master=None):
+            def carregaDadosDoPDNaTela(ID):
+                pd = PD()
+                pd.buscaPD(ID)
+                dadosDoPD = pd.dadosPD
+
+                for i in range(len(dadosDoPD)):
+                    try:
+                        Variaveis.campos[Variaveis.colunas[i]] = round(
+                            dadosDoPD[i])
+                    except:
+                        Variaveis.campos[Variaveis.colunas[i]] = dadosDoPD[i]
+
+                for ele in root.winfo_children():
+                    ele.destroy()
+
+                Cores.bgCorDoCabo = Variaveis.campos.get("PRIMARIA")
+                Cores.bgCorDaListra = Variaveis.campos.get("SECUNDARIA")
+                Cores.fgCorDoCabo = Variaveis.campos.get("COR_TEXTO")
+
+                Variaveis.estadoEquipamento = 1
+
+                t = tempos.TEMPOS()
+                t.tomaTempoEvento(Variaveis.ID,
+                                  1,
+                                  Variaveis.idUsuarioLogado,
+                                  Definicoes.maquina)
+
+                self.montaTelaPrincipal()
+
+                self.btnSetup.configure(image=activeButtons.setupButton)
+
+            self.itemSel = self.tvw.focus()
+            self.itemData = self.tvw.item(self.itemSel)
+            Variaveis.ID = self.itemData.get('values')[3]
+
+            carregaDadosDoPDNaTela(Variaveis.ID)
+
+        def abrirOuFecharNode(master=None):
+            self.nodeSel = self.tvw.focus()
+            self.nodeIsOpen = self.tvw.item(self.nodeSel, option='open')
+
+            self.tvw.item(self.nodeSel, open=not self.nodeIsOpen)
+
+        def populaLista():
+            pd = PD()
+            pd.buscaLista(Definicoes.maquina)
+
+            self.data = pd.lista
+
+            cabos = []
+
+            for item in self.data:
+                if item[9] not in cabos:
+                    cabos.append(str(item[9]))
+
+            for cabo in cabos:
+                self.tvw.insert('', 'end', cabo, text=cabo)
+
+            for item in self.data:
+                self.tvw.insert(
+                    item[9],
+                    'end',
+                    text=item[8], values=(
+                        item[15],
+                        round(item[14]),
+                        item[1],
+                        item[0]))
+
+            self.listaCount.configure(
+                text='Total de PDs: ' + str(len(self.data)))
+
         self.btnBuscar.configure(image=inactiveButtons.buscarButton)
 
-        if Variaveis.estadoEquipamento <= 1:
-            self.limpaContainerEsquerda()
+        if Variaveis.estadoEquipamento in (0,1,4) and not Variaveis.RQPreenchido:
+            Variaveis.estadoEquipamento = 0
 
+            self.btnSetup.config(image=inactiveButtons.setupButton)
+
+            self.limpaContainerEsquerda()
 
             self.dataCols = ('Medida',
                              'Quantidade',
                              'Requisição',
                              'ID')
-
 
             self.containerEsquerda.grid_rowconfigure(0, weight=1)
             self.containerEsquerda.grid_columnconfigure(0, weight=1)
@@ -831,7 +914,7 @@ class Application:
             self.tvw = ttk.Treeview(self.containerEsquerda,
                                     style="mystyle.Treeview",
                                     columns=self.dataCols)
-            self.tvw.bind("<ButtonRelease-1>", self.abrirOuFecharNode)
+            self.tvw.bind("<ButtonRelease-1>", abrirOuFecharNode)
 
             self.tvw.heading("#0", text="Cabo/PD")
 
@@ -864,83 +947,12 @@ class Application:
                                       bd=0,
                                       relief=FLAT,
                                       image=activeButtons.confirmarButton)
-            self.btnConfirma.bind("<Button-1>", self.listaSelectBtn)
+            self.btnConfirma.bind("<Button-1>", listaSelectBtn)
             self.btnConfirma.grid(column=0,
                                   row=3,
                                   ipadx=5)
 
-            self.populaLista()
-
-    def populaLista(self):
-        pd = PD()
-        pd.buscaLista(Definicoes.maquina)
-
-        self.data = pd.lista
-
-        cabos = []
-
-        for item in self.data:
-            if item[9] not in cabos:
-                cabos.append(str(item[9]))
-
-
-        for cabo in cabos:
-            self.tvw.insert('', 'end', cabo, text=cabo)
-
-        for item in self.data:
-            self.tvw.insert(
-                            item[9],
-                            'end',
-                            text=item[8], values=(
-                                                item[15],
-                                                round(item[14]),
-                                                item[1],
-                                                item[0]))
-
-        self.listaCount.configure(text='Total de PDs: ' + str(len(self.data)))
-
-    def abrirOuFecharNode(self, master=None):
-        self.nodeSel = self.tvw.focus()
-        self.nodeIsOpen = self.tvw.item(self.nodeSel, option='open')
-
-        self.tvw.item(self.nodeSel, open= not self.nodeIsOpen)
-
-    def listaSelectBtn(self, master=None):
-        self.itemSel = self.tvw.focus()
-        self.itemData = self.tvw.item(self.itemSel)
-        Variaveis.ID = self.itemData.get('values')[3]
-
-        self.carregaDadosDoPDNaTela(Variaveis.ID)
-
-    def carregaDadosDoPDNaTela(self, ID):
-        pd = PD()
-        pd.buscaPD(ID)
-        dadosDoPD = pd.dadosPD
-
-        for i in range(len(dadosDoPD)):
-            try:
-                Variaveis.campos[Variaveis.colunas[i]] = round(dadosDoPD[i])
-            except:
-                Variaveis.campos[Variaveis.colunas[i]] = dadosDoPD[i]
-
-        for ele in root.winfo_children():
-            ele.destroy()
-
-        Cores.bgCorDoCabo = Variaveis.campos.get("PRIMARIA")
-        Cores.bgCorDaListra = Variaveis.campos.get("SECUNDARIA")
-        Cores.fgCorDoCabo = Variaveis.campos.get("COR_TEXTO")
-
-        Variaveis.estadoEquipamento = 1
-
-        t = tempos.TEMPOS()
-        t.tomaTempoEvento(Variaveis.ID,
-                          1,
-                          Variaveis.idUsuarioLogado,
-                          Definicoes.maquina)
-
-        self.montaTelaPrincipal()
-
-        self.btnSetup.configure(image=activeButtons.setupButton)
+            populaLista()
 
     def setupStartStop(self):
         if Variaveis.estadoEquipamento in (1, 4) and not Variaveis.RQPreenchido:
@@ -980,6 +992,8 @@ class Application:
             if Variaveis.RQPreenchido:
                 self.btnSetup.config(image=inactiveButtons.setupButton)
                 self.btnStart.config(image=activeButtons.startButton)
+            else:
+                self.btnBuscar.config(image=activeButtons.buscarButton)
 
             self.atualizaEstado()
 
@@ -1004,356 +1018,374 @@ class Application:
         self.lblEstado.configure(
             text=Variaveis.estados[Variaveis.estadoEquipamento])
 
-    def abrirPopUpRQSetup(self):
-        if Variaveis.estadoEquipamento == 2 and not Variaveis.RQPreenchido:
-            Variaveis.estadoEquipamento = 3
+    def popUpRQSetup(self):
+        def cancelarPopUpRQSetup():
+            if Variaveis.estadoEquipamento == 3:
+                Variaveis.estadoEquipamento = 2
 
-            self.btnRQ.configure(image=inactiveButtons.rqButton)
+                if Variaveis.virtualNumPadVisible:
+                    self.popUpVNumPad.destroy()
+                    Variaveis.virtualNumPadVisible = False
 
-            self.popUpRQSetup = Toplevel(bg=Cores.bgCinza,
-                                         bd=7,
-                                         relief=RAISED)
-            self.popUpRQSetup.overrideredirect(1)
-            self.popUpRQSetup.attributes('-topmost', 'true')
-            self.popUpRQSetup.bind('<Escape>', self.cancelarPopUpRQSetup)
-            self.popUpRQSetup.geometry('+50+50')
-            self.popUpRQSetup.focus()
+                self.popUpRQSetup.destroy()
 
-            self.frameCamposRQ = Frame(self.popUpRQSetup,
-                                       bg=Cores.bgCinza)
-            self.frameCamposRQ.pack(side=TOP,
-                                    fill=BOTH,
-                                    expand=1,
-                                    padx=15,
-                                    pady=(5,10))
+                self.btnRQ.configure(image=activeButtons.rqButton)
 
-            self.frameBotoesRQ = Frame(self.popUpRQSetup,
-                                       bg=Cores.bgCinza)
-            self.frameBotoesRQ.pack(side=BOTTOM,
-                                    fill=X,
-                                    expand=1,
-                                    padx=10,
-                                    pady=10)
+        def abrirPopUpRQSetup():
+            if Variaveis.estadoEquipamento == 2 and not Variaveis.RQPreenchido:
+                Variaveis.estadoEquipamento = 3
 
-            self.btnConfirmaRQ = Button(self.frameBotoesRQ,
-                                        text="Fechar",
-                                        font=Fontes.fontePadrao,
-                                        bg=Cores.bgCinza,
-                                        fg='white',
-                                        relief=FLAT,
-                                        image=inactiveButtons.confirmarButton)
+                self.btnRQ.configure(image=inactiveButtons.rqButton)
 
-            self.btnConfirmaRQ["command"] = self.registraRQSetup
+                def montaScreen():
+                    self.popUpRQSetup = Toplevel(bg=Cores.bgCinza,
+                                             bd=7,
+                                             relief=RAISED)
+                    self.popUpRQSetup.overrideredirect(1)
+                    self.popUpRQSetup.attributes('-topmost', 'true')
+                    self.popUpRQSetup.bind('<Escape>', cancelarPopUpRQSetup)
+                    self.popUpRQSetup.geometry('+50+50')
+                    self.popUpRQSetup.focus()
 
-            self.btnCancelaRQ = Button(self.frameBotoesRQ,
-                                       text="Fechar",
-                                       font=Fontes.fontePadrao,
-                                       bg=Cores.bgCinza,
-                                       fg='white',
-                                       relief=FLAT,
-                                       image=redButtons.cancelarButton)
-            self.btnCancelaRQ["command"] = self.cancelarPopUpRQSetup
+                    self.frameCamposRQ = Frame(self.popUpRQSetup,
+                                               bg=Cores.bgCinza)
+                    self.frameCamposRQ.pack(side=TOP,
+                                            fill=BOTH,
+                                            expand=1,
+                                            padx=15,
+                                            pady=(5,10))
 
-            self.lblRegQualidade = Label(self.frameCamposRQ,
-                                         text="REGISTROS DE QUALIDADE",
-                                         font=Fontes.fonteCabecalho,
-                                         bg=Cores.bgCinza,
-                                         fg='azure2',
-                                         justify=CENTER)
+                    self.frameBotoesRQ = Frame(self.popUpRQSetup,
+                                               bg=Cores.bgCinza)
+                    self.frameBotoesRQ.pack(side=BOTTOM,
+                                            fill=X,
+                                            expand=1,
+                                            padx=10,
+                                            pady=10)
 
-            self.lblPriMedida = Label(self.frameCamposRQ,
-                                      text="PRIMEIRA MEDIDA (mm)",
-                                      font=Fontes.fontePadrao,
-                                      bg=Cores.bgCinza,
-                                      fg=Cores.letraVerde,
-                                      justify=CENTER)
+                def montaWidgets():
+                    def registraRQSetup():
+                        if Variaveis.virtualNumPadVisible:
+                            self.popUpVNumPad.destroy()
+                            Variaveis.virtualNumPadVisible = False
 
-            self.entryPriMedida = Entry(self.frameCamposRQ,
-                                        name='entry10',
-                                        width=10,
-                                        bg='lightcyan2',
-                                        disabledbackground='dark slate gray',
-                                        font=Fontes.fonteCabecalho,
-                                        justify=CENTER)
-            self.entryPriMedida.bind("<Button-1>",
-                                     lambda x:
-                                     self.virtualNumPad(
-                                         self.entryPriMedida))
+                        # pd = PD
+                        dados = []
 
-            self.lblLadoA = Label(self.frameCamposRQ,
-                                  text="LADO A",
-                                  font=Fontes.fontePadrao,
-                                  bg=Cores.bgCinza,
-                                  fg=Cores.letraVerde,
-                                  justify=CENTER)
+                        def registraPriMedida():
 
-            self.lblLadoB = Label(self.frameCamposRQ,
-                                  text="LADO B",
-                                  font=Fontes.fontePadrao,
-                                  bg=Cores.bgCinza,
-                                  fg=Cores.letraVerde,
-                                  justify=CENTER)
-
-            self.entryAlturaIsolanteA = Entry(self.frameCamposRQ,
-                                              name='entry31',
-                                              width=10,
-                                              bg='lightcyan2',
-                                              disabledbackground='dark slate gray',
-                                              font=Fontes.fonteCabecalho,
-                                              justify=CENTER)
-            self.entryAlturaIsolanteA.bind("<Button-1>",
-                                     lambda x:
-                                     self.virtualNumPad(
-                                         self.entryAlturaIsolanteA))
-
-            self.lblAlturaIsolante = Label(self.frameCamposRQ,
-                                           text="Altura Isolante (mm)",
-                                           font=Fontes.fontePadrao,
-                                           bg=Cores.bgCinza,
-                                           fg='white',
-                                           justify=CENTER)
-
-            self.entryAlturaIsolanteB = Entry(self.frameCamposRQ,
-                                              name='entry32',
-                                              width=10,
-                                              bg='lightcyan2',
-                                              disabledbackground='dark slate gray',
-                                              font=Fontes.fonteCabecalho,
-                                              justify=CENTER)
-            self.entryAlturaIsolanteB.bind("<Button-1>",
-                                           lambda x:
-                                           self.virtualNumPad(
-                                               self.entryAlturaIsolanteB))
-
-            self.entryAlturaCondutorA = Entry(self.frameCamposRQ,
-                                              name='entry41',
-                                              width=10,
-                                              bg='lightcyan2',
-                                              disabledbackground='dark slate gray',
-                                              font=Fontes.fonteCabecalho,
-                                              justify=CENTER)
-            self.entryAlturaCondutorA.bind("<Button-1>",
-                                           lambda x:
-                                           self.virtualNumPad(
-                                               self.entryAlturaCondutorA))
-
-            self.lblAlturaCondutor = Label(self.frameCamposRQ,
-                                           text="Altura Condutor (mm)",
-                                           font=Fontes.fontePadrao,
-                                           bg=Cores.bgCinza,
-                                           fg='white',
-                                           justify=CENTER)
-
-            self.entryAlturaCondutorB = Entry(self.frameCamposRQ,
-                                              name='entry42',
-                                              width=10,
-                                              bg='lightcyan2',
-                                              disabledbackground='dark slate gray',
-                                              font=Fontes.fonteCabecalho,
-                                              justify=CENTER)
-            self.entryAlturaCondutorB.bind("<Button-1>",
-                                           lambda x:
-                                           self.virtualNumPad(
-                                               self.entryAlturaCondutorB))
-
-            self.entryTracaoA = Entry(self.frameCamposRQ,
-                                      name='entry51',
-                                      width=10,
-                                      bg='lightcyan2',
-                                      disabledbackground='dark slate gray',
-                                      font=Fontes.fonteCabecalho,
-                                      justify=CENTER)
-            self.entryTracaoA.bind("<Button-1>",
-                                           lambda x:
-                                           self.virtualNumPad(
-                                               self.entryTracaoA))
-
-            self.lblTracao = Label(self.frameCamposRQ,
-                                   text="Tração (kgf)",
-                                   font=Fontes.fontePadrao,
-                                   bg=Cores.bgCinza,
-                                   fg='white',
-                                   justify=CENTER)
-
-            self.entryTracaoB = Entry(self.frameCamposRQ,
-                                      name='entry52',
-                                      width=10,
-                                      bg='lightcyan2',
-                                      disabledbackground='dark slate gray',
-                                      font=Fontes.fonteCabecalho,
-                                      justify=CENTER)
-            self.entryTracaoB.bind("<Button-1>",
-                                           lambda x:
-                                           self.virtualNumPad(
-                                               self.entryTracaoB))
-
-            self.lblMensagem = Label(self.frameBotoesRQ,
-                                     text= '',
-                                     font=Fontes.fontePadrao,
-                                     bg=Cores.bgCinza,
-                                     fg='red',
-                                     justify=CENTER)
-
-            self.lblRegQualidade.grid(column=0,
-                                      row=0,
-                                      columnspan=5,
-                                      pady=10)
-
-            self.lblPriMedida.grid(column=0,
-                                   row=1,
-                                   columnspan=3,
-                                   pady=10)
-            self.entryPriMedida.grid(column=0,
-                                     row=2,
-                                     columnspan=3)
-
-            self.lblLadoA.grid(column=0,
-                               row=3)
-            self.lblLadoB.grid(column=2,
-                               row=3)
-
-            self.entryAlturaIsolanteA.grid(column=0,
-                                           row=4)
-            self.lblAlturaIsolante.grid(column=1,
-                                        row=4)
-            self.entryAlturaIsolanteB.grid(column=2,
-                                           row=4)
-
-            self.entryAlturaCondutorA.grid(column=0,
-                                           row=5)
-            self.lblAlturaCondutor.grid(column=1,
-                                        row=5,
-                                        pady=10)
-            self.entryAlturaCondutorB.grid(column=2,
-                                           row=5)
-
-            self.entryTracaoA.grid(column=0,
-                                   row=6)
-            self.lblTracao.grid(column=1,
-                                row=6)
-            self.entryTracaoB.grid(column=2,
-                                   row=6)
-
-            self.lblMensagem.pack(side=TOP,
-                                  anchor='center',
-                                  fill=X,
-                                  expand=1)
-            self.btnConfirmaRQ.pack(side=LEFT,
-                                    anchor='center',
-                                    fill=X,
-                                    expand=1)
-            self.btnCancelaRQ.pack(side=LEFT,
-                                   anchor='center',
-                                   fill=X,
-                                   expand=1)
-
-            def desabilitaLadosNaoUtilizados(self):
-                if Variaveis.campos["ACABAMENTO 1"] == "None":
-                    self.entryAlturaCondutorA.config(state='disabled')
-                    self.entryAlturaIsolanteA.config(state='disabled')
-                    self.entryTracaoA.config(state='disabled')
-                if Variaveis.campos["ACABAMENTO 2"] == "None":
-                    self.entryAlturaCondutorB.config(state='disabled')
-                    self.entryAlturaIsolanteB.config(state='disabled')
-                    self.entryTracaoB.config(state='disabled')
-
-
-
-                # if Variaveis.campos["ACABAMENTO 1"] != "None":
-                    # for ele in self.frameCamposRQ.winfo_children():
-                    #     if ele.winfo_class() == 'Entry':
-                    #         print(ele.winfo_name())
-                    #         ele.config(bg='black')
-
-            desabilitaLadosNaoUtilizados(self)
-
-    def cancelarPopUpRQSetup(self):
-        if Variaveis.estadoEquipamento == 3:
-            Variaveis.estadoEquipamento = 2
-
-            if Variaveis.virtualNumPadVisible:
-                self.popUpVNumPad.destroy()
-                Variaveis.virtualNumPadVisible = False
-
-            self.popUpRQSetup.destroy()
-
-            self.btnRQ.configure(image=activeButtons.rqButton)
-
-    def registraRQSetup(self):
-        if Variaveis.virtualNumPadVisible:
-            self.popUpVNumPad.destroy()
-            Variaveis.virtualNumPadVisible = False
-
-        # pd = PD
-        dados = []
-
-        def registraPriMedida():
-
-            if (self.entryPriMedida.get() != ''):
-                registro = []
-                registro.append(Variaveis.campos.get("PK_IQC"))
-                registro.append(1)
-                registro.append(float(self.entryPriMedida.get()))
-                registro.append('')
-                registro.append(Variaveis.idUsuarioLogado)
-                registro.append(Definicoes.maquina)
-                dados.append(list(registro))
-
-            else:
-                self.entryPriMedida.config(bg='indian red')
-                self.lblMensagem.config(text='Informe a Primeira Medida!')
-
-        def registraMedidas():
-            for L in (1, 2):
-                if Variaveis.campos.get("ACABAMENTO %s" % L) != 'None':
-                    print(Variaveis.campos.get("ACABAMENTO %s" % L))
-                    for ele in self.frameCamposRQ.winfo_children():
-                        if ele.winfo_class() == 'Entry' \
-                           and int(ele.winfo_name()[-1:]) == L:
-                            if ele.get() == '':
-                                ele.config(bg='indian red')
-                                self.lblMensagem.config(
-                                    text='Informe as medidas para registro')
-                            else:
+                            if (self.entryPriMedida.get() != ''):
                                 registro = []
                                 registro.append(Variaveis.campos.get("PK_IQC"))
-                                registro.append(int(ele.winfo_name()[-2:-1]))
-                                try:
-                                    registro.append(
-                                        float(ele.get().replace(',', '.')))
-                                except:
-                                    self.lblMensagem[
-                                        'text'] = 'Digite corretamente um ' \
-                                                  'valor de medida'
-                                registro.append(int(ele.winfo_name()[-1:]))
+                                registro.append(1)
+                                registro.append(
+                                    float(self.entryPriMedida.get()))
+                                registro.append('')
                                 registro.append(Variaveis.idUsuarioLogado)
                                 registro.append(Definicoes.maquina)
-                                dados.append(registro)
+                                dados.append(list(registro))
 
-        registraPriMedida()
-        registraMedidas()
+                            else:
+                                self.entryPriMedida.config(bg='indian red')
+                                self.lblMensagem.config(
+                                    text='Informe a Primeira Medida!')
 
-        if self.lblMensagem['text'] == '':
-            print(dados)
+                        def registraMedidas():
+                            for L in (1, 2):
+                                if Variaveis.campos.get(
+                                        "ACABAMENTO %s" % L) != 'None':
+                                    print(Variaveis.campos.get(
+                                        "ACABAMENTO %s" % L))
+                                    for ele in self.frameCamposRQ.winfo_children():
+                                        if ele.winfo_class() == 'Entry' \
+                                                and int(
+                                            ele.winfo_name()[-1:]) == L:
+                                            if ele.get() == '':
+                                                ele.config(bg='indian red')
+                                                self.lblMensagem.config(
+                                                    text='Informe as medidas para registro')
+                                            else:
+                                                registro = []
+                                                registro.append(
+                                                    Variaveis.campos.get(
+                                                        "PK_IQC"))
+                                                registro.append(int(
+                                                    ele.winfo_name()[-2:-1]))
+                                                try:
+                                                    registro.append(
+                                                        float(
+                                                            ele.get().replace(
+                                                                ',', '.')))
+                                                except:
+                                                    self.lblMensagem[
+                                                        'text'] = 'Digite corretamente um ' \
+                                                                  'valor de medida'
+                                                registro.append(
+                                                    int(ele.winfo_name()[-1:]))
+                                                registro.append(
+                                                    Variaveis.idUsuarioLogado)
+                                                registro.append(
+                                                    Definicoes.maquina)
+                                                dados.append(registro)
 
-            if Variaveis.virtualNumPadVisible:
-                self.popUpVNumPad.destroy()
-                Variaveis.virtualNumPadVisible = False
+                        registraPriMedida()
+                        registraMedidas()
 
-            self.popUpRQSetup.destroy()
+                        if self.lblMensagem['text'] == '':
+                            print(dados)
 
-            Variaveis.estadoEquipamento = 2
-            Variaveis.RQPreenchido = True
+                            if Variaveis.virtualNumPadVisible:
+                                self.popUpVNumPad.destroy()
+                                Variaveis.virtualNumPadVisible = False
+
+                            self.popUpRQSetup.destroy()
+
+                            Variaveis.estadoEquipamento = 2
+                            Variaveis.RQPreenchido = True
+
+                            # ToDo
+                            #   aqui, ao invés de dar PRINT nos dados, enviar a var 'dados'
+                            #   para módulo 'pd.py' registrar no banco e fechar PopUp Registros
+
+                    self.btnConfirmaRQ = Button(self.frameBotoesRQ,
+                                            text="Confirmar",
+                                            font=Fontes.fontePadrao,
+                                            bg=Cores.bgCinza,
+                                            fg='white',
+                                            relief=FLAT,
+                                            image=activeButtons.confirmarButton)
+
+                    self.btnConfirmaRQ["command"] = registraRQSetup
+
+                    self.btnCancelaRQ = Button(self.frameBotoesRQ,
+                                               text="Cancelar",
+                                               font=Fontes.fontePadrao,
+                                               bg=Cores.bgCinza,
+                                               fg='white',
+                                               relief=FLAT,
+                                               image=redButtons.cancelarButton)
+                    self.btnCancelaRQ["command"] = cancelarPopUpRQSetup
+
+                    self.lblRegQualidade = Label(self.frameCamposRQ,
+                                                 text="REGISTROS DE QUALIDADE",
+                                                 font=Fontes.fonteCabecalho,
+                                                 bg=Cores.bgCinza,
+                                                 fg='azure2',
+                                                 justify=CENTER)
+
+                    self.lblPriMedida = Label(self.frameCamposRQ,
+                                              text="PRIMEIRA MEDIDA (mm)",
+                                              font=Fontes.fontePadrao,
+                                              bg=Cores.bgCinza,
+                                              fg=Cores.letraVerde,
+                                              justify=CENTER)
+
+                    self.entryPriMedida = Entry(self.frameCamposRQ,
+                                                name='entry10',
+                                                width=10,
+                                                bg='lightcyan2',
+                                                disabledbackground='dark slate gray',
+                                                font=Fontes.fonteCabecalho,
+                                                justify=CENTER)
+                    self.entryPriMedida.bind("<Button-1>",
+                                             lambda x:
+                                             self.virtualNumPad(
+                                                 self.entryPriMedida))
+
+                    self.lblLadoA = Label(self.frameCamposRQ,
+                                          text="LADO A",
+                                          font=Fontes.fontePadrao,
+                                          bg=Cores.bgCinza,
+                                          fg=Cores.letraVerde,
+                                          justify=CENTER)
+
+                    self.lblLadoB = Label(self.frameCamposRQ,
+                                          text="LADO B",
+                                          font=Fontes.fontePadrao,
+                                          bg=Cores.bgCinza,
+                                          fg=Cores.letraVerde,
+                                          justify=CENTER)
+
+                    self.entryAlturaIsolanteA = Entry(self.frameCamposRQ,
+                                                      name='entry31',
+                                                      width=10,
+                                                      bg='lightcyan2',
+                                                      disabledbackground='dark slate gray',
+                                                      font=Fontes.fonteCabecalho,
+                                                      justify=CENTER)
+                    self.entryAlturaIsolanteA.bind("<Button-1>",
+                                             lambda x:
+                                             self.virtualNumPad(
+                                                 self.entryAlturaIsolanteA))
+
+                    self.lblAlturaIsolante = Label(self.frameCamposRQ,
+                                                   text="Altura Isolante (mm)",
+                                                   font=Fontes.fontePadrao,
+                                                   bg=Cores.bgCinza,
+                                                   fg='white',
+                                                   justify=CENTER)
+
+                    self.entryAlturaIsolanteB = Entry(self.frameCamposRQ,
+                                                      name='entry32',
+                                                      width=10,
+                                                      bg='lightcyan2',
+                                                      disabledbackground='dark slate gray',
+                                                      font=Fontes.fonteCabecalho,
+                                                      justify=CENTER)
+                    self.entryAlturaIsolanteB.bind("<Button-1>",
+                                                   lambda x:
+                                                   self.virtualNumPad(
+                                                       self.entryAlturaIsolanteB))
+
+                    self.entryAlturaCondutorA = Entry(self.frameCamposRQ,
+                                                      name='entry41',
+                                                      width=10,
+                                                      bg='lightcyan2',
+                                                      disabledbackground='dark slate gray',
+                                                      font=Fontes.fonteCabecalho,
+                                                      justify=CENTER)
+                    self.entryAlturaCondutorA.bind("<Button-1>",
+                                                   lambda x:
+                                                   self.virtualNumPad(
+                                                       self.entryAlturaCondutorA))
+
+                    self.lblAlturaCondutor = Label(self.frameCamposRQ,
+                                                   text="Altura Condutor (mm)",
+                                                   font=Fontes.fontePadrao,
+                                                   bg=Cores.bgCinza,
+                                                   fg='white',
+                                                   justify=CENTER)
+
+                    self.entryAlturaCondutorB = Entry(self.frameCamposRQ,
+                                                      name='entry42',
+                                                      width=10,
+                                                      bg='lightcyan2',
+                                                      disabledbackground='dark slate gray',
+                                                      font=Fontes.fonteCabecalho,
+                                                      justify=CENTER)
+                    self.entryAlturaCondutorB.bind("<Button-1>",
+                                                   lambda x:
+                                                   self.virtualNumPad(
+                                                       self.entryAlturaCondutorB))
+
+                    self.entryTracaoA = Entry(self.frameCamposRQ,
+                                              name='entry51',
+                                              width=10,
+                                              bg='lightcyan2',
+                                              disabledbackground='dark slate gray',
+                                              font=Fontes.fonteCabecalho,
+                                              justify=CENTER)
+                    self.entryTracaoA.bind("<Button-1>",
+                                                   lambda x:
+                                                   self.virtualNumPad(
+                                                       self.entryTracaoA))
+
+                    self.lblTracao = Label(self.frameCamposRQ,
+                                           text="Tração (kgf)",
+                                           font=Fontes.fontePadrao,
+                                           bg=Cores.bgCinza,
+                                           fg='white',
+                                           justify=CENTER)
+
+                    self.entryTracaoB = Entry(self.frameCamposRQ,
+                                              name='entry52',
+                                              width=10,
+                                              bg='lightcyan2',
+                                              disabledbackground='dark slate gray',
+                                              font=Fontes.fonteCabecalho,
+                                              justify=CENTER)
+                    self.entryTracaoB.bind("<Button-1>",
+                                                   lambda x:
+                                                   self.virtualNumPad(
+                                                       self.entryTracaoB))
+
+                    self.lblMensagem = Label(self.frameBotoesRQ,
+                                             text= '',
+                                             font=Fontes.fontePadrao,
+                                             bg=Cores.bgCinza,
+                                             fg='red',
+                                             justify=CENTER)
+
+                    self.lblRegQualidade.grid(column=0,
+                                              row=0,
+                                              columnspan=5,
+                                              pady=10)
+
+                    self.lblPriMedida.grid(column=0,
+                                           row=1,
+                                           columnspan=3,
+                                           pady=10)
+                    self.entryPriMedida.grid(column=0,
+                                             row=2,
+                                             columnspan=3)
+
+                    self.lblLadoA.grid(column=0,
+                                       row=3)
+                    self.lblLadoB.grid(column=2,
+                                       row=3)
+
+                    self.entryAlturaIsolanteA.grid(column=0,
+                                                   row=4)
+                    self.lblAlturaIsolante.grid(column=1,
+                                                row=4)
+                    self.entryAlturaIsolanteB.grid(column=2,
+                                                   row=4)
+
+                    self.entryAlturaCondutorA.grid(column=0,
+                                                   row=5)
+                    self.lblAlturaCondutor.grid(column=1,
+                                                row=5,
+                                                pady=10)
+                    self.entryAlturaCondutorB.grid(column=2,
+                                                   row=5)
+
+                    self.entryTracaoA.grid(column=0,
+                                           row=6)
+                    self.lblTracao.grid(column=1,
+                                        row=6)
+                    self.entryTracaoB.grid(column=2,
+                                           row=6)
+
+                    self.lblMensagem.pack(side=TOP,
+                                          anchor='center',
+                                          fill=X,
+                                          expand=1)
+                    self.btnConfirmaRQ.pack(side=LEFT,
+                                            anchor='center',
+                                            fill=X,
+                                            expand=1)
+                    self.btnCancelaRQ.pack(side=LEFT,
+                                           anchor='center',
+                                           fill=X,
+                                           expand=1)
+
+                def desabilitaLadosNaoUtilizados(self):
+                    if Variaveis.campos["ACABAMENTO 1"] == "None":
+                        self.entryAlturaCondutorA.config(state='disabled')
+                        self.entryAlturaIsolanteA.config(state='disabled')
+                        self.entryTracaoA.config(state='disabled')
+                    if Variaveis.campos["ACABAMENTO 2"] == "None":
+                        self.entryAlturaCondutorB.config(state='disabled')
+                        self.entryAlturaIsolanteB.config(state='disabled')
+                        self.entryTracaoB.config(state='disabled')
 
 
-            # ToDo
-            #   aqui, ao invés de dar PRINT nos dados, enviar a var 'dados'
-            #   para módulo 'pd.py' registrar no banco e fechar PopUp Registros
+
+                    # if Variaveis.campos["ACABAMENTO 1"] != "None":
+                        # for ele in self.frameCamposRQ.winfo_children():
+                        #     if ele.winfo_class() == 'Entry':
+                        #         print(ele.winfo_name())
+                        #         ele.config(bg='black')
+
+                montaScreen()
+                montaWidgets()
+                desabilitaLadosNaoUtilizados(self)
+
+        abrirPopUpRQSetup()
 
     def virtualNumPad(self, parent):
         parent.configure(bg='lightgreen')
         parent.delete(0, END)
-        self.lblMensagem.config(text='')
 
         if Variaveis.virtualNumPadVisible:
             self.popUpVNumPad.destroy()
@@ -1418,7 +1450,229 @@ class Application:
             else:
                 parent.insert(END, keyValue)
 
+    def corteStartStop(self):
+        if Variaveis.estadoEquipamento == 4 and Variaveis.RQPreenchido:
+            Variaveis.estadoEquipamento = 5
+            print(Variaveis.estadoEquipamento)
 
+            self.btnStart.config(image=redButtons.finalizarButton)
+
+            t = tempos.TEMPOS()
+
+            # t.tomaTempoEvento(Variaveis.ID,
+            #                   5,
+            #                   Variaveis.idUsuarioLogado,
+            #                   Definicoes.maquina)
+
+            Variaveis.t0 = time()
+
+            self.atualizaCronografo()
+
+            self.atualizaEstado()
+
+        elif Variaveis.estadoEquipamento == 5:
+            Variaveis.estadoEquipamento = 4
+
+            self.btnStart.config(image=inactiveButtons.startButton)
+
+            def abrirPopUpQtdCortada():
+
+                def montaScreen():
+                    def fechaPopUpQtdCortada():
+                        if Variaveis.virtualNumPadVisible:
+                            self.popUpVNumPad.destroy()
+                            Variaveis.virtualNumPadVisible = False
+
+                        self.popUpQtdCortada.destroy()
+
+                    self.popUpQtdCortada = Toplevel(bg=Cores.bgCinza,
+                                                 bd=7,
+                                                 relief=RAISED)
+                    self.popUpQtdCortada.overrideredirect(1)
+                    self.popUpQtdCortada.attributes('-topmost', 'true')
+                    self.popUpQtdCortada.bind('<Escape>',
+                                              lambda e:fechaPopUpQtdCortada())
+                    self.popUpQtdCortada.geometry('+100+100')
+                    self.popUpQtdCortada.focus()
+
+                def montaWidgets():
+                    # def registraRQCorte():
+                    #     if Variaveis.virtualNumPadVisible:
+                    #         self.popUpVNumPad.destroy()
+                    #         Variaveis.virtualNumPadVisible = False
+                    #
+                    #     # pd = PD
+                    #     dados = []
+                    #
+                    #     def registraPriMedida():
+                    #
+                    #         if (self.entryPriMedida.get() != ''):
+                    #             registro = []
+                    #             registro.append(Variaveis.campos.get("PK_IQC"))
+                    #             registro.append(1)
+                    #             registro.append(
+                    #                 float(self.entryPriMedida.get()))
+                    #             registro.append('')
+                    #             registro.append(Variaveis.idUsuarioLogado)
+                    #             registro.append(Definicoes.maquina)
+                    #             dados.append(list(registro))
+                    #
+                    #         else:
+                    #             self.entryPriMedida.config(bg='indian red')
+                    #             self.lblMensagem.config(
+                    #                 text='Informe a Primeira Medida!')
+                    #
+                    #     def registraMedidas():
+                    #         for L in (1, 2):
+                    #             if Variaveis.campos.get(
+                    #                     "ACABAMENTO %s" % L) != 'None':
+                    #                 print(Variaveis.campos.get(
+                    #                     "ACABAMENTO %s" % L))
+                    #                 for ele in self.frameCamposRQ.winfo_children():
+                    #                     if ele.winfo_class() == 'Entry' \
+                    #                             and int(
+                    #                         ele.winfo_name()[-1:]) == L:
+                    #                         if ele.get() == '':
+                    #                             ele.config(bg='indian red')
+                    #                             self.lblMensagem.config(
+                    #                                 text='Informe as medidas para registro')
+                    #                         else:
+                    #                             registro = []
+                    #                             registro.append(
+                    #                                 Variaveis.campos.get(
+                    #                                     "PK_IQC"))
+                    #                             registro.append(int(
+                    #                                 ele.winfo_name()[-2:-1]))
+                    #                             try:
+                    #                                 registro.append(
+                    #                                     float(
+                    #                                         ele.get().replace(
+                    #                                             ',', '.')))
+                    #                             except:
+                    #                                 self.lblMensagem[
+                    #                                     'text'] = 'Digite corretamente um ' \
+                    #                                               'valor de medida'
+                    #                             registro.append(
+                    #                                 int(ele.winfo_name()[-1:]))
+                    #                             registro.append(
+                    #                                 Variaveis.idUsuarioLogado)
+                    #                             registro.append(
+                    #                                 Definicoes.maquina)
+                    #                             dados.append(registro)
+                    #
+                    #     registraPriMedida()
+                    #     registraMedidas()
+                    #
+                    #     if self.lblMensagem['text'] == '':
+                    #         print(dados)
+                    #
+                    #         if Variaveis.virtualNumPadVisible:
+                    #             self.popUpVNumPad.destroy()
+                    #             Variaveis.virtualNumPadVisible = False
+                    #
+                    #         self.popUpRQSetup.destroy()
+                    #
+                    #         Variaveis.estadoEquipamento = 2
+                    #         Variaveis.RQPreenchido = True
+                    #
+                    #         # ToDo
+                    #         #   aqui, ao invés de dar PRINT nos dados, enviar a var 'dados'
+                    #         #   para módulo 'pd.py' registrar no banco e fechar PopUp Registros
+
+                    self.btnConfirma = Button(self.popUpQtdCortada,
+                                                text="Confirmar",
+                                                font=Fontes.fontePadrao,
+                                                bg=Cores.bgCinza,
+                                                fg='white',
+                                                relief=FLAT,
+                                                image=activeButtons.confirmarButton)
+                    # self.btnConfirmaRQ["command"] = registraRQCorte
+
+                    self.lblRegQualidade = Label(self.popUpQtdCortada,
+                                                 text="REGISTROS DE QUALIDADE",
+                                                 font=Fontes.fonteCabecalho,
+                                                 bg=Cores.bgCinza,
+                                                 fg='azure2',
+                                                 justify=CENTER)
+
+                    self.lblUltMedida = Label(self.popUpQtdCortada,
+                                              text="ÚLTIMA MEDIDA (mm)",
+                                              font=Fontes.fontePadrao,
+                                              bg=Cores.bgCinza,
+                                              fg=Cores.letraVerde,
+                                              justify=CENTER)
+
+                    self.entryUltMedida = Entry(self.popUpQtdCortada,
+                                                width=10,
+                                                bg='lightcyan2',
+                                                disabledbackground='dark slate gray',
+                                                font=Fontes.fonteCabecalho,
+                                                justify=CENTER)
+                    self.entryUltMedida.bind("<Button-1>",
+                                             lambda x:self.virtualNumPad(
+                                                 self.entryUltMedida))
+
+                    self.lblQtdCortada = Label(self.popUpQtdCortada,
+                                               text="QUANTIDADE CORTADA:",
+                                               font=Fontes.fontePadrao,
+                                               bg=Cores.bgCinza,
+                                               fg=Cores.letraVerde,
+                                               justify=CENTER)
+
+                    self.entryQtdCortada = Entry(self.popUpQtdCortada,
+                                                width=10,
+                                                bg='lightcyan2',
+                                                disabledbackground='dark slate gray',
+                                                font=Fontes.fonteCabecalho,
+                                                justify=CENTER)
+                    self.entryQtdCortada.bind("<Button-1>",
+                                             lambda x:
+                                             self.virtualNumPad(
+                                                 self.entryQtdCortada))
+
+                    self.lblMensagem = Label(self.popUpQtdCortada,
+                                             text='',
+                                             font=Fontes.fontePadrao,
+                                             bg=Cores.bgCinza,
+                                             fg='red',
+                                             justify=CENTER)
+
+                    self.lblRegQualidade.pack(side=TOP,
+                                              fill=X,
+                                              expand=1,
+                                              padx=20,
+                                              pady=20)
+
+                    self.lblUltMedida.pack(side=TOP,
+                                           fill=X,
+                                           padx=20,
+                                           pady=10,
+                                           expand=1)
+
+                    self.entryUltMedida.pack(side=TOP,
+                                             padx=20,
+                                             pady=(0,20))
+
+                    self.lblQtdCortada.pack(side=TOP,
+                                            fill=X,
+                                            padx=20,
+                                            pady=10,
+                                            expand=1)
+
+                    self.entryQtdCortada.pack(side=TOP,
+                                              padx=20,
+                                              pady=(0,20))
+
+                    self.btnConfirma.pack(side=BOTTOM,
+                                          pady=(10,25))
+
+                    self.lblMensagem.pack(side=BOTTOM)
+
+
+                montaScreen()
+                montaWidgets()
+
+            abrirPopUpQtdCortada()
 
 Application(root)
 root.mainloop()
