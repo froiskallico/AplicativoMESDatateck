@@ -1570,6 +1570,11 @@ class Application:
                         registraUltMedida()
                         registraQtdCortada()
 
+                        #Todo:
+                        # Controlar: Se QUANTIDADE CORTADA < QTD PENDENTE:
+                        #               DEVE JUSTIFICAR O MOTIVO DA DIVERGENCIA.
+                        # Criar Tela de justificativa e registro no banco de Dados
+
                         if self.lblMensagem['text'] == '':
                             if Variaveis.virtualNumPadVisible:
                                 self.popUpVNumPad.destroy()
@@ -1578,22 +1583,20 @@ class Application:
                             try:
                                 print(dados)
                                 print(Variaveis.quantidadeCortada)
+                                # ToDo
+                                #   aqui, ao invés de dar PRINT nos dados, enviar a var 'dados'
+                                #   para módulo 'pd.py' registrar no banco e fechar PopUp Registros
+
                                 self.popUpQtdCortada.destroy()
                                 Variaveis.estadoEquipamento = 0
                                 Variaveis.RQPreenchido = False
                                 limpaTela()
 
 
-                                # ToDo
-                                #   aqui, ao invés de dar PRINT nos dados, enviar a var 'dados'
-                                #   para módulo 'pd.py' registrar no banco e fechar PopUp Registros
                             except:
                                 self.lblMensagem.config(
                                     text='Erro ao salvar os registros'
                                 )
-
-
-
 
                     self.btnConfirma = Button(self.popUpQtdCortada,
                                                 text="Confirmar",
@@ -1689,6 +1692,13 @@ class Application:
                 montaWidgets()
 
             abrirPopUpQtdCortada()
+
+    #ToDo:
+    # Criar função de Parada e retomada de Máquina;
+    # Criar tela para Justificativa de parada de máquina;
+
+    #Todo:
+    # Criar MENU GERAL
 
 Application(root)
 root.mainloop()
