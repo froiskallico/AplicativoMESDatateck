@@ -1105,8 +1105,6 @@ class Application:
                             for L in (1, 2):
                                 if Variaveis.campos.get(
                                         "ACABAMENTO %s" % L) != 'None':
-                                    print(Variaveis.campos.get(
-                                        "ACABAMENTO %s" % L))
                                     for ele in self.frameCamposRQ.winfo_children():
                                         if ele.winfo_class() == 'Entry' \
                                                 and int(
@@ -1149,7 +1147,6 @@ class Application:
 
                             try:
                                 print(dados)
-                                # print(chhchchc)
                                 Variaveis.RQPreenchido = True
                                 # ToDo
                                 #   aqui, ao invés de dar PRINT nos dados, enviar a var 'dados'
@@ -1383,14 +1380,6 @@ class Application:
                         self.entryAlturaIsolanteB.config(state='disabled')
                         self.entryTracaoB.config(state='disabled')
 
-
-
-                    # if Variaveis.campos["ACABAMENTO 1"] != "None":
-                        # for ele in self.frameCamposRQ.winfo_children():
-                        #     if ele.winfo_class() == 'Entry':
-                        #         print(ele.winfo_name())
-                        #         ele.config(bg='black')
-
                 montaScreen()
                 montaWidgets()
                 desabilitaLadosNaoUtilizados(self)
@@ -1468,7 +1457,6 @@ class Application:
     def corteStartStop(self):
         if Variaveis.estadoEquipamento == 4 and Variaveis.RQPreenchido:
             Variaveis.estadoEquipamento = 5
-            print(Variaveis.estadoEquipamento)
 
             self.btnStart.config(image=redButtons.finalizarButton)
 
@@ -1588,8 +1576,8 @@ class Application:
                                 Variaveis.virtualNumPadVisible = False
 
                             try:
-                                print(Variaveis.quantidadeCortada)
                                 print(dados)
+                                print(Variaveis.quantidadeCortada)
                                 self.popUpQtdCortada.destroy()
                                 Variaveis.estadoEquipamento = 0
                                 Variaveis.RQPreenchido = False
