@@ -117,6 +117,8 @@ class Variaveis:
 
     virtualNumPadVisible = False
 
+    quantidadeCortada = 0
+
 
 class Fontes:
     fontePadrao = ("Play", 12)
@@ -214,8 +216,9 @@ class Application:
         # if Variaveis.idUsuarioLogado > 0:
             self.montaTelaPrincipal()
 
-            Variaveis.estadoEquipamento = 4
-            Variaveis.RQPreenchido = True
+            # Variaveis.estadoEquipamento = 4
+            # Variaveis.RQPreenchido = True
+
     # --- Geração do Layout Principal --- #
     def montaTelaPrincipal(self, master=None):
         def montaContainers(master=None):
@@ -875,12 +878,13 @@ class Application:
             self.listaCount.configure(
                 text='Total de PDs: ' + str(len(self.data)))
 
-        self.btnBuscar.configure(image=inactiveButtons.buscarButton)
 
-        if Variaveis.estadoEquipamento in (0,1,4) and not Variaveis.RQPreenchido:
+
+        if Variaveis.estadoEquipamento in (0,1,4,6) and not Variaveis.RQPreenchido:
             Variaveis.estadoEquipamento = 0
 
             self.btnSetup.config(image=inactiveButtons.setupButton)
+            self.btnBuscar.configure(image=inactiveButtons.buscarButton)
 
             self.limpaContainerEsquerda()
 
@@ -992,6 +996,7 @@ class Application:
             if Variaveis.RQPreenchido:
                 self.btnSetup.config(image=inactiveButtons.setupButton)
                 self.btnStart.config(image=activeButtons.startButton)
+                self.btnBuscar.config(image=inactiveButtons.buscarButton)
             else:
                 self.btnBuscar.config(image=activeButtons.buscarButton)
 
@@ -1039,8 +1044,8 @@ class Application:
 
                 def montaScreen():
                     self.popUpRQSetup = Toplevel(bg=Cores.bgCinza,
-                                             bd=7,
-                                             relief=RAISED)
+                                                 bd=7,
+                                                 relief=RAISED)
                     self.popUpRQSetup.overrideredirect(1)
                     self.popUpRQSetup.attributes('-topmost', 'true')
                     self.popUpRQSetup.bind('<Escape>', cancelarPopUpRQSetup)
@@ -1078,8 +1083,14 @@ class Application:
                                 registro = []
                                 registro.append(Variaveis.campos.get("PK_IQC"))
                                 registro.append(1)
-                                registro.append(
-                                    float(self.entryPriMedida.get()))
+                                try: registro.append(
+                                    float(
+                                        self.entryPriMedida.get().replace(',',
+                                                                          '.')))
+                                except:
+                                    self.lblMensagem.config(
+                                        text='Digite corretamente um valor de medida'
+                                    )
                                 registro.append('')
                                 registro.append(Variaveis.idUsuarioLogado)
                                 registro.append(Definicoes.maquina)
@@ -1112,14 +1123,12 @@ class Application:
                                                 registro.append(int(
                                                     ele.winfo_name()[-2:-1]))
                                                 try:
-                                                    registro.append(
-                                                        float(
-                                                            ele.get().replace(
-                                                                ',', '.')))
+                                                    registro.append(float(
+                                                        ele.get().replace(',',
+                                                                          '.')))
                                                 except:
-                                                    self.lblMensagem[
-                                                        'text'] = 'Digite corretamente um ' \
-                                                                  'valor de medida'
+                                                    self.lblMensagem.config(
+                                                        text='Digite corretamente um valor de medida')
                                                 registro.append(
                                                     int(ele.winfo_name()[-1:]))
                                                 registro.append(
@@ -1132,20 +1141,26 @@ class Application:
                         registraMedidas()
 
                         if self.lblMensagem['text'] == '':
-                            print(dados)
+
 
                             if Variaveis.virtualNumPadVisible:
                                 self.popUpVNumPad.destroy()
                                 Variaveis.virtualNumPadVisible = False
 
-                            self.popUpRQSetup.destroy()
+                            try:
+                                print(dados)
+                                # print(chhchchc)
+                                Variaveis.RQPreenchido = True
+                                # ToDo
+                                #   aqui, ao invés de dar PRINT nos dados, enviar a var 'dados'
+                                #   para módulo 'pd.py' registrar no banco e fechar PopUp Registros
+                            except:
+                                self.lblMensagem['text'] = 'Erro ao salvar os registros!'
 
-                            Variaveis.estadoEquipamento = 2
-                            Variaveis.RQPreenchido = True
 
-                            # ToDo
-                            #   aqui, ao invés de dar PRINT nos dados, enviar a var 'dados'
-                            #   para módulo 'pd.py' registrar no banco e fechar PopUp Registros
+                            if Variaveis.RQPreenchido:
+                                self.popUpRQSetup.destroy()
+                                Variaveis.estadoEquipamento = 2
 
                     self.btnConfirmaRQ = Button(self.frameBotoesRQ,
                                             text="Confirmar",
@@ -1154,7 +1169,6 @@ class Application:
                                             fg='white',
                                             relief=FLAT,
                                             image=activeButtons.confirmarButton)
-
                     self.btnConfirmaRQ["command"] = registraRQSetup
 
                     self.btnCancelaRQ = Button(self.frameBotoesRQ,
@@ -1386,6 +1400,7 @@ class Application:
     def virtualNumPad(self, parent):
         parent.configure(bg='lightgreen')
         parent.delete(0, END)
+        self.lblMensagem.config(text='')
 
         if Variaveis.virtualNumPadVisible:
             self.popUpVNumPad.destroy()
@@ -1471,10 +1486,6 @@ class Application:
             self.atualizaEstado()
 
         elif Variaveis.estadoEquipamento == 5:
-            Variaveis.estadoEquipamento = 4
-
-            self.btnStart.config(image=inactiveButtons.startButton)
-
             def abrirPopUpQtdCortada():
 
                 def montaScreen():
@@ -1496,88 +1507,105 @@ class Application:
                     self.popUpQtdCortada.focus()
 
                 def montaWidgets():
-                    # def registraRQCorte():
-                    #     if Variaveis.virtualNumPadVisible:
-                    #         self.popUpVNumPad.destroy()
-                    #         Variaveis.virtualNumPadVisible = False
-                    #
-                    #     # pd = PD
-                    #     dados = []
-                    #
-                    #     def registraPriMedida():
-                    #
-                    #         if (self.entryPriMedida.get() != ''):
-                    #             registro = []
-                    #             registro.append(Variaveis.campos.get("PK_IQC"))
-                    #             registro.append(1)
-                    #             registro.append(
-                    #                 float(self.entryPriMedida.get()))
-                    #             registro.append('')
-                    #             registro.append(Variaveis.idUsuarioLogado)
-                    #             registro.append(Definicoes.maquina)
-                    #             dados.append(list(registro))
-                    #
-                    #         else:
-                    #             self.entryPriMedida.config(bg='indian red')
-                    #             self.lblMensagem.config(
-                    #                 text='Informe a Primeira Medida!')
-                    #
-                    #     def registraMedidas():
-                    #         for L in (1, 2):
-                    #             if Variaveis.campos.get(
-                    #                     "ACABAMENTO %s" % L) != 'None':
-                    #                 print(Variaveis.campos.get(
-                    #                     "ACABAMENTO %s" % L))
-                    #                 for ele in self.frameCamposRQ.winfo_children():
-                    #                     if ele.winfo_class() == 'Entry' \
-                    #                             and int(
-                    #                         ele.winfo_name()[-1:]) == L:
-                    #                         if ele.get() == '':
-                    #                             ele.config(bg='indian red')
-                    #                             self.lblMensagem.config(
-                    #                                 text='Informe as medidas para registro')
-                    #                         else:
-                    #                             registro = []
-                    #                             registro.append(
-                    #                                 Variaveis.campos.get(
-                    #                                     "PK_IQC"))
-                    #                             registro.append(int(
-                    #                                 ele.winfo_name()[-2:-1]))
-                    #                             try:
-                    #                                 registro.append(
-                    #                                     float(
-                    #                                         ele.get().replace(
-                    #                                             ',', '.')))
-                    #                             except:
-                    #                                 self.lblMensagem[
-                    #                                     'text'] = 'Digite corretamente um ' \
-                    #                                               'valor de medida'
-                    #                             registro.append(
-                    #                                 int(ele.winfo_name()[-1:]))
-                    #                             registro.append(
-                    #                                 Variaveis.idUsuarioLogado)
-                    #                             registro.append(
-                    #                                 Definicoes.maquina)
-                    #                             dados.append(registro)
-                    #
-                    #     registraPriMedida()
-                    #     registraMedidas()
-                    #
-                    #     if self.lblMensagem['text'] == '':
-                    #         print(dados)
-                    #
-                    #         if Variaveis.virtualNumPadVisible:
-                    #             self.popUpVNumPad.destroy()
-                    #             Variaveis.virtualNumPadVisible = False
-                    #
-                    #         self.popUpRQSetup.destroy()
-                    #
-                    #         Variaveis.estadoEquipamento = 2
-                    #         Variaveis.RQPreenchido = True
-                    #
-                    #         # ToDo
-                    #         #   aqui, ao invés de dar PRINT nos dados, enviar a var 'dados'
-                    #         #   para módulo 'pd.py' registrar no banco e fechar PopUp Registros
+                    def registraRQCorte():
+                        if Variaveis.virtualNumPadVisible:
+                            self.popUpVNumPad.destroy()
+                            Variaveis.virtualNumPadVisible = False
+
+                        # pd = PD
+                        dados = []
+
+                        def registraUltMedida():
+
+                            if (self.entryUltMedida.get() != ''):
+                                registro = []
+                                registro.append(Variaveis.campos.get("PK_IQC"))
+                                registro.append(2)
+                                try:
+                                    registro.append(
+                                        float(
+                                            self.entryUltMedida.get().replace(
+                                                ',',
+                                                '.')))
+                                except:
+                                    self.lblMensagem.config(
+                                        text='Digite corretamente um valor de medida'
+                                    )
+                                registro.append('')
+                                registro.append(Variaveis.idUsuarioLogado)
+                                registro.append(Definicoes.maquina)
+                                dados.append(list(registro))
+
+                            else:
+                                self.entryUltMedida.config(bg='indian red')
+                                self.lblMensagem.config(
+                                    text='Informe a Ultima Medida!')
+
+                        def registraQtdCortada():
+                            if (self.entryQtdCortada.get() != ''):
+                                try:
+                                    Variaveis.quantidadeCortada = int(
+                                    self.entryQtdCortada.get()
+                                )
+                                except:
+                                    self.lblMensagem.config(
+                                        text='Digite corretamente a quantidade cortada'
+                                    )
+                                # registro = []
+                                # registro.append(Variaveis.campos.get("PK_IQC"))
+                                # registro.append(2)
+                                # registro.append(
+                                #     float(self.entryUltMedida.get()))
+                                # registro.append('')
+                                # registro.append(Variaveis.idUsuarioLogado)
+                                # registro.append(Definicoes.maquina)
+                                # dados.append(list(registro))
+
+                            else:
+                                self.entryQtdCortada.config(bg='indian red')
+                                self.lblMensagem.config(
+                                    text='Informe a Quantidade Cortada!')
+
+                        def limpaTela():
+                            for i in range(len(Variaveis.colunas)):
+                                Variaveis.campos[Variaveis.colunas[i]] = ''
+
+                            for ele in root.winfo_children():
+                                ele.destroy()
+
+                            Cores.bgCorDoCabo = "white"
+                            Cores.bgCorDaListra = "white"
+                            Cores.fgCorDoCabo = "#333333"
+
+                            self.montaTelaPrincipal()
+
+                        registraUltMedida()
+                        registraQtdCortada()
+
+                        if self.lblMensagem['text'] == '':
+                            if Variaveis.virtualNumPadVisible:
+                                self.popUpVNumPad.destroy()
+                                Variaveis.virtualNumPadVisible = False
+
+                            try:
+                                print(Variaveis.quantidadeCortada)
+                                print(dados)
+                                self.popUpQtdCortada.destroy()
+                                Variaveis.estadoEquipamento = 0
+                                Variaveis.RQPreenchido = False
+                                limpaTela()
+
+
+                                # ToDo
+                                #   aqui, ao invés de dar PRINT nos dados, enviar a var 'dados'
+                                #   para módulo 'pd.py' registrar no banco e fechar PopUp Registros
+                            except:
+                                self.lblMensagem.config(
+                                    text='Erro ao salvar os registros'
+                                )
+
+
+
 
                     self.btnConfirma = Button(self.popUpQtdCortada,
                                                 text="Confirmar",
@@ -1586,7 +1614,7 @@ class Application:
                                                 fg='white',
                                                 relief=FLAT,
                                                 image=activeButtons.confirmarButton)
-                    # self.btnConfirmaRQ["command"] = registraRQCorte
+                    self.btnConfirma["command"] = registraRQCorte
 
                     self.lblRegQualidade = Label(self.popUpQtdCortada,
                                                  text="REGISTROS DE QUALIDADE",
