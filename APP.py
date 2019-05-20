@@ -215,7 +215,7 @@ class Application:
         #
         # if Variaveis.idUsuarioLogado > 0:
             self.montaTelaPrincipal()
-
+            # self.inspecao()
             # Variaveis.estadoEquipamento = 4
             # Variaveis.RQPreenchido = True
 
@@ -752,7 +752,7 @@ class Application:
                                 anchor="w",
                                 bd=0,
                                 highlightthickness=0)
-            self.btnRQ["command"] = self.popUpRQSetup
+            self.btnRQ["command"] = (lambda: self.popUpRQSetup())
             self.btnRQ.pack(pady=5)
 
             self.btnParada = Button(self.containerBotoes,
@@ -800,6 +800,54 @@ class Application:
         for ele in root.winfo_children():
             ele.destroy()
 
+    def labelsUpdate(self):
+        ##--- Dados PD ---##
+        ###--- Cabecalho PD ---###
+        self.lblRequisicao = Label(text="Requisição: %s" % (
+                                       Variaveis.campos.get("REQUISICAO")))
+        self.lblPD = Label(text="PD: %s" % Variaveis.campos.get("PD"))
+
+        self.lblProdutoFinal = Label(text="Produto Final: %s" % Variaveis.campos.get(
+                                         "CHICOTE"))
+
+        ###--- Medidas PD ---###
+        self.lblDecapeA = Label(text=Variaveis.campos.get("DECAPE A"))
+        self.lblMedida = Label(text=Variaveis.campos.get("MEDIDA"))
+        self.lblDecapeB = Label(text=Variaveis.campos.get("DECAPE B"))
+
+        ###--- Cabo ---###
+        self.lblCaboSec1 = Label(bg=Cores.bgCorDoCabo)
+        self.lblCabo = Label(bg=Cores.bgCorDaListra)
+        self.lblCaboSec2 = Label(bg=Cores.bgCorDoCabo)
+
+        ###--- Detalhes ---###
+        ####--- Lado A ---####
+        #####--- Acabamento 1 ---#####
+        self.lblAcabamento1 = Label(text=Variaveis.campos.get("ACABAMENTO 1"))
+        self.lblAcabamento3 = Label(text=Variaveis.campos.get("ACABAMENTO 3"))
+
+        ####--- Quantidade ---####
+        self.lblQuantidadePendente = Label(text=Variaveis.campos.get(
+                                               "QTD PD REQ"))
+        self.lblQuantidadeCortada = Label(text=Variaveis.campos.get(
+                                              "QUANTIDADE_CORTADA"))
+
+        ####--- Observacao ---####
+        self.lblObservacao = Label(text=Variaveis.campos.get("OBSERVAÇÃO"))
+
+        ####--- Gravacao ---####
+        self.lblGravacao = Label(text=Variaveis.campos.get("GRAVAÇÃO"))
+
+        ####--- Labo B ---####
+        #####--- Acabamento 2 ---#####
+        self.lblAcabamento2 = Label(text=Variaveis.campos.get("ACABAMENTO 2"))
+        self.lblAcabamento4 = Label(text=Variaveis.campos.get("ACABAMENTO 4"))
+
+        # --- Rodape ---#
+        self.lblRodape = Label(text="%s - Logado desde:  %s" %
+                                    (Variaveis.nomeUsuarioLogado,
+                                     Variaveis.inicioSecao))
+
     def limpaContainerEsquerda(self):
         for ele in self.containerEsquerda.winfo_children():
             ele.destroy()
@@ -819,12 +867,12 @@ class Application:
                     except:
                         Variaveis.campos[Variaveis.colunas[i]] = dadosDoPD[i]
 
-                for ele in root.winfo_children():
-                    ele.destroy()
-
                 Cores.bgCorDoCabo = Variaveis.campos.get("PRIMARIA")
                 Cores.bgCorDaListra = Variaveis.campos.get("SECUNDARIA")
                 Cores.fgCorDoCabo = Variaveis.campos.get("COR_TEXTO")
+
+                self.limpaTela()
+                self.montaTelaPrincipal()
 
                 Variaveis.estadoEquipamento = 1
 
@@ -834,7 +882,7 @@ class Application:
                                   Variaveis.idUsuarioLogado,
                                   Definicoes.maquina)
 
-                self.montaTelaPrincipal()
+
 
                 self.btnSetup.configure(image=activeButtons.setupButton)
 
@@ -878,8 +926,6 @@ class Application:
             self.listaCount.configure(
                 text='Total de PDs: ' + str(len(self.data)))
 
-
-
         if Variaveis.estadoEquipamento in (0,1,4,6) and not Variaveis.RQPreenchido:
             Variaveis.estadoEquipamento = 0
 
@@ -910,14 +956,18 @@ class Application:
                          [('mystyle.Treeview.treearea', {'sticky': 'nswe'})])
 
 
-            self.vsb = ttk.Scrollbar(self.containerEsquerda,
-                                     orient="vertical")
-            self.hsb = ttk.Scrollbar(self.containerEsquerda,
-                                     orient="horizontal")
+            self.vsb = Scrollbar(self.containerEsquerda,
+                                     orient="vertical",
+                                     width=80)
+            self.hsb = Scrollbar(self.containerEsquerda,
+                                     orient="horizontal",
+                                     width=30)
 
             self.tvw = ttk.Treeview(self.containerEsquerda,
                                     style="mystyle.Treeview",
-                                    columns=self.dataCols)
+                                    columns=self.dataCols,
+                                    yscrollcommand=self.vsb.set,
+                                    xscrollcommand=self.hsb.set)
             self.tvw.bind("<ButtonRelease-1>", abrirOuFecharNode)
 
             self.tvw.heading("#0", text="Cabo/PD")
@@ -938,6 +988,7 @@ class Application:
             for field in self.dataCols:
                 self.tvw.heading(field, text=str(field.title()))
                 self.tvw.column(field, stretch=False, width=120)
+                self.tvw.column('ID', stretch=False, width=0)
 
             self.tvw.grid(column=0, row=0, sticky='nswe')
             self.vsb.grid(column=1, row=0, sticky='ns')
@@ -1024,7 +1075,7 @@ class Application:
             text=Variaveis.estados[Variaveis.estadoEquipamento])
 
     def popUpRQSetup(self):
-        def cancelarPopUpRQSetup():
+        def cancelarpopUpRQSetup():
             if Variaveis.estadoEquipamento == 3:
                 Variaveis.estadoEquipamento = 2
 
@@ -1032,27 +1083,28 @@ class Application:
                     self.popUpVNumPad.destroy()
                     Variaveis.virtualNumPadVisible = False
 
-                self.popUpRQSetup.destroy()
+                self.popUpRQSetupScreen.destroy()
 
                 self.btnRQ.configure(image=activeButtons.rqButton)
 
         def abrirPopUpRQSetup():
             if Variaveis.estadoEquipamento == 2 and not Variaveis.RQPreenchido:
+                print("Abrir RQ")
                 Variaveis.estadoEquipamento = 3
 
                 self.btnRQ.configure(image=inactiveButtons.rqButton)
 
                 def montaScreen():
-                    self.popUpRQSetup = Toplevel(bg=Cores.bgCinza,
+                    self.popUpRQSetupScreen = Toplevel(bg=Cores.bgCinza,
                                                  bd=7,
                                                  relief=RAISED)
-                    self.popUpRQSetup.overrideredirect(1)
-                    self.popUpRQSetup.attributes('-topmost', 'true')
-                    self.popUpRQSetup.bind('<Escape>', cancelarPopUpRQSetup)
-                    self.popUpRQSetup.geometry('+50+50')
-                    self.popUpRQSetup.focus()
+                    self.popUpRQSetupScreen.overrideredirect(1)
+                    self.popUpRQSetupScreen.attributes('-topmost', 'true')
+                    self.popUpRQSetupScreen.bind('<Escape>', cancelarpopUpRQSetup)
+                    self.popUpRQSetupScreen.geometry('+50+50')
+                    self.popUpRQSetupScreen.focus()
 
-                    self.frameCamposRQ = Frame(self.popUpRQSetup,
+                    self.frameCamposRQ = Frame(self.popUpRQSetupScreen,
                                                bg=Cores.bgCinza)
                     self.frameCamposRQ.pack(side=TOP,
                                             fill=BOTH,
@@ -1060,7 +1112,7 @@ class Application:
                                             padx=15,
                                             pady=(5,10))
 
-                    self.frameBotoesRQ = Frame(self.popUpRQSetup,
+                    self.frameBotoesRQ = Frame(self.popUpRQSetupScreen,
                                                bg=Cores.bgCinza)
                     self.frameBotoesRQ.pack(side=BOTTOM,
                                             fill=X,
@@ -1074,7 +1126,7 @@ class Application:
                             self.popUpVNumPad.destroy()
                             Variaveis.virtualNumPadVisible = False
 
-                        # pd = PD
+                        pd = PD
                         dados = []
 
                         def registraPriMedida():
@@ -1091,7 +1143,7 @@ class Application:
                                     self.lblMensagem.config(
                                         text='Digite corretamente um valor de medida'
                                     )
-                                registro.append('')
+                                registro.append(0)
                                 registro.append(Variaveis.idUsuarioLogado)
                                 registro.append(Definicoes.maquina)
                                 dados.append(list(registro))
@@ -1139,24 +1191,20 @@ class Application:
                         registraMedidas()
 
                         if self.lblMensagem['text'] == '':
-
-
                             if Variaveis.virtualNumPadVisible:
                                 self.popUpVNumPad.destroy()
                                 Variaveis.virtualNumPadVisible = False
 
                             try:
-                                print(dados)
+                                dados = list(dados)
+                                pd.registraRQSetup(0, Variaveis.ID, dados)
                                 Variaveis.RQPreenchido = True
-                                # ToDo
-                                #   aqui, ao invés de dar PRINT nos dados, enviar a var 'dados'
-                                #   para módulo 'pd.py' registrar no banco e fechar PopUp Registros
                             except:
                                 self.lblMensagem['text'] = 'Erro ao salvar os registros!'
 
 
                             if Variaveis.RQPreenchido:
-                                self.popUpRQSetup.destroy()
+                                self.popUpRQSetupScreen.destroy()
                                 Variaveis.estadoEquipamento = 2
 
                     self.btnConfirmaRQ = Button(self.frameBotoesRQ,
@@ -1175,7 +1223,7 @@ class Application:
                                                fg='white',
                                                relief=FLAT,
                                                image=redButtons.cancelarButton)
-                    self.btnCancelaRQ["command"] = cancelarPopUpRQSetup
+                    self.btnCancelaRQ["command"] = cancelarpopUpRQSetup
 
                     self.lblRegQualidade = Label(self.frameCamposRQ,
                                                  text="REGISTROS DE QUALIDADE",
@@ -1504,7 +1552,6 @@ class Application:
                         dados = []
 
                         def registraUltMedida():
-
                             if (self.entryUltMedida.get() != ''):
                                 registro = []
                                 registro.append(Variaveis.campos.get("PK_IQC"))
@@ -1519,11 +1566,10 @@ class Application:
                                     self.lblMensagem.config(
                                         text='Digite corretamente um valor de medida'
                                     )
-                                registro.append('')
+                                registro.append(0)
                                 registro.append(Variaveis.idUsuarioLogado)
                                 registro.append(Definicoes.maquina)
                                 dados.append(list(registro))
-
                             else:
                                 self.entryUltMedida.config(bg='indian red')
                                 self.lblMensagem.config(
@@ -1533,21 +1579,30 @@ class Application:
                             if (self.entryQtdCortada.get() != ''):
                                 try:
                                     Variaveis.quantidadeCortada = int(
-                                    self.entryQtdCortada.get()
-                                )
+                                        self.entryQtdCortada.get()
+                                    )
                                 except:
                                     self.lblMensagem.config(
                                         text='Digite corretamente a quantidade cortada'
                                     )
-                                # registro = []
-                                # registro.append(Variaveis.campos.get("PK_IQC"))
-                                # registro.append(2)
-                                # registro.append(
-                                #     float(self.entryUltMedida.get()))
-                                # registro.append('')
-                                # registro.append(Variaveis.idUsuarioLogado)
-                                # registro.append(Definicoes.maquina)
-                                # dados.append(list(registro))
+
+                                def verificaDivergenciaQtdCortada():
+                                    if (Variaveis.quantidadeCortada) < (
+                                            Variaveis.campos[
+                                                "QTD. CHICOTE PENDENTE"]):
+                                        print("DIVERGENTE")
+                                        # ToDo:
+                                        #  Abrir tela de justificativa de motivo de
+                                        #  divergência e registrar corte posterior
+                                        #  a justificativa.
+
+                                    else:
+                                        print("QUANTIDADE Ok")
+                                        # ToDo:
+                                        #  Encontrar sistemática de registro de PD
+                                        #  cortado sem afetar funcionamento Delphus.
+
+                                verificaDivergenciaQtdCortada()
 
                             else:
                                 self.entryQtdCortada.config(bg='indian red')
@@ -1570,28 +1625,28 @@ class Application:
                         registraUltMedida()
                         registraQtdCortada()
 
-                        #Todo:
-                        # Controlar: Se QUANTIDADE CORTADA < QTD PENDENTE:
-                        #               DEVE JUSTIFICAR O MOTIVO DA DIVERGENCIA.
-                        # Criar Tela de justificativa e registro no banco de Dados
-
                         if self.lblMensagem['text'] == '':
+                            #Todo
+                            #  Aqui é importante que o Registro seja feito
+                            #  mesmo que haja divergência. Entretanto deve-se
+                            #  ter cuidado para somente registrar após a
+                            #  justificativa de divergência
+
+
                             if Variaveis.virtualNumPadVisible:
                                 self.popUpVNumPad.destroy()
                                 Variaveis.virtualNumPadVisible = False
 
                             try:
-                                print(dados)
-                                print(Variaveis.quantidadeCortada)
-                                # ToDo
-                                #   aqui, ao invés de dar PRINT nos dados, enviar a var 'dados'
-                                #   para módulo 'pd.py' registrar no banco e fechar PopUp Registros
+                                pd = PD
+
+                                pd.registraRQSetup(0, Variaveis.ID, dados)
+                                Variaveis.RQPreenchido = True
 
                                 self.popUpQtdCortada.destroy()
                                 Variaveis.estadoEquipamento = 0
                                 Variaveis.RQPreenchido = False
                                 limpaTela()
-
 
                             except:
                                 self.lblMensagem.config(
@@ -1699,6 +1754,8 @@ class Application:
 
     #Todo:
     # Criar MENU GERAL
+
+
 
 Application(root)
 root.mainloop()

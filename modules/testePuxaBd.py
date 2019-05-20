@@ -1,49 +1,73 @@
 import fdb
 import sqlite3
+import configparser as cfgprsr
 
-conOrigem = fdb.connect(dsn='192.168.1.100:/app/database/DADOS_PCP.FDB',
-                        user='SYSDBA',
-                        password='el0perdid0',
-                        charset='WIN1252')
-curOrigem = conOrigem.cursor()
-curOrigem.execute("""SELECT 
-                        * 
-                    FROM 
-                        PDS_PENDENTES_CORTE 
-                    ORDER BY 
-                        "DATA ENTREGA",
-                        "CABO"
-                        """)
+configFile = cfgprsr.ConfigParser()
+configFile.read('../config.ini')
+limiteHorizonte = configFile['DEFAULT']['Limite Horizonte']
 
 
-conDestino = sqlite3.connect(database='../database/TESTEPDS.db')
-curDestino = conDestino.cursor()
-dadosDestino = []
-
-
-dadosOrigem = curOrigem.fetchall()
-
-
-for linhaOrigem in dadosOrigem:
-    linhaDestino = []
-    # print(linhaOrigem)
-    for c in range(len(linhaOrigem)):
-        # print(linhaOrigem[c])
-        linhaDestino.append(str(linhaOrigem[c]))
-        # print(linhaDestino[c])
-    dadosDestino.append(tuple(linhaDestino))
-
-print(dadosDestino)
-
-for linha in dadosDestino:
-    print("INSERT INTO PDS VALUES %s" % str(linha))
+def origem(limiteHorizonte):
     try:
-        curDestino.execute("INSERT INTO PDS VALUES %s" % str(linha))
+        conOrigem = fdb.connect(dsn='192.168.1.100:/app/database/DADOS_PCP.FDB',
+                                user='SYSDBA',
+                                password='el0perdid0',
+                                charset='WIN1252')
+        curOrigem = conOrigem.cursor()
+    except:
+        print ("Erro na conexão com o banco de dados de origem!")
+
+    try:
+        curOrigem.execute("""SELECT 
+                                 * 
+                             FROM 
+                                 PDS_PENDENTES_CORTE
+                             WHERE
+                                 "DATA ENTREGA" BETWEEN CURRENT_DATE AND
+                                                        CURRENT_DATE + %i
+                             ORDER BY
+                                 "DATA ENTREGA",
+                                 "CABO"
+                          """ % int(limiteHorizonte))
+        global dadosOrigem
+        dadosOrigem = curOrigem.fetchall()
+    except:
+        print("Erro na obtenção dos dados de origem!")
+
+
+def destino():
+    try:
+        conDestino = sqlite3.connect(database='../database/TESTEPDS.db')
+        curDestino = conDestino.cursor()
+    except:
+        print("Erro na conexão com o banco de dados de destino local!")
+
+
+def origem2destino():
+    global dadosDestino
+    dadosDestino = []
+
+    try:
+        for linhaOrigem in dadosOrigem:
+            linhaDestino = []
+            for c in range(len(linhaOrigem)):
+                linhaDestino.append(str(linhaOrigem[c]))
+            dadosDestino.append(tuple(linhaDestino))
+
+        for linha in dadosDestino:
+                # curDestino.execute("INSERT INTO PDS VALUES %s" % str(linha))
+                print("REPLACE INTO PDS VALUES %s" % str(linha))
+
+        # conDestino.commit()
 
     except:
-        pass
+        print("Erro ao inserir dados no banco de dados de destino local!")
 
-conDestino.commit()
+
+origem(limiteHorizonte)
+destino()
+origem2destino()
+
 
 print("Linhas na Origem: %i" % len(dadosOrigem))
 print("Linhas na Destino: %i" % len(dadosDestino))

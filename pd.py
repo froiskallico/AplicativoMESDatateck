@@ -87,19 +87,34 @@ class PD(object):
     #     banco.conexao.commit()
     #     banco.conexao.close()
 
-    # def registraRQSetup(self, pdID, dados=()):
-    #     banco = BANCO
-    #     agora = dt.now()
-    #
-    #     cur = banco.conexao.cursor()
-    #
-    #     cur.execute("""INSERT INTO REGISTROS_QUALIDADE (
-    #                         DATA,
-    #                         FK_ID,
-    #                         FK_TRG,
-    #                         VALOR_REGISTRO,
-    #                         LADO,
-    #                         FK_USU,
-    #                         MAQUINA)
-    #                     VALUES
-    #                         ()""")
+    def registraRQSetup(self, pdID, dados=()):
+        banco = BANCO()
+        agora = dt.now()
+
+        cur = banco.conexao.cursor()
+
+        for linha in dados:
+            print(linha)
+            cur.execute("""REPLACE INTO REGISTROS_QUALIDADE (
+                                DATA,
+                                FK_ID,
+                                FK_TRG,
+                                VALOR_REGISTRO,
+                                LADO,
+                                FK_USU,
+                                MAQUINA)
+                            VALUES
+                                ("%s",
+                                %i,
+                                %i,
+                                %d,
+                                %i,
+                                %i,
+                                "%s")""" % (agora,
+                                          int(linha[0]),
+                                          int(linha[1]),
+                                          float(linha[2]),
+                                          int(linha[3]),
+                                          int(linha[4]),
+                                          linha[5]))
+        banco.conexao.commit()

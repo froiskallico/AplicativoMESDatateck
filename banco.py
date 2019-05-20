@@ -45,9 +45,9 @@ class BANCO():
                      LADO			text,
                      FK_USU			integer,
                      MAQUINA		text,
-                     FOREIGN KEY(FK_ID)     REFERENCES PDS(ID),
+                     FOREIGN KEY(FK_ID)     REFERENCES PDS(PK_IQC),
                      FOREIGN KEY(FK_TRG)	REFERENCES TIPOS_REGISTROS(PK_TRG),
-                     FOREIGN KEY(FK_USU) 	REFERENCES USUARIOS(FK_USU))""")
+                     FOREIGN KEY(FK_USU) 	REFERENCES USUARIOS(PK_USU))""")
 
         self.conexao.commit()
         c.close()
