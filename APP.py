@@ -1,6 +1,7 @@
 # --- Imports ---#
 from pd import PD
 import tempos
+from motivos import MOTIVOS
 from tkinter import *
 from time import time
 import datetime
@@ -215,9 +216,7 @@ class Application:
         #
         # if Variaveis.idUsuarioLogado > 0:
             self.montaTelaPrincipal()
-            # self.inspecao()
-            # Variaveis.estadoEquipamento = 4
-            # Variaveis.RQPreenchido = True
+            self.justificativaDivergencia()
 
     # --- Geração do Layout Principal --- #
     def montaTelaPrincipal(self, master=None):
@@ -1747,6 +1746,61 @@ class Application:
                 montaWidgets()
 
             abrirPopUpQtdCortada()
+
+    def justificativaDivergencia(self):
+        def confirmaJustificativa():
+            item = self.listaDivergencias.curselection()
+
+            print(item[0])
+
+        def cancelaJustificativa():
+            self.divergenciaScreen.destroy()
+
+        def montaScreen():
+            self.divergenciaScreen = Toplevel(bg=Cores.bgCinza,
+                                               bd=7,
+                                               relief=RAISED)
+            self.divergenciaScreen.overrideredirect(1)
+            self.divergenciaScreen.attributes('-topmost', 'true')
+            self.divergenciaScreen.bind('<Escape>',
+                                        lambda x: cancelaJustificativa())
+            self.divergenciaScreen.geometry('+50+50')
+            self.divergenciaScreen.focus()
+
+        def montaWidgets():
+            def carregaLista():
+                mot = MOTIVOS()
+                listaMotivos = mot.buscaListaMotivos()
+
+                for motivo in listaMotivos:
+                    self.listaDivergencias.insert(END, motivo)
+
+            self.listaDivergencias = Listbox(self.divergenciaScreen,
+                                            bg=Cores.bgAcabamentosAux,
+                                            fg='black',
+                                            font=('Play', 18))
+            self.listaDivergencias.pack(side=TOP,
+                                       fill=X,
+                                       expand=1,
+                                       padx=10,
+                                       pady=(15,10))
+
+            self.btnConfirmaDiv = Button(self.divergenciaScreen,
+                                         text="Confirmar",
+                                         font=Fontes.fontePadrao,
+                                         bg=Cores.bgCinza,
+                                         fg='white',
+                                         relief=FLAT,
+                                         image=activeButtons.confirmarButton)
+            self.btnConfirmaDiv["command"] = lambda: confirmaJustificativa()
+            self.btnConfirmaDiv.pack(side=BOTTOM,
+                                     pady=20)
+
+            carregaLista()
+
+        montaScreen()
+        montaWidgets()
+
 
     #ToDo:
     # Criar função de Parada e retomada de Máquina;

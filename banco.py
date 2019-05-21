@@ -49,6 +49,12 @@ class BANCO():
                      FOREIGN KEY(FK_TRG)	REFERENCES TIPOS_REGISTROS(PK_TRG),
                      FOREIGN KEY(FK_USU) 	REFERENCES USUARIOS(PK_USU))""")
 
+        c.execute("""CREATE TABLE IF NOT EXISTS MOTIVOS_DIVERGENCIAS (
+                     PK_MDV         integer primary key autoincrement,
+                     DESCRICAO      text)""")
+
+
+
         self.conexao.commit()
         c.close()
 
