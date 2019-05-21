@@ -216,7 +216,7 @@ class Application:
         #
         # if Variaveis.idUsuarioLogado > 0:
             self.montaTelaPrincipal()
-            self.justificativaDivergencia()
+            # self.justificativaDivergencia()
 
     # --- Geração do Layout Principal --- #
     def montaTelaPrincipal(self, master=None):
@@ -1522,6 +1522,97 @@ class Application:
 
         elif Variaveis.estadoEquipamento == 5:
             def abrirPopUpQtdCortada():
+                def registraRQCorte():
+                    if Variaveis.virtualNumPadVisible:
+                        self.popUpVNumPad.destroy()
+                        Variaveis.virtualNumPadVisible = False
+
+                    dados = []
+                    def registraNoBanco():
+                        if self.lblMensagem['text'] == '' and not \
+                        self.quantidadeDivergente:
+                            if Variaveis.virtualNumPadVisible:
+                                self.popUpVNumPad.destroy()
+                                Variaveis.virtualNumPadVisible = False
+
+                        try:
+                            pd = PD
+
+                            pd.registraRQSetup(0, Variaveis.ID, dados)
+                            Variaveis.RQPreenchido = True
+
+                            self.popUpQtdCortada.destroy()
+                            Variaveis.estadoEquipamento = 0
+                            Variaveis.RQPreenchido = False
+                            self.limpaTela()
+                            self.montaTelaPrincipal()
+
+                            print("REGISTRADO")
+
+                            # ToDo:
+                            #  Aqui executar rotina de atualização de qtd.
+                            #  cortada no banco de dados
+
+                        except:
+                            self.lblMensagem.config(
+                                text='Erro ao salvar os registros'
+                            )
+
+                    def registraUltMedida():
+                        if (self.entryUltMedida.get() != ''):
+                            registro = []
+                            registro.append(Variaveis.campos.get("PK_IQC"))
+                            registro.append(2)
+                            try:
+                                registro.append(
+                                    float(
+                                        self.entryUltMedida.get().replace(
+                                            ',',
+                                            '.')))
+                            except:
+                                self.lblMensagem.config(
+                                    text='Digite corretamente um valor de medida'
+                                )
+                            registro.append(0)
+                            registro.append(Variaveis.idUsuarioLogado)
+                            registro.append(Definicoes.maquina)
+                            dados.append(list(registro))
+                        else:
+                            self.entryUltMedida.config(bg='indian red')
+                            self.lblMensagem.config(
+                                text='Informe a Ultima Medida!')
+
+                    def registraQtdCortada():
+                        if (self.entryQtdCortada.get() != ''):
+                            try:
+                                Variaveis.quantidadeCortada = int(
+                                    self.entryQtdCortada.get()
+                                )
+                            except:
+                                self.lblMensagem.config(
+                                    text='Digite corretamente a quantidade cortada')
+
+                            if int((Variaveis.quantidadeCortada)) < int((
+                            Variaveis.campos["QTD. CHICOTE PENDENTE"])):
+                                print("QTD DIVERGENTE")
+                                self.lblMensagem.config(
+                                    text='Quantidade divergente. Justifique!')
+                                self.quantidadeDivergente = True
+                                self.justificativaDivergencia()
+
+                            else:
+                                self.quantidadeDivergente = False
+
+
+                        else:
+                            self.entryQtdCortada.config(bg='indian red')
+                            self.lblMensagem.config(
+                                text='Informe a Quantidade Cortada!')
+
+
+                    registraUltMedida()
+                    registraQtdCortada()
+                    registraNoBanco()
 
                 def montaScreen():
                     def fechaPopUpQtdCortada():
@@ -1542,116 +1633,6 @@ class Application:
                     self.popUpQtdCortada.focus()
 
                 def montaWidgets():
-                    def registraRQCorte():
-                        if Variaveis.virtualNumPadVisible:
-                            self.popUpVNumPad.destroy()
-                            Variaveis.virtualNumPadVisible = False
-
-                        # pd = PD
-                        dados = []
-
-                        def registraUltMedida():
-                            if (self.entryUltMedida.get() != ''):
-                                registro = []
-                                registro.append(Variaveis.campos.get("PK_IQC"))
-                                registro.append(2)
-                                try:
-                                    registro.append(
-                                        float(
-                                            self.entryUltMedida.get().replace(
-                                                ',',
-                                                '.')))
-                                except:
-                                    self.lblMensagem.config(
-                                        text='Digite corretamente um valor de medida'
-                                    )
-                                registro.append(0)
-                                registro.append(Variaveis.idUsuarioLogado)
-                                registro.append(Definicoes.maquina)
-                                dados.append(list(registro))
-                            else:
-                                self.entryUltMedida.config(bg='indian red')
-                                self.lblMensagem.config(
-                                    text='Informe a Ultima Medida!')
-
-                        def registraQtdCortada():
-                            if (self.entryQtdCortada.get() != ''):
-                                try:
-                                    Variaveis.quantidadeCortada = int(
-                                        self.entryQtdCortada.get()
-                                    )
-                                except:
-                                    self.lblMensagem.config(
-                                        text='Digite corretamente a quantidade cortada'
-                                    )
-
-                                def verificaDivergenciaQtdCortada():
-                                    if (Variaveis.quantidadeCortada) < (
-                                            Variaveis.campos[
-                                                "QTD. CHICOTE PENDENTE"]):
-                                        print("DIVERGENTE")
-                                        # ToDo:
-                                        #  Abrir tela de justificativa de motivo de
-                                        #  divergência e registrar corte posterior
-                                        #  a justificativa.
-
-                                    else:
-                                        print("QUANTIDADE Ok")
-                                        # ToDo:
-                                        #  Encontrar sistemática de registro de PD
-                                        #  cortado sem afetar funcionamento Delphus.
-
-                                verificaDivergenciaQtdCortada()
-
-                            else:
-                                self.entryQtdCortada.config(bg='indian red')
-                                self.lblMensagem.config(
-                                    text='Informe a Quantidade Cortada!')
-
-                        def limpaTela():
-                            for i in range(len(Variaveis.colunas)):
-                                Variaveis.campos[Variaveis.colunas[i]] = ''
-
-                            for ele in root.winfo_children():
-                                ele.destroy()
-
-                            Cores.bgCorDoCabo = "white"
-                            Cores.bgCorDaListra = "white"
-                            Cores.fgCorDoCabo = "#333333"
-
-                            self.montaTelaPrincipal()
-
-                        registraUltMedida()
-                        registraQtdCortada()
-
-                        if self.lblMensagem['text'] == '':
-                            #Todo
-                            #  Aqui é importante que o Registro seja feito
-                            #  mesmo que haja divergência. Entretanto deve-se
-                            #  ter cuidado para somente registrar após a
-                            #  justificativa de divergência
-
-
-                            if Variaveis.virtualNumPadVisible:
-                                self.popUpVNumPad.destroy()
-                                Variaveis.virtualNumPadVisible = False
-
-                            try:
-                                pd = PD
-
-                                pd.registraRQSetup(0, Variaveis.ID, dados)
-                                Variaveis.RQPreenchido = True
-
-                                self.popUpQtdCortada.destroy()
-                                Variaveis.estadoEquipamento = 0
-                                Variaveis.RQPreenchido = False
-                                limpaTela()
-
-                            except:
-                                self.lblMensagem.config(
-                                    text='Erro ao salvar os registros'
-                                )
-
                     self.btnConfirma = Button(self.popUpQtdCortada,
                                                 text="Confirmar",
                                                 font=Fontes.fontePadrao,
@@ -1741,7 +1722,6 @@ class Application:
 
                     self.lblMensagem.pack(side=BOTTOM)
 
-
                 montaScreen()
                 montaWidgets()
 
@@ -1752,6 +1732,11 @@ class Application:
             item = self.listaDivergencias.curselection()
 
             print(item[0])
+
+            self.divergenciaScreen.destroy()
+            self.lblMensagem.config(text='')
+
+            self.quantidadeDivergente = False
 
         def cancelaJustificativa():
             self.divergenciaScreen.destroy()
@@ -1801,7 +1786,6 @@ class Application:
         montaScreen()
         montaWidgets()
 
-
     #ToDo:
     # Criar função de Parada e retomada de Máquina;
     # Criar tela para Justificativa de parada de máquina;
@@ -1810,6 +1794,18 @@ class Application:
     # Criar MENU GERAL
 
 
+    # def limpaTela():
+    #     for i in range(len(Variaveis.colunas)):
+    #         Variaveis.campos[Variaveis.colunas[i]] = ''
+    #
+    #     for ele in root.winfo_children():
+    #         ele.destroy()
+    #
+    #     Cores.bgCorDoCabo = "white"
+    #     Cores.bgCorDaListra = "white"
+    #     Cores.fgCorDoCabo = "#333333"
+    #
+    #     self.montaTelaPrincipal()
 
 Application(root)
 root.mainloop()
