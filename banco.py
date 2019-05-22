@@ -17,9 +17,11 @@ class BANCO():
                      FK_TTM                 integer,
                      FK_USU                 integer,
                      MAQUINA                text,
+                     FK_MOT                 integer,
                      FOREIGN KEY(FK_ID)     REFERENCES PDS(ID),
                      FOREIGN KEY(FK_TTM)    REFERENCES TIPOS_TEMPOS(PK_TTM),
-                     FOREIGN KEY(FK_USU)    REFERENCES USUARIOS(PK_USU))""")
+                     FOREIGN KEY(FK_USU)    REFERENCES USUARIOS(PK_USU),
+                     FOREIGN KEY(FK_MOT)    REFERENCES MOTIVOS_PARADA(PK_MOT))""")
 
         c.execute("""CREATE TABLE IF NOT EXISTS TIPOS_TEMPOS (
                      PK_TTM         integer primary key autoincrement,
@@ -37,14 +39,14 @@ class BANCO():
                      ORIGEM         text)""")
 
         c.execute("""CREATE TABlE IF NOT EXISTS REGISTROS_QUALIDADE (
-                     PK_RGQ         integer primary key autoincrement,
-                     DATA           integer,
-                     FK_ID			integer,
-                     FK_TRG			integer,
-                     VALOR_REGISTRO	real,
-                     LADO			text,
-                     FK_USU			integer,
-                     MAQUINA		text,
+                     PK_RGQ                 integer primary key autoincrement,
+                     DATA                   integer,
+                     FK_ID			        integer,
+                     FK_TRG			        integer,
+                     VALOR_REGISTRO	        real,
+                     LADO			        text,
+                     FK_USU			        integer,
+                     MAQUINA		        text,
                      FOREIGN KEY(FK_ID)     REFERENCES PDS(PK_IQC),
                      FOREIGN KEY(FK_TRG)	REFERENCES TIPOS_REGISTROS(PK_TRG),
                      FOREIGN KEY(FK_USU) 	REFERENCES USUARIOS(PK_USU))""")
@@ -52,6 +54,12 @@ class BANCO():
         c.execute("""CREATE TABLE IF NOT EXISTS MOTIVOS_DIVERGENCIAS (
                      PK_MDV         integer primary key autoincrement,
                      DESCRICAO      text)""")
+
+        c.execute("""CREATE TABLE IF NOT EXISTS MOTIVOS_PARADA (
+                     PK_MOT            INTEGER PRIMARY KEY ASC AUTOINCREMENT,
+                     DESCRICAO         TEXT,
+                     ATIVO             TEXT,
+                     PARADA_PROGRAMADA TEXT)""")
 
 
 
