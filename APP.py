@@ -1816,7 +1816,42 @@ class Application:
     # Criar tela para Justificativa de parada de máquina;
     def paradaDeMaquina(self):
         if not Variaveis.maquinaParada and Variaveis.estadoEquipamento > 0:
-            def registraParadaNoBanco(motivo):
+            t0Parada = 0
+
+            def atualizaCronografoParada():
+                if Variaveis.maquinaParada:
+                    tempoAtual = (time() - t0Parada)
+
+                    horas = int(tempoAtual / 3600)
+                    minutos = int((tempoAtual - horas * 3600) / 60)
+                    segundos = int(
+                        tempoAtual - (horas * 3600) - (minutos * 60))
+
+                    tempoAtual = '%02d:%02d:%02d' % (horas, minutos, segundos)
+
+                    self.cronometroParada.configure(text=tempoAtual)
+                    root.after(1000, atualizaCronografoParada)
+
+            def cronometroParada():
+                t0Parada = time()
+
+                self.listaParadas.destroy()
+                self.vsb.destroy()
+
+
+
+                self.cronometroParada = Label(self.frameLista,
+                                              bg=Cores.bgCinza,
+                                              text='00:00:00',
+                                              fg='red',
+                                              font=("Play", 72, 'bold'))
+
+                self.cronometroParada.pack(side=TOP,
+                                           fill=BOTH,
+                                           expand=1)
+
+
+            def registraParadaNoBanco(id_motivo, desc_motivo):
                 # print (motivo)
                 t = tempos.TEMPOS()
 
@@ -1824,9 +1859,9 @@ class Application:
                                   7,
                                   Variaveis.idUsuarioLogado,
                                   Definicoes.maquina,
-                                  motivo)
+                                  id_motivo)
 
-                Variaveis.t0 = time()
+                cronometroParada(desc_motivo)
 
             def confirmaParada():
                 iP = self.listaParadas.curselection()
@@ -1836,7 +1871,6 @@ class Application:
                     #  Registrar motivo da parada no banco
                     #  de dados de acordo com a escolha do usuario
                     self.lblMensagem.config(text='')
-                    self.popUpParada.destroy()
                     Variaveis.maquinaParada = True
 
                 except:
