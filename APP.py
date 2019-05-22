@@ -120,6 +120,8 @@ class Variaveis:
 
     quantidadeCortada = 0
 
+    quantidadeDivergente = False
+
 
 class Fontes:
     fontePadrao = ("Play", 12)
@@ -1088,7 +1090,6 @@ class Application:
 
         def abrirPopUpRQSetup():
             if Variaveis.estadoEquipamento == 2 and not Variaveis.RQPreenchido:
-                print("Abrir RQ")
                 Variaveis.estadoEquipamento = 3
 
                 self.btnRQ.configure(image=inactiveButtons.rqButton)
@@ -1528,35 +1529,111 @@ class Application:
                         Variaveis.virtualNumPadVisible = False
 
                     dados = []
+
+                    def limpaTela():
+                        for i in range(len(Variaveis.colunas)):
+                            Variaveis.campos[Variaveis.colunas[i]] = ''
+
+                        for ele in root.winfo_children():
+                            ele.destroy()
+
+                        Cores.bgCorDoCabo = "white"
+                        Cores.bgCorDaListra = "white"
+                        Cores.fgCorDoCabo = "#333333"
+
                     def registraNoBanco():
                         if self.lblMensagem['text'] == '' and not \
-                        self.quantidadeDivergente:
+                        Variaveis.quantidadeDivergente:
                             if Variaveis.virtualNumPadVisible:
                                 self.popUpVNumPad.destroy()
                                 Variaveis.virtualNumPadVisible = False
 
-                        try:
-                            pd = PD
+                            try:
+                                pd = PD
 
-                            pd.registraRQSetup(0, Variaveis.ID, dados)
-                            Variaveis.RQPreenchido = True
+                                pd.registraRQSetup(0, Variaveis.ID, dados)
 
-                            self.popUpQtdCortada.destroy()
-                            Variaveis.estadoEquipamento = 0
-                            Variaveis.RQPreenchido = False
-                            self.limpaTela()
-                            self.montaTelaPrincipal()
+                                #Todo:
+                                # Registrar Quantidade Cortada no banco de
+                                # dados.
 
-                            print("REGISTRADO")
+                                Variaveis.RQPreenchido = True
 
-                            # ToDo:
-                            #  Aqui executar rotina de atualização de qtd.
-                            #  cortada no banco de dados
+                                self.popUpQtdCortada.destroy()
+                                Variaveis.estadoEquipamento = 0
+                                Variaveis.RQPreenchido = False
+                                limpaTela()
+                                self.montaTelaPrincipal()
 
-                        except:
-                            self.lblMensagem.config(
-                                text='Erro ao salvar os registros'
-                            )
+                            except:
+                                self.lblMensagem.config(
+                                    text='Erro ao salvar os registros'
+                                )
+
+                    def justificativaDivergencia():
+                        def confirmaJustificativa():
+                            item = self.listaDivergencias.curselection()
+
+                            #Todo:
+                            # Registrar motivo da divergência no banco
+                            # de dados de acordo com a escolha do usuario
+
+                            self.divergenciaScreen.destroy()
+                            self.lblMensagem.config(text='')
+                            Variaveis.quantidadeDivergente = False
+                            registraNoBanco()
+
+                        def cancelaJustificativa():
+                            self.divergenciaScreen.destroy()
+
+                        def montaScreen():
+                            self.divergenciaScreen = Toplevel(bg=Cores.bgCinza,
+                                                              bd=7,
+                                                              relief=RAISED)
+                            self.divergenciaScreen.overrideredirect(1)
+                            self.divergenciaScreen.attributes('-topmost',
+                                                              'true')
+                            self.divergenciaScreen.bind('<Escape>', lambda
+                                x: cancelaJustificativa())
+                            self.divergenciaScreen.geometry('+50+50')
+                            self.divergenciaScreen.focus()
+
+                        def montaWidgets():
+                            def carregaLista():
+                                mot = MOTIVOS()
+                                listaMotivos = mot.buscaListaMotivos()
+
+                                for motivo in listaMotivos:
+                                    self.listaDivergencias.insert(END, motivo)
+
+                            self.listaDivergencias = Listbox(
+                                self.divergenciaScreen,
+                                bg=Cores.bgAcabamentosAux,
+                                fg='black',
+                                font=('Play', 18))
+                            self.listaDivergencias.pack(side=TOP,
+                                                        fill=X,
+                                                        expand=1,
+                                                        padx=10,
+                                                        pady=(15, 10))
+
+                            self.btnConfirmaDiv = Button(
+                                self.divergenciaScreen,
+                                text="Confirmar",
+                                font=Fontes.fontePadrao,
+                                bg=Cores.bgCinza,
+                                fg='white',
+                                relief=FLAT,
+                                image=activeButtons.confirmarButton)
+                            self.btnConfirmaDiv[
+                                "command"] = lambda: confirmaJustificativa()
+                            self.btnConfirmaDiv.pack(side=BOTTOM,
+                                                     pady=20)
+
+                            carregaLista()
+
+                        montaScreen()
+                        montaWidgets()
 
                     def registraUltMedida():
                         if (self.entryUltMedida.get() != ''):
@@ -1597,22 +1674,27 @@ class Application:
                                 print("QTD DIVERGENTE")
                                 self.lblMensagem.config(
                                     text='Quantidade divergente. Justifique!')
-                                self.quantidadeDivergente = True
-                                self.justificativaDivergencia()
+                                Variaveis.quantidadeDivergente = True
+                                justificativaDivergencia()
+
+                            elif int((Variaveis.quantidadeCortada)) > int((
+                            Variaveis.campos["QTD. CHICOTE PENDENTE"])):
+                                self.lblMensagem.config(
+                                    text='A quantidade cortada não pode ser maior que a quantidade a cortar'
+                                )
+                                self.entryQtdCortada.config(bg='indian red')
 
                             else:
-                                self.quantidadeDivergente = False
-
+                                Variaveis.quantidadeDivergente = False
+                                registraNoBanco()
 
                         else:
                             self.entryQtdCortada.config(bg='indian red')
                             self.lblMensagem.config(
                                 text='Informe a Quantidade Cortada!')
 
-
                     registraUltMedida()
                     registraQtdCortada()
-                    registraNoBanco()
 
                 def montaScreen():
                     def fechaPopUpQtdCortada():
@@ -1727,65 +1809,6 @@ class Application:
 
             abrirPopUpQtdCortada()
 
-    def justificativaDivergencia(self):
-        def confirmaJustificativa():
-            item = self.listaDivergencias.curselection()
-
-            print(item[0])
-
-            self.divergenciaScreen.destroy()
-            self.lblMensagem.config(text='')
-
-            self.quantidadeDivergente = False
-
-        def cancelaJustificativa():
-            self.divergenciaScreen.destroy()
-
-        def montaScreen():
-            self.divergenciaScreen = Toplevel(bg=Cores.bgCinza,
-                                               bd=7,
-                                               relief=RAISED)
-            self.divergenciaScreen.overrideredirect(1)
-            self.divergenciaScreen.attributes('-topmost', 'true')
-            self.divergenciaScreen.bind('<Escape>',
-                                        lambda x: cancelaJustificativa())
-            self.divergenciaScreen.geometry('+50+50')
-            self.divergenciaScreen.focus()
-
-        def montaWidgets():
-            def carregaLista():
-                mot = MOTIVOS()
-                listaMotivos = mot.buscaListaMotivos()
-
-                for motivo in listaMotivos:
-                    self.listaDivergencias.insert(END, motivo)
-
-            self.listaDivergencias = Listbox(self.divergenciaScreen,
-                                            bg=Cores.bgAcabamentosAux,
-                                            fg='black',
-                                            font=('Play', 18))
-            self.listaDivergencias.pack(side=TOP,
-                                       fill=X,
-                                       expand=1,
-                                       padx=10,
-                                       pady=(15,10))
-
-            self.btnConfirmaDiv = Button(self.divergenciaScreen,
-                                         text="Confirmar",
-                                         font=Fontes.fontePadrao,
-                                         bg=Cores.bgCinza,
-                                         fg='white',
-                                         relief=FLAT,
-                                         image=activeButtons.confirmarButton)
-            self.btnConfirmaDiv["command"] = lambda: confirmaJustificativa()
-            self.btnConfirmaDiv.pack(side=BOTTOM,
-                                     pady=20)
-
-            carregaLista()
-
-        montaScreen()
-        montaWidgets()
-
     #ToDo:
     # Criar função de Parada e retomada de Máquina;
     # Criar tela para Justificativa de parada de máquina;
@@ -1794,18 +1817,8 @@ class Application:
     # Criar MENU GERAL
 
 
-    # def limpaTela():
-    #     for i in range(len(Variaveis.colunas)):
-    #         Variaveis.campos[Variaveis.colunas[i]] = ''
-    #
-    #     for ele in root.winfo_children():
-    #         ele.destroy()
-    #
-    #     Cores.bgCorDoCabo = "white"
-    #     Cores.bgCorDaListra = "white"
-    #     Cores.fgCorDoCabo = "#333333"
-    #
-    #     self.montaTelaPrincipal()
+
+
 
 Application(root)
 root.mainloop()
