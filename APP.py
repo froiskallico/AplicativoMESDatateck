@@ -122,6 +122,8 @@ class Variaveis:
 
     quantidadeDivergente = False
 
+    maquinaParada = False
+
 
 class Fontes:
     fontePadrao = ("Play", 12)
@@ -218,7 +220,7 @@ class Application:
         #
         # if Variaveis.idUsuarioLogado > 0:
             self.montaTelaPrincipal()
-            # self.justificativaDivergencia()
+            self.paradaDeMaquina()
 
     # --- Geração do Layout Principal --- #
     def montaTelaPrincipal(self, master=None):
@@ -1601,7 +1603,7 @@ class Application:
                         def montaWidgets():
                             def carregaLista():
                                 mot = MOTIVOS()
-                                listaMotivos = mot.buscaListaMotivos()
+                                listaMotivos = mot.buscaListaMotivosDivergencia()
 
                                 for motivo in listaMotivos:
                                     self.listaDivergencias.insert(END, motivo)
@@ -1701,7 +1703,6 @@ class Application:
                         if Variaveis.virtualNumPadVisible:
                             self.popUpVNumPad.destroy()
                             Variaveis.virtualNumPadVisible = False
-
                         self.popUpQtdCortada.destroy()
 
                     self.popUpQtdCortada = Toplevel(bg=Cores.bgCinza,
@@ -1812,6 +1813,104 @@ class Application:
     #ToDo:
     # Criar função de Parada e retomada de Máquina;
     # Criar tela para Justificativa de parada de máquina;
+    def paradaDeMaquina(self):
+        if not Variaveis.maquinaParada:
+            def montaScreen():
+                def fechaPopUpParada():
+                    if Variaveis.virtualNumPadVisible:
+                        self.popUpVNumPad.destroy()
+                        Variaveis.virtualNumPadVisible = False
+                    self.popUpParada.destroy()
+
+                self.popUpParada = Toplevel(bg=Cores.bgCinza,
+                                                bd=7,
+                                                relief=RAISED)
+                self.popUpParada.overrideredirect(1)
+                self.popUpParada.attributes('-topmost', 'true')
+                self.popUpParada.bind('<Escape>',
+                                          lambda e: fechaPopUpParada())
+                self.popUpParada.geometry('1024x600+100+100')
+                self.popUpParada.focus()
+
+                self.frameTitulo = Frame(self.popUpParada,
+                                 bg=Cores.bgCinza)
+                self.frameTitulo.pack(side=TOP,
+                                      pady=(20,5))
+
+                self.frameLista = Frame(self.popUpParada,
+                                bg=Cores.bgCinza)
+                self.frameLista.pack(side=TOP,
+                                     pady=(5,20),
+                                     padx=20)
+
+                self.frameButtons = Frame(self.popUpParada,
+                                  bg=Cores.bgCinza)
+                self.frameButtons.pack(side=BOTTOM,
+                                       pady=(30,25))
+
+            def montaWidgets():
+                def carregaLista():
+                    mot = MOTIVOS()
+                    listaMotivos = mot.buscaListaMotivosParada()
+
+                    for motivo in listaMotivos:
+                        self.listaParadas.insert(END, motivo)
+
+                self.lblTitulo = Label(self.frameTitulo,
+                                       text="PARADA DE MÁQUINA",
+                                       font=Fontes.fonteCabecalho,
+                                       bg=Cores.bgCinza,
+                                       fg='red',
+                                       justify=CENTER)
+
+                #ToDo: Inserir TIMER DE PARADA
+
+                self.listaParadas = Listbox(self.popUpParada,
+                                            bg=Cores.bgAcabamentosAux,
+                                            fg='black',
+                                            font=('Play', 18))
+
+                self.vsb = Scrollbar(self.popUpParada,
+                                     orient="vertical",
+                                     width=80)
+                self.vsb['command'] = self.listaParadas.yview
+
+
+                self.btnConfirma = Button(self.frameButtons,
+                                          text="Confirmar",
+                                          font=Fontes.fontePadrao,
+                                          bg=Cores.bgCinza,
+                                          fg='white',
+                                          relief=FLAT,
+                                          image=activeButtons.confirmarButton)
+                # self.btnConfirma["command"] = registraRQSetup
+
+                self.btnCancela = Button(self.frameButtons,
+                                         text="Cancelar",
+                                         font=Fontes.fontePadrao,
+                                         bg=Cores.bgCinza,
+                                         fg='white',
+                                         relief=FLAT,
+                                         image=redButtons.cancelarButton)
+                # self.btnCancela["command"] = cancelarpopUpRQSetup
+
+                self.lblTitulo.pack(side=TOP,
+                                    pady=(20,10),
+                                    fill=X)
+                self.listaParadas.pack(side=LEFT,
+                                       fill=BOTH,
+                                       expand=1,
+                                       padx=(15,0))
+                self.vsb.pack(side=LEFT,
+                              padx=(0,15),
+                              fill=Y)
+                self.btnConfirma.pack(side=LEFT)
+                self.btnCancela.pack(side=LEFT)
+
+                carregaLista()
+
+            montaScreen()
+            montaWidgets()
 
     #Todo:
     # Criar MENU GERAL
