@@ -12,7 +12,7 @@ class BANCO():
 
         c.execute("""CREATE TABLE IF NOT EXISTS TEMPOS (
                      PK_TEM                 integer primary key autoincrement,
-                     DATA                   integer,
+                     DATA                   real,
                      FK_ID                  integer,
                      FK_TTM                 integer,
                      FK_USU                 integer,

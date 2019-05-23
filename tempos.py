@@ -19,16 +19,16 @@ class TEMPOS():
                             FK_USU,
                             MAQUINA)
                         VALUES
-                            ("%s",
-                            %i,
-                            %i,
-                            %i,
-                            "%s")
-                            """ % (agora,
-                                    FK_ID,
-                                    FK_TTM,
-                                    FK_USU,
-                                    MAQ))
+                            (datetime(?),
+                            ?,
+                            ?,
+                            ?,
+                            ?)
+                            """, (agora,
+                                  FK_ID,
+                                  FK_TTM,
+                                  FK_USU,
+                                  MAQ))
 
         banco.conexao.commit()
 
@@ -46,18 +46,18 @@ class TEMPOS():
                                     MAQUINA,
                                     FK_MOT)
                                 VALUES
-                                    ("%s",
-                                    %i,
-                                    %i,
-                                    %i,
-                                    "%s",
-                                    %i)
-                                    """ % (agora,
-                                           FK_ID,
-                                           FK_TTM,
-                                           FK_USU,
-                                           MAQ,
-                                           MOT))
+                                    (datetime(?),
+                                     ?,
+                                     ?,
+                                     ?,
+                                     ?,
+                                     ?)
+                                    """, (agora,
+                                          FK_ID,
+                                          FK_TTM,
+                                          FK_USU,
+                                          MAQ,
+                                          MOT))
 
         banco.conexao.commit()
 
