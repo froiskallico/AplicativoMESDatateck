@@ -127,6 +127,7 @@ class Variaveis:
     quantidadeDivergente = False
 
     maquinaParada = False
+    paradaEmSetup = False
     paradaEmCorte = False
 
 
@@ -1851,6 +1852,13 @@ class Application:
                                       Variaveis.idUsuarioLogado,
                                       Definicoes.maquina)
 
+                if Variaveis.paradaEmSetup:
+                    t.tomaTempoEvento(Variaveis.ID,
+                                          3,
+                                          Variaveis.idUsuarioLogado,
+                                          Definicoes.maquina)
+
+
                 Variaveis.maquinaParada = False
                 self.popUpParada.destroy()
 
@@ -1923,10 +1931,16 @@ class Application:
                 if Variaveis.estadoAntesDaParada == 5:
                     Variaveis.paradaEmCorte = True
                     t.tomaTempoEvento(Variaveis.ID,
-                                      6,
+                                      Variaveis.estadoAntesDaParada+1,
                                       Variaveis.idUsuarioLogado,
                                       Definicoes.maquina)
 
+                if Variaveis.estadoAntesDaParada in (2,3):
+                    Variaveis.paradaEmSetup = True
+                    t.tomaTempoEvento(Variaveis.ID,
+                                      4,
+                                      Variaveis.idUsuarioLogado,
+                                      Definicoes.maquina)
 
                 cronometroParada(descMotivo)
 
