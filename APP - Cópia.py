@@ -111,7 +111,11 @@ class Variaveis:
                'Parado')
 
     estadoEquipamento = 0
+    estadoAntesDaParada = 0
     t0 = 0
+    tempoAtual = 0
+    t0Parada = 0
+    tAcumulado = 0
     ID = 0
 
     RQPreenchido = False
@@ -123,6 +127,8 @@ class Variaveis:
     quantidadeDivergente = False
 
     maquinaParada = False
+    paradaEmSetup = False
+    paradaEmCorte = False
 
 
 class Fontes:
@@ -220,7 +226,6 @@ class Application:
         #
         # if Variaveis.idUsuarioLogado > 0:
             self.montaTelaPrincipal()
-            # self.paradaDeMaquina()
 
     # --- Geração do Layout Principal --- #
     def montaTelaPrincipal(self, master=None):
@@ -1045,6 +1050,7 @@ class Application:
 
             self.zeraCronografo()
 
+
             self.btnSetup.config(image=activeButtons.setupButton)
             self.btnRQ.config(image=inactiveButtons.rqButton)
 
@@ -1063,15 +1069,15 @@ class Application:
     def atualizaCronografo(self):
         if Variaveis.estadoEquipamento in (2, 3, 5):
 
-            tempoAtual = (time() - Variaveis.t0)
+            Variaveis.tempoAtual = (time() - Variaveis.t0) + Variaveis.tAcumulado
 
-            horas = int(tempoAtual/3600)
-            minutos = int((tempoAtual - horas*3600)/60)
-            segundos = int(tempoAtual - (horas * 3600) - (minutos * 60))
+            horas = int(Variaveis.tempoAtual/3600)
+            minutos = int((Variaveis.tempoAtual - horas*3600)/60)
+            segundos = int(Variaveis.tempoAtual - (horas * 3600) - (minutos * 60))
 
-            tempoAtual = '%02d:%02d:%02d' % (horas, minutos, segundos)
+            stringTempoAtual = '%02d:%02d:%02d' % (horas, minutos, segundos)
 
-            self.lblRelogio.configure(text=tempoAtual)
+            self.lblRelogio.configure(text=stringTempoAtual)
             root.after(1000, self.atualizaCronografo)
 
     def atualizaEstado(self):
@@ -1513,11 +1519,12 @@ class Application:
 
             t = tempos.TEMPOS()
 
-            # t.tomaTempoEvento(Variaveis.ID,
-            #                   5,
-            #                   Variaveis.idUsuarioLogado,
-            #                   Definicoes.maquina)
+            t.tomaTempoEvento(Variaveis.ID,
+                              5,
+                              Variaveis.idUsuarioLogado,
+                              Definicoes.maquina)
 
+            Variaveis.tAcumulado = 0
             Variaveis.t0 = time()
 
             self.atualizaCronografo()
@@ -1556,6 +1563,16 @@ class Application:
 
                                 pd.registraRQSetup(0, Variaveis.ID, dados)
 
+                                t = tempos.TEMPOS()
+
+                                t.tomaTempoEvento(Variaveis.ID,
+                                                  6,
+                                                  Variaveis.idUsuarioLogado,
+                                                  Definicoes.maquina)
+                                t.tomaTempoEvento(Variaveis.ID,
+                                                  2,
+                                                  Variaveis.idUsuarioLogado,
+                                                  Definicoes.maquina)
                                 #Todo:
                                 # Registrar Quantidade Cortada no banco de
                                 # dados.
@@ -1564,6 +1581,7 @@ class Application:
 
                                 self.popUpQtdCortada.destroy()
                                 Variaveis.estadoEquipamento = 0
+
                                 Variaveis.RQPreenchido = False
                                 limpaTela()
                                 self.montaTelaPrincipal()
@@ -1815,40 +1833,142 @@ class Application:
     # Criar função de Parada e retomada de Máquina;
     # Criar tela para Justificativa de parada de máquina;
     def paradaDeMaquina(self):
+        self.idMotivo = None
         if not Variaveis.maquinaParada and Variaveis.estadoEquipamento > 0:
-            def registraParadaNoBanco(motivo):
+            def retomar():
+                t = tempos.TEMPOS()
+
+                t.tomaTempoParada(Variaveis.ID,
+                                  8,
+                                  Variaveis.idUsuarioLogado,
+                                  Definicoes.maquina,
+                                  self.idMotivo)
+
+                Variaveis.estadoEquipamento = Variaveis.estadoAntesDaParada
+                Variaveis.t0 = time()
+                self.atualizaCronografo()
+
+                if Variaveis.paradaEmCorte:
+                    Variaveis.paradaEmCorte = False
+                    t.tomaTempoEvento(Variaveis.ID,
+                                      Variaveis.estadoEquipamento,
+                                      Variaveis.idUsuarioLogado,
+                                      Definicoes.maquina)
+
+                if Variaveis.paradaEmSetup:
+                    Variaveis.paradaEmSetup = False
+                    t.tomaTempoEvento(Variaveis.ID,
+                                          3,
+                                          Variaveis.idUsuarioLogado,
+                                          Definicoes.maquina)
+
+
+                Variaveis.maquinaParada = False
+                self.popUpParada.destroy()
+
+            def atualizaCronografoParada():
+                print(Variaveis.maquinaParada)
+                if Variaveis.maquinaParada:
+
+                    tempoAtualParada = (time() - Variaveis.t0Parada)
+                    print (tempoAtualParada)
+                    horas = int(tempoAtualParada / 3600)
+                    minutos = int((tempoAtualParada - horas * 3600) / 60)
+                    segundos = int(
+                        tempoAtualParada - (horas * 3600) - (minutos * 60))
+
+                    tempoAtualParada = '%02d:%02d:%02d' % (horas, minutos, segundos)
+
+                    self.cronometroParada.config(text=tempoAtualParada)
+                    root.after(1000, atualizaCronografoParada)
+
+            def cronometroParada():
+                Variaveis.t0Parada = time()
+
+                for frame in (self.frameButtons.winfo_children(),
+                              self.frameLista.winfo_children()):
+                    for ele in frame:
+                        ele.destroy()
+
+                self.lblDescMotivo = Label(self.frameLista,
+                                           bg=Cores.bgCinza,
+                                           text=self.descMotivo,
+                                           fg='red',
+                                           font=("Play", 36, 'bold'))
+
+                self.lblDescMotivo.pack(side=TOP,
+                                        fill=X,
+                                        expand=1)
+
+                self.cronometroParada = Label(self.frameLista,
+                                              bg=Cores.bgCinza,
+                                              text='00:00:00',
+                                              fg='red',
+                                              font=("Play", 72, 'bold'))
+
+                self.cronometroParada.pack(side=TOP,
+                                           fill=BOTH,
+                                           expand=1)
+
+                self.btnRetomar = Button(self.frameButtons,
+                                          text="Retomar",
+                                          font=Fontes.fontePadrao,
+                                          bg=Cores.bgCinza,
+                                          fg='white',
+                                          relief=FLAT,
+                                          image=activeButtons.retomarButton)
+                self.btnRetomar["command"] = retomar
+                self.btnRetomar.pack(side=TOP)
+
+                atualizaCronografoParada()
+
+            def registraParadaNoBanco():
                 # print (motivo)
                 t = tempos.TEMPOS()
 
                 t.tomaTempoParada(Variaveis.ID,
-                                  7,
+                                  Variaveis.estadoEquipamento,
                                   Variaveis.idUsuarioLogado,
                                   Definicoes.maquina,
-                                  motivo)
+                                  self.idMotivo)
 
-                Variaveis.t0 = time()
+                if Variaveis.estadoAntesDaParada == 5:
+                    Variaveis.paradaEmCorte = True
+                    t.tomaTempoEvento(Variaveis.ID,
+                                      Variaveis.estadoAntesDaParada+1,
+                                      Variaveis.idUsuarioLogado,
+                                      Definicoes.maquina)
+
+                if Variaveis.estadoAntesDaParada in (2,3):
+                    Variaveis.paradaEmSetup = True
+                    t.tomaTempoEvento(Variaveis.ID,
+                                      4,
+                                      Variaveis.idUsuarioLogado,
+                                      Definicoes.maquina)
+
+                cronometroParada()
 
             def confirmaParada():
-                iP = self.listaParadas.curselection()
-                registraParadaNoBanco(iP[0] + 1)
                 try:
-                    #ToDo:
-                    #  Registrar motivo da parada no banco
-                    #  de dados de acordo com a escolha do usuario
-                    self.lblMensagem.config(text='')
-                    self.popUpParada.destroy()
                     Variaveis.maquinaParada = True
 
+                    iP = self.listaParadas.curselection()
+                    self.idMotivo = iP[0]
+                    self.descMotivo = self.listaParadas.get(iP[0])
+
+                    Variaveis.estadoAntesDaParada = Variaveis.estadoEquipamento
+                    Variaveis.estadoEquipamento = 7
+
+                    registraParadaNoBanco()
+
+                    Variaveis.tAcumulado = Variaveis.tempoAtual
                 except:
                     self.lblMensagem.config(text='Justifique sua parada!',
                                             bg='yellow')
 
             def cancelaParada():
-                if Variaveis.virtualNumPadVisible:
-                    self.popUpVNumPad.destroy()
-                    Variaveis.virtualNumPadVisible = False
-                self.popUpParada.destroy()
                 Variaveis.maquinaParada = False
+                self.popUpParada.destroy()
 
             def montaScreen():
                 self.popUpParada = Toplevel(bg=Cores.bgCinza,

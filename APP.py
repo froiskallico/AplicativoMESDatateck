@@ -1833,26 +1833,30 @@ class Application:
     # Criar função de Parada e retomada de Máquina;
     # Criar tela para Justificativa de parada de máquina;
     def paradaDeMaquina(self):
+        self.idMotivo = None
         if not Variaveis.maquinaParada and Variaveis.estadoEquipamento > 0:
             def retomar():
                 t = tempos.TEMPOS()
 
-                t.tomaTempoEvento(Variaveis.ID,
+                t.tomaTempoParada(Variaveis.ID,
                                   8,
                                   Variaveis.idUsuarioLogado,
-                                  Definicoes.maquina)
+                                  Definicoes.maquina,
+                                  self.idMotivo)
 
                 Variaveis.estadoEquipamento = Variaveis.estadoAntesDaParada
                 Variaveis.t0 = time()
                 self.atualizaCronografo()
 
                 if Variaveis.paradaEmCorte:
+                    Variaveis.paradaEmCorte = False
                     t.tomaTempoEvento(Variaveis.ID,
                                       Variaveis.estadoEquipamento,
                                       Variaveis.idUsuarioLogado,
                                       Definicoes.maquina)
 
                 if Variaveis.paradaEmSetup:
+                    Variaveis.paradaEmSetup = False
                     t.tomaTempoEvento(Variaveis.ID,
                                           3,
                                           Variaveis.idUsuarioLogado,
@@ -1878,7 +1882,7 @@ class Application:
                     self.cronometroParada.config(text=tempoAtualParada)
                     root.after(1000, atualizaCronografoParada)
 
-            def cronometroParada(descMotivo):
+            def cronometroParada():
                 Variaveis.t0Parada = time()
 
                 for frame in (self.frameButtons.winfo_children(),
@@ -1888,7 +1892,7 @@ class Application:
 
                 self.lblDescMotivo = Label(self.frameLista,
                                            bg=Cores.bgCinza,
-                                           text=descMotivo,
+                                           text=self.descMotivo,
                                            fg='red',
                                            font=("Play", 36, 'bold'))
 
@@ -1918,7 +1922,7 @@ class Application:
 
                 atualizaCronografoParada()
 
-            def registraParadaNoBanco(idMotivo, descMotivo):
+            def registraParadaNoBanco():
                 # print (motivo)
                 t = tempos.TEMPOS()
 
@@ -1926,7 +1930,7 @@ class Application:
                                   Variaveis.estadoEquipamento,
                                   Variaveis.idUsuarioLogado,
                                   Definicoes.maquina,
-                                  idMotivo)
+                                  self.idMotivo)
 
                 if Variaveis.estadoAntesDaParada == 5:
                     Variaveis.paradaEmCorte = True
@@ -1942,19 +1946,20 @@ class Application:
                                       Variaveis.idUsuarioLogado,
                                       Definicoes.maquina)
 
-                cronometroParada(descMotivo)
+                cronometroParada()
 
             def confirmaParada():
                 try:
                     Variaveis.maquinaParada = True
 
                     iP = self.listaParadas.curselection()
-                    descMotivo = self.listaParadas.get(iP[0])
+                    self.idMotivo = iP[0]
+                    self.descMotivo = self.listaParadas.get(iP[0])
 
                     Variaveis.estadoAntesDaParada = Variaveis.estadoEquipamento
                     Variaveis.estadoEquipamento = 7
 
-                    registraParadaNoBanco(iP[0] + 1, descMotivo)
+                    registraParadaNoBanco()
 
                     Variaveis.tAcumulado = Variaveis.tempoAtual
                 except:
