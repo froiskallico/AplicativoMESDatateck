@@ -1,6 +1,7 @@
 # --- Imports ---#
 from pd import PD
 import tempos
+import etiqueta
 from motivos import MOTIVOS
 from tkinter import *
 from time import time
@@ -33,33 +34,33 @@ class Variaveis:
     colunas = ('PK_IQC',
                'REQUISICAO',
                'CELULA',
-               'DATA GERAÇÃO',
-               'DATA ENTREGA',
-               'OBSERVAÇÃO REQ',
+               'DATA_GERACAO',
+               'DATA_ENTREGA',
+               'OBSERVACAO_REQ',
                'CHICOTE',
-               'QTD. CHICOTE PENDENTE',
+               'QTD_CHICOTE_PENDENTE',
                'PD',
                'CABO',
                'FK_CRS',
                'VIAS',
                'BITOLA',
                'UNIDADE',
-               'QTD PD REQ',
+               'QTD_PD_REQ',
                'MEDIDA',
-               'DECAPE A',
-               'DECAPE B',
-               'ACABAMENTO 1',
-               'PONTE 1',
-               'ACABAMENTO 2',
-               'PONTE 2',
-               'ACABAMENTO 3',
-               'PONTE 3',
-               'ACABAMENTO 4',
-               'PONTE 4',
-               'OBSERVAÇÃO',
-               'GRAVAÇÃO',
-               'MÁQUINA',
-               'NR. ORDEM CORTE',
+               'DECAPE_A',
+               'DECAPE_B',
+               'ACABAMENTO_1',
+               'PONTE_1',
+               'ACABAMENTO_2',
+               'PONTE_2',
+               'ACABAMENTO_3',
+               'PONTE_3',
+               'ACABAMENTO_4',
+               'PONTE_4',
+               'OBSERVACAO',
+               'GRAVACAO',
+               'MAQUINA',
+               'NR_ORDEM_CORTE',
                'DESCRICAO',
                'PRIMARIA',
                'SECUNDARIA',
@@ -69,33 +70,33 @@ class Variaveis:
         "PK_IQC":                   "",
         "REQUISICAO":               "",
         "CELULA":                   "",
-        "DATA GERAÇÃO":             "",
-        "DATA ENTREGA":             "",
-        "OBSERVAÇÃO REQ":           "",
+        "DATA_GERACAO":             "",
+        "DATA_ENTREGA":             "",
+        "OBSERVACAO_REQ":           "",
         "CHICOTE":                  "",
-        "QTD. CHICOTE PENDENTE":    "",
+        "QTD_CHICOTE_PENDENTE":    "",
         "PD":                       "",
         "CABO":                     "",
         "FK_CRS":                   "",
         "VIAS":                     "",
         "BITOLA":                   "",
         "UNIDADE":                  "",
-        "QTD PD REQ":               "",
+        "QTD_PD_REQ":               "",
         "MEDIDA":                   "",
-        "DECAPE A":                 "",
-        "DECAPE B":                 "",
-        "ACABAMENTO 1":             "",
-        "PONTE 1":                  "",
-        "ACABAMENTO 2":             "",
-        "PONTE 2":                  "",
-        "ACABAMENTO 3":             "",
-        "PONTE 3":                  "",
-        "ACABAMENTO 4":             "",
-        "PONTE 4":                  "",
-        "OBSERVAÇÃO":               "",
-        "GRAVAÇÃO":                 "",
-        "MÁQUINA":                  "",
-        "NR. ORDEM CORTE":          "",
+        "DECAPE_A":                 "",
+        "DECAPE_B":                 "",
+        "ACABAMENTO_1":             "",
+        "PONTE_1":                  "",
+        "ACABAMENTO_2":             "",
+        "PONTE_2":                  "",
+        "ACABAMENTO_3":             "",
+        "PONTE_3":                  "",
+        "ACABAMENTO_4":             "",
+        "PONTE_4":                  "",
+        "OBSERVACAO":               "",
+        "GRAVACAO":                 "",
+        "MAQUINA":                  "",
+        "NR_ORDEM_CORTE":          "",
         "DESCRICAO":                "",
         "PRIMARIA":                 "",
         "SECUNDARIA":               "",
@@ -430,7 +431,7 @@ class Application:
 
             ###--- Medidas PD ---###
             self.lblDecapeA = Label(self.containerMedidasPD,
-                                    text=Variaveis.campos.get("DECAPE A"),
+                                    text=Variaveis.campos.get("DECAPE_A"),
                                     font=Fontes.fonteCabecalho,
                                     bg=Cores.bgCinza,
                                     fg=Cores.letraVerde)
@@ -447,7 +448,7 @@ class Application:
                                 row=0)
 
             self.lblDecapeB = Label(self.containerMedidasPD,
-                                    text=Variaveis.campos.get("DECAPE B"),
+                                    text=Variaveis.campos.get("DECAPE_B"),
                                     font=Fontes.fonteCabecalho,
                                     bg=Cores.bgCinza,
                                     fg=Cores.letraVerde)
@@ -523,7 +524,7 @@ class Application:
 
             self.lblAcabamento1 = Label(self.containerAcabamento1,
                                         text=Variaveis.campos.get(
-                                            "ACABAMENTO 1"),
+                                            "ACABAMENTO_1"),
                                         font=Fontes.fontePadrao,
                                         bg=Cores.bgVerde,
                                         fg=Cores.bgCinza)
@@ -544,7 +545,7 @@ class Application:
 
             self.lblAcabamento3 = Label(self.containerAcabamento3,
                                         text=Variaveis.campos.get(
-                                            "ACABAMENTO 3"),
+                                            "ACABAMENTO_3"),
                                         font=Fontes.fontePadrao,
                                         bg=Cores.bgAcabamentosAux,
                                         fg=Cores.bgCinza)
@@ -562,7 +563,7 @@ class Application:
 
             self.lblQuantidadePendente = Label(self.containerQuantidade,
                                                text=Variaveis.campos.get(
-                                                   "QTD PD REQ"),
+                                                   "QTD_PD_REQ"),
                                                font=Fontes.fonteQuantidadePendente,
                                                bg=Cores.bgCinza,
                                                fg=Cores.letraVerde,
@@ -589,7 +590,7 @@ class Application:
             self.lblLabelObservacao.pack()
 
             self.lblObservacao = Label(self.containerObservacao,
-                                       text=Variaveis.campos.get("OBSERVAÇÃO"),
+                                       text=Variaveis.campos.get("OBSERVACAO"),
                                        font=Fontes.fontePadrao,
                                        bg=Cores.bgCinza,
                                        fg="white")
@@ -604,7 +605,7 @@ class Application:
             self.lblLabelGravacao.pack()
 
             self.lblGravacao = Label(self.containerObservacao,
-                                     text=Variaveis.campos.get("GRAVAÇÃO"),
+                                     text=Variaveis.campos.get("GRAVACAO"),
                                      font=Fontes.fontePadrao,
                                      bg=Cores.bgCinza,
                                      fg="white")
@@ -624,7 +625,7 @@ class Application:
 
             self.lblAcabamento2 = Label(self.containerAcabamento2,
                                         text=Variaveis.campos.get(
-                                            "ACABAMENTO 2"),
+                                            "ACABAMENTO_2"),
                                         font=Fontes.fontePadrao,
                                         bg=Cores.bgVerde,
                                         fg=Cores.bgCinza)
@@ -645,7 +646,7 @@ class Application:
 
             self.lblAcabamento4 = Label(self.containerAcabamento4,
                                         text=Variaveis.campos.get(
-                                            "ACABAMENTO 4"),
+                                            "ACABAMENTO_4"),
                                         font=Fontes.fontePadrao,
                                         bg=Cores.bgAcabamentosAux,
                                         fg=Cores.bgCinza)
@@ -819,9 +820,9 @@ class Application:
                                          "CHICOTE"))
 
         ###--- Medidas PD ---###
-        self.lblDecapeA = Label(text=Variaveis.campos.get("DECAPE A"))
+        self.lblDecapeA = Label(text=Variaveis.campos.get("DECAPE_A"))
         self.lblMedida = Label(text=Variaveis.campos.get("MEDIDA"))
-        self.lblDecapeB = Label(text=Variaveis.campos.get("DECAPE B"))
+        self.lblDecapeB = Label(text=Variaveis.campos.get("DECAPE_B"))
 
         ###--- Cabo ---###
         self.lblCaboSec1 = Label(bg=Cores.bgCorDoCabo)
@@ -831,25 +832,25 @@ class Application:
         ###--- Detalhes ---###
         ####--- Lado A ---####
         #####--- Acabamento 1 ---#####
-        self.lblAcabamento1 = Label(text=Variaveis.campos.get("ACABAMENTO 1"))
-        self.lblAcabamento3 = Label(text=Variaveis.campos.get("ACABAMENTO 3"))
+        self.lblAcabamento1 = Label(text=Variaveis.campos.get("ACABAMENTO_1"))
+        self.lblAcabamento3 = Label(text=Variaveis.campos.get("ACABAMENTO_3"))
 
         ####--- Quantidade ---####
         self.lblQuantidadePendente = Label(text=Variaveis.campos.get(
-                                               "QTD PD REQ"))
+                                               "QTD_PD_REQ"))
         self.lblQuantidadeCortada = Label(text=Variaveis.campos.get(
                                               "QUANTIDADE_CORTADA"))
 
         ####--- Observacao ---####
-        self.lblObservacao = Label(text=Variaveis.campos.get("OBSERVAÇÃO"))
+        self.lblObservacao = Label(text=Variaveis.campos.get("OBSERVACAO"))
 
         ####--- Gravacao ---####
-        self.lblGravacao = Label(text=Variaveis.campos.get("GRAVAÇÃO"))
+        self.lblGravacao = Label(text=Variaveis.campos.get("GRAVACAO"))
 
         ####--- Labo B ---####
         #####--- Acabamento 2 ---#####
-        self.lblAcabamento2 = Label(text=Variaveis.campos.get("ACABAMENTO 2"))
-        self.lblAcabamento4 = Label(text=Variaveis.campos.get("ACABAMENTO 4"))
+        self.lblAcabamento2 = Label(text=Variaveis.campos.get("ACABAMENTO_2"))
+        self.lblAcabamento4 = Label(text=Variaveis.campos.get("ACABAMENTO_4"))
 
         # --- Rodape ---#
         self.lblRodape = Label(text="%s - Logado desde:  %s" %
@@ -900,6 +901,8 @@ class Application:
             Variaveis.ID = self.itemData.get('values')[3]
 
             carregaDadosDoPDNaTela(Variaveis.ID)
+
+            self.Etiqueta()
 
         def abrirOuFecharNode(master=None):
             self.nodeSel = self.tvw.focus()
@@ -1428,11 +1431,11 @@ class Application:
                                            expand=1)
 
                 def desabilitaLadosNaoUtilizados(self):
-                    if Variaveis.campos["ACABAMENTO 1"] == "None":
+                    if Variaveis.campos["ACABAMENTO_1"] == "None":
                         self.entryAlturaCondutorA.config(state='disabled')
                         self.entryAlturaIsolanteA.config(state='disabled')
                         self.entryTracaoA.config(state='disabled')
-                    if Variaveis.campos["ACABAMENTO 2"] == "None":
+                    if Variaveis.campos["ACABAMENTO_2"] == "None":
                         self.entryAlturaCondutorB.config(state='disabled')
                         self.entryAlturaIsolanteB.config(state='disabled')
                         self.entryTracaoB.config(state='disabled')
@@ -1691,7 +1694,7 @@ class Application:
                                     text='Digite corretamente a quantidade cortada')
 
                             if int((Variaveis.quantidadeCortada)) < int((
-                            Variaveis.campos["QTD. CHICOTE PENDENTE"])):
+                            Variaveis.campos["QTD_CHICOTE_PENDENTE"])):
                                 print("QTD DIVERGENTE")
                                 self.lblMensagem.config(
                                     text='Quantidade divergente. Justifique!')
@@ -1699,7 +1702,7 @@ class Application:
                                 justificativaDivergencia()
 
                             elif int((Variaveis.quantidadeCortada)) > int((
-                            Variaveis.campos["QTD. CHICOTE PENDENTE"])):
+                            Variaveis.campos["QTD_CHICOTE_PENDENTE"])):
                                 self.lblMensagem.config(
                                     text='A quantidade cortada não pode ser maior que a quantidade a cortar'
                                 )
@@ -2074,6 +2077,14 @@ class Application:
 
             montaScreen()
             montaWidgets()
+
+    def Etiqueta(self):
+
+        etq = etiqueta.etiqueta()
+
+        Variaveis.quantidadeCortada = 50
+
+        etq.imprimeEtiqueta(Variaveis.quantidadeCortada, **Variaveis.campos)
 
     #Todo:
     # Criar MENU GERAL
