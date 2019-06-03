@@ -96,7 +96,7 @@ class Variaveis:
         "OBSERVACAO":               "",
         "GRAVACAO":                 "",
         "MAQUINA":                  "",
-        "NR_ORDEM_CORTE":          "",
+        "NR_ORDEM_CORTE":           "",
         "DESCRICAO":                "",
         "PRIMARIA":                 "",
         "SECUNDARIA":               "",

@@ -1,0 +1,569 @@
+# --- Imports ---#
+from pd import PD
+import tempos
+from motivos import MOTIVOS
+from tkinter import *
+from time import time
+import datetime
+from tkinter import ttk
+# import login
+import configparser as cfgprsr
+import inspect
+
+class Definicoes():
+    configFile = cfgprsr.ConfigParser()
+    configFile.read('config.ini')
+    maquina = configFile['DEFAULT']['Maquina']
+
+def montaRoot():
+    global root
+    root = Tk()
+    root.title('Operação')
+    root.geometry(Definicoes.configFile['DISPLAY']['RES'])
+    root.attributes('-fullscreen', Definicoes.configFile['DISPLAY']['Tela Cheia'])
+    root.bind('<Escape>', lambda e: root.destroy())
+    root.resizable(width=True, height=True)
+montaRoot()
+
+class Variaveis:
+    inicioSecao = datetime.datetime.now().strftime('%d-%m-%Y  %H:%M:%S')
+    idUsuarioLogado = 0
+    nomeUsuarioLogado = None
+
+    colunas = ('PK_IQC',
+               'REQUISICAO',
+               'CELULA',
+               'DATA GERAÇÃO',
+               'DATA ENTREGA',
+               'OBSERVAÇÃO REQ',
+               'CHICOTE',
+               'QTD. CHICOTE PENDENTE',
+               'PD',
+               'CABO',
+               'FK_CRS',
+               'VIAS',
+               'BITOLA',
+               'UNIDADE',
+               'QTD PD REQ',
+               'MEDIDA',
+               'DECAPE A',
+               'DECAPE B',
+               'ACABAMENTO 1',
+               'PONTE 1',
+               'ACABAMENTO 2',
+               'PONTE 2',
+               'ACABAMENTO 3',
+               'PONTE 3',
+               'ACABAMENTO 4',
+               'PONTE 4',
+               'OBSERVAÇÃO',
+               'GRAVAÇÃO',
+               'MÁQUINA',
+               'NR. ORDEM CORTE',
+               'DESCRICAO',
+               'PRIMARIA',
+               'SECUNDARIA',
+               'COR_TEXTO')
+
+    campos = {
+        "PK_IQC":                   "",
+        "REQUISICAO":               "",
+        "CELULA":                   "",
+        "DATA GERAÇÃO":             "",
+        "DATA ENTREGA":             "",
+        "OBSERVAÇÃO REQ":           "",
+        "CHICOTE":                  "",
+        "QTD. CHICOTE PENDENTE":    "",
+        "PD":                       "",
+        "CABO":                     "",
+        "FK_CRS":                   "",
+        "VIAS":                     "",
+        "BITOLA":                   "",
+        "UNIDADE":                  "",
+        "QTD PD REQ":               "",
+        "MEDIDA":                   "",
+        "DECAPE A":                 "",
+        "DECAPE B":                 "",
+        "ACABAMENTO 1":             "",
+        "PONTE 1":                  "",
+        "ACABAMENTO 2":             "",
+        "PONTE 2":                  "",
+        "ACABAMENTO 3":             "",
+        "PONTE 3":                  "",
+        "ACABAMENTO 4":             "",
+        "PONTE 4":                  "",
+        "OBSERVAÇÃO":               "",
+        "GRAVAÇÃO":                 "",
+        "MÁQUINA":                  "",
+        "NR. ORDEM CORTE":          "",
+        "DESCRICAO":                "",
+        "PRIMARIA":                 "",
+        "SECUNDARIA":               "",
+        "COR_TEXTO":                ""}
+
+    estados = ('Ocioso', 
+               'Carregado', 
+               'Em Setup',
+               'Preenchendo RQ',
+               'Setup Finalizado',
+               'Em Corte',
+               'Corte Finalizado',
+               'Parado')
+
+    estadoEquipamento = 0
+    estadoAntesDaParada = 0
+    t0 = 0
+    tempoAtual = 0
+    t0Parada = 0
+    tAcumulado = 0
+    ID = 0
+
+    RQPreenchido = False
+
+    virtualNumPadVisible = False
+
+    quantidadeCortada = 0
+
+    quantidadeDivergente = False
+
+    maquinaParada = False
+    paradaEmSetup = False
+    paradaEmCorte = False
+
+
+class Fontes:
+    fontePadrao = ("Play", 12)
+    fontePadraoBold = ("Play", 12, "bold")
+    fonteCabecalho = ("Play", 18, "bold")
+    fonteQuantidadePendente = ("Play", 32, "bold")
+    fonteQuantidadeCortada = ("Play", 16, "bold")
+
+
+class Cores:
+    bgCorDoCabo = "white"
+    bgCorDaListra = "white"
+    fgCorDoCabo = "#333333"
+    bgCinza = "#333333"
+    bgVerde = "#00D455"
+    letraVerde = "#66FF00"
+    bgAcabamentosAux = "#CCC"
+    bgRodape = "#454545"
+    bgCobre = "#ff9955"
+
+
+class Imagens:
+    logo = PhotoImage(
+        file="src/images/logos/logo.png")
+
+
+class activeButtons:
+    buscarButton = PhotoImage(
+        file="src/images/buttons/activeButtons/buscarButton.png")
+    finalizarButton = PhotoImage(
+        file="src/images/buttons/activeButtons/finalizarButton.png")
+    menuButton = PhotoImage(
+        file="src/images/buttons/activeButtons/menuButton.png")
+    retomarButton = PhotoImage(
+        file="src/images/buttons/activeButtons/retomarButton.png")
+    rqButton = PhotoImage(
+        file="src/images/buttons/activeButtons/rqButton.png")
+    setupButton = PhotoImage(
+        file="src/images/buttons/activeButtons/setupButton.png")
+    startButton = PhotoImage(
+        file="src/images/buttons/activeButtons/startButton.png")
+    sairButton = PhotoImage(
+        file="src/images/buttons/sairButton.png")
+    confirmarButton = PhotoImage(
+        file="src/images/buttons/activeButtons/confirmarButton.png")
+
+
+class inactiveButtons:
+    buscarButton = PhotoImage(
+        file="src/images/buttons/inactiveButtons/buscarButton.png")
+    finalizarButton = PhotoImage(
+        file="src/images/buttons/inactiveButtons/finalizarButton.png")
+    menuButton = PhotoImage(
+        file="src/images/buttons/inactiveButtons/menuButton.png")
+    retomarButton = PhotoImage(
+        file="src/images/buttons/inactiveButtons/retomarButton.png")
+    rqButton = PhotoImage(
+        file="src/images/buttons/inactiveButtons/rqButton.png")
+    setupButton = PhotoImage(
+        file="src/images/buttons/inactiveButtons/setupButton.png")
+    startButton = PhotoImage(
+        file="src/images/buttons/inactiveButtons/startButton.png")
+    confirmarButton = PhotoImage(
+        file="src/images/buttons/inactiveButtons/confirmarButton.png")
+
+
+class redButtons:
+    buscarButton = PhotoImage(
+        file="src/images/buttons/redButtons/buscarButton.png")
+    finalizarButton = PhotoImage(
+        file="src/images/buttons/redButtons/finalizarButton.png")
+    menuButton = PhotoImage(
+        file="src/images/buttons/redButtons/menuButton.png")
+    paradaButton = PhotoImage(
+        file="src/images/buttons/redButtons/paradaButton.png")
+    retomarButton = PhotoImage(
+        file="src/images/buttons/redButtons/retomarButton.png")
+    rqButton = PhotoImage(
+        file="src/images/buttons/redButtons/rqButton.png")
+    setupButton = PhotoImage(
+        file="src/images/buttons/redButtons/setupButton.png")
+    startButton = PhotoImage(
+        file="src/images/buttons/redButtons/startButton.png")
+    cancelarButton = PhotoImage(
+        file="src/images/buttons/redButtons/cancelarButton.png")
+
+
+class Application:
+
+    # --- Inicialização do Aplicativo --- #
+    def __init__(self, master=None):
+        # Variaveis.idUsuarioLogado = login.idUsuario
+        # Variaveis.nomeUsuarioLogado = login.nomeUsuario
+        #
+        # if Variaveis.idUsuarioLogado > 0:
+            self.montaTelaPrincipal()
+
+    # --- Geração do Layout Principal --- #
+    def montaTelaPrincipal(self, master=None):
+        def montaContainers(master=None):
+            ##--- Cabecalho ----##
+            self.containerCabecalho = Frame(master,
+                                            bd=5,
+                                            bg=Cores.bgCinza)
+            self.containerCabecalho["padx"] = 5
+            self.containerCabecalho.pack(fill=X,
+                                         side=TOP)
+
+            ##--- Menu Botoes ---##
+            self.containerBotoes = Frame(master,
+                                         bg=Cores.bgCinza)
+            self.containerBotoes["padx"] = 0
+            self.containerBotoes["pady"] = 10
+            self.containerBotoes.pack(side=RIGHT,
+                                      fill=Y,
+                                      expand=0)
+
+            ##--- Esquerda ---##
+            self.containerEsquerda = Frame(master,
+                                           bg=Cores.bgCinza)
+            self.containerEsquerda.pack(side=LEFT,
+                                        fill=BOTH,
+                                        expand=1)
+
+            ###--- Dados PD ---###
+            self.containerDadosPD = Frame(self.containerEsquerda,
+                                          bg=Cores.bgCinza)
+            self.containerDadosPD.pack(fill=BOTH,
+                                       expand=1,
+                                       padx=(0, 20))
+
+            ####--- Cabecalho PD ---####
+            self.containerCabecalhoPD = Frame(self.containerDadosPD,
+                                              bg=Cores.bgCinza)
+            self.containerCabecalhoPD.pack(fill=X,
+                                           pady=(20, 35),
+                                           padx=20)
+
+            ####--- Medidas PD ---####
+            self.containerMedidasPD = Frame(self.containerDadosPD,
+                                            bg=Cores.bgCinza)
+            self.containerMedidasPD.pack()
+
+            ####--- Cabo ---###
+            self.containerCabo = Frame(self.containerDadosPD,
+                                       bg=Cores.bgCinza)
+            self.containerCabo.pack()
+
+            ####--- Detalhes PD ---####
+            self.containerDetalhesPD = Frame(self.containerDadosPD,
+                                             bg=Cores.bgCinza)
+            self.containerDetalhesPD.pack(fill=X,
+                                          expand=1)
+
+            #####--- Acabamentos Lado A ---#####
+            self.containerLadoA = Frame(self.containerDetalhesPD,
+                                        bg=Cores.bgCinza)
+            self.containerLadoA.pack(side=LEFT)
+
+            ######--- Acabamento 1 ---######
+            self.containerAcabamento1 = Frame(self.containerLadoA,
+                                              bg=Cores.bgVerde)
+            self.containerAcabamento1.pack(side=TOP,
+                                           pady=10)
+
+            ######--- Acabamento 3 ---######
+            self.containerAcabamento3 = Frame(self.containerLadoA,
+                                              bg=Cores.bgAcabamentosAux)
+            self.containerAcabamento3.pack(side=TOP)
+
+            #####--- Detalhes Meio ---#####
+            self.containerDetalhesMeio = Frame(self.containerDetalhesPD,
+                                               bg=Cores.bgCinza)
+            self.containerDetalhesMeio.pack(side=LEFT,
+                                            fill=X,
+                                            expand=1)
+
+            ######--- Quantidade ---######
+            self.containerQuantidade = Frame(self.containerDetalhesMeio,
+                                             bg=Cores.bgCinza)
+            self.containerQuantidade.pack(fill=BOTH,
+                                          expand=1)
+
+            ######--- Observação ---######
+            self.containerObservacao = Frame(self.containerDetalhesMeio,
+                                             bg=Cores.bgCinza)
+            self.containerObservacao.pack(fill=X,
+                                          expand=1)
+
+            ######--- Gravação ---######
+            self.containerGravacao = Frame(self.containerDetalhesMeio,
+                                           bg=Cores.bgCinza)
+            self.containerGravacao.pack(fill=X,
+                                        expand=1)
+
+            #####--- Acabamentos Lado B ---#####
+            self.containerLadoB = Frame(self.containerDetalhesPD,
+                                        bg=Cores.bgCinza)
+            self.containerLadoB.pack(side=RIGHT)
+
+            ######--- Acabamento 2 ---######
+            self.containerAcabamento2 = Frame(self.containerLadoB,
+                                              bg=Cores.bgVerde)
+            self.containerAcabamento2.pack(side=TOP,
+                                           pady=10)
+
+            ######--- Acabamento 4 ---######
+            self.containerAcabamento4 = Frame(self.containerLadoB,
+                                              bg=Cores.bgAcabamentosAux)
+            self.containerAcabamento4.pack(side=TOP)
+
+            ##--- Rodape ---###
+            self.containerRodape = Frame(self.containerEsquerda,
+                                         bg=Cores.bgCinza)
+            self.containerRodape.pack(side=BOTTOM,
+                                      anchor=SW)
+
+            # ####--- Proximo Cabo ---####
+            # self.containerProxCabo = Frame(self.containerRodape,
+            #                                bg=Cores.bgRodape)
+            # self.containerProxCabo.pack(side=TOP,
+            #                             fill=X,
+            #                             expand=1)
+            #
+            # ####--- Label Prox Medidas ---####
+            # self.containerProxMedidas = Frame(self.containerRodape,
+            #                                   bg=Cores.bgRodape)
+            # self.containerProxMedidas.pack()
+
+        def montaLabels(master=None):
+            ##------ Cabeçalho ------##
+            self.logo = Label(self.containerCabecalho,
+                              text="Datateck",
+                              font=Fontes.fonteCabecalho,
+                              image=Imagens.logo,
+                              bg=Cores.bgCinza,
+                              fg="white")
+            self.logo.pack(side=LEFT)
+
+            self.lblMaquina = Label(self.containerCabecalho,
+                                    text=Definicoes.maquina,
+                                    font=Fontes.fonteCabecalho,
+                                    bg=Cores.bgCinza,
+                                    fg="white")
+            self.lblMaquina.pack(side=LEFT,
+                                 fill=BOTH,
+                                 expand=1)
+
+            self.lblEstado = Label(self.containerCabecalho,
+                                   text=Variaveis.estados[
+                                       Variaveis.estadoEquipamento],
+                                   font=Fontes.fontePadrao,
+                                   bg=Cores.bgCinza,
+                                   fg="white",
+                                   anchor=CENTER,
+                                   justify=CENTER)
+            self.lblEstado.pack(side=TOP,
+                                fill=BOTH)
+
+            self.lblRelogio = Label(self.containerCabecalho,
+                                    text="00:00:00",
+                                    font=Fontes.fonteCabecalho,
+                                    padx=10,
+                                    fg=Cores.letraVerde,
+                                    bg=Cores.bgCinza)
+            self.lblRelogio.pack(side=LEFT,
+                                 fill=Y)
+
+            ##--- Dados PD ---##
+            ###--- Cabecalho PD ---###
+            self.lblRequisicao = Label(self.containerCabecalhoPD,
+                                       text="Requisição: %s" % (
+                                           Variaveis.campos.get("REQUISICAO")),
+                                       font=Fontes.fontePadrao,
+                                       bg=Cores.bgCinza,
+                                       fg="white",
+                                       anchor="w")
+            self.lblRequisicao.pack(side=LEFT)
+
+            self.lblPD = Label(self.containerCabecalhoPD,
+                               text="PD: %s" % Variaveis.campos.get("PD"),
+                               font=Fontes.fonteCabecalho,
+                               bg=Cores.bgCinza,
+                               fg=Cores.letraVerde,
+                               anchor="center")
+            self.lblPD.pack(side=LEFT,
+                            fill=X,
+                            expand=1)
+
+            self.lblProdutoFinal = Label(self.containerCabecalhoPD,
+                                         text="Produto Final: %s" % Variaveis.campos.get(
+                                             "CHICOTE"),
+                                         font=Fontes.fontePadrao,
+                                         bg=Cores.bgCinza,
+                                         fg="white",
+                                         anchor="e")
+            self.lblProdutoFinal.pack(side=LEFT)
+
+            ###--- Medidas PD ---###
+            self.lblDecapeA = Label(self.containerMedidasPD,
+                                    text=Variaveis.campos.get("DECAPE A"),
+                                    font=Fontes.fonteCabecalho,
+                                    bg=Cores.bgCinza,
+                                    fg=Cores.letraVerde)
+            self.lblDecapeA.grid(column=0,
+                                 row=0)
+
+            self.lblMedida = Label(self.containerMedidasPD,
+                                   text=Variaveis.campos.get("MEDIDA"),
+                                   font=Fontes.fonteCabecalho,
+                                   bg=Cores.bgCinza,
+                                   fg=Cores.letraVerde,
+                                   width=30)
+            self.lblMedida.grid(column=1,
+                                row=0)
+
+            self.lblDecapeB = Label(self.containerMedidasPD,
+                                    text=Variaveis.campos.get("DECAPE B"),
+                                    font=Fontes.fonteCabecalho,
+                                    bg=Cores.bgCinza,
+                                    fg=Cores.letraVerde)
+            self.lblDecapeB.grid(column=2,
+                                 row=0)
+
+            ###--- Cabo ---###
+            self.lblLadoACabo = Label(self.containerCabo,
+                                      text="",
+                                      bg=Cores.bgCobre,
+                                      width=10,
+                                      bd=0,
+                                      height=2)
+            self.lblLadoACabo.grid(column=0,
+                                   row=0,
+                                   rowspan=3)
+
+            self.lblCaboSec1 = Label(self.containerCabo,
+                                     text="",
+                                     font=Fontes.fontePadrao,
+                                     bg=Cores.bgCorDoCabo,
+                                     fg=Cores.fgCorDoCabo,
+                                     width=40,
+                                     bd=0,
+                                     height=1)
+            self.lblCaboSec1.grid(column=1,
+                                  row=0)
+
+            self.lblCabo = Label(self.containerCabo,
+                                 text=Variaveis.campos.get("CABO"),
+                                 font=Fontes.fontePadrao,
+                                 bg=Cores.bgCorDaListra,
+                                 fg=Cores.fgCorDoCabo,
+                                 width=40,
+                                 bd=0,
+                                 height=1)
+            self.lblCabo.grid(column=1,
+                              row=1)
+
+            self.lblCaboSec2 = Label(self.containerCabo,
+                                     text="",
+                                     font=Fontes.fontePadrao,
+                                     bg=Cores.bgCorDoCabo,
+                                     fg=Cores.fgCorDoCabo,
+                                     width=40,
+                                     bd=0,
+                                     height=1)
+            self.lblCaboSec2.grid(column=1,
+                                  row=2)
+
+            self.lblLadoBCabo = Label(self.containerCabo,
+                                      text="",
+                                      bg=Cores.bgCobre,
+                                      width=10,
+                                      bd=0,
+                                      height=2)
+            self.lblLadoBCabo.grid(column=2,
+                                   row=0,
+                                   rowspan=3)
+
+            ###--- Detalhes ---###
+            ####--- Lado A ---####
+            #####--- Acabamento 1 ---#####
+            self.lblLabelAcabamento1 = Label(self.containerAcabamento1,
+                                             text="Acabamento 1",
+                                             font=Fontes.fontePadrao,
+                                             bg=Cores.bgVerde,
+                                             fg=Cores.bgCinza,
+                                             width=20)
+            self.lblLabelAcabamento1.pack(fill=BOTH,
+                                          expand=1,
+                                          pady=5)
+
+            self.lblAcabamento1 = Label(self.containerAcabamento1,
+                                        text=Variaveis.campos.get(
+                                            "ACABAMENTO 1"),
+                                        font=Fontes.fontePadrao,
+                                        bg=Cores.bgVerde,
+                                        fg=Cores.bgCinza)
+            self.lblAcabamento1.pack(fill=BOTH,
+                                     expand=1,
+                                     pady=5)
+
+            #####--- Acabamento 3 ---#####
+            self.lblLabelAcabamento3 = Label(self.containerAcabamento3,
+                                             text="Acabamento 3",
+                                             font=Fontes.fontePadrao,
+                                             bg=Cores.bgAcabamentosAux,
+                                             fg=Cores.bgCinza,
+                                             width=20)
+            self.lblLabelAcabamento3.pack(fill=BOTH,
+                                          expand=1,
+                                          pady=5)
+
+            self.lblAcabamento3 = Label(self.containerAcabamento3,
+                                        text=Variaveis.campos.get(
+                                            "ACABAMENTO 3"),
+                                        font=Fontes.fontePadrao,
+                                        bg=Cores.bgAcabamentosAux,
+                                        fg=Cores.bgCinza)
+            self.lblAcabamento3.pack(fill=BOTH,
+                                     expand=1,
+                                     pady=5)
+
+            ####--- Quantidade ---####
+            self.lblLabelQuantidade = Label(self.containerQuantidade,
+                                            text="Quantidade",
+                                            font=Fontes.fonteCabecalho,
+                                            bg=Cores.bgCinza,
+                                            fg=Cores.letraVerde)
+            self.lblLabelQuantidade.pack()
+
+            self.lblQuantidadePendente = Label(self.containerQuantidade,
+                                               text=Variaveis.campos.get(
+                                                   "QTD PD REQ"),
+                                               font=Fontes.fonteQuantidadePendente,
+                                               bg=Cores.bgCinza,
+                                               fg=Cores.letraVerde,
+                                               anchor="ne")
