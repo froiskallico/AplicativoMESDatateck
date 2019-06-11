@@ -872,7 +872,7 @@ class Application:
                 for i in range(len(dadosDoPD)):
                     try:
                         Variaveis.campos[Variaveis.colunas[i]] = round(
-                            dadosDoPD[i])
+                            dadosDoPD[i], 2)
                     except:
                         Variaveis.campos[Variaveis.colunas[i]] = dadosDoPD[i]
 
