@@ -74,7 +74,7 @@ class Variaveis:
         "DATA_ENTREGA":             "",
         "OBSERVACAO_REQ":           "",
         "CHICOTE":                  "",
-        "QTD_CHICOTE_PENDENTE":    "",
+        "QTD_CHICOTE_PENDENTE":     "",
         "PD":                       "",
         "CABO":                     "",
         "FK_CRS":                   "",
@@ -224,7 +224,7 @@ class Application:
     def __init__(self, master=None):
         Variaveis.idUsuarioLogado = login.idUsuario
         Variaveis.nomeUsuarioLogado = login.nomeUsuario
-                
+
         if Variaveis.idUsuarioLogado > 0:
             self.montaTelaPrincipal()
 
@@ -1166,7 +1166,7 @@ class Application:
                         def registraMedidas():
                             for L in (1, 2):
                                 if Variaveis.campos.get(
-                                        "ACABAMENTO %s" % L) != 'None':
+                                        "ACABAMENTO_%s" % L) != 'None':
                                     for ele in self.frameCamposRQ.winfo_children():
                                         if ele.winfo_class() == 'Entry' \
                                                 and int(
@@ -1428,7 +1428,7 @@ class Application:
                                            fill=X,
                                            expand=1)
 
-                def desabilitaLadosNaoUtilizados(self):
+                def desabilitaLadosNaoUtilizados():
                     if Variaveis.campos["ACABAMENTO_1"] == "None":
                         self.entryAlturaCondutorA.config(state='disabled')
                         self.entryAlturaIsolanteA.config(state='disabled')
@@ -1440,7 +1440,7 @@ class Application:
 
                 montaScreen()
                 montaWidgets()
-                desabilitaLadosNaoUtilizados(self)
+                desabilitaLadosNaoUtilizados()
 
         abrirPopUpRQSetup()
 
@@ -2091,10 +2091,6 @@ class Application:
 
     #Todo:
     # Criar MENU GERAL
-
-
-
-
 
 
 Application(root)
