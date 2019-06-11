@@ -7,7 +7,7 @@ from tkinter import *
 from time import time
 import datetime
 from tkinter import ttk
-# import login
+import login
 import configparser as cfgprsr
 import inspect
 
@@ -222,10 +222,10 @@ class Application:
 
     # --- Inicialização do Aplicativo --- #
     def __init__(self, master=None):
-        # Variaveis.idUsuarioLogado = login.idUsuario
-        # Variaveis.nomeUsuarioLogado = login.nomeUsuario
-        #
-        # if Variaveis.idUsuarioLogado > 0:
+        Variaveis.idUsuarioLogado = login.idUsuario
+        Variaveis.nomeUsuarioLogado = login.nomeUsuario
+                
+        if Variaveis.idUsuarioLogado > 0:
             self.montaTelaPrincipal()
 
     # --- Geração do Layout Principal --- #
@@ -902,8 +902,6 @@ class Application:
 
             carregaDadosDoPDNaTela(Variaveis.ID)
 
-            self.Etiqueta()
-
         def abrirOuFecharNode(master=None):
             self.nodeSel = self.tvw.focus()
             self.nodeIsOpen = self.tvw.item(self.nodeSel, option='open')
@@ -1579,6 +1577,13 @@ class Application:
                                 #Todo:
                                 # Registrar Quantidade Cortada no banco de
                                 # dados.
+                                
+                                try:
+                                    self.Etiqueta()
+                                except:
+                                    self.lblMensagem.config(
+                                    text='Erro ao imprimir a etiqueta'
+                                )
 
                                 Variaveis.RQPreenchido = True
 
@@ -2081,8 +2086,6 @@ class Application:
     def Etiqueta(self):
 
         etq = etiqueta.etiqueta()
-
-        Variaveis.quantidadeCortada = 50
 
         etq.imprimeEtiqueta(Variaveis.quantidadeCortada, **Variaveis.campos)
 
