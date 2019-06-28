@@ -31,7 +31,7 @@ class Variaveis:
     idUsuarioLogado = 0
     nomeUsuarioLogado = None
 
-    colunas = ('PK_IQC',
+    colunas = ('PK_IRP',
                'REQUISICAO',
                'CELULA',
                'DATA_GERACAO',
@@ -40,12 +40,14 @@ class Variaveis:
                'CHICOTE',
                'QTD_CHICOTE_PENDENTE',
                'PD',
+               'CPD',
                'CABO',
                'FK_CRS',
                'VIAS',
                'BITOLA',
                'UNIDADE',
                'QTD_PD_REQ',
+               'QTD_CORTADA',
                'MEDIDA',
                'DECAPE_A',
                'DECAPE_B',
@@ -67,7 +69,7 @@ class Variaveis:
                'COR_TEXTO')
 
     campos = {
-        "PK_IQC":                   "",
+        "PK_IRP":                   "",
         "REQUISICAO":               "",
         "CELULA":                   "",
         "DATA_GERACAO":             "",
@@ -76,12 +78,14 @@ class Variaveis:
         "CHICOTE":                  "",
         "QTD_CHICOTE_PENDENTE":     "",
         "PD":                       "",
+        "CPD":                      "",
         "CABO":                     "",
         "FK_CRS":                   "",
         "VIAS":                     "",
         "BITOLA":                   "",
         "UNIDADE":                  "",
         "QTD_PD_REQ":               "",
+        "QTD_CORTADA":              "",
         "MEDIDA":                   "",
         "DECAPE_A":                 "",
         "DECAPE_B":                 "",
@@ -478,7 +482,8 @@ class Application:
                                   row=0)
 
             self.lblCabo = Label(self.containerCabo,
-                                 text=Variaveis.campos.get("CABO"),
+                                 text="CPD: %s | Cabo: %s" % (Variaveis.campos.get("CPD"),
+                                                     Variaveis.campos.get("CABO")),
                                  font=Fontes.fontePadrao,
                                  bg=Cores.bgCorDaListra,
                                  fg=Cores.fgCorDoCabo,
@@ -1143,7 +1148,7 @@ class Application:
 
                             if (self.entryPriMedida.get() != ''):
                                 registro = []
-                                registro.append(Variaveis.campos.get("PK_IQC"))
+                                registro.append(Variaveis.campos.get("PK_IRP"))
                                 registro.append(1)
                                 try: registro.append(
                                     float(
@@ -1179,7 +1184,7 @@ class Application:
                                                 registro = []
                                                 registro.append(
                                                     Variaveis.campos.get(
-                                                        "PK_IQC"))
+                                                        "PK_IRP"))
                                                 registro.append(int(
                                                     ele.winfo_name()[-2:-1]))
                                                 try:
@@ -1603,9 +1608,6 @@ class Application:
                         def confirmaJustificativa():
                             item = self.listaDivergencias.curselection()
 
-                            #Todo:
-                            # Registrar motivo da divergência no banco
-                            # de dados de acordo com a escolha do usuario
 
                             self.divergenciaScreen.destroy()
                             self.lblMensagem.config(text='')
@@ -1667,7 +1669,7 @@ class Application:
                     def registraUltMedida():
                         if (self.entryUltMedida.get() != ''):
                             registro = []
-                            registro.append(Variaveis.campos.get("PK_IQC"))
+                            registro.append(Variaveis.campos.get("PK_IRP"))
                             registro.append(2)
                             try:
                                 registro.append(
@@ -1837,9 +1839,6 @@ class Application:
 
             abrirPopUpQtdCortada()
 
-    #ToDo:
-    # Criar função de Parada e retomada de Máquina;
-    # Criar tela para Justificativa de parada de máquina;
     def paradaDeMaquina(self):
         self.idMotivo = None
         if not Variaveis.maquinaParada and Variaveis.estadoEquipamento > 0:
@@ -2087,11 +2086,7 @@ class Application:
 
         etq = etiqueta.etiqueta()
 
-        etq.imprimeEtiqueta(Variaveis.quantidadeCortada, **Variaveis.campos)
-
-    #Todo:
-    # Criar MENU GERAL
-
+        etq.imprimeEtiqueta(Variaveis.quantidadeCortada, nomeUsuarioLogado, **Variaveis.campos)
 
 Application(root)
 root.mainloop()

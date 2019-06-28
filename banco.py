@@ -47,7 +47,7 @@ class BANCO():
                      LADO			        text,
                      FK_USU			        integer,
                      MAQUINA		        text,
-                     FOREIGN KEY(FK_ID)     REFERENCES PDS(PK_IQC),
+                     FOREIGN KEY(FK_ID)     REFERENCES PDS(PK_IRP),
                      FOREIGN KEY(FK_TRG)	REFERENCES TIPOS_REGISTROS(PK_TRG),
                      FOREIGN KEY(FK_USU) 	REFERENCES USUARIOS(PK_USU))""")
 

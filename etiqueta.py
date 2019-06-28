@@ -29,7 +29,7 @@ class etiqueta(object):
         
         self.port.close()
 
-    def imprimeEtiqueta(self, QTD_Cortada=None, **kwargs):        
+    def imprimeEtiqueta(self, QTD_Cortada=None, nomeUsuario=None, **kwargs):
         for key, value in kwargs.items():
             setattr(self, key, str(value).strip().replace('None', '-'))
 
@@ -58,7 +58,7 @@ class etiqueta(object):
         self.port.write(str.encode(cabecalhopd))
 
         self.port.write(bytearray.fromhex('1B 61 30'))
-        self.port.write(str.encode('Cabo: %s \n' % self.CABO))
+        self.port.write(str.encode('CPD: %s | Cabo: %s \n' % (self.CPD, self.CABO)))
         self.port.write(str.encode('Bitola: %s X %s%s \n' % (
                                             self.VIAS,
                                             self.BITOLA,
@@ -102,11 +102,12 @@ class etiqueta(object):
 
         self.port.write(str.encode('Produto Final: %s \n' % self.CHICOTE))
         self.port.write(str.encode('Data de Entrega: %s \n' % self.DATA_ENTREGA))
+        self.port.write(str.encode('Usuário: %s \n' % nomeUsuario))
         self.port.write(str.encode(
             'Data de Impressao: %s \n' % datetime.datetime.now().strftime(
                 '%d-%m-%Y  %H:%M:%S')))
 
-        self.port.write(str.encode('12345678911234567892123456789312345678941234567895'))
+
 
         self.port.write(bytearray.fromhex('1B 69'))
  

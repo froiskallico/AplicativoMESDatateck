@@ -37,7 +37,8 @@ class PD(object):
                             FROM 
                                 PDS
                             WHERE
-                                MÁQUINA = "%s"
+                                PDS.MÁQUINA = "%s" AND
+                                PDS."QTD PD REQ" > PDS.QTD_CORTADA
                        ''' % maquina)
 
             self.lista = c.fetchall()
@@ -66,7 +67,7 @@ class PD(object):
                             LEFT JOIN
                                 CORES ON (CORES.PK_CRS = PDS.FK_CRS) 
                             WHERE
-                                PK_IQC = "%s"
+                                PK_IRP = "%s"
                        ''' % ID)
 
             self.dadosPD = curDados.fetchone()
@@ -118,3 +119,6 @@ class PD(object):
                                           int(linha[4]),
                                           linha[5]))
         banco.conexao.commit()
+
+    def registraCorteNoBanco(self):
+        pass
