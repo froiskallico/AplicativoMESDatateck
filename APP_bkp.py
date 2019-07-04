@@ -1574,10 +1574,8 @@ class Application:
                                                   2,
                                                   Variaveis.idUsuarioLogado,
                                                   Definicoes.maquina)
-                                #Todo:
-                                # Registrar Quantidade Cortada no banco de
-                                # dados.
-                                
+                                pd.registraCorteNoBanco(0, Variaveis.ID, self.lblQuantidadeCortada)
+
                                 try:
                                     self.Etiqueta()
                                 except:

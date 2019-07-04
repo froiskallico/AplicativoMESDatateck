@@ -1,5 +1,7 @@
+import fdb
 from banco import BANCO
 from datetime import datetime as dt
+import PuxaBDDelphusParaBDLocal as imp
 
 
 class PD(object):
@@ -27,6 +29,9 @@ class PD(object):
         # self.ULT_MEDIDA = ULT_MEDIDA
 
     def buscaLista(self, maquina):
+        i = imp
+
+        i.atualizaBancoLocal()
 
         banco = BANCO()
 
@@ -42,7 +47,6 @@ class PD(object):
                        ''' % maquina)
 
             self.lista = c.fetchall()
-
             c.close()
 
             return "Busca feita com sucesso!"
@@ -57,17 +61,17 @@ class PD(object):
             curDados = banco.conexao.cursor()
 
             curDados.execute('''SELECT
-                                PDS.*, 
-                                CORES.DESCRICAO, 
-                                CORES.PRIMARIA, 
-                                CORES.SECUNDARIA, 
-                                CORES.COR_TEXTO
-                            FROM
-                                PDS
-                            LEFT JOIN
-                                CORES ON (CORES.PK_CRS = PDS.FK_CRS) 
-                            WHERE
-                                PK_IRP = "%s"
+                                    PDS.*, 
+                                    COALESCE(CORES.DESCRICAO, 'SEM COR'),
+                                    COALESCE(CORES.PRIMARIA, '#000000'),
+                                    COALESCE(CORES.SECUNDARIA, '#000000'),
+                                    COALESCE(CORES.COR_TEXTO, '#FFFFFF')
+                                FROM
+                                    PDS
+                                LEFT JOIN
+                                    CORES ON (CORES.PK_CRS = PDS.FK_CRS) 
+                                WHERE
+                                    PK_IRP = "%s"
                        ''' % ID)
 
             self.dadosPD = curDados.fetchone()
@@ -95,7 +99,6 @@ class PD(object):
         cur = banco.conexao.cursor()
 
         for linha in dados:
-            print(linha)
             cur.execute("""REPLACE INTO REGISTROS_QUALIDADE (
                                 DATA,
                                 FK_ID,
@@ -120,5 +123,46 @@ class PD(object):
                                           linha[5]))
         banco.conexao.commit()
 
-    def registraCorteNoBanco(self):
-        pass
+    def registraCorteNoBanco(self, ID, qtdCortada):
+        try:
+            conOrigem = fdb.connect(
+                dsn='192.168.1.100:/app/database/DADOS_PCP.FDB',
+                user='SYSDBA',
+                password='el0perdid0',
+                charset='WIN1252')
+            curOrigem = conOrigem.cursor()
+
+            try:
+                curOrigem.execute("""UPDATE
+                                         IRQ_PD
+                                     SET
+                                         QTD_CORTADA = %d
+                                     WHERE
+                                         PK_IRP = %d
+                                  """ % (qtdCortada, ID))
+
+                conOrigem.commit()
+            except:
+                print("Erro na gravação dos dados na origem!")
+
+        except:
+            print("Erro na conexão com o banco de dados de origem!")
+
+
+        banco = BANCO()
+
+        cur = banco.conexao.cursor()
+
+        try:
+            cur.execute(""" UPDATE
+                                PDS
+                            SET
+                                QTD_CORTADA = %d
+                            WHERE
+                                PK_IRP = %d
+                        """ % (qtdCortada, ID))
+
+            banco.conexao.commit()
+        except:
+            print('Erro ao registrar quantidade cortada no Banco de Dados Local')
+                  

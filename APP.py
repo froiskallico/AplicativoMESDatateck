@@ -38,7 +38,6 @@ class Variaveis:
                'DATA_ENTREGA',
                'OBSERVACAO_REQ',
                'CHICOTE',
-               'QTD_CHICOTE_PENDENTE',
                'PD',
                'CPD',
                'CABO',
@@ -76,7 +75,6 @@ class Variaveis:
         "DATA_ENTREGA":             "",
         "OBSERVACAO_REQ":           "",
         "CHICOTE":                  "",
-        "QTD_CHICOTE_PENDENTE":     "",
         "PD":                       "",
         "CPD":                      "",
         "CABO":                     "",
@@ -127,6 +125,7 @@ class Variaveis:
 
     virtualNumPadVisible = False
 
+    quantidadePendente = 0
     quantidadeCortada = 0
 
     quantidadeDivergente = False
@@ -567,8 +566,7 @@ class Application:
             self.lblLabelQuantidade.pack()
 
             self.lblQuantidadePendente = Label(self.containerQuantidade,
-                                               text=Variaveis.campos.get(
-                                                   "QTD_PD_REQ"),
+                                               text=Variaveis.quantidadePendente,
                                                font=Fontes.fonteQuantidadePendente,
                                                bg=Cores.bgCinza,
                                                fg=Cores.letraVerde,
@@ -885,6 +883,10 @@ class Application:
                 Cores.bgCorDaListra = Variaveis.campos.get("SECUNDARIA")
                 Cores.fgCorDoCabo = Variaveis.campos.get("COR_TEXTO")
 
+                Variaveis.quantidadePendente = Variaveis.campos.get(
+                    "QTD_PD_REQ") - Variaveis.campos.get("QTD_CORTADA")
+
+
                 self.limpaTela()
                 self.montaTelaPrincipal()
 
@@ -922,21 +924,32 @@ class Application:
             cabos = []
 
             for item in self.data:
-                if item[9] not in cabos:
-                    cabos.append(str(item[9]))
+                cabo = item[9]
+
+                if cabo not in cabos:
+                    cabos.append(str(cabo))
 
             for cabo in cabos:
                 self.tvw.insert('', 'end', cabo, text=cabo)
 
             for item in self.data:
+                cabo = item[9]
+                pd = item[8]
+                medida = item[16]
+                qtd_req = round(item[14])
+                qtd_cortada = round(item[15])
+                qtd_pendente = qtd_req - qtd_cortada
+                requisicao = item[1]
+                pk_irp = item[0]
+
                 self.tvw.insert(
-                    item[9],
+                    cabo,
                     'end',
-                    text=item[8], values=(
-                        item[15],
-                        round(item[14]),
-                        item[1],
-                        item[0]))
+                    text=pd, values=(
+                        medida,
+                        qtd_pendente,
+                        requisicao,
+                        pk_irp))
 
             self.listaCount.configure(
                 text='Total de PDs: ' + str(len(self.data)))
@@ -1579,9 +1592,14 @@ class Application:
                                                   2,
                                                   Variaveis.idUsuarioLogado,
                                                   Definicoes.maquina)
-                                #Todo:
-                                # Registrar Quantidade Cortada no banco de
-                                # dados.
+
+                                novaQtdCortada = int(Variaveis.quantidadeCortada) + int(Variaveis.campos.get(
+                                    "QTD_CORTADA"))
+
+                                print(novaQtdCortada)
+
+                                pd.registraCorteNoBanco(0, Variaveis.ID,
+                                                        novaQtdCortada)
                                 
                                 try:
                                     self.Etiqueta()
@@ -1700,16 +1718,16 @@ class Application:
                                 self.lblMensagem.config(
                                     text='Digite corretamente a quantidade cortada')
 
-                            if int((Variaveis.quantidadeCortada)) < int((
-                            Variaveis.campos["QTD_CHICOTE_PENDENTE"])):
+                            if int((Variaveis.quantidadeCortada)) < int(
+                                    Variaveis.quantidadePendente):
                                 print("QTD DIVERGENTE")
                                 self.lblMensagem.config(
                                     text='Quantidade divergente. Justifique!')
                                 Variaveis.quantidadeDivergente = True
                                 justificativaDivergencia()
 
-                            elif int((Variaveis.quantidadeCortada)) > int((
-                            Variaveis.campos["QTD_CHICOTE_PENDENTE"])):
+                            elif int((Variaveis.quantidadeCortada)) > int(
+                                    Variaveis.quantidadePendente):
                                 self.lblMensagem.config(
                                     text='A quantidade cortada não pode ser maior que a quantidade a cortar'
                                 )
@@ -1874,11 +1892,9 @@ class Application:
                 self.popUpParada.destroy()
 
             def atualizaCronografoParada():
-                print(Variaveis.maquinaParada)
                 if Variaveis.maquinaParada:
 
                     tempoAtualParada = (time() - Variaveis.t0Parada)
-                    print (tempoAtualParada)
                     horas = int(tempoAtualParada / 3600)
                     minutos = int((tempoAtualParada - horas * 3600) / 60)
                     segundos = int(
@@ -1930,7 +1946,6 @@ class Application:
                 atualizaCronografoParada()
 
             def registraParadaNoBanco():
-                # print (motivo)
                 t = tempos.TEMPOS()
 
                 t.tomaTempoParada(Variaveis.ID,
@@ -2087,6 +2102,7 @@ class Application:
         etq = etiqueta.etiqueta()
 
         etq.imprimeEtiqueta(Variaveis.quantidadeCortada, nomeUsuarioLogado, **Variaveis.campos)
+
 
 Application(root)
 root.mainloop()
