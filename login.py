@@ -4,9 +4,10 @@ from tkinter import *
 from banco import BANCO
 import configparser as cfgprsr
 
+diretorio = os.path.dirname(__file__)
 class Definicoes():
     configFile = cfgprsr.ConfigParser()
-    configFile.read(os.path.dirname(__file__) + '/config.ini')
+    configFile.read(diretorio + '/config.ini')
 
 
 root = Tk()
@@ -36,11 +37,11 @@ class Cores():
 
 class Imagens():
     logo            = PhotoImage(
-        file="src/images/logos/logoL.png")
+        file=diretorio + "/src/images/logos/logoL.png")
     loginIcon       = PhotoImage(
-        file="src/images/icons/loginIcon.png")
+        file=diretorio + "/src/images/icons/loginIcon.png")
     loginButton     = PhotoImage(
-        file="src/images/buttons/loginButton.png")
+        file=diretorio + "/src/images/buttons/loginButton.png")
 
 
 class Application:

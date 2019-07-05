@@ -12,9 +12,11 @@ import login
 import configparser as cfgprsr
 import inspect
 
+diretorio = os.path.dirname(__file__)
+
 class Definicoes():
     configFile = cfgprsr.ConfigParser()
-    configFile.read(os.path.dirname(__file__) + '/config.ini')
+    configFile.read(diretorio + '/config.ini')
     maquina = configFile['DEFAULT']['Maquina']
 
 def montaRoot():
@@ -163,63 +165,63 @@ class Imagens:
 
 class activeButtons:
     buscarButton = PhotoImage(
-        file="src/images/buttons/activeButtons/buscarButton.png")
+        file=diretorio + "/src/images/buttons/activeButtons/buscarButton.png")
     finalizarButton = PhotoImage(
-        file="src/images/buttons/activeButtons/finalizarButton.png")
+        file=diretorio + "/src/images/buttons/activeButtons/finalizarButton.png")
     menuButton = PhotoImage(
-        file="src/images/buttons/activeButtons/menuButton.png")
+        file=diretorio + "/src/images/buttons/activeButtons/menuButton.png")
     retomarButton = PhotoImage(
-        file="src/images/buttons/activeButtons/retomarButton.png")
+        file=diretorio + "/src/images/buttons/activeButtons/retomarButton.png")
     rqButton = PhotoImage(
-        file="src/images/buttons/activeButtons/rqButton.png")
+        file=diretorio + "/src/images/buttons/activeButtons/rqButton.png")
     setupButton = PhotoImage(
-        file="src/images/buttons/activeButtons/setupButton.png")
+        file=diretorio + "/src/images/buttons/activeButtons/setupButton.png")
     startButton = PhotoImage(
-        file="src/images/buttons/activeButtons/startButton.png")
+        file=diretorio + "/src/images/buttons/activeButtons/startButton.png")
     sairButton = PhotoImage(
-        file="src/images/buttons/sairButton.png")
+        file=diretorio + "/src/images/buttons/sairButton.png")
     confirmarButton = PhotoImage(
-        file="src/images/buttons/activeButtons/confirmarButton.png")
+        file=diretorio + "/src/images/buttons/activeButtons/confirmarButton.png")
 
 
 class inactiveButtons:
     buscarButton = PhotoImage(
-        file="src/images/buttons/inactiveButtons/buscarButton.png")
+        file=diretorio + "/src/images/buttons/inactiveButtons/buscarButton.png")
     finalizarButton = PhotoImage(
-        file="src/images/buttons/inactiveButtons/finalizarButton.png")
+        file=diretorio + "/src/images/buttons/inactiveButtons/finalizarButton.png")
     menuButton = PhotoImage(
-        file="src/images/buttons/inactiveButtons/menuButton.png")
+        file=diretorio + "/src/images/buttons/inactiveButtons/menuButton.png")
     retomarButton = PhotoImage(
-        file="src/images/buttons/inactiveButtons/retomarButton.png")
+        file=diretorio + "/src/images/buttons/inactiveButtons/retomarButton.png")
     rqButton = PhotoImage(
-        file="src/images/buttons/inactiveButtons/rqButton.png")
+        file=diretorio + "/src/images/buttons/inactiveButtons/rqButton.png")
     setupButton = PhotoImage(
-        file="src/images/buttons/inactiveButtons/setupButton.png")
+        file=diretorio + "/src/images/buttons/inactiveButtons/setupButton.png")
     startButton = PhotoImage(
-        file="src/images/buttons/inactiveButtons/startButton.png")
+        file=diretorio + "/src/images/buttons/inactiveButtons/startButton.png")
     confirmarButton = PhotoImage(
-        file="src/images/buttons/inactiveButtons/confirmarButton.png")
+        file=diretorio + "/src/images/buttons/inactiveButtons/confirmarButton.png")
 
 
 class redButtons:
     buscarButton = PhotoImage(
-        file="src/images/buttons/redButtons/buscarButton.png")
+        file=diretorio + "/src/images/buttons/redButtons/buscarButton.png")
     finalizarButton = PhotoImage(
-        file="src/images/buttons/redButtons/finalizarButton.png")
+        file=diretorio + "/src/images/buttons/redButtons/finalizarButton.png")
     menuButton = PhotoImage(
-        file="src/images/buttons/redButtons/menuButton.png")
+        file=diretorio + "/src/images/buttons/redButtons/menuButton.png")
     paradaButton = PhotoImage(
-        file="src/images/buttons/redButtons/paradaButton.png")
+        file=diretorio + "/src/images/buttons/redButtons/paradaButton.png")
     retomarButton = PhotoImage(
-        file="src/images/buttons/redButtons/retomarButton.png")
+        file=diretorio + "/src/images/buttons/redButtons/retomarButton.png")
     rqButton = PhotoImage(
-        file="src/images/buttons/redButtons/rqButton.png")
+        file=diretorio + "/src/images/buttons/redButtons/rqButton.png")
     setupButton = PhotoImage(
-        file="src/images/buttons/redButtons/setupButton.png")
+        file=diretorio + "/src/images/buttons/redButtons/setupButton.png")
     startButton = PhotoImage(
-        file="src/images/buttons/redButtons/startButton.png")
+        file=diretorio + "/src/images/buttons/redButtons/startButton.png")
     cancelarButton = PhotoImage(
-        file="src/images/buttons/redButtons/cancelarButton.png")
+        file=diretorio + "/src/images/buttons/redButtons/cancelarButton.png")
 
 
 class Application:
