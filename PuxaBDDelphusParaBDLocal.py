@@ -1,9 +1,10 @@
 import fdb
 import sqlite3
 import configparser as cfgprsr
+import os
 
 configFile = cfgprsr.ConfigParser()
-configFile.read('./config.ini')
+configFile.read(os.path.dirname(__file__) + '/config.ini')
 limiteHorizonte = configFile['DEFAULT']['Limite Horizonte']
 
 def origem(limiteHorizonte):

@@ -1,11 +1,12 @@
 #--- Imports ---#
+import os
 from tkinter import *
 from banco import BANCO
 import configparser as cfgprsr
 
 class Definicoes():
     configFile = cfgprsr.ConfigParser()
-    configFile.read('config.ini')
+    configFile.read(os.path.dirname(__file__) + '/config.ini')
 
 
 root = Tk()

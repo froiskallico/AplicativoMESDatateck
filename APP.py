@@ -1,4 +1,5 @@
 # --- Imports ---#
+import os
 from pd import PD
 import tempos
 import etiqueta
@@ -13,7 +14,7 @@ import inspect
 
 class Definicoes():
     configFile = cfgprsr.ConfigParser()
-    configFile.read('config.ini')
+    configFile.read(os.path.dirname(__file__) + '/config.ini')
     maquina = configFile['DEFAULT']['Maquina']
 
 def montaRoot():
