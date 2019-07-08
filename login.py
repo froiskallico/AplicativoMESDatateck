@@ -5,6 +5,7 @@ from banco import BANCO
 import configparser as cfgprsr
 
 diretorio = os.path.dirname(__file__)
+
 class Definicoes():
     configFile = cfgprsr.ConfigParser()
     configFile.read(diretorio + '/config.ini')
