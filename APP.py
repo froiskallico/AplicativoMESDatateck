@@ -1,5 +1,4 @@
 # --- Imports ---#
-import os
 from pd import PD
 import tempos
 import etiqueta
@@ -11,13 +10,16 @@ from tkinter import ttk
 import login
 import configparser as cfgprsr
 import inspect
+import os
 
-diretorio = os.path.dirname(__file__)
+diretorio = os.path.dirname(os.path.abspath(__file__))
+print(diretorio)
 
 class Definicoes():
     configFile = cfgprsr.ConfigParser()
+    
     configFile.read(diretorio + '/config.ini')
-    maquina = configFile['DEFAULT']['Maquina']
+    maquina = configFile['DEFAULT']['Maq']
 
 def montaRoot():
     global root
@@ -160,7 +162,7 @@ class Cores:
 
 class Imagens:
     logo = PhotoImage(
-        file="src/images/logos/logo.png")
+        file=diretorio + "/src/images/logos/logo.png")
 
 
 class activeButtons:
@@ -804,7 +806,7 @@ class Application:
                                   bd=0,
                                   highlightthickness=0)
             self.btnSair["command"] = root.destroy
-            self.btnSair.pack(pady=5)
+            # self.btnSair.pack(pady=5)
 
         montaContainers()
         montaLabels()
@@ -2003,7 +2005,7 @@ class Application:
                 self.popUpParada.attributes('-topmost', 'true')
                 self.popUpParada.bind('<Escape>',
                                           lambda e: cancelaParada())
-                self.popUpParada.geometry('1024x600+100+100')
+                self.popUpParada.geometry(Definicoes.configFile['DISPLAY']['RES'])
                 self.popUpParada.focus()
 
                 self.frameTitulo = Frame(self.popUpParada,

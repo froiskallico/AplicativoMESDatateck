@@ -1,9 +1,12 @@
 import sqlite3
+import os
+
+diretorio = os.path.dirname(os.path.abspath(__file__))
 
 class BANCO():
 
     def __init__(self):
-        self.conexao = sqlite3.connect('database/TESTEPDS.db')
+        self.conexao = sqlite3.connect(diretorio + '/database/TESTEPDS.db')
         # self.conexao.text_factory = lambda x: str(x, 'cp1252')
         self.createTable()
 
@@ -41,15 +44,15 @@ class BANCO():
         c.execute("""CREATE TABlE IF NOT EXISTS REGISTROS_QUALIDADE (
                      PK_RGQ                 integer primary key autoincrement,
                      DATA                   integer,
-                     FK_ID			        integer,
-                     FK_TRG			        integer,
-                     VALOR_REGISTRO	        real,
-                     LADO			        text,
-                     FK_USU			        integer,
-                     MAQUINA		        text,
+                     FK_ID                  integer,
+                     FK_TRG                 integer,
+                     VALOR_REGISTRO         real,
+                     LADO                   text,
+                     FK_USU                 integer,
+                     MAQUINA                text,
                      FOREIGN KEY(FK_ID)     REFERENCES PDS(PK_IRP),
-                     FOREIGN KEY(FK_TRG)	REFERENCES TIPOS_REGISTROS(PK_TRG),
-                     FOREIGN KEY(FK_USU) 	REFERENCES USUARIOS(PK_USU))""")
+                     FOREIGN KEY(FK_TRG)    REFERENCES TIPOS_REGISTROS(PK_TRG),
+                     FOREIGN KEY(FK_USU)    REFERENCES USUARIOS(PK_USU))""")
 
         c.execute("""CREATE TABLE IF NOT EXISTS MOTIVOS_DIVERGENCIAS (
                      PK_MDV         integer primary key autoincrement,
