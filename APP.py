@@ -7,7 +7,7 @@ from tkinter import *
 from time import time
 import datetime
 from tkinter import ttk
-import login
+# import login
 import configparser as cfgprsr
 import inspect
 import os
@@ -230,10 +230,10 @@ class Application:
 
     # --- Inicialização do Aplicativo --- #
     def __init__(self, master=None):
-        Variaveis.idUsuarioLogado = login.idUsuario
-        Variaveis.nomeUsuarioLogado = login.nomeUsuario
-
-        if Variaveis.idUsuarioLogado > 0:
+        # Variaveis.idUsuarioLogado = login.idUsuario
+        # Variaveis.nomeUsuarioLogado = login.nomeUsuario
+        #
+        # if Variaveis.idUsuarioLogado > 0:
             self.montaTelaPrincipal()
 
     # --- Geração do Layout Principal --- #
@@ -496,6 +496,7 @@ class Application:
                                  height=1)
             self.lblCabo.grid(column=1,
                               row=1)
+            self.lblCabo.bind("<Button-1>", lambda x: self.PopUpCabo())
 
             self.lblCaboSec2 = Label(self.containerCabo,
                                      text="",
@@ -785,7 +786,7 @@ class Application:
             self.btnParada.pack(pady=5)
 
             self.btnMenu = Button(self.containerBotoes,
-                                  image=activeButtons.menuButton,
+                                  image=inactiveButtons.menuButton,
                                   width=130,
                                   height=50,
                                   bg=Cores.bgCinza,
@@ -2107,6 +2108,38 @@ class Application:
         etq = etiqueta.etiqueta()
 
         etq.imprimeEtiqueta(Variaveis.quantidadeCortada, nomeUsuarioLogado, **Variaveis.campos)
+
+    def PopUpCabo(self):
+        def montaScreen():
+            self.PopUpCaboScreen = Toplevel(bg=Cores.bgCinza,
+                                            bd=7,
+                                            relief=RAISED)
+            self.PopUpCaboScreen.overrideredirect(1)
+            self.PopUpCaboScreen.attributes('-topmost', 'true')
+            self.PopUpCaboScreen.bind("<Button-1>", lambda e: self.PopUpCaboScreen.destroy())
+            self.PopUpCaboScreen.geometry('+250+250')
+            self.PopUpCaboScreen.focus()
+
+            self.lblCaboExt = Label(self.PopUpCaboScreen,
+                                    text="CPD: %s \nCabo: %s" % (
+                                    Variaveis.campos.get("CPD"),
+                                    Variaveis.campos.get("CABO")),
+                                    font=Fontes.fonteCabecalho,
+                                    bg=Cores.bgCinza,
+                                    fg="white",
+                                    bd=0,
+                                    height=4,
+                                    justify=LEFT)
+            self.lblCaboExt.pack(side=TOP,
+                                 padx=20,
+                                 pady=15,
+                                 expand=1,
+                                 fill=X)
+
+        montaScreen()
+
+
+
 
 
 Application(root)
