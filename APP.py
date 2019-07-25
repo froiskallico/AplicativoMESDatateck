@@ -7,7 +7,7 @@ from tkinter import *
 from time import time
 import datetime
 from tkinter import ttk
-# import login
+import login
 import configparser as cfgprsr
 import inspect
 import os
@@ -230,10 +230,10 @@ class Application:
 
     # --- Inicialização do Aplicativo --- #
     def __init__(self, master=None):
-        # Variaveis.idUsuarioLogado = login.idUsuario
-        # Variaveis.nomeUsuarioLogado = login.nomeUsuario
-        #
-        # if Variaveis.idUsuarioLogado > 0:
+        Variaveis.idUsuarioLogado = login.idUsuario
+        Variaveis.nomeUsuarioLogado = login.nomeUsuario
+
+        if Variaveis.idUsuarioLogado > 0:
             self.montaTelaPrincipal()
 
     # --- Geração do Layout Principal --- #
@@ -2117,7 +2117,7 @@ class Application:
             self.PopUpCaboScreen.overrideredirect(1)
             self.PopUpCaboScreen.attributes('-topmost', 'true')
             self.PopUpCaboScreen.bind("<Button-1>", lambda e: self.PopUpCaboScreen.destroy())
-            self.PopUpCaboScreen.geometry('+250+250')
+            self.PopUpCaboScreen.geometry('+50+150')
             self.PopUpCaboScreen.focus()
 
             self.lblCaboExt = Label(self.PopUpCaboScreen,
@@ -2144,3 +2144,4 @@ class Application:
 
 Application(root)
 root.mainloop()
+    

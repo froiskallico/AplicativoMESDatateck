@@ -1,50 +1,25 @@
 import fdb
 from banco import BANCO
 from datetime import datetime as dt
-import PuxaBDDelphusParaBDLocal as imp
-
 
 class PD(object):
-    
+
     def __init__(self):
         self.lista = {}
         self.dadosPD = ()
-        # self.ID = ID
-        # self.REQNUM = REQNUM
-        # self.PD = PD
-        # self.CABO = CABO
-        # self.DECAPEA = DECAPEA
-        # self.DECAPEB = DECAPEB
-        # self.MEDIDA = MEDIDA
-        # self.ACAB1 = ACAB1
-        # self.ACAB2 = ACAB2
-        # self.OBS = OBS
-        # self.PAI = PAI
-        # self.QTD = QTD
-        # self.QTD_CORT = QTD_CORT
-        # self.ENTREGA = ENTREGA
-        # self.PRIOR = PRIOR
-        # self.MAQUINA = MAQUINA
-        # self.PRI_MEDIDA = PRI_MEDIDA
-        # self.ULT_MEDIDA = ULT_MEDIDA
 
     def buscaLista(self, maquina):
-        i = imp
-
-        i.atualizaBancoLocal()
-
         banco = BANCO()
-
         try:
             c = banco.conexao.cursor()
-            c.execute('''   SELECT 
-                                *
-                            FROM 
-                                PDS
+            c.execute('''   SELECT
+                              *
+                            FROM
+                              PDS
                             WHERE
-                                PDS.MÁQUINA = "%s" AND
-                                PDS."QTD PD REQ" > PDS.QTD_CORTADA
-                       ''' % maquina)
+                              PDS.MÁQUINA = "%s" AND
+                              PDS."QTD PD REQ" > PDS.QTD_CORTADA
+                      ''' % maquina)
 
             self.lista = c.fetchall()
             c.close()
@@ -126,20 +101,14 @@ class PD(object):
     def registraCorteNoBanco(self, ID, qtdCortada):
         try:
             conOrigem = fdb.connect(
-                dsn='192.168.1.100:/app/database/DADOS_PCP.FDB',
+                dsn='192.168.1.100:/app/database/DADOS.FDB',
                 user='SYSDBA',
                 password='el0perdid0',
                 charset='WIN1252')
             curOrigem = conOrigem.cursor()
 
             try:
-                curOrigem.execute("""UPDATE
-                                         IRQ_PD
-                                     SET
-                                         QTD_CORTADA = %d
-                                     WHERE
-                                         PK_IRP = %d
-                                  """ % (qtdCortada, ID))
+                curOrigem.execute("""EXECUTE PROCEDURE ATUALIZA_QTD_CORTADA(%s, %s)""" % (ID, qtdCortada))
 
                 conOrigem.commit()
             except:

@@ -7,7 +7,7 @@ class BANCO():
 
     def __init__(self):
         self.conexao = sqlite3.connect(diretorio + '/database/TESTEPDS.db')
-        # self.conexao.text_factory = lambda x: str(x, 'cp1252')
+#        self.conexao.text_factory = lambda x: str(x, 'cp1252')
         self.createTable()
 
     def createTable(self):

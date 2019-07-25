@@ -4,12 +4,13 @@ import configparser as cfgprsr
 import os
 
 configFile = cfgprsr.ConfigParser()
-configFile.read(os.path.dirname(__file__) + '/config.ini')
+configFile.read(os.path.dirname(os.path.abspath(__file__)) + '/config.ini')
 limiteHorizonte = configFile['DEFAULT']['Limite Horizonte']
+maquina = configFile['DEFAULT']['Maq']
 
-def origem(limiteHorizonte):
+def origem():
     try:
-        conOrigem = fdb.connect(dsn='192.168.1.100:/app/database/DADOS_PCP.FDB',
+        conOrigem = fdb.connect(dsn='192.168.1.100:/app/database/DADOS.FDB',
                                 user='SYSDBA',
                                 password='el0perdid0',
                                 charset='WIN1252')
@@ -24,10 +25,11 @@ def origem(limiteHorizonte):
                                  PDS_PENDENTES_CORTE
                              WHERE
                                  "DATA ENTREGA" < CURRENT_DATE + %i
+                                 AND "MÁQUINA" = '%s'
                              ORDER BY
                                  "DATA ENTREGA",
                                  "CABO"
-                          """ % int(limiteHorizonte))
+                          """ % (int(limiteHorizonte), maquina))
         global dadosOrigem
         dadosOrigem = curOrigem.fetchall()
     except:
@@ -61,10 +63,11 @@ def origem2destino():
 
 
 def atualizaBancoLocal():
-    origem(limiteHorizonte)
+    origem()
     origem2destino()
 
     print("Linhas na Origem: %i" % len(dadosOrigem))
     print("Linhas na Destino: %i" % len(dadosDestino))
     print('FIM')
 
+atualizaBancoLocal()
