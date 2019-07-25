@@ -10,7 +10,7 @@ from tkinter import ttk
 import login
 import configparser as cfgprsr
 import inspect
-import os
+import os, re
 
 diretorio = os.path.dirname(os.path.abspath(__file__))
 print(diretorio)
@@ -32,9 +32,11 @@ def montaRoot():
 montaRoot()
 
 class Variaveis:
+    statusRede = ""
     inicioSecao = datetime.datetime.now().strftime('%d-%m-%Y  %H:%M:%S')
     idUsuarioLogado = 0
     nomeUsuarioLogado = None
+
 
     colunas = ('PK_IRP',
                'REQUISICAO',
@@ -138,6 +140,7 @@ class Variaveis:
     maquinaParada = False
     paradaEmSetup = False
     paradaEmCorte = False
+
 
 
 class Fontes:
@@ -665,9 +668,10 @@ class Application:
 
             # --- Rodape ---#
             self.lblRodape = Label(self.containerRodape,
-                                   text="%s - Logado desde:  %s" %
+                                   text="%s - Logado desde:  %s | Status de Rede: %s" %
                                         (Variaveis.nomeUsuarioLogado,
-                                         Variaveis.inicioSecao),
+                                         Variaveis.inicioSecao,
+                                         Variaveis.statusRede),
                                    bg=Cores.bgCinza,
                                    fg='white',
                                    anchor='sw')
@@ -862,9 +866,10 @@ class Application:
         self.lblAcabamento4 = Label(text=Variaveis.campos.get("ACABAMENTO_4"))
 
         # --- Rodape ---#
-        self.lblRodape = Label(text="%s - Logado desde:  %s" %
-                                    (Variaveis.nomeUsuarioLogado,
-                                     Variaveis.inicioSecao))
+        self.lblRodape = Label(text="%s - Logado desde:  %s | Status de Rede: %s" %
+                                        (Variaveis.nomeUsuarioLogado,
+                                         Variaveis.inicioSecao,
+                                         Variaveis.statusRede))
 
     def limpaContainerEsquerda(self):
         for ele in self.containerEsquerda.winfo_children():
@@ -2138,7 +2143,13 @@ class Application:
 
         montaScreen()
 
+    def checaRede(self):
+        r = os.popen("ping -c4 192.168.1.100").readlines()
 
+        if re.search("64 bytes from", str(r)):
+            statusRede = "ONLINE"
+        else:
+            statusRede = "OFFLINE"
 
 
 
