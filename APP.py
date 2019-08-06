@@ -488,6 +488,7 @@ class Application:
                                      height=1)
             self.lblCaboSec1.grid(column=1,
                                   row=0)
+            self.lblCaboSec1.bind("<Button-1>", lambda x: self.PopUpCabo())
 
             self.lblCabo = Label(self.containerCabo,
                                  text="CPD: %s | Cabo: %s" % (Variaveis.campos.get("CPD"),
@@ -512,6 +513,7 @@ class Application:
                                      height=1)
             self.lblCaboSec2.grid(column=1,
                                   row=2)
+            self.lblCaboSec2.bind("<Button-1>", lambda x: self.PopUpCabo())
 
             self.lblLadoBCabo = Label(self.containerCabo,
                                       text="",
@@ -1575,6 +1577,7 @@ class Application:
                         Cores.bgCorDoCabo = "white"
                         Cores.bgCorDaListra = "white"
                         Cores.fgCorDoCabo = "#333333"
+                        Variaveis.quantidadePendente = None
 
                     def registraNoBanco():
                         if self.lblMensagem['text'] == '' and not \
