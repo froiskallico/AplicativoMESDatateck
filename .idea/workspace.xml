@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BookmarkManager">
+    <bookmark url="file://$PROJECT_DIR$/separacao_melhor.py" line="10" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="1669bfa9-4d23-45d3-8e49-192f3859084d" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/APP.py" beforeDir="false" afterPath="$PROJECT_DIR$/APP.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/APP_bkp.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/PopUp.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/PuxaBDDelphusParaBDLocal.py" beforeDir="false" afterPath="$PROJECT_DIR$/PuxaBDDelphusParaBDLocal.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TESTEPDS.db" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/TODO.html" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/database/TESTEPDS.db" beforeDir="false" afterPath="$PROJECT_DIR$/database/TESTEPDS.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/motivos.py" beforeDir="false" afterPath="$PROJECT_DIR$/motivos.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/todo.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/separacao_melhor.py" beforeDir="false" afterPath="$PROJECT_DIR$/separacao_melhor.py" afterDir="false" />
     </list>
+    <ignored path="C:\Users\Usuario\Desktop\GIT\Repositório\AplicativoMESDatateck\.idea\shelf/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,23 +22,22 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/APP.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="4" column="12" selection-start-line="4" selection-start-column="12" selection-end-line="4" selection-end-column="12" />
+            <state relative-caret-position="340">
+              <caret line="20" column="42" selection-start-line="19" selection-start-column="4" selection-end-line="20" selection-end-column="42" />
               <folding>
-                <element signature="e#95423#96658#0" />
-                <element signature="e#96448#96541#0" />
+                <element signature="e#19#36#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/etiqueta.py">
+        <entry file="file://$PROJECT_DIR$/separacao_melhor.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="436">
-              <caret line="88" column="37" selection-start-line="88" selection-start-column="37" selection-end-line="88" selection-end-column="37" />
+            <state relative-caret-position="252">
+              <caret line="133" column="78" selection-start-line="133" selection-start-column="78" selection-end-line="133" selection-end-column="78" />
               <folding>
-                <element signature="e#0#13#0" expanded="true" />
+                <element signature="e#0#19#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -58,7 +55,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>pd.reo</find>
       <find>listaDivergencia</find>
       <find>justifique</find>
       <find>buscaListaMotivosDivergencia</find>
@@ -88,9 +84,9 @@
       <find>exp</find>
       <find>menuButton</find>
       <find>motivos</find>
+      <find>ACAB2</find>
     </findStrings>
     <replaceStrings>
-      <replace>2</replace>
       <replace>4</replace>
       <replace>1</replace>
       <replace>frameRQ</replace>
@@ -120,6 +116,7 @@
       <replace>PONTE_</replace>
       <replace>NR_ORDEM_CORTE</replace>
       <replace>PK_IRP</replace>
+      <replace>ACABAMENTO 2</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -160,24 +157,25 @@
         <option value="$PROJECT_DIR$/login.py" />
         <option value="$PROJECT_DIR$/PopUp.py" />
         <option value="$PROJECT_DIR$/APP.py" />
-        <option value="$PROJECT_DIR$/PuxaBDDelphusParaBDLocal.py" />
         <option value="$PROJECT_DIR$/motivos.py" />
         <option value="$PROJECT_DIR$/todo.txt" />
+        <option value="$PROJECT_DIR$/modules/separacao_melhor.py" />
+        <option value="$PROJECT_DIR$/PuxaBDDelphusParaBDLocal.py" />
+        <option value="$PROJECT_DIR$/separacao_melhor.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-8" />
-    <option name="y" value="-8" />
+    <option name="x" value="632" />
+    <option name="y" value="198" />
     <option name="width" value="1382" />
-    <option name="height" value="744" />
+    <option name="height" value="785" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -185,16 +183,32 @@
               <item name="AplicativoMESDatateck" type="b2602c69:ProjectViewProjectNode" />
               <item name="AplicativoMESDatateck" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="AplicativoMESDatateck" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AplicativoMESDatateck" type="462c0819:PsiDirectoryNode" />
+              <item name="database" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AplicativoMESDatateck" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AplicativoMESDatateck" type="462c0819:PsiDirectoryNode" />
+              <item name="modules" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AplicativoMESDatateck" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Scratches and Consoles" type="1a2a3e82:ScratchProjectViewPane$MyProjectNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="Python&#10;TEXT" />
+    <property name="full.screen.before.presentation.mode" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="settings.editor.selected.configurable" value="preferences.sourceCode.Python" />
@@ -203,13 +217,14 @@
     <option name="isSearchForTextOccurrences" value="true" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Usuario\Desktop\GIT\Repositório\AplicativoMESDatateck" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Usuario\Desktop\GIT\Repositório\AplicativoMESDatateck\" />
       <recent name="C:\Users\Usuario\Desktop\GIT\Repositório\AplicativoMESDatateck" />
       <recent name="C:\Users\Usuario\Desktop\GIT\Repositório\AplicativoMESDatateck\src\images\buttons\redButtons" />
       <recent name="C:\Users\Usuario\Desktop\GIT\Repositório\AplicativoMESDatateck\src\images\buttons\activeButtons" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\Usuario\Desktop\GIT\Repositório\AplicativoMESDatateck" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -224,7 +239,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.PuxaBDDelphusParaBDLocal (1)">
+  <component name="RunManager" selected="Python.separacao_melhor (1)">
     <configuration name="APP" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="AplicativoMESDatateck" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -309,28 +324,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="PuxaBDDelphusParaBDLocal" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="AplicativoMESDatateck" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/modules" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/modules/PuxaBDDelphusParaBDLocal.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="pd" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="separacao_melhor (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="AplicativoMESDatateck" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -342,7 +336,28 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/pd.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/separacao_melhor.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="separacao_melhor" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="AplicativoMESDatateck" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/modules" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="C:\Users\Usuario\Desktop\GIT\Repositório\AplicativoMESDatateck\separacao_melhor.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -353,11 +368,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.separacao_melhor (1)" />
+        <item itemvalue="Python.separacao_melhor" />
         <item itemvalue="Python.PuxaBDDelphusParaBDLocal (1)" />
         <item itemvalue="Python.APP" />
         <item itemvalue="Python.PopUp" />
-        <item itemvalue="Python.pd" />
-        <item itemvalue="Python.PuxaBDDelphusParaBDLocal" />
       </list>
     </recent_temporary>
   </component>
@@ -436,25 +451,97 @@
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49516907" visible="true" weight="0.21205357" />
-      <window_info id="Structure" order="1" sideWeight="0.5048309" side_tool="true" weight="0.21205357" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4939759" visible="true" weight="0.21205357" />
+      <window_info id="Structure" order="1" sideWeight="0.5060241" side_tool="true" weight="0.21205357" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" auto_hide="true" x="1730" y="24" width="647" height="663" id="Find" order="1" type="FLOATING" weight="0.24509804" />
       <window_info anchor="bottom" x="9" y="0" width="1348" height="728" id="Run" maximized="true" order="2" type="WINDOWED" weight="0.28267974" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.30555555" />
+      <window_info anchor="bottom" x="1366" y="22" width="1366" height="746" id="Debug" order="3" type="WINDOWED" weight="0.30555555" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" weight="0.3480392" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.34640524" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
-      <window_info anchor="bottom" id="Terminal" order="8" weight="0.3251634" />
-      <window_info anchor="bottom" id="Version Control" order="9" weight="0.3220859" />
+      <window_info anchor="bottom" x="1366" y="22" width="1366" height="746" id="Terminal" order="8" type="WINDOWED" visible="true" weight="0.32352942" />
+      <window_info active="true" anchor="bottom" id="Version Control" order="9" visible="true" weight="0.32026145" />
       <window_info anchor="bottom" id="Python Console" order="10" weight="0.32026145" />
       <window_info anchor="bottom" id="Inspection Results" order="11" weight="0.32843137" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
     </layout>
+    <layout-to-restore>
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4939759" weight="0.21205357" />
+      <window_info id="Structure" order="1" sideWeight="0.5060241" side_tool="true" weight="0.21205357" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" auto_hide="true" x="1730" y="24" width="647" height="663" id="Find" order="1" type="FLOATING" weight="0.24509804" />
+      <window_info anchor="bottom" x="9" y="0" width="1348" height="728" id="Run" maximized="true" order="2" type="WINDOWED" weight="0.28267974" />
+      <window_info active="true" anchor="bottom" x="1366" y="22" width="1366" height="746" id="Debug" order="3" type="WINDOWED" visible="true" weight="0.30555555" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.34662578" />
+      <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
+      <window_info anchor="bottom" id="Terminal" order="8" weight="0.3251634" />
+      <window_info anchor="bottom" id="Version Control" order="9" weight="0.32055214" />
+      <window_info anchor="bottom" id="Python Console" order="10" weight="0.32026145" />
+      <window_info anchor="bottom" id="Inspection Results" order="11" weight="0.32843137" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+    </layout-to-restore>
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="RECENTLY_FILTERED_USER_GROUPS">
+                <collection />
+              </option>
+              <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+                <collection />
+              </option>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="algoritmoSeparacao" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+              <option name="COLUMN_ORDER">
+                <list>
+                  <option value="0" />
+                  <option value="1" />
+                  <option value="2" />
+                  <option value="3" />
+                </list>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="algoritmoSeparacao" />
+                </option>
+              </RecentGroup>
+            </list>
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Posição inicial da Janela alterada para +150+15" />
@@ -482,12 +569,14 @@
           <line>74</line>
           <option name="timeStamp" value="11" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/PuxaBDDelphusParaBDLocal.py</url>
-          <line>10</line>
-          <option name="timeStamp" value="42" />
-        </line-breakpoint>
       </breakpoints>
+      <default-breakpoints>
+        <breakpoint type="python-exception">
+          <properties notifyOnTerminate="true" exception="BaseException">
+            <option name="notifyOnTerminate" value="true" />
+          </properties>
+        </breakpoint>
+      </default-breakpoints>
     </breakpoint-manager>
     <watches-manager>
       <configuration name="PythonConfigurationType">
@@ -518,13 +607,6 @@
     <entry file="file://$PROJECT_DIR$/src/database/.privateConfig.ini" />
     <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/scratch.txt" />
     <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/99_data_increment.db" />
-    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37-32/Lib/codecs.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="82">
-          <caret line="332" selection-start-line="332" selection-end-line="332" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/.PyCharmCE2019.1/system/python_stubs/-723785378/builtins.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="209">
@@ -601,13 +683,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/banco.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="683">
-          <caret line="52" selection-start-line="52" selection-end-line="52" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37-32/Lib/configparser.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="195">
@@ -616,153 +691,7 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/modules/PuxaBDDelphusParaBDLocal.py" />
-    <entry file="file://$PROJECT_DIR$/APP_bkp.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="93">
-          <caret line="1570" column="31" selection-start-line="1570" selection-start-column="31" selection-end-line="1570" selection-end-column="31" />
-          <folding>
-            <element signature="e#263#379#0" />
-            <element signature="e#402#694#0" />
-            <element signature="e#867#1795#0" />
-            <element signature="e#3189#3409#0" />
-            <element signature="e#3763#3975#0" />
-            <element signature="e#3995#4226#0" />
-            <element signature="e#4248#4308#0" />
-            <element signature="e#4336#5184#0" />
-            <element signature="e#5214#5999#0" />
-            <element signature="e#6024#6861#0" />
-            <element signature="e#6973#7153#0" />
-            <element signature="e#7254#35049#0" />
-            <element signature="e#7300#13141#0" />
-            <element signature="e#12579#12609#0" />
-            <element signature="e#13193#31027#0" />
-            <element signature="e#14947#14967#0" />
-            <element signature="e#20117#20139#0" />
-            <element signature="e#23846#23892#0" />
-            <element signature="e#25546#25568#0" />
-            <element signature="e#27992#28083#0" />
-            <element signature="e#28281#28331#0" />
-            <element signature="e#31079#34978#0" />
-            <element signature="e#35119#35178#0" />
-            <element signature="e#35216#37284#0" />
-            <element signature="e#35216#35236#0" />
-            <element signature="e#36064#36086#0" />
-            <element signature="e#36848#36870#0" />
-            <element signature="e#37195#37282#0" />
-            <element signature="e#37332#37409#0" />
-            <element signature="e#37482#43365#0" />
-            <element signature="e#37527#38849#0" />
-            <element signature="e#37575#38640#0" />
-            <element signature="e#37724#37951#0" />
-            <element signature="e#37753#37845#0" />
-            <element signature="e#38907#39078#0" />
-            <element signature="e#39119#39859#0" />
-            <element signature="e#39285#39356#0" />
-            <element signature="e#39501#39758#0" />
-            <element signature="e#39641#39756#0" />
-            <element signature="e#39957#43365#0" />
-            <element signature="e#40204#40333#0" />
-            <element signature="e#42340#42515#0" />
-            <element signature="e#43405#44906#0" />
-            <element signature="e#43490#44051#0" />
-            <element signature="e#44112#44906#0" />
-            <element signature="e#44582#44781#0" />
-            <element signature="e#44946#44988#0" />
-            <element signature="e#45032#45554#0" />
-            <element signature="e#45090#45554#0" />
-            <element signature="e#45594#45684#0" />
-            <element signature="e#45722#65407#0" />
-            <element signature="e#45762#46124#0" />
-            <element signature="e#45815#46124#0" />
-            <element signature="e#45919#46005#0" />
-            <element signature="e#46171#65378#0" />
-            <element signature="e#46255#65378#0" />
-            <element signature="e#46413#47739#0" />
-            <element signature="e#47797#64648#0" />
-            <element signature="e#47844#52518#0" />
-            <element signature="e#47907#48001#0" />
-            <element signature="e#48149#49339#0" />
-            <element signature="e#48219#49100#0" />
-            <element signature="e#48401#48620#0" />
-            <element signature="e#48697#48845#0" />
-            <element signature="e#49168#49339#0" />
-            <element signature="e#49416#51641#0" />
-            <element signature="e#49465#51641#0" />
-            <element signature="e#49598#51641#0" />
-            <element signature="e#49686#51641#0" />
-            <element signature="e#49894#51641#0" />
-            <element signature="e#49962#50155#0" />
-            <element signature="e#50254#51641#0" />
-            <element signature="e#50726#50908#0" />
-            <element signature="e#51017#51144#0" />
-            <element signature="e#51817#52518#0" />
-            <element signature="e#51884#51982#0" />
-            <element signature="e#52049#52205#0" />
-            <element signature="e#52421#52518#0" />
-            <element signature="e#64722#65269#0" />
-            <element signature="e#64793#64985#0" />
-            <element signature="e#65077#65269#0" />
-            <element signature="e#65454#68222#0" />
-            <element signature="e#65615#65732#0" />
-            <element signature="e#65795#68028#0" />
-            <element signature="e#66498#66644#0" />
-            <element signature="e#66777#68028#0" />
-            <element signature="e#67082#68028#0" />
-            <element signature="e#68082#68222#0" />
-            <element signature="e#68338#68801#0" />
-            <element signature="e#69008#69098#0" />
-            <element signature="e#69193#69566#0" />
-            <element signature="e#69830#69928#0" />
-            <element signature="e#70927#71056#0" />
-            <element signature="e#71483#71612#0" />
-            <element signature="e#71690#74663#0" />
-            <element signature="e#71747#72028#0" />
-            <element signature="e#72110#72142#0" />
-            <element signature="e#72215#72889#0" />
-            <element signature="e#72963#74585#0" />
-            <element signature="e#73015#73252#0" />
-            <element signature="e#74734#75904#0" />
-            <element signature="e#74800#75684#0" />
-            <element signature="e#75002#75236#0" />
-            <element signature="e#75305#75445#0" />
-            <element signature="e#75743#75904#0" />
-            <element signature="e#75976#77666#0" />
-            <element signature="e#76043#77439#0" />
-            <element signature="e#76080#76211#0" />
-            <element signature="e#76280#76389#0" />
-            <element signature="e#76569#76857#0" />
-            <element signature="e#77039#77283#0" />
-            <element signature="e#77351#77439#0" />
-            <element signature="e#77499#77666#0" />
-            <element signature="e#77805#78640#0" />
-            <element signature="e#77857#78069#0" />
-            <element signature="e#77920#78014#0" />
-            <element signature="e#78698#83445#0" />
-            <element signature="e#83584#93872#0" />
-            <element signature="e#83693#93872#0" />
-            <element signature="e#83724#84907#0" />
-            <element signature="e#84216#84489#0" />
-            <element signature="e#84555#84814#0" />
-            <element signature="e#84969#85623#0" />
-            <element signature="e#85065#85623#0" />
-            <element signature="e#85677#87428#0" />
-            <element signature="e#85736#85834#0" />
-            <element signature="e#85857#85912#0" />
-            <element signature="e#87487#88531#0" />
-            <element signature="e#87892#88168#0" />
-            <element signature="e#88249#88495#0" />
-            <element signature="e#88583#89205#0" />
-            <element signature="e#88608#89049#0" />
-            <element signature="e#89094#89205#0" />
-            <element signature="e#89256#89330#0" />
-            <element signature="e#89379#90655#0" />
-            <element signature="e#90705#93818#0" />
-            <element signature="e#90745#90936#0" />
-            <element signature="e#93907#94029#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/APP_bkp.py" />
     <entry file="file://$PROJECT_DIR$/login.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="102">
@@ -787,16 +716,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/PuxaBDDelphusParaBDLocal.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="275">
-          <caret line="92" column="8" selection-start-line="92" selection-start-column="8" selection-end-line="92" selection-end-column="8" />
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/motivos.py">
       <provider selected="true" editor-type-id="text-editor">
         <state>
@@ -816,20 +735,7 @@
     <entry file="file://$PROJECT_DIR$/bkp_APP.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/pd.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-306">
-          <caret line="17" column="31" selection-start-line="17" selection-start-column="31" selection-end-line="17" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/PopUp.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="462">
-          <caret line="108" lean-forward="true" selection-start-line="108" selection-end-line="108" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/PopUp.py" />
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
@@ -848,41 +754,76 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/TODO.html">
+    <entry file="file://$PROJECT_DIR$/TODO.html" />
+    <entry file="file://$PROJECT_DIR$/todo.txt" />
+    <entry file="file://$PROJECT_DIR$/etiqueta.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="39" column="34" lean-forward="true" selection-start-line="39" selection-start-column="34" selection-end-line="39" selection-end-column="34" />
+        <state relative-caret-position="122">
+          <caret line="88" column="37" selection-start-line="88" selection-start-column="37" selection-end-line="88" selection-end-column="37" />
           <folding>
-            <element signature="n#style#0;n#li#2;n#ul#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#li#3;n#ul#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="e#0#13#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/todo.txt">
+    <entry file="file://$PROJECT_DIR$/pd.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="34">
-          <caret line="2" selection-start-line="2" selection-end-line="3" />
+          <caret line="2" column="19" lean-forward="true" selection-start-line="2" selection-start-column="19" selection-end-line="2" selection-end-column="19" />
+          <folding>
+            <element signature="e#123#164#0" />
+            <element signature="e#209#776#0" />
+            <element signature="e#813#1745#0" />
+            <element signature="e#1751#1807#0" />
+            <element signature="e#2104#3233#0" />
+            <element signature="e#3295#4365#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/banco.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="49" selection-start-line="8" selection-start-column="49" selection-end-line="8" selection-end-column="49" />
+          <folding>
+            <element signature="e#0#14#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/APP.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="12" selection-start-line="4" selection-start-column="12" selection-end-line="4" selection-end-column="12" />
+        <state relative-caret-position="340">
+          <caret line="20" column="42" selection-start-line="19" selection-start-column="4" selection-end-line="20" selection-end-column="42" />
           <folding>
-            <element signature="e#95423#96658#0" />
-            <element signature="e#96448#96541#0" />
+            <element signature="e#19#36#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/etiqueta.py">
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37-32/Lib/codecs.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="436">
-          <caret line="88" column="37" selection-start-line="88" selection-start-column="37" selection-end-line="88" selection-end-column="37" />
+        <state relative-caret-position="195">
+          <caret line="309" selection-start-line="309" selection-end-line="309" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PuxaBDDelphusParaBDLocal.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="362">
+          <caret line="111" column="43" selection-start-line="111" selection-start-column="43" selection-end-line="111" selection-end-column="43" />
           <folding>
-            <element signature="e#0#13#0" expanded="true" />
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/separacao_melhor.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="133" column="78" selection-start-line="133" selection-start-column="78" selection-end-line="133" selection-end-column="78" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
           </folding>
         </state>
       </provider>

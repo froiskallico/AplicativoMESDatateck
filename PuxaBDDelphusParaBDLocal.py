@@ -2,6 +2,7 @@ import fdb
 import sqlite3
 import configparser as cfgprsr
 import os
+import pandas as pd
 
 configFile = cfgprsr.ConfigParser()
 configFile.read(os.path.dirname(os.path.abspath(__file__)) + '/config.ini')
@@ -32,6 +33,21 @@ def origem():
                           """ % (int(limiteHorizonte), maquina))
         global dadosOrigem
         dadosOrigem = curOrigem.fetchall()
+
+        curOrigem.close()
+
+        global aplicavelOrigem
+        aplicavelOrigem = pd.read_sql_query("""SELECT 
+                                                    PRO.COD_FABRIC as "ACABAMENTO",
+                                                    PRO.APLICAVEL 
+                                                FROM 
+                                                    PRODUTOS PRO
+                                                WHERE
+                                                    PRO.FK_CAD != 13
+                                            """,
+                                            conOrigem)
+
+
     except:
         print("Erro na obtenção dos dados de origem!")
 
@@ -89,16 +105,16 @@ def origem2destino():
                                   VALUES
                                       %s""" % str(linha))
 
-
         curDestino.execute("UPDATE PDS SET PRIORIDADE = 0")
+        aplicavelOrigem.to_sql('APLICAVEL',
+                               conDestino,
+                               if_exists='replace',
+                               index=False)
 
         conDestino.commit()
 
-
-
-
-
-    except:
+    except Exception as e:
+        print(e)
         print("Erro ao inserir dados no banco de dados de destino local!")
 
 
