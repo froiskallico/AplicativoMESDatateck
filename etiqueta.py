@@ -17,14 +17,14 @@ class etiqueta(object):
             timeout=3)
 
         print(self.port.isOpen())
-        print("Port opened...")
+        print("Porta de impressao aberta...")
 
     def closePort(self):
         while True:
-            print("inside while")
+            #print("inside while")
             response = self.port.read(8)
             print(response)
-            print("Data Received")
+            #print("Data Received")
             break
         
         self.port.close()
@@ -111,4 +111,32 @@ class etiqueta(object):
 
         self.port.write(bytearray.fromhex('1B 69'))
  
+        self.closePort()
+        
+        
+    def testeImpressora(self):
+        configs = OrderedDict([
+                              ('printConfig', '1D F9 35 30'),
+                              ('printerMode', '1D F9 2D 31'),
+                              ('charAlignmt', '1B 61 31'),
+                              ('encode', '1D F9 37 38')
+                             ])
+
+        for value in configs.values():
+                self.port.write(bytearray.fromhex(value))
+
+        
+        stringTeste = '''Bem vindo ao MES - Datateck
+Teste de impressão de etiqueta
+                         
+A Vontade de Crescer nos Conecta
+                         
+Powered by TRI
+www.TRITEC.rf.gd
+'''
+
+        #self.port.write(str.encode(stringTeste))
+            
+        #self.port.write(bytearray.fromhex('1B 69'))
+        
         self.closePort()

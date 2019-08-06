@@ -13,7 +13,6 @@ import inspect
 import os, re
 
 diretorio = os.path.dirname(os.path.abspath(__file__))
-print(diretorio)
 
 class Definicoes():
     configFile = cfgprsr.ConfigParser()
@@ -32,7 +31,6 @@ def montaRoot():
 montaRoot()
 
 class Variaveis:
-    statusRede = ""
     inicioSecao = datetime.datetime.now().strftime('%d-%m-%Y  %H:%M:%S')
     idUsuarioLogado = 0
     nomeUsuarioLogado = None
@@ -238,6 +236,9 @@ class Application:
 
         if Variaveis.idUsuarioLogado > 0:
             self.montaTelaPrincipal()
+            
+            etq = etiqueta.etiqueta()
+            etq.testeImpressora()
 
     # --- Geração do Layout Principal --- #
     def montaTelaPrincipal(self, master=None):
@@ -668,10 +669,9 @@ class Application:
 
             # --- Rodape ---#
             self.lblRodape = Label(self.containerRodape,
-                                   text="%s - Logado desde:  %s | Status de Rede: %s" %
+                                   text="%s - Logado desde:  %s" %
                                         (Variaveis.nomeUsuarioLogado,
-                                         Variaveis.inicioSecao,
-                                         Variaveis.statusRede),
+                                         Variaveis.inicioSecao),
                                    bg=Cores.bgCinza,
                                    fg='white',
                                    anchor='sw')
@@ -865,11 +865,6 @@ class Application:
         self.lblAcabamento2 = Label(text=Variaveis.campos.get("ACABAMENTO_2"))
         self.lblAcabamento4 = Label(text=Variaveis.campos.get("ACABAMENTO_4"))
 
-        # --- Rodape ---#
-        self.lblRodape = Label(text="%s - Logado desde:  %s | Status de Rede: %s" %
-                                        (Variaveis.nomeUsuarioLogado,
-                                         Variaveis.inicioSecao,
-                                         Variaveis.statusRede))
 
     def limpaContainerEsquerda(self):
         for ele in self.containerEsquerda.winfo_children():
@@ -948,7 +943,7 @@ class Application:
                 pd = item[8]
                 medida = item[16]
                 qtd_req = round(item[14])
-                qtd_cortada = round(item[15])
+                qtd_cortada = item[15]
                 qtd_pendente = qtd_req - qtd_cortada
                 requisicao = item[1]
                 pk_irp = item[0]
@@ -1611,7 +1606,7 @@ class Application:
 
                                 pd.registraCorteNoBanco(0, Variaveis.ID,
                                                         novaQtdCortada)
-                                
+
                                 try:
                                     self.Etiqueta()
                                 except:
@@ -2143,16 +2138,6 @@ class Application:
 
         montaScreen()
 
-    def checaRede(self):
-        r = os.popen("ping -c4 192.168.1.100").readlines()
-
-        if re.search("64 bytes from", str(r)):
-            statusRede = "ONLINE"
-        else:
-            statusRede = "OFFLINE"
-
-
 
 Application(root)
 root.mainloop()
-    
