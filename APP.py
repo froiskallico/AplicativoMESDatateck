@@ -237,8 +237,11 @@ class Application:
         if Variaveis.idUsuarioLogado > 0:
             self.montaTelaPrincipal()
             
-            etq = etiqueta.etiqueta()
-            etq.testeImpressora()
+            try:
+                etq = etiqueta.etiqueta()
+                etq.testeImpressora()
+            except:
+                pass
 
     # --- Geração do Layout Principal --- #
     def montaTelaPrincipal(self, master=None):

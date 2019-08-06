@@ -54,9 +54,49 @@ def origem2destino():
             dadosDestino.append(tuple(linhaDestino))
 
         for linha in dadosDestino:
-            curDestino.execute("REPLACE INTO PDS VALUES %s" % str(linha))
+            curDestino.execute("""REPLACE INTO PDS (
+                                      PK_IRP,
+                                      REQUISICAO,
+                                      CELULA,
+                                      [DATA GERAÇÃO],
+                                      [DATA ENTREGA],
+                                      [OBSERVAÇÃO REQ],
+                                      CHICOTE,
+                                      PD,
+                                      CPD,
+                                      CABO,
+                                      FK_CRS,
+                                      VIAS,
+                                      BITOLA,
+                                      UNIDADE,
+                                      [QTD PD REQ],
+                                      QTD_CORTADA,
+                                      MEDIDA,
+                                      [DECAPE A],
+                                      [DECAPE B],
+                                      [ACABAMENTO 1],
+                                      [PONTE 1],
+                                      [ACABAMENTO 2],
+                                      [PONTE 2],
+                                      [ACABAMENTO 3],
+                                      [PONTE 3],
+                                      [ACABAMENTO 4],
+                                      [PONTE 4],
+                                      OBSERVAÇÃO,
+                                      GRAVAÇÃO,
+                                      MÁQUINA,
+                                      [NR. ORDEM CORTE])
+                                  VALUES
+                                      %s""" % str(linha))
+
+
+        curDestino.execute("UPDATE PDS SET PRIORIDADE = 0")
 
         conDestino.commit()
+
+
+
+
 
     except:
         print("Erro ao inserir dados no banco de dados de destino local!")

@@ -1,5 +1,4 @@
 from banco import BANCO
-from datetime import datetime as dt
 
 class MOTIVOS(object):
 
