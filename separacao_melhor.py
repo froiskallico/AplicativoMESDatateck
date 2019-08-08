@@ -1,134 +1,185 @@
 import pandas as pd
-from banco import BANCO
 import configparser as cfgprsr
+import sqlite3
 import os
 
-diretorio = os.path.dirname(os.path.abspath(__file__))
-configFile = cfgprsr.ConfigParser()
-configFile.read(diretorio + '/config.ini')
-maquina = configFile['DEFAULT']['Maq']
+class AlgoritmoSeparacao:
 
-bancoLocal = BANCO()
-connLocal = bancoLocal.conexao
+    def __init__(self):
+        self.Definicoes()
+        self.OrdenaLista()
 
-def terminais(lista):
-    return pd.Series(pd.concat([lista['ACABAMENTO 1'],
-                                lista['ACABAMENTO 2']]).unique())
+    def Definicoes(self):
+        self.diretorio = os.path.dirname(os.path.abspath(__file__))
+        self.configFile = cfgprsr.ConfigParser()
+        self.configFile.read(self.diretorio + '/config.ini')
+        self.maquina = self.configFile['DEFAULT']['Maq']
 
-lco = pd.read_sql_query("""
-                            SELECT 
-                                PK_IRP, 
-                                BITOLA,
-                                [QTD PD REQ] - [QTD_CORTADA] AS "QTD",
-                                [ACABAMENTO 1],
-                                [ACABAMENTO 2],
-                                PRIORIDADE
-                            FROM 
+        self.connLocal = sqlite3.connect(self.diretorio + '/database/TESTEPDS.db')
+
+    def ImportaLista(self):
+        self.lco = pd.read_sql_query("""
+                                     SELECT 
+                                         PK_IRP, 
+                                         BITOLA,
+                                         [QTD PD REQ] - [QTD_CORTADA] AS "QTD",
+                                         [ACABAMENTO 1],
+                                         [ACABAMENTO 2],
+                                         PRIORIDADE
+                                     FROM 
+                                         PDS
+                                     WHERE
+                                         [QTD PD REQ] - [QTD_CORTADA] > 0 AND
+                                         MÁQUINA = '%s';    
+                                     """ % self.maquina,
+                                     self.connLocal).replace('None', 'Vazio')
+
+    def ImportaAplicaveis(self):
+        self.apl = pd.read_sql_query("""
+                                         SELECT
+                                             *
+                                         FROM
+                                             APLICAVEL;
+                                     """,
+                                     self.connLocal)
+
+    def ExtraiTerminais(self):
+        self.ImportaLista()
+        self.ImportaAplicaveis()
+
+        self.terminais = pd.Series(pd.concat([self.lco['ACABAMENTO 1'],
+                                              self.lco['ACABAMENTO 2']]).unique())
+
+        self.n = len(self.terminais)
+        self.c = sum(range(self.n))
+
+    def DefineRankeamento(self):
+        self.ExtraiTerminais()
+
+        self.ranking = pd.DataFrame()
+        vol = pd.Series([])
+
+        for t in self.terminais:
+            q = 0
+            for a in ('ACABAMENTO 1', 'ACABAMENTO 2'):
+                q += self.lco[self.lco[a]==t].sum()['QTD']
+
+            vol[len(vol)] = q
+
+        self.ranking['ACABAMENTO'] = self.terminais
+        self.ranking['Volume'] = vol
+
+        self.ranking = self.ranking.join(self.apl.set_index('ACABAMENTO'),
+                                         on='ACABAMENTO')                  \
+                                   .fillna('Z')                            \
+                                   .sort_values(['APLICAVEL', 'Volume'],
+                                                ascending=[False, False])  \
+                                   .reset_index(drop=True)
+
+    def DefinePrioridades(self):
+        self.DefineRankeamento()
+
+        prioridade = 1
+        Acab1 = self.lco['ACABAMENTO 1']
+        Acab2 = self.lco['ACABAMENTO 2']
+
+        for t in self.ranking['ACABAMENTO']:
+            if t == 'Vazio':
+                try:
+                    if self.lco.loc[((Acab1 == t) & (Acab2 == t)) |
+                                    ((Acab2 == t) & (Acab1 == t))]['QTD'].sum() > 0:
+                        self.lco.loc[(((Acab1 == t) & (Acab2 == t)) |
+                                     ((Acab2 == t) & (Acab1 == t))), 'PRIORIDADE'] = prioridade
+                        prioridade += 1
+
+                    continue
+
+                except :
+                    pass
+
+            else:
+                try:
+                    for t2 in ('Vazio', t):
+                        if self.lco.loc[((Acab1 == t) & (Acab2 == t2)) |
+                                        ((Acab2 == t) & (Acab1 == t2))]['QTD'].sum() > 0:
+                            self.lco.loc[((Acab1 == t) & (Acab2 == t2)) |
+                                         ((Acab2 == t) & (Acab1 == t2)), 'PRIORIDADE'] = prioridade
+                            prioridade += 1
+                except:
+                    pass
+
+                x = self.ranking.index[self.ranking['ACABAMENTO'] == t][0]
+                for i in range(self.n - 1, x, -1):
+                    t2 = self.ranking.loc[i, 'ACABAMENTO']
+
+                    try:
+                        if self.lco.loc[((Acab1 == t) & (Acab2 == t2)) |
+                                        ((Acab2 == t) & (Acab1 == t2))]['QTD'].sum() > 0:
+                            self.lco.loc[((Acab1 == t) & (Acab2 == t2)) |
+                                         ((Acab2 == t) & (Acab1 == t2)), 'PRIORIDADE'] = prioridade
+                            prioridade += 1
+                        else:
+                            continue
+                    except:
+                        pass
+
+    def ExibeResultados(self):
+        print('Lista de Corte:')
+        print(self.lco.head(10))
+        print('[...] \n\n')
+
+
+        print('Quantidade de acabamentos possíveis nessa LCO: %s' % self.n)
+        print(self.terminais)
+        print('Quantidade de combinações possíveis de Acabamentos nesta LCO: %s\n' % self.c)
+
+
+        print('Ranking de self.aplicações por volume:')
+        print(self.ranking)
+        print('\n\nSequência de setups de self.aplicação:')
+        print(self.lco.sort_values('PRIORIDADE').to_string())
+
+    def RegistraOrdenacaoNoBanco(self):
+        self.DefinePrioridades()
+
+        self.lco.sort_values('PRIORIDADE').to_sql('tempTabelaOrdenada',
+                                                  self.connLocal,
+                                                  if_exists='replace',
+                                                  index=False)
+
+        curLocal =self.connLocal.cursor()
+
+        curLocal.execute("""
+                            UPDATE
                                 PDS
-                            WHERE
-                                "QTD" > 0 AND
-                                MÁQUINA = '%s';    
-                        """ % maquina,
-                        connLocal).replace('None', 'Vazio')
+                            SET
+                                PRIORIDADE = (SELECT 
+                                                  PRIORIDADE 
+                                              FROM 
+                                                  tempTabelaOrdenada TEMP
+                                              WHERE
+                                                  TEMP.PK_IRP = PDS.PK_IRP);""")
 
-apl = pd.read_sql_query("""
-                            SELECT
-                                *
-                            FROM
-                                APLICAVEL;
-                        """,
-                        connLocal)
-                                
+        curLocal.execute("DROP TABLE tempTabelaOrdenada;")
 
-n = len(terminais(lco))
-c = sum(range(n))
+        curLocal.close()
+        self.connLocal.close()
 
-ranking = pd.DataFrame()
-vol = pd.Series([])
+    def OrdenaLista(self):
+        curCont = self.connLocal.cursor()
 
-for t in terminais(lco):
-    q = 0
-    for a in ('ACABAMENTO 1', 'ACABAMENTO 2'):
-        q += lco[lco[a]==t].sum()['QTD']
+        cont = curCont.execute("""
+                        SELECT
+                            COUNT(PRIORIDADE)
+                        FROM
+                            PDS
+                        WHERE
+                            PRIORIDADE = 0;""").fetchone()
 
-    vol[len(vol)] = q
-
-ranking['Terminal'] = terminais(lco)
-ranking['Volume'] = vol
-
-ranking = ranking.join(apl.set_index('ACABAMENTO'), on='Terminal').fillna('Z').sort_values(['APLICAVEL', 'Volume'], ascending=[False, False   ]).reset_index(drop=True)
-
-prioridade = 0
-for t in ranking['Terminal']:
-    if t == 'Vazio':
-        try:
-            if lco.loc[((lco['ACABAMENTO 1'] == t) & (lco['ACABAMENTO 2'] == t)) |
-                    ((lco['ACABAMENTO 2'] == t) & (lco['ACABAMENTO 1'] == t))]['QTD'].sum() > 0:
-                lco.loc[((lco['ACABAMENTO 1'] == t) & (lco['ACABAMENTO 2'] == t)) |
-                    ((lco['ACABAMENTO 2'] == t) & (lco['ACABAMENTO 1'] == t)), 'PRIORIDADE'] = prioridade
-                prioridade += 1
-                continue
-
-            else:
-                continue
-        except:
+        if cont[0] == 0:
             pass
+        else:
+            self.RegistraOrdenacaoNoBanco()
+            # self.ExibeResultados()
 
-    try:
-        t2 = 'Vazio'
-
-        if lco.loc[((lco['ACABAMENTO 1'] == t) & (lco['ACABAMENTO 2'] == t2)) |
-                    ((lco['ACABAMENTO 2'] == t) & (lco['ACABAMENTO 1'] == t2))]['QTD'].sum() > 0:
-            lco.loc[((lco['ACABAMENTO 1'] == t) & (lco['ACABAMENTO 2'] == t2)) |
-                    ((lco['ACABAMENTO 2'] == t) & (lco['ACABAMENTO 1'] == t2)), 'PRIORIDADE'] = prioridade
-            prioridade += 1
-
-
-        t2 = t
-
-        if lco.loc[((lco['ACABAMENTO 1'] == t) & (lco['ACABAMENTO 2'] == t2)) |
-                   ((lco['ACABAMENTO 2'] == t) & (lco['ACABAMENTO 1'] == t2))]['QTD'].sum() > 0:
-            lco.loc[((lco['ACABAMENTO 1'] == t) & (lco['ACABAMENTO 2'] == t2)) |
-                    ((lco['ACABAMENTO 2'] == t) & (lco['ACABAMENTO 1'] == t2)), 'PRIORIDADE'] = prioridade
-            prioridade += 1
-
-
-    except:
-        pass
-
-    x = ranking.index[ranking['Terminal']==t][0]
-
-    for i in range(n-1, x, -1):
-        t2 = ranking.loc[i, 'Terminal']
-
-        try:
-            if lco.loc[((lco['ACABAMENTO 1'] == t) & (lco['ACABAMENTO 2'] == t2)) |
-                   ((lco['ACABAMENTO 2'] == t) & (lco['ACABAMENTO 1'] == t2))]['QTD'].sum() > 0:
-
-                lco.loc[((lco['ACABAMENTO 1'] == t) & (lco['ACABAMENTO 2'] == t2)) |
-                        ((lco['ACABAMENTO 2'] == t) & (lco['ACABAMENTO 1'] == t2)), 'PRIORIDADE'] = prioridade
-                prioridade += 1
-            else:
-                continue
-
-        except:
-            pass
-
-
-
-print('Lista de Corte:')
-print(lco.head(10))
-print('[...] \n\n')
-
-
-print('Quantidade de acabamentos possíveis nessa LCO: %s' % n)
-print(terminais(lco))
-print('Quantidade de combinações possíveis de Acabamentos nesta LCO: %s\n' % c)
-
-
-print('Ranking de aplicações por volume:')
-print(ranking)
-print('\n\nSequência de setups de aplicação:')
-print(lco.sort_values(['PRIORIDADE', 'BITOLA']).to_string())
-
-lco.sort_values(['PRIORIDADE', 'BITOLA']).to_csv('listaOrdenada.csv', sep=';')
+AlgoritmoSeparacao()

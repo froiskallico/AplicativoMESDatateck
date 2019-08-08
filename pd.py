@@ -1,25 +1,48 @@
+import os
 import fdb
+import configparser as cfgprsr
 from banco import BANCO
 from datetime import datetime as dt
 
 class PD(object):
 
     def __init__(self):
+        self.Definicoes()
         self.lista = {}
         self.dadosPD = ()
 
+    def Definicoes(self):
+        self.diretorio = os.path.dirname(os.path.abspath(__file__))
+        self.configFile = cfgprsr.ConfigParser()
+        self.configFile.read(self.diretorio + '/config.ini')
+        self.maquina = self.configFile['DEFAULT']['Maq']
+        self.maquinaAutomatica = self.configFile['DEFAULT']['MaqAutomatica']
+
     def buscaLista(self, maquina):
         banco = BANCO()
+
+        if self.maquinaAutomatica:
+            strOrdenacao = """ORDER BY
+                                  PDS.PRIORIDADE,
+                                  BITOLA,
+                                  CABO,
+                                  MEDIDA DESC"""
+        else:
+            strOrdenacao = """ORDER BY
+                                  BITOLA,
+                                  CABO,
+                                  MEDIDA DESC"""
+
         try:
             c = banco.conexao.cursor()
-            c.execute('''   SELECT
-                              *
-                            FROM
-                              PDS
-                            WHERE
-                              PDS.MÁQUINA = "%s" AND
-                              PDS."QTD PD REQ" > PDS.QTD_CORTADA
-                      ''' % maquina)
+            c.execute('''SELECT
+                           *
+                         FROM
+                           PDS
+                         WHERE
+                           PDS.MÁQUINA = "%s" AND
+                           PDS."QTD PD REQ" > PDS.QTD_CORTADA
+                      ''' % maquina + strOrdenacao)
 
             self.lista = c.fetchall()
             c.close()

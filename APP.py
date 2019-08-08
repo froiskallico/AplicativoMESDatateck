@@ -19,6 +19,7 @@ class Definicoes():
     
     configFile.read(diretorio + '/config.ini')
     maquina = configFile['DEFAULT']['Maq']
+    maquinaAutomatica = configFile['DEFAULT']['MaqAutomatica']
 
 def montaRoot():
     global root
@@ -28,6 +29,7 @@ def montaRoot():
     root.attributes('-fullscreen', Definicoes.configFile['DISPLAY']['Tela Cheia'])
     root.bind('<Escape>', lambda e: root.destroy())
     root.resizable(width=True, height=True)
+
 montaRoot()
 
 class Variaveis:
@@ -67,6 +69,7 @@ class Variaveis:
                'GRAVACAO',
                'MAQUINA',
                'NR_ORDEM_CORTE',
+               'PRIORIDADE',
                'DESCRICAO',
                'PRIMARIA',
                'SECUNDARIA',
@@ -104,6 +107,7 @@ class Variaveis:
         "GRAVACAO":                 "",
         "MAQUINA":                  "",
         "NR_ORDEM_CORTE":           "",
+        "PRIORIDADE":               "",
         "DESCRICAO":                "",
         "PRIMARIA":                 "",
         "SECUNDARIA":               "",
@@ -138,7 +142,6 @@ class Variaveis:
     maquinaParada = False
     paradaEmSetup = False
     paradaEmCorte = False
-
 
 
 class Fontes:
@@ -870,7 +873,6 @@ class Application:
         self.lblAcabamento2 = Label(text=Variaveis.campos.get("ACABAMENTO_2"))
         self.lblAcabamento4 = Label(text=Variaveis.campos.get("ACABAMENTO_4"))
 
-
     def limpaContainerEsquerda(self):
         for ele in self.containerEsquerda.winfo_children():
             ele.destroy()
@@ -882,7 +884,7 @@ class Application:
                 pd = PD()
                 pd.buscaPD(ID)
                 dadosDoPD = pd.dadosPD
-
+                print(dadosDoPD)
                 for i in range(len(dadosDoPD)):
                     try:
                         Variaveis.campos[Variaveis.colunas[i]] = round(
@@ -932,35 +934,68 @@ class Application:
 
             self.data = pd.lista
 
-            cabos = []
+            if Definicoes.maquinaAutomatica:
+                pass
+                casais = []
 
-            for item in self.data:
-                cabo = item[9]
+                for item in self.data:
+                    casal = '%s | %s' % (str(item[19]), str(item[21]))
 
-                if cabo not in cabos:
-                    cabos.append(str(cabo))
+                    if casal not in casais:
+                        casais.append(casal)
 
-            for cabo in cabos:
-                self.tvw.insert('', 'end', cabo, text=cabo)
+                for casal in casais:
+                    self.tvw.insert('', 'end', casal, text=casal)
 
-            for item in self.data:
-                cabo = item[9]
-                pd = item[8]
-                medida = item[16]
-                qtd_req = round(item[14])
-                qtd_cortada = item[15]
-                qtd_pendente = qtd_req - qtd_cortada
-                requisicao = item[1]
-                pk_irp = item[0]
+                for item in self.data:
+                    casal = '%s | %s' % (str(item[19]), str(item[21]))
+                    cabo = item[9]
+                    medida = item[16]
+                    qtd_req = round(item[14])
+                    qtd_cortada = item[15]
+                    qtd_pendente = qtd_req - qtd_cortada
+                    requisicao = item[1]
+                    pk_irp = item[0]
 
-                self.tvw.insert(
-                    cabo,
-                    'end',
-                    text=pd, values=(
-                        medida,
-                        qtd_pendente,
-                        requisicao,
-                        pk_irp))
+                    self.tvw.insert(
+                        casal,
+                        'end',
+                        text=cabo, values=(
+                            medida,
+                            qtd_pendente,
+                            requisicao,
+                            pk_irp))
+
+            else:
+                cabos = []
+
+                for item in self.data:
+                    cabo = item[9]
+
+                    if cabo not in cabos:
+                        cabos.append(str(cabo))
+
+                for cabo in cabos:
+                    self.tvw.insert('', 'end', cabo, text=cabo)
+
+                for item in self.data:
+                    cabo = item[9]
+                    pd = item[8]
+                    medida = item[16]
+                    qtd_req = round(item[14])
+                    qtd_cortada = item[15]
+                    qtd_pendente = qtd_req - qtd_cortada
+                    requisicao = item[1]
+                    pk_irp = item[0]
+
+                    self.tvw.insert(
+                        cabo,
+                        'end',
+                        text=pd, values=(
+                            medida,
+                            qtd_pendente,
+                            requisicao,
+                            pk_irp))
 
             self.listaCount.configure(
                 text='Total de PDs: ' + str(len(self.data)))
@@ -1009,6 +1044,7 @@ class Application:
                                     xscrollcommand=self.hsb.set)
             self.tvw.bind("<ButtonRelease-1>", abrirOuFecharNode)
 
+            #ToDo Alterar Cabeçalho da TreeView quando for MaqAutomatica
             self.tvw.heading("#0", text="Cabo/PD")
 
             self.vsb['command'] = self.tvw.yview
