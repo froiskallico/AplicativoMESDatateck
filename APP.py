@@ -1,8 +1,8 @@
-# --- Imports ---#
+#--- Imports ---#
 from pd import PD
 import tempos
 import etiqueta
-import priorizacao_pd
+import priorizacao_pds as priori
 from motivos import MOTIVOS
 from tkinter import *
 from time import time
@@ -936,7 +936,7 @@ class Application:
             self.data = pd.lista
 
             if Definicoes.maquinaAutomatica:
-                priori = priorizacao_pd.AlgoritmoSeparacao()
+                priori.AlgoritmoSeparacao()
 
                 casais = []
 

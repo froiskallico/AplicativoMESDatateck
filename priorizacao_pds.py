@@ -182,4 +182,3 @@ class AlgoritmoSeparacao:
             self.RegistraOrdenacaoNoBanco()
             # self.ExibeResultados()
 
-AlgoritmoSeparacao()
