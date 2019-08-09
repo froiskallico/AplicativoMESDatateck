@@ -2,6 +2,7 @@
 from pd import PD
 import tempos
 import etiqueta
+import priorizacao_pd
 from motivos import MOTIVOS
 from tkinter import *
 from time import time
@@ -935,7 +936,8 @@ class Application:
             self.data = pd.lista
 
             if Definicoes.maquinaAutomatica:
-                pass
+                priori = priorizacao_pd.AlgoritmoSeparacao()
+
                 casais = []
 
                 for item in self.data:
@@ -1210,7 +1212,7 @@ class Application:
 
                         def registraPriMedida():
 
-                            if (self.entryPriMedida.get() != ''):
+                            if (self.entryPriMedida.get() not in ('0', '')):
                                 registro = []
                                 registro.append(Variaveis.campos.get("PK_IRP"))
                                 registro.append(1)
@@ -1240,7 +1242,7 @@ class Application:
                                         if ele.winfo_class() == 'Entry' \
                                                 and int(
                                             ele.winfo_name()[-1:]) == L:
-                                            if ele.get() == '':
+                                            if ele.get() in ('0',''):
                                                 ele.config(bg='indian red')
                                                 self.lblMensagem.config(
                                                     text='Informe as medidas para registro')
@@ -1735,7 +1737,7 @@ class Application:
                         montaWidgets()
 
                     def registraUltMedida():
-                        if (self.entryUltMedida.get() != ''):
+                        if (self.entryUltMedida.get() not in ('0', '')):
                             registro = []
                             registro.append(Variaveis.campos.get("PK_IRP"))
                             registro.append(2)
@@ -1759,7 +1761,7 @@ class Application:
                                 text='Informe a Ultima Medida!')
 
                     def registraQtdCortada():
-                        if (self.entryQtdCortada.get() != ''):
+                        if (self.entryQtdCortada.get() not in ('0', '')):
                             try:
                                 Variaveis.quantidadeCortada = int(
                                     self.entryQtdCortada.get()

@@ -25,7 +25,7 @@ idUsuario = 0
 nomeUsuario = None
 
 class Fontes():
-    fontePadrao = ("Play", 12)
+    fontePadrao = ("Play", 20)
     fontePadraoBold = ("Play", 12, "bold")
     fonteCabecalho = ("Play", 18, "bold")
 
@@ -121,7 +121,7 @@ class Application:
                                  fg='yellow',
                                  justify="center")
         self.lblMensagem.pack(side=TOP,
-                              pady=15)
+                              pady=5)
 
     def montaBotoes(self):
         #--- Botão ---#                        

@@ -53,69 +53,71 @@ def origem():
 
 
 def origem2destino():
-    try:
-        conDestino = sqlite3.connect(database='./database/DADOS.db')
-        curDestino = conDestino.cursor()
-    except:
-        print("Erro na conexão com o banco de dados de destino local!")
+#    try:
+    conDestino = sqlite3.connect(database='/home/pi/TRI.MES/database/DADOS.db')
+    # conDestino.text_factory = lambda x: str(x, 'cp1252')
+    curDestino = conDestino.cursor()
+#    except:
+#    print("Erro na conexao com o banco de dados de destino local!")
 
     global dadosDestino
     dadosDestino = []
 
-    try:
-        for linhaOrigem in dadosOrigem:
-            linhaDestino = []
-            for c in range(len(linhaOrigem)):
-                linhaDestino.append(str(linhaOrigem[c]))
-            dadosDestino.append(tuple(linhaDestino))
+#    try:
+    for linhaOrigem in dadosOrigem:
+        linhaDestino = []
+        for c in range(len(linhaOrigem)):
+            linhaDestino.append(str(linhaOrigem[c]))
+        dadosDestino.append(tuple(linhaDestino))
 
-        for linha in dadosDestino:
-            curDestino.execute("""REPLACE INTO PDS (
-                                      PK_IRP,
-                                      REQUISICAO,
-                                      CELULA,
-                                      [DATA GERAÇÃO],
-                                      [DATA ENTREGA],
-                                      [OBSERVAÇÃO REQ],
-                                      CHICOTE,
-                                      PD,
-                                      CPD,
-                                      CABO,
-                                      FK_CRS,
-                                      VIAS,
-                                      BITOLA,
-                                      UNIDADE,
-                                      [QTD PD REQ],
-                                      QTD_CORTADA,
-                                      MEDIDA,
-                                      [DECAPE A],
-                                      [DECAPE B],
-                                      [ACABAMENTO 1],
-                                      [PONTE 1],
-                                      [ACABAMENTO 2],
-                                      [PONTE 2],
-                                      [ACABAMENTO 3],
-                                      [PONTE 3],
-                                      [ACABAMENTO 4],
-                                      [PONTE 4],
-                                      OBSERVAÇÃO,
-                                      GRAVAÇÃO,
-                                      MÁQUINA,
-                                      [NR. ORDEM CORTE])
-                                  VALUES
-                                      %s""" % str(linha))
+    for linha in dadosDestino:
+        curDestino.execute("""REPLACE INTO PDS (
+                                  PK_IRP,
+                                  REQUISICAO,
+                                  CELULA,
+                                  [DATA GERAÇÃO],
+                                  [DATA ENTREGA],
+                                  [OBSERVAÇÃO REQ],
+                                  CHICOTE,
+                                  PD,
+                                  CPD,
+                                  CABO,
+                                  FK_CRS,
+                                  VIAS,
+                                  BITOLA,
+                                  UNIDADE,
+                                  [QTD PD REQ],
+                                  QTD_CORTADA,
+                                  MEDIDA,
+                                  [DECAPE A],
+                                  [DECAPE B],
+                                  [ACABAMENTO 1],
+                                  [PONTE 1],
+                                  [ACABAMENTO 2],
+                                  [PONTE 2],
+                                  [ACABAMENTO 3],
+                                  [PONTE 3],
+                                  [ACABAMENTO 4],
+                                  [PONTE 4],
+                                  OBSERVAÇÃO,
+                                  GRAVAÇÃO,
+                                  MÁQUINA,
+                                  [NR. ORDEM CORTE])
+                              VALUES
+                                  %s""" % str(linha))
 
-        curDestino.execute("UPDATE PDS SET PRIORIDADE = 0")
-        aplicavelOrigem.to_sql('APLICAVEL',
-                               conDestino,
-                               if_exists='replace',
-                               index=False)
+    curDestino.execute("UPDATE PDS SET PRIORIDADE = 0")
+    aplicavelOrigem.to_sql('APLICAVEL',
+                           conDestino,
+                           if_exists='replace',
+                           index=False)
 
-        conDestino.commit()
+    conDestino.commit()
+    conDestino.close()
 
-    except Exception as e:
-        print(e)
-        print("Erro ao inserir dados no banco de dados de destino local!")
+#    except Exception as e:
+#    print(e)
+#    print("Erro ao inserir dados no banco de dados de destino local!")
 
 
 def atualizaBancoLocal():
@@ -126,4 +128,5 @@ def atualizaBancoLocal():
     print("Linhas na Destino: %i" % len(dadosDestino))
     print('FIM')
 
-atualizaBancoLocal()
+atualiza = atualizaBancoLocal()
+del atualiza

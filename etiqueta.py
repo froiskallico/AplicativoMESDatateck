@@ -125,15 +125,15 @@ class etiqueta(object):
 
         
         stringTeste = '''Bem vindo ao MES - Datateck
-                         Teste de impressão de etiqueta
-                                                  
-                         A Vontade de Crescer nos Conecta
-                                                  
-                         Powered by TRI
-                         www.TRITEC.rf.gd'''
+Teste de impressão de etiqueta
 
-        #self.port.write(str.encode(stringTeste))
+A Vontade de Crescer nos Conecta
+
+Powered by TRI
+www.TRITEC.rf.gd'''
+
+        self.port.write(str.encode(stringTeste))
             
-        #self.port.write(bytearray.fromhex('1B 69'))
+        self.port.write(bytearray.fromhex('1B 69'))
         
         self.closePort()
