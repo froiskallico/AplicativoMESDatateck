@@ -884,7 +884,7 @@ class Application:
                 pd = PD()
                 pd.buscaPD(ID)
                 dadosDoPD = pd.dadosPD
-                print(dadosDoPD)
+
                 for i in range(len(dadosDoPD)):
                     try:
                         Variaveis.campos[Variaveis.colunas[i]] = round(
@@ -1044,8 +1044,12 @@ class Application:
                                     xscrollcommand=self.hsb.set)
             self.tvw.bind("<ButtonRelease-1>", abrirOuFecharNode)
 
-            #ToDo Alterar Cabeçalho da TreeView quando for MaqAutomatica
-            self.tvw.heading("#0", text="Cabo/PD")
+            if Definicoes.maquinaAutomatica:
+                strCabecalho = "Par de Terminais"
+            else:
+                strCabecalho = "Cabo/PD"
+
+            self.tvw.heading("#0", text=strCabecalho)
 
             self.vsb['command'] = self.tvw.yview
             self.hsb['command'] = self.tvw.xview
@@ -1644,8 +1648,6 @@ class Application:
                                 novaQtdCortada = int(Variaveis.quantidadeCortada) + int(Variaveis.campos.get(
                                     "QTD_CORTADA"))
 
-                                print(novaQtdCortada)
-
                                 pd.registraCorteNoBanco(0, Variaveis.ID,
                                                         novaQtdCortada)
 
@@ -1768,7 +1770,7 @@ class Application:
 
                             if int((Variaveis.quantidadeCortada)) < int(
                                     Variaveis.quantidadePendente):
-                                print("QTD DIVERGENTE")
+                                # print("QTD DIVERGENTE")
                                 self.lblMensagem.config(
                                     text='Quantidade divergente. Justifique!')
                                 Variaveis.quantidadeDivergente = True
@@ -2146,10 +2148,8 @@ class Application:
             montaWidgets()
 
     def Etiqueta(self):
-
         etq = etiqueta.etiqueta()
-
-        etq.imprimeEtiqueta(Variaveis.quantidadeCortada, nomeUsuarioLogado, **Variaveis.campos)
+        etq.imprimeEtiqueta(Variaveis.quantidadeCortada, Variaveis.nomeUsuarioLogado, **Variaveis.campos)
 
     def PopUpCabo(self):
         def montaScreen():

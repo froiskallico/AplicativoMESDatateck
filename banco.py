@@ -6,7 +6,7 @@ diretorio = os.path.dirname(os.path.abspath(__file__))
 class BANCO():
 
     def __init__(self):
-        self.conexao = sqlite3.connect(diretorio + '/database/TESTEPDS.db')
+        self.conexao = sqlite3.connect(diretorio + '/database/DADOS.db')
 #        self.conexao.text_factory = lambda x: str(x, 'cp1252')
         self.createTable()
 

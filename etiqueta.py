@@ -2,7 +2,6 @@ import serial
 import datetime
 from collections import OrderedDict
 
-
 class etiqueta(object):
 
     def __init__(self):
@@ -16,14 +15,14 @@ class etiqueta(object):
             writeTimeout=3,
             timeout=3)
 
-        print(self.port.isOpen())
-        print("Porta de impressao aberta...")
+        # print(self.port.isOpen())
+        # print("Porta de impressao aberta...")
 
     def closePort(self):
         while True:
             #print("inside while")
             response = self.port.read(8)
-            print(response)
+            # print(response)
             #print("Data Received")
             break
         
@@ -112,8 +111,7 @@ class etiqueta(object):
         self.port.write(bytearray.fromhex('1B 69'))
  
         self.closePort()
-        
-        
+
     def testeImpressora(self):
         configs = OrderedDict([
                               ('printConfig', '1D F9 35 30'),
@@ -127,13 +125,12 @@ class etiqueta(object):
 
         
         stringTeste = '''Bem vindo ao MES - Datateck
-Teste de impressão de etiqueta
-                         
-A Vontade de Crescer nos Conecta
-                         
-Powered by TRI
-www.TRITEC.rf.gd
-'''
+                         Teste de impressão de etiqueta
+                                                  
+                         A Vontade de Crescer nos Conecta
+                                                  
+                         Powered by TRI
+                         www.TRITEC.rf.gd'''
 
         #self.port.write(str.encode(stringTeste))
             
