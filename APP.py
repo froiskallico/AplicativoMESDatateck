@@ -8,7 +8,7 @@ from tkinter import *
 from time import time
 import datetime
 from tkinter import ttk
-import login
+# import login
 import configparser as cfgprsr
 import inspect
 import os, re
@@ -235,10 +235,10 @@ class Application:
 
     # --- Inicialização do Aplicativo --- #
     def __init__(self, master=None):
-        Variaveis.idUsuarioLogado = login.idUsuario
-        Variaveis.nomeUsuarioLogado = login.nomeUsuario
-
-        if Variaveis.idUsuarioLogado > 0:
+        # Variaveis.idUsuarioLogado = login.idUsuario
+        # Variaveis.nomeUsuarioLogado = login.nomeUsuario
+        #
+        # if Variaveis.idUsuarioLogado > 0:
             self.montaTelaPrincipal()
             
             try:
@@ -879,7 +879,24 @@ class Application:
             ele.destroy()
 
     # --- Busca Lista de Corte --- #
+
     def montaLista(self):
+        self.popUpBarraProgresso = Toplevel(bg=Cores.bgCinza,
+                                            bd=7,
+                                            relief=RAISED)
+        self.popUpBarraProgresso.overrideredirect(1)
+        self.popUpBarraProgresso.attributes('-topmost', 'true')
+        self.popUpBarraProgresso.bind("<Button-1>",
+                                      lambda
+                                          e: self.popUpBarraProgresso.destroy())
+        self.popUpBarraProgresso.geometry('+50+150')
+        self.popUpBarraProgresso.focus()
+
+        root.after(1000, self.montaListaP())
+
+    def montaListaP(self):
+
+
         def listaSelectBtn(master=None):
             def carregaDadosDoPDNaTela(ID):
                 pd = PD()
@@ -936,16 +953,7 @@ class Application:
             self.data = pd.lista
 
             if Definicoes.maquinaAutomatica:
-                var_barra = DoubleVar()
-                var_barra = 2
-
-                self.progress = ttk.Progressbar(self.containerEsquerda,
-                                                variable=var_barra,
-                                                maximum=4)
-
-                self.progress.grid()
-
-                priori.AlgoritmoSeparacao()
+                priori.AlgoritmoSeparacao(self.popUpBarraProgresso)
 
 
                 casais = []

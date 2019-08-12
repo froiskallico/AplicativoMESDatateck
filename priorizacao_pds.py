@@ -2,10 +2,15 @@ import pandas as pd
 import configparser as cfgprsr
 import sqlite3
 import os
+from tkinter import *
+from tkinter import ttk
 
 class AlgoritmoSeparacao:
 
-    def __init__(self):
+    def __init__(self, master=None):
+        self.barra = Label(master, text="TESTE")
+        self.barra.grid()
+
         self.Definicoes()
         self.OrdenaLista()
         self.etapas = ("Conectando ao Banco",
@@ -14,6 +19,8 @@ class AlgoritmoSeparacao:
                        "Definindo Prioridades",
                        "Registrando Prioridades no Banco de Dados") 
         self.step = 0
+
+
 
     def Definicoes(self):
         self.diretorio = os.path.dirname(os.path.abspath(__file__))
@@ -187,8 +194,8 @@ class AlgoritmoSeparacao:
                             PRIORIDADE = 0;""").fetchone()
 
         if cont[0] == 0:
-            pass
-        else:
+            # pass
+        # else:
             self.RegistraOrdenacaoNoBanco()
             # self.ExibeResultados()
 
