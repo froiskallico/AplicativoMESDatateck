@@ -28,13 +28,14 @@ class AlgoritmoSeparacao:
                                                   var=self.varBarra)
             self.barraProgresso.pack(fill=BOTH,
                                      expand=1,
-                                     pady=20)
+                                     pady=20,
+                                     padx=50)
 
             self.rodape = Label(self.master,
-                                   text="Isso pode levar alguns segundos mas estamos garantindo o menor número de setups possível",
+                                   text="Isso pode levar alguns segundos mas estamos \n garantindo o menor número de setups possível",
                                    font=["Play", 14, "bold"],
                                    bg="#333333",
-                                   fg="white",
+                                   fg="#BBBBBB",
                                    justify="center")
             self.rodape.pack(fil=BOTH,
                                 expand=1,
@@ -223,10 +224,10 @@ class AlgoritmoSeparacao:
                             PRIORIDADE = 0;""").fetchone()
 
         if cont[0] == 0:
-        #     pass
-        # else:
+#            pass
+#        else:
             self.RegistraOrdenacaoNoBanco()
-            # self.ExibeResultados()
+#            self.ExibeResultados()
 
 
         self.master.destroy()
