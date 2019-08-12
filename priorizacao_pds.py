@@ -46,14 +46,14 @@ class AlgoritmoSeparacao:
 
             print(self.diretorio)
 
-            self.logoTri_100p = PhotoImage(file=self.diretorio + "/src/images/logos/logoTri.png")
+            self.logoTri_100p = PhotoImage(file=self.diretorio + "/src/images/logos/logoTri_100p.png")
 
             self.logoTri = Label(self.master,
                                  image=self.logoTri_100p,
                                  font=["Maven Pro", 14, "bold"],
                                  bg="#333333",
                                  fg="#BBBBBB")
-            self.logoTri.pack()
+            self.logoTri.pack(pady=25)
 
         montaWidgets()
 
@@ -238,8 +238,8 @@ class AlgoritmoSeparacao:
                             PRIORIDADE = 0;""").fetchone()
 
         if cont[0] == 0:
-#            pass
-#        else:
+            pass
+        else:
             self.RegistraOrdenacaoNoBanco()
 #            self.ExibeResultados()
 
