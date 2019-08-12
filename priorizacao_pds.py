@@ -226,7 +226,6 @@ class AlgoritmoSeparacao:
         self.connLocal.close()
 
     def OrdenaLista(self):
-        print("Iniciando...")
         curCont = self.connLocal.cursor()
 
         cont = curCont.execute("""
