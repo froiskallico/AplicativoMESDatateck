@@ -5,9 +5,12 @@ import os
 from tkinter import *
 from tkinter import ttk
 
+
+
 class AlgoritmoSeparacao:
     def __init__(self, master=None):
         self.master = master
+        self.diretorio = os.path.dirname(os.path.abspath(__file__))
 
         def montaWidgets():
             self.varBarra = IntVar()
@@ -32,14 +35,25 @@ class AlgoritmoSeparacao:
                                      padx=50)
 
             self.rodape = Label(self.master,
-                                   text="Isso pode levar alguns segundos mas estamos \n garantindo o menor número de setups possível",
-                                   font=["Play", 14, "bold"],
-                                   bg="#333333",
-                                   fg="#BBBBBB",
-                                   justify="center")
-            self.rodape.pack(fil=BOTH,
-                                expand=1,
-                                pady=20)
+                                text="Isso pode levar alguns segundos mas estamos \n garantindo o menor número de setups possível",
+                                font=["Play", 14, "bold"],
+                                bg="#333333",
+                                fg="#BBBBBB",
+                                justify="center")
+            self.rodape.pack(fill=BOTH,
+                             expand=1,
+                             pady=20)
+
+            print(self.diretorio)
+
+            self.logoTri_100p = PhotoImage(file=self.diretorio + "/src/images/logos/logoTri.png")
+
+            self.logoTri = Label(self.master,
+                                 image=self.logoTri_100p,
+                                 font=["Maven Pro", 14, "bold"],
+                                 bg="#333333",
+                                 fg="#BBBBBB")
+            self.logoTri.pack()
 
         montaWidgets()
 

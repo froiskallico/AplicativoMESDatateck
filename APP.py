@@ -167,7 +167,8 @@ class Cores:
 class Imagens:
     logo = PhotoImage(
         file=diretorio + "/src/images/logos/logo.png")
-
+    logoTri = PhotoImage(
+        file=diretorio + "/src/images/logos/logoTri.png")
 
 class activeButtons:
     buscarButton = PhotoImage(
@@ -365,7 +366,9 @@ class Application:
             self.containerRodape = Frame(self.containerEsquerda,
                                          bg=Cores.bgCinza)
             self.containerRodape.pack(side=BOTTOM,
-                                      anchor=SW)
+                                      anchor=SW,
+                                      fill=X,
+                                      expand=1)
 
             # ####--- Proximo Cabo ---####
             # self.containerProxCabo = Frame(self.containerRodape,
@@ -684,7 +687,19 @@ class Application:
                                    bg=Cores.bgCinza,
                                    fg='white',
                                    anchor='sw')
-            self.lblRodape.pack()
+            self.lblRodape.pack(side=LEFT,
+                                fill=X,
+                                expand=1)
+
+            self.logoTri = Label(self.containerBotoes,
+                                 text="Powered by TRI",
+                                 image=Imagens.logoTri,
+                                 bg=Cores.bgCinza,
+                                 fg="white",
+                                 anchor='se')
+            self.logoTri.pack(side=BOTTOM,
+                              pady=10,
+                              padx=25)
 
             # self.lblProxCabo = Label(self.containerProxCabo,
             #                          text=Variaveis.campos.get("PROX_CABO"),
