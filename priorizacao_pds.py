@@ -8,6 +8,12 @@ class AlgoritmoSeparacao:
     def __init__(self):
         self.Definicoes()
         self.OrdenaLista()
+        self.etapas = ("Conectando ao Banco",
+                       "Importando Lista de Corte",
+                       "Rankeando Acabamentos",
+                       "Definindo Prioridades",
+                       "Registrando Prioridades no Banco de Dados") 
+        self.step = 0
 
     def Definicoes(self):
         self.diretorio = os.path.dirname(os.path.abspath(__file__))
@@ -16,6 +22,7 @@ class AlgoritmoSeparacao:
         self.maquina = self.configFile['DEFAULT']['Maq']
 
         self.connLocal = sqlite3.connect(self.diretorio + '/database/DADOS.db')
+        self.step = 1
 
     def ImportaLista(self):
         self.lco = pd.read_sql_query("""
@@ -54,6 +61,7 @@ class AlgoritmoSeparacao:
         self.c = sum(range(self.n))
 
     def DefineRankeamento(self):
+        self.step = 2
         self.ExtraiTerminais()
 
         self.ranking = pd.DataFrame()
@@ -77,6 +85,7 @@ class AlgoritmoSeparacao:
                                    .reset_index(drop=True)
 
     def DefinePrioridades(self):
+        self.step = 3
         self.DefineRankeamento()
 
         prioridade = 1
@@ -140,6 +149,7 @@ class AlgoritmoSeparacao:
         print(self.lco.sort_values('PRIORIDADE').to_string())
 
     def RegistraOrdenacaoNoBanco(self):
+        self.step = 4
         self.DefinePrioridades()
 
         self.lco.sort_values('PRIORIDADE').to_sql('tempTabelaOrdenada',

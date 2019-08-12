@@ -936,7 +936,17 @@ class Application:
             self.data = pd.lista
 
             if Definicoes.maquinaAutomatica:
+                var_barra = DoubleVar()
+                var_barra = 2
+
+                self.progress = ttk.Progressbar(self.containerEsquerda,
+                                                variable=var_barra,
+                                                maximum=4)
+
+                self.progress.grid()
+
                 priori.AlgoritmoSeparacao()
+
 
                 casais = []
 

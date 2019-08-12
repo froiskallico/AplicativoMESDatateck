@@ -1,3 +1,3 @@
 #!/bin/sh
 
-#/usr/bin/python3 ~/TRI.MES/APP.py
+/usr/bin/python3 ~/TRI.MES/APP.py
