@@ -6,21 +6,45 @@ from tkinter import *
 from tkinter import ttk
 
 class AlgoritmoSeparacao:
-
     def __init__(self, master=None):
-        self.barra = Label(master, text="TESTE")
-        self.barra.grid()
+        self.master = master
+
+        def montaWidgets():
+            self.varBarra = IntVar()
+            self.cabecalho = Label(self.master,
+                                   text="Aguarde o Sequenciamento de Setup",
+                                   font=["Play", 20, "bold"],
+                                   bg="#333333",
+                                   fg="white",
+                                   justify="center")
+            self.cabecalho.pack(fil=BOTH,
+                                expand=1,
+                                pady=20)
+
+            self.barraProgresso = ttk.Progressbar(self.master,
+                                                  orient='horizontal',
+                                                  mode='determinate',
+                                                  len=400,
+                                                  var=self.varBarra)
+            self.barraProgresso.pack(fill=BOTH,
+                                     expand=1,
+                                     pady=20)
+
+            self.rodape = Label(self.master,
+                                   text="Isso pode levar alguns segundos mas estamos garantindo o menor número de setups possível",
+                                   font=["Play", 14, "bold"],
+                                   bg="#333333",
+                                   fg="white",
+                                   justify="center")
+            self.rodape.pack(fil=BOTH,
+                                expand=1,
+                                pady=20)
+
+        montaWidgets()
+
 
         self.Definicoes()
         self.OrdenaLista()
-        self.etapas = ("Conectando ao Banco",
-                       "Importando Lista de Corte",
-                       "Rankeando Acabamentos",
-                       "Definindo Prioridades",
-                       "Registrando Prioridades no Banco de Dados") 
-        self.step = 0
-
-
 
     def Definicoes(self):
         self.diretorio = os.path.dirname(os.path.abspath(__file__))
@@ -29,7 +53,6 @@ class AlgoritmoSeparacao:
         self.maquina = self.configFile['DEFAULT']['Maq']
 
         self.connLocal = sqlite3.connect(self.diretorio + '/database/DADOS.db')
-        self.step = 1
 
     def ImportaLista(self):
         self.lco = pd.read_sql_query("""
@@ -67,8 +90,9 @@ class AlgoritmoSeparacao:
         self.n = len(self.terminais)
         self.c = sum(range(self.n))
 
+        self.barraProgresso['max'] = self.n
+
     def DefineRankeamento(self):
-        self.step = 2
         self.ExtraiTerminais()
 
         self.ranking = pd.DataFrame()
@@ -92,7 +116,6 @@ class AlgoritmoSeparacao:
                                    .reset_index(drop=True)
 
     def DefinePrioridades(self):
-        self.step = 3
         self.DefineRankeamento()
 
         prioridade = 1
@@ -125,6 +148,12 @@ class AlgoritmoSeparacao:
                     pass
 
                 x = self.ranking.index[self.ranking['ACABAMENTO'] == t][0]
+                self.varBarra.set(x)
+                self.master.update()
+
+                if x >= self.n * 0.8:
+                    self.rodape['text'] = "Quase lá. Só falta mais um pouco..."
+
                 for i in range(self.n - 1, x, -1):
                     t2 = self.ranking.loc[i, 'ACABAMENTO']
 
@@ -156,7 +185,6 @@ class AlgoritmoSeparacao:
         print(self.lco.sort_values('PRIORIDADE').to_string())
 
     def RegistraOrdenacaoNoBanco(self):
-        self.step = 4
         self.DefinePrioridades()
 
         self.lco.sort_values('PRIORIDADE').to_sql('tempTabelaOrdenada',
@@ -183,6 +211,7 @@ class AlgoritmoSeparacao:
         self.connLocal.close()
 
     def OrdenaLista(self):
+        print("Iniciando...")
         curCont = self.connLocal.cursor()
 
         cont = curCont.execute("""
@@ -194,8 +223,11 @@ class AlgoritmoSeparacao:
                             PRIORIDADE = 0;""").fetchone()
 
         if cont[0] == 0:
-            # pass
+        #     pass
         # else:
             self.RegistraOrdenacaoNoBanco()
             # self.ExibeResultados()
+
+
+        self.master.destroy()
 

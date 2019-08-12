@@ -30,7 +30,6 @@ def montaRoot():
     root.attributes('-fullscreen', Definicoes.configFile['DISPLAY']['Tela Cheia'])
     root.bind('<Escape>', lambda e: root.destroy())
     root.resizable(width=True, height=True)
-
 montaRoot()
 
 class Variaveis:
@@ -240,6 +239,7 @@ class Application:
         #
         # if Variaveis.idUsuarioLogado > 0:
             self.montaTelaPrincipal()
+            self.montaLista()
             
             try:
                 etq = etiqueta.etiqueta()
@@ -879,24 +879,7 @@ class Application:
             ele.destroy()
 
     # --- Busca Lista de Corte --- #
-
     def montaLista(self):
-        self.popUpBarraProgresso = Toplevel(bg=Cores.bgCinza,
-                                            bd=7,
-                                            relief=RAISED)
-        self.popUpBarraProgresso.overrideredirect(1)
-        self.popUpBarraProgresso.attributes('-topmost', 'true')
-        self.popUpBarraProgresso.bind("<Button-1>",
-                                      lambda
-                                          e: self.popUpBarraProgresso.destroy())
-        self.popUpBarraProgresso.geometry('+50+150')
-        self.popUpBarraProgresso.focus()
-
-        root.after(1000, self.montaListaP())
-
-    def montaListaP(self):
-
-
         def listaSelectBtn(master=None):
             def carregaDadosDoPDNaTela(ID):
                 pd = PD()
@@ -947,6 +930,22 @@ class Application:
             self.tvw.item(self.nodeSel, open=not self.nodeIsOpen)
 
         def populaLista():
+            def montaTelaCarregamento():
+                self.popUpBarraProgresso = Toplevel(bg=Cores.bgCinza,
+                                                    bd=7,
+                                                    relief=RAISED)
+                self.popUpBarraProgresso.overrideredirect(1)
+                self.popUpBarraProgresso.attributes('-topmost', 'true')
+                self.popUpBarraProgresso.bind("<Button-1>",
+                                              lambda
+                                                  e: self.popUpBarraProgresso.destroy())
+                self.popUpBarraProgresso.geometry(
+                    Definicoes.configFile['DISPLAY']['RES'])
+                self.popUpBarraProgresso.focus()
+
+                root.update()
+            montaTelaCarregamento()
+
             pd = PD()
             pd.buscaLista(Definicoes.maquina)
 
@@ -954,7 +953,6 @@ class Application:
 
             if Definicoes.maquinaAutomatica:
                 priori.AlgoritmoSeparacao(self.popUpBarraProgresso)
-
 
                 casais = []
 
