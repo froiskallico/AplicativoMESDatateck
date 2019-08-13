@@ -4,10 +4,13 @@ import configparser as cfgprsr
 import os
 import pandas as pd
 
+diretorio = os.path.dirname(os.path.abspath(__file__))
+
 configFile = cfgprsr.ConfigParser()
-configFile.read(os.path.dirname(os.path.abspath(__file__)) + '/config.ini')
+configFile.read(diretorio + '/config.ini')
 limiteHorizonte = configFile['DEFAULT']['Limite Horizonte']
 maquina = configFile['DEFAULT']['Maq']
+
 
 def origem():
     try:
@@ -43,7 +46,7 @@ def origem():
                                                 FROM 
                                                     PRODUTOS PRO
                                                 WHERE
-                                                    PRO.FK_CAD != 13
+                                                    PRO.FK_CAD != 13;
                                             """,
                                             conOrigem)
 
@@ -53,71 +56,89 @@ def origem():
 
 
 def origem2destino():
-#    try:
-    conDestino = sqlite3.connect(database='/home/pi/TRI.MES/database/DADOS.db')
-    # conDestino.text_factory = lambda x: str(x, 'cp1252')
-    curDestino = conDestino.cursor()
-#    except:
-#    print("Erro na conexao com o banco de dados de destino local!")
+    try:
+        conDestino = sqlite3.connect(database=diretorio + '/database/DADOS.db')
+        conDestino.text_factory = lambda x: str(x, 'cp1252')
+        curDestino = conDestino.cursor()
+    except:
+        print("Erro na conexao com o banco de dados de destino local!")
 
     global dadosDestino
     dadosDestino = []
 
-#    try:
-    for linhaOrigem in dadosOrigem:
-        linhaDestino = []
-        for c in range(len(linhaOrigem)):
-            linhaDestino.append(str(linhaOrigem[c]))
-        dadosDestino.append(tuple(linhaDestino))
+    try:
+        for linhaOrigem in dadosOrigem:
+            linhaDestino = []
+            for c in range(len(linhaOrigem)):
+                linhaDestino.append(str(linhaOrigem[c]))
+            try:
+                temp_prioridade = curDestino.execute("""SELECT
+                                                            PRIORIDADE
+                                                        FROM
+                                                            PDS
+                                                        WHERE 
+                                                            PK_IRP = %s""" % linhaOrigem[0]).fetchone()
+                if temp_prioridade is None:
+                    temp_prioridade = 0
+                else:
+                    temp_prioridade = temp_prioridade[0]
+            except:
+                temp_prioridade = 0
 
-    for linha in dadosDestino:
-        curDestino.execute("""REPLACE INTO PDS (
-                                  PK_IRP,
-                                  REQUISICAO,
-                                  CELULA,
-                                  [DATA GERAÇÃO],
-                                  [DATA ENTREGA],
-                                  [OBSERVAÇÃO REQ],
-                                  CHICOTE,
-                                  PD,
-                                  CPD,
-                                  CABO,
-                                  FK_CRS,
-                                  VIAS,
-                                  BITOLA,
-                                  UNIDADE,
-                                  [QTD PD REQ],
-                                  QTD_CORTADA,
-                                  MEDIDA,
-                                  [DECAPE A],
-                                  [DECAPE B],
-                                  [ACABAMENTO 1],
-                                  [PONTE 1],
-                                  [ACABAMENTO 2],
-                                  [PONTE 2],
-                                  [ACABAMENTO 3],
-                                  [PONTE 3],
-                                  [ACABAMENTO 4],
-                                  [PONTE 4],
-                                  OBSERVAÇÃO,
-                                  GRAVAÇÃO,
-                                  MÁQUINA,
-                                  [NR. ORDEM CORTE])
-                              VALUES
-                                  %s""" % str(linha))
+            linhaDestino.append(temp_prioridade)
 
-    curDestino.execute("UPDATE PDS SET PRIORIDADE = 0 WHERE PRIORIDADE IS NULL")
-    aplicavelOrigem.to_sql('APLICAVEL',
-                           conDestino,
-                           if_exists='replace',
-                           index=False)
+            dadosDestino.append(tuple(linhaDestino))
 
-    conDestino.commit()
-    conDestino.close()
+        for linha in dadosDestino:
+            curDestino.execute("""REPLACE INTO PDS (
+                                      PK_IRP,
+                                      REQUISICAO,
+                                      CELULA,
+                                      [DATA GERAÇÃO],
+                                      [DATA ENTREGA],
+                                      [OBSERVAÇÃO REQ],
+                                      CHICOTE,
+                                      PD,
+                                      CPD,
+                                      CABO,
+                                      FK_CRS,
+                                      VIAS,
+                                      BITOLA,
+                                      UNIDADE,
+                                      [QTD PD REQ],
+                                      QTD_CORTADA,
+                                      MEDIDA,
+                                      [DECAPE A],
+                                      [DECAPE B],
+                                      [ACABAMENTO 1],
+                                      [PONTE 1],
+                                      [ACABAMENTO 2],
+                                      [PONTE 2],
+                                      [ACABAMENTO 3],
+                                      [PONTE 3],
+                                      [ACABAMENTO 4],
+                                      [PONTE 4],
+                                      OBSERVAÇÃO,
+                                      GRAVAÇÃO,
+                                      MÁQUINA,
+                                      [NR. ORDEM CORTE],
+                                      PRIORIDADE)
+                                  VALUES
+                                      %s""" % str(linha))
+        conDestino.commit()
 
-#    except Exception as e:
-#    print(e)
-#    print("Erro ao inserir dados no banco de dados de destino local!")
+        aplicavelOrigem.to_sql('APLICAVEL',
+                               conDestino,
+                               if_exists='replace',
+                               index=False)
+
+        conDestino.commit()
+
+        conDestino.close()
+
+    except Exception as e:
+        print(e)
+        print("Erro ao inserir dados no banco de dados de destino local!")
 
 
 def atualizaBancoLocal():
