@@ -106,7 +106,7 @@ def origem2destino():
                               VALUES
                                   %s""" % str(linha))
 
-    curDestino.execute("UPDATE PDS SET PRIORIDADE = 0")
+    curDestino.execute("UPDATE PDS SET PRIORIDADE = 0 WHERE PRIORIDADE IS NULL")
     aplicavelOrigem.to_sql('APLICAVEL',
                            conDestino,
                            if_exists='replace',
