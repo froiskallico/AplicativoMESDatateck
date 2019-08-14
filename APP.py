@@ -989,8 +989,6 @@ class Application:
                     if casal not in casais and casal_invertido not in casais:
                         casais.append(casal)
 
-                    print(casais)
-                    print(len(casais))
                 for casal in casais:
                     self.tvw.insert('', 'end', casal, text=casal)
 

@@ -8,10 +8,9 @@
     <bookmark url="file://$PROJECT_DIR$/priorizacao_pds.py" line="22" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1669bfa9-4d23-45d3-8e49-192f3859084d" name="Default Changelist" comment="">
+    <list default="true" id="1669bfa9-4d23-45d3-8e49-192f3859084d" name="Default Changelist" comment="Versão 1.0 Finalizada">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/APP.py" beforeDir="false" afterPath="$PROJECT_DIR$/APP.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/DADOS.db" beforeDir="false" afterPath="$PROJECT_DIR$/database/DADOS.db" afterDir="false" />
     </list>
     <ignored path="C:\Users\Usuario\Desktop\GIT\Repositório\AplicativoMESDatateck\.idea\shelf/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -28,8 +27,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/APP.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="530">
-              <caret line="1015" selection-start-line="1015" selection-end-line="1015" />
+            <state relative-caret-position="255">
+              <caret line="993" column="20" selection-start-line="993" selection-start-column="20" selection-end-line="993" selection-end-column="20" />
               <folding>
                 <element signature="e#367#560#0" />
                 <element signature="e#583#875#0" />
@@ -70,7 +69,6 @@
                 <element signature="e#39799#39891#0" />
                 <element signature="e#41096#41267#0" />
                 <element signature="e#41353#42058#0" />
-                <element signature="e#43226#43350#0" />
                 <element signature="e#43459#43564#0" />
                 <element signature="e#43725#44330#0" />
                 <element signature="e#44204#44328#0" />
@@ -655,7 +653,28 @@
       <option name="project" value="LOCAL" />
       <updated>1565803183588</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="Versão 1.0 Finalizada">
+      <created>1565804111666</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1565804111666</updated>
+    </task>
+    <task id="LOCAL-00021" summary="Versão 1.0 Finalizada">
+      <created>1565805353103</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1565805353103</updated>
+    </task>
+    <task id="LOCAL-00022" summary="Versão 1.0 Finalizada">
+      <created>1565805367616</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1565805367616</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TodoView">
@@ -676,14 +695,14 @@
       <window_info id="Favorites" order="2" sideWeight="0.50721157" side_tool="true" weight="0.21205357" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" auto_hide="true" x="1621" y="37" width="647" height="663" id="Find" order="1" type="FLOATING" weight="0.24509804" />
-      <window_info active="true" anchor="bottom" x="9" y="30" width="1348" height="690" id="Run" order="2" type="WINDOWED" visible="true" weight="0.28267974" />
+      <window_info anchor="bottom" x="9" y="30" width="1348" height="690" id="Run" order="2" type="WINDOWED" weight="0.28267974" />
       <window_info anchor="bottom" x="1374" y="30" width="667" height="730" id="Debug" order="3" type="WINDOWED" visible="true" weight="0.30555555" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32515338" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" weight="0.3297546" />
-      <window_info anchor="bottom" x="1366" y="22" width="1366" height="746" id="Terminal" order="8" type="WINDOWED" visible="true" weight="0.32352942" />
-      <window_info anchor="bottom" id="Version Control" order="9" weight="0.31748468" />
+      <window_info anchor="bottom" x="2057" y="30" width="667" height="730" id="Terminal" maximized="true" order="8" type="WINDOWED" weight="0.32352942" />
+      <window_info anchor="bottom" id="Version Control" order="9" weight="0.31699347" />
       <window_info anchor="bottom" x="89" y="291" width="1366" height="746" id="Python Console" order="10" type="WINDOWED" weight="0.38793105" />
       <window_info anchor="bottom" id="Inspection Results" order="11" weight="0.32843137" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -728,7 +747,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="algoritmoSeparacao" />
+                        <option value="origin/master" />
                       </list>
                     </value>
                   </entry>
@@ -752,6 +771,11 @@
         <entry key="Branch">
           <value>
             <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="origin/master" />
+                </option>
+              </RecentGroup>
               <RecentGroup>
                 <option name="FILTER_VALUES">
                   <option value="algoritmoSeparacao" />
@@ -1055,16 +1079,12 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/TODO.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" lean-forward="true" selection-start-line="4" selection-end-line="4" />
-        </state>
-      </provider>
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/APP.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="530">
-          <caret line="1015" selection-start-line="1015" selection-end-line="1015" />
+        <state relative-caret-position="255">
+          <caret line="993" column="20" selection-start-line="993" selection-start-column="20" selection-end-line="993" selection-end-column="20" />
           <folding>
             <element signature="e#367#560#0" />
             <element signature="e#583#875#0" />
@@ -1105,7 +1125,6 @@
             <element signature="e#39799#39891#0" />
             <element signature="e#41096#41267#0" />
             <element signature="e#41353#42058#0" />
-            <element signature="e#43226#43350#0" />
             <element signature="e#43459#43564#0" />
             <element signature="e#43725#44330#0" />
             <element signature="e#44204#44328#0" />
