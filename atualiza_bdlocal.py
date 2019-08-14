@@ -28,7 +28,7 @@ def origem():
                              FROM 
                                  PDS_PENDENTES_CORTE
                              WHERE
-                                 "DATA ENTREGA" < CURRENT_DATE + %i
+                                 "DATA ENTREGA" <= CURRENT_DATE + %i
                                  AND "MÁQUINA" = '%s'
                              ORDER BY
                                  "DATA ENTREGA",
