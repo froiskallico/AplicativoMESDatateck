@@ -1,2 +1,0 @@
-- Agrupar Casais na lista, Está    "AB | BA"
-

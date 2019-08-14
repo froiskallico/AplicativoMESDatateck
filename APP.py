@@ -984,15 +984,20 @@ class Application:
 
                 for item in self.data:
                     casal = '%s | %s' % (str(item[19]), str(item[21]))
+                    casal_invertido = '%s | %s' % (str(item[21]), str(item[19]))
 
-                    if casal not in casais:
+                    if casal not in casais and casal_invertido not in casais:
                         casais.append(casal)
 
+                    print(casais)
+                    print(len(casais))
                 for casal in casais:
                     self.tvw.insert('', 'end', casal, text=casal)
 
                 for item in self.data:
                     casal = '%s | %s' % (str(item[19]), str(item[21]))
+                    casal_invertido = '%s | %s' % (
+                    str(item[21]), str(item[19]))
                     cabo = item[9]
                     medida = item[16]
                     qtd_req = round(item[14])
@@ -1001,14 +1006,22 @@ class Application:
                     requisicao = item[1]
                     pk_irp = item[0]
 
-                    self.tvw.insert(
-                        casal,
-                        'end',
-                        text=cabo, values=(
-                            medida,
-                            qtd_pendente,
-                            requisicao,
-                            pk_irp))
+                    try:
+                        self.tvw.insert(casal,
+                                        'end',
+                                        text=cabo,
+                                        values=(medida,
+                                                qtd_pendente,
+                                                requisicao,
+                                                pk_irp))
+                    except:
+                        self.tvw.insert(casal_invertido,
+                                        'end',
+                                        text=cabo,
+                                        values=(medida,
+                                                qtd_pendente,
+                                                requisicao,
+                                                pk_irp))
 
             else:
                 pd.buscaLista(Definicoes.maquina)
