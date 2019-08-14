@@ -1130,6 +1130,7 @@ class Application:
                                   ipadx=5)
 
             populaLista()
+            root.update()
 
     def setupStartStop(self):
         if Variaveis.estadoEquipamento in (1, 4) and not Variaveis.RQPreenchido:

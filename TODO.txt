@@ -1,5 +1,4 @@
-- Fazer o Asterisco aparecer na etiqueta
-- Após sequenciar exibir a sequencia correta (esta fora de 
+- Após sequenciar exibir a sequencia correta (esta fora de
     sequencia no primeiro Buscar)
 - Agrupar Casais na lista, Está    "AB | BA"
 
