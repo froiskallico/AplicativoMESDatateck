@@ -996,8 +996,7 @@ class Application:
 
                 for item in self.data:
                     casal = '%s | %s' % (str(item[19]), str(item[21]))
-                    casal_invertido = '%s | %s' % (
-                    str(item[21]), str(item[19]))
+                    casal_invertido = '%s | %s' % (str(item[21]), str(item[19]))
                     cabo = item[9]
                     medida = item[16]
                     qtd_req = round(item[14])
