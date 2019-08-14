@@ -80,9 +80,13 @@ class etiqueta(object):
         self.port.write(str.encode(self.DECAPE_B))
         self.port.write(bytearray.fromhex('0A'))
         
-        self.port.write(str.encode(self.ACABAMENTO_1))        
+        self.port.write(str.encode(self.ACABAMENTO_1))
+        if self.PONTE_1 == "S":
+            self.port.write(str.encode("*"))
         self.port.write(bytearray.fromhex('09 7C 09'))
         self.port.write(str.encode(self.ACABAMENTO_2))
+        if self.PONTE_2 == "S":
+            self.port.write(str.encode("*"))
         self.port.write(bytearray.fromhex('0A'))
         
         self.port.write(str.encode(self.ACABAMENTO_3))        
