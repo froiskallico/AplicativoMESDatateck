@@ -1,6 +1,4 @@
-- FAzer o Asterisco aparecer na tela e na etiqueta
-- Mostrar a quantidade na tela de apontamento final
-- Ao rodar o Algoritmo garantir uso de todos os nucleos
+- Fazer o Asterisco aparecer na tela e na etiqueta
 - Após sequenciar exibir a sequencia correta (esta fora de 
     sequencia no primeiro Buscar)
 - Agrupar Casais na lista, Está    "AB | BA"

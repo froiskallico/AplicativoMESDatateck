@@ -8,7 +8,7 @@ from tkinter import *
 from time import time
 import datetime
 from tkinter import ttk
-import login
+# import login
 import configparser as cfgprsr
 import inspect
 import os, re
@@ -170,6 +170,7 @@ class Imagens:
     logoTri = PhotoImage(
         file=diretorio + "/src/images/logos/logoTri.png")
 
+
 class activeButtons:
     buscarButton = PhotoImage(
         file=diretorio + "/src/images/buttons/activeButtons/buscarButton.png")
@@ -235,11 +236,13 @@ class Application:
 
     # --- Inicialização do Aplicativo --- #
     def __init__(self, master=None):
-        Variaveis.idUsuarioLogado = login.idUsuario
-        Variaveis.nomeUsuarioLogado = login.nomeUsuario
-
-        if Variaveis.idUsuarioLogado > 0:
+        # Variaveis.idUsuarioLogado = login.idUsuario
+        # Variaveis.nomeUsuarioLogado = login.nomeUsuario
+        #
+        # if Variaveis.idUsuarioLogado > 0:
             self.montaTelaPrincipal()
+            # Variaveis.estadoEquipamento = 5
+            # self.corteStartStop()
 
             try:
                 etq = etiqueta.etiqueta()
@@ -549,7 +552,7 @@ class Application:
 
             self.lblAcabamento1 = Label(self.containerAcabamento1,
                                         text=Variaveis.campos.get(
-                                            "ACABAMENTO_1"),
+                                             "ACABAMENTO_1"),
                                         font=Fontes.fontePadrao,
                                         bg=Cores.bgVerde,
                                         fg=Cores.bgCinza)
@@ -677,6 +680,14 @@ class Application:
             self.lblAcabamento4.pack(fill=BOTH,
                                      expand=1,
                                      pady=5)
+
+
+            for i in [1, 2]:
+                acabs = [self.lblAcabamento1, self.lblAcabamento2]
+                if Variaveis.campos.get("PONTE_%d" % i) == "S":
+                    acabs[i-1].config(bg='yellow',
+                                      text='%s \n CRIMPAGEM COM PONTE' %
+                                      Variaveis.campos.get('ACABAMENTO_%d' % i))
 
             # --- Rodape ---#
             self.lblRodape = Label(self.containerRodape,
@@ -1896,6 +1907,13 @@ class Application:
                                              self.virtualNumPad(
                                                  self.entryQtdCortada))
 
+                    self.lblQtdACortar = Label(self.popUpQtdCortada,
+                                               text="Pendente: %s" % Variaveis.quantidadePendente,
+                                               font=['Play', 11],
+                                               bg=Cores.bgCinza,
+                                               fg='white',
+                                               anchor="center")
+
                     self.lblMensagem = Label(self.popUpQtdCortada,
                                              text='',
                                              font=Fontes.fontePadrao,
@@ -1927,10 +1945,14 @@ class Application:
 
                     self.entryQtdCortada.pack(side=TOP,
                                               padx=20,
-                                              pady=(0,20))
+                                              pady=(0,5))
+
+                    self.lblQtdACortar.pack(side=TOP,
+                                            padx=5,
+                                            pady=(0,5))
 
                     self.btnConfirma.pack(side=BOTTOM,
-                                          pady=(10,25))
+                                          pady=(5,25))
 
                     self.lblMensagem.pack(side=BOTTOM)
 
