@@ -972,12 +972,13 @@ class Application:
             montaTelaCarregamento()
 
             pd = PD()
-            pd.buscaLista(Definicoes.maquina)
 
-            self.data = pd.lista
 
             if Definicoes.maquinaAutomatica:
                 priori.AlgoritmoSeparacao(self.popUpBarraProgresso)
+
+                pd.buscaLista(Definicoes.maquina)
+                self.data = pd.lista
 
                 casais = []
 
@@ -1010,6 +1011,9 @@ class Application:
                             pk_irp))
 
             else:
+                pd.buscaLista(Definicoes.maquina)
+                self.data = pd.lista
+
                 cabos = []
 
                 for item in self.data:
@@ -1042,6 +1046,8 @@ class Application:
 
             self.listaCount.configure(
                 text='Total de PDs: ' + str(len(self.data)))
+
+            root.update()
 
         if Variaveis.estadoEquipamento in (0,1,4,6) and not Variaveis.RQPreenchido:
             Variaveis.estadoEquipamento = 0
@@ -1130,7 +1136,8 @@ class Application:
                                   ipadx=5)
 
             populaLista()
-            root.update()
+
+
 
     def setupStartStop(self):
         if Variaveis.estadoEquipamento in (1, 4) and not Variaveis.RQPreenchido:

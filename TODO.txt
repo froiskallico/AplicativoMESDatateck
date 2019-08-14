@@ -1,4 +1,2 @@
-- Após sequenciar exibir a sequencia correta (esta fora de
-    sequencia no primeiro Buscar)
 - Agrupar Casais na lista, Está    "AB | BA"
 
