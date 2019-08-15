@@ -1,0 +1,4 @@
+- Cadastrar Usuarios
+- Cadastrar Motivos de Divergencias
+- Verificar Ponto de Registro de Qualidade de Setup (Alturas de Isolantes, etc)
+- Limitar tamanho da Lista de Corte
