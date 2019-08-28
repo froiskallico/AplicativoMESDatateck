@@ -443,6 +443,9 @@ class Menu:
         montaTela()
 
     def registraAlteracoes(self):
+        if self.virtualNumPadVisible:
+            self.popUpVNumPad.destroy()
+
         self.mensagemMenu.set("Por favor aguarde enquanto as configurações são salvas")
         self.master.update()
 
@@ -513,7 +516,7 @@ class Menu:
             self.popUpVNumPad.attributes('-topmost', 'true')
             self.popUpVNumPad.bind('<Escape>',
                                    lambda e: self.popUpVNumPad.destroy())
-            self.popUpVNumPad.geometry('+770+220')
+            self.popUpVNumPad.geometry('+5+260')
             self.popUpVNumPad.focus()
 
             containerNumPad = Frame(self.popUpVNumPad,
