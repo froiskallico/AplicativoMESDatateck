@@ -8,8 +8,8 @@ from tempo_restante import TempoRestanteAteOFinalDoExpediente as TR
 
 class AtualizaBancoLocal:
     def __init__(self):
-        self.diretorio = os.path.dirname(os.path.abspath(__file__))
 
+        self.diretorio = os.path.dirname(os.path.abspath(__file__))
         self.configFile = cfgprsr.ConfigParser()
         self.configFile.read(self.diretorio + '/config.ini')
         self.limiteHorizonte = self.configFile['DEFAULT']['Limite Horizonte']
@@ -17,7 +17,9 @@ class AtualizaBancoLocal:
         self.maquina = self.configFile['DEFAULT']['maquina']
         self.limiteCircuitos = int(
             int(self.limiteDiarioCircuitos) * TR().percentRestante())
-        
+        self.filtraLista = self.configFile['DEFAULT']['filtraLista']
+        self.ordensCorte = self.configFile['DEFAULT']['ordens']
+
         self.origem()
         self.origem2destino()
 
@@ -34,39 +36,68 @@ class AtualizaBancoLocal:
         except:
             print ("Erro na conexão com o banco de dados de origem!")
 
-        try:
-            dadosOrigem = pd.read_sql_query("""SELECT 
-                                                * 
-                                            FROM 
-                                                PDS_PENDENTES_CORTE
-                                            WHERE
-                                                "DATA ENTREGA" <= CURRENT_DATE + %i AND
-                                                "MÁQUINA" = '%s'
-                                            ORDER BY
-                                                "DATA ENTREGA",
-                                                "CABO";
-                                            """ % (int(self.limiteHorizonte),
-                                                         self.maquina),
-                                            conGlobal)
-
-            dadosOrdenados = dadosOrigem.sort_values(
-                by='DATA ENTREGA').reset_index(drop=True)
-
-            qtdAcumulada = pd.Series(dadosOrdenados['QTD PD REQ'].cumsum())
-
-
-            self.dadosLimitados = dadosOrdenados[:qtdAcumulada.where(qtdAcumulada <= int(self.limiteCircuitos)).idxmax(skipna=True)]
-
-            self.aplicavelOrigem = pd.read_sql_query("""SELECT 
-                                                     PRO.COD_FABRIC as "ACABAMENTO",
-                                                     PRO.APLICAVEL 
-                                                   FROM 
-                                                     PRODUTOS PRO
+        if self.filtraLista == 'True':
+            try:
+                dadosOrigem = pd.read_sql_query("""SELECT
+                                                       *
+                                                   FROM
+                                                       PDS_PENDENTES_CORTE
                                                    WHERE
-                                                     PRO.FK_CAD != 13;
-                                                """, conGlobal)
-        except :
-            print("Erro na obtenção dos dados de origem!")
+                                                       "NR. ORDEM CORTE" in %s AND
+                                                       "MÁQUINA" = '%s'
+                                                   ORDER BY
+                                                       "DATA ENTREGA",
+                                                       "CABO";
+                                                """ % (self.ordensCorte,
+                                                          self.maquina),
+                                                conGlobal)
+
+                self.dadosLimitados = dadosOrigem
+
+                self.aplicavelOrigem = pd.read_sql_query("""SELECT 
+                                                              PRO.COD_FABRIC as "ACABAMENTO",
+                                                              PRO.APLICAVEL 
+                                                            FROM 
+                                                              PRODUTOS PRO
+                                                            WHERE
+                                                              PRO.FK_CAD != 13;
+                                                         """,
+                                                         conGlobal)
+            except :
+                print("Erro na obtenção dos dados de origem!")
+        else:
+            try:
+                dadosOrigem = pd.read_sql_query("""SELECT 
+                                                    * 
+                                                FROM 
+                                                    PDS_PENDENTES_CORTE
+                                                WHERE
+                                                    "DATA ENTREGA" <= CURRENT_DATE + %i AND
+                                                    "MÁQUINA" = '%s'
+                                                ORDER BY
+                                                    "DATA ENTREGA",
+                                                    "CABO";
+                                                """ % (int(self.limiteHorizonte),
+                                                             self.maquina),
+                                                conGlobal)
+
+                dadosOrdenados = dadosOrigem.sort_values(
+                    by='DATA ENTREGA').reset_index(drop=True)
+
+                qtdAcumulada = pd.Series(dadosOrdenados['QTD PD REQ'].cumsum())
+
+                self.dadosLimitados = dadosOrdenados[:qtdAcumulada.where(qtdAcumulada <= int(self.limiteCircuitos)).idxmax(skipna=True)]
+
+                self.aplicavelOrigem = pd.read_sql_query("""SELECT 
+                                                         PRO.COD_FABRIC as "ACABAMENTO",
+                                                         PRO.APLICAVEL 
+                                                       FROM 
+                                                         PRODUTOS PRO
+                                                       WHERE
+                                                         PRO.FK_CAD != 13;
+                                                    """, conGlobal)
+            except :
+                print("Erro na obtenção dos dados de origem!")
 
     def origem2destino(self):
         try:
@@ -155,5 +186,6 @@ class AtualizaBancoLocal:
                                    if_exists='replace',
                                    index=False,
                                    dtype=schema)
+
 
 AtualizaBancoLocal()

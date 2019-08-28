@@ -27,7 +27,7 @@ def montaRoot():
     root.title('Operação')
     root.geometry(Definicoes.configFile['DISPLAY']['RES'])
     root.attributes('-fullscreen', Definicoes.configFile['DISPLAY']['Tela Cheia'])
-    root.attributes('-topmost', 'true')
+    root.attributes('-topmost', 'false')
     root.bind('<Escape>', lambda e: root.destroy())
     root.resizable(width=True, height=True)
 montaRoot()
@@ -247,7 +247,7 @@ class Application:
             except:
                 pass
 
-            # self.AbreMenu()
+            self.AbreMenu()
 
     # --- Geração do Layout Principal --- #
     def montaTelaPrincipal(self, master=None):

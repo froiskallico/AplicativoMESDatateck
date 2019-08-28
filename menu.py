@@ -12,6 +12,7 @@ class Menu:
         self.parent = parent
         self.master = master
         self.diretorio = os.path.dirname(os.path.abspath(__file__))
+        self.virtualNumPadVisible = False
 
         self.configFile = cfgprsr.ConfigParser()
 
@@ -20,7 +21,7 @@ class Menu:
         self.limiteHorizonte = self.configFile['DEFAULT']['limite horizonte']
         self.limiteCircuitos = self.configFile['DEFAULT']['limitediariocircuitos']
         self.maquinaAutomatica = self.configFile['DEFAULT']['MaqAutomatica']
-
+        self.loadMode = self.configFile['DEFAULT']['filtraLista']
 
         def montaTela():
             def montaFrames():
@@ -47,7 +48,7 @@ class Menu:
                 self.containerEsquerda.pack(side=TOP,
                                             fill=BOTH,
                                             expand=1,
-                                            pady=50,
+                                            pady=5,
                                             padx=70)
 
                 # --- Rodape ---###
@@ -114,6 +115,207 @@ class Menu:
                                        pady=10)
 
             def montaWidgets():
+                def montaLimites():
+                    try:
+                        desmontaOrdensEntry()
+                    except:
+                        pass
+
+                    self.lblLimiteCircuitos = Label(self.containerEsquerda,
+                                                    text='Limite Diário de Circuitos:',
+                                                    font=Fontes.fontePadraoBold,
+                                                    bg=Cores.bgCinza,
+                                                    fg='white')
+                    self.lblLimiteCircuitos.grid(row=2,
+                                                 column=0,
+                                                 pady=10,
+                                                 padx=10)
+
+                    self.scrLimiteCircuitos = Scale(self.containerEsquerda,
+                                                    orient=HORIZONTAL,
+                                                    width=50,
+                                                    from_=500,
+                                                    to=20000,
+                                                    resolution=500,
+                                                    font=Fontes.fontePadraoBold,
+                                                    bg=Cores.bgCinza,
+                                                    fg=Cores.bgVerde,
+                                                    bd=0,
+                                                    highlightthickness=0)
+                    self.scrLimiteCircuitos.grid(row=2,
+                                                 column=1,
+                                                 columnspan=2,
+                                                 pady=10,
+                                                 sticky='we')
+                    self.scrLimiteCircuitos.set(self.limiteCircuitos)
+
+                    self.lblLimiteHorizonte = Label(self.containerEsquerda,
+                                                    text='Limite Horizonte de Dias:',
+                                                    font=Fontes.fontePadraoBold,
+                                                    bg=Cores.bgCinza,
+                                                    fg='white')
+                    self.lblLimiteHorizonte.grid(row=3,
+                                                 column=0,
+                                                 pady=10,
+                                                 padx=10)
+
+                    self.scrLimiteHorizonte = Scale(self.containerEsquerda,
+                                                    orient=HORIZONTAL,
+                                                    width=50,
+                                                    from_=1,
+                                                    to=30,
+                                                    resolution=1,
+                                                    font=Fontes.fontePadraoBold,
+                                                    bg=Cores.bgCinza,
+                                                    fg=Cores.bgVerde,
+                                                    bd=0,
+                                                    highlightthickness=0)
+                    self.scrLimiteHorizonte.grid(row=3,
+                                                 column=1,
+                                                 columnspan=2,
+                                                 pady=10,
+                                                 sticky='we')
+                    self.scrLimiteHorizonte.set(self.limiteHorizonte)
+
+                    self.lblMaqAuto = Label(self.containerEsquerda,
+                                            text='Sequenciamento  de Setups:',
+                                            font=Fontes.fontePadraoBold,
+                                            bg=Cores.bgCinza,
+                                            fg='white')
+                    self.lblMaqAuto.grid(row=4,
+                                         column=0,
+                                         pady=10,
+                                         padx=10)
+
+                    self.varMaqAuto = StringVar()
+                    self.varMaqAuto.set(self.maquinaAutomatica)
+
+                    self.selSeqCabo = Radiobutton(self.containerEsquerda,
+                                                  text="Por Cabo",
+                                                  indicatoron=0,
+                                                  bg=Cores.bgCinza,
+                                                  fg='white',
+                                                  activeforeground=Cores.letraVerde,
+                                                  selectcolor=Cores.bgVerde,
+                                                  width=15,
+                                                  height=2,
+                                                  font=Fontes.fontePadrao,
+                                                  variable=self.varMaqAuto,
+                                                  value='False')
+                    self.selSeqCabo.grid(row=4,
+                                         column=1,
+                                         pady=10,
+                                         sticky='we')
+
+                    self.selSeqAcab = Radiobutton(self.containerEsquerda,
+                                                  text="Por Acabamento",
+                                                  indicatoron=0,
+                                                  bg=Cores.bgCinza,
+                                                  fg='white',
+                                                  activeforeground=Cores.letraVerde,
+                                                  selectcolor=Cores.bgVerde,
+                                                  width=15,
+                                                  height=2,
+                                                  font=Fontes.fontePadrao,
+                                                  variable=self.varMaqAuto,
+                                                  value='True')
+                    self.selSeqAcab.grid(row=4,
+                                         column=2,
+                                         pady=10,
+                                         sticky='we')
+
+                def desmontaLimites():
+                    self.lblLimiteCircuitos.grid_forget()
+                    self.scrLimiteCircuitos.grid_forget()
+                    self.lblLimiteHorizonte.grid_forget()
+                    self.scrLimiteHorizonte.grid_forget()
+                    self.lblMaqAuto.grid_forget()
+                    self.selSeqCabo.grid_forget()
+                    self.selSeqAcab.grid_forget()
+
+                def montaOrdensEntry():
+                    try:
+                        desmontaLimites()
+                    except:
+                        pass
+
+                    self.lblNrListas = Label(self.containerEsquerda,
+                                             text='Ordens de Corte:',
+                                             font=Fontes.fontePadraoBold,
+                                             bg=Cores.bgCinza,
+                                             fg='white')
+                    self.lblNrListas.grid(row=2,
+                                          column=0,
+                                          pady=10,
+                                          padx=10)
+
+                    self.entryNrListas = Entry(self.containerEsquerda,
+                                               width=10,
+                                               bg='lightcyan2',
+                                               disabledbackground='dark slate gray',
+                                               font=Fontes.fonteCabecalho,
+                                               justify=LEFT)
+                    self.entryNrListas.grid(row=2,
+                                            column=1,
+                                            columnspan=2,
+                                            sticky='we',
+                                            pady=10,
+                                            padx=10)
+                    self.entryNrListas.bind("<Button-1>",
+                                             lambda x:
+                                             self.virtualNumPad(
+                                                 self.entryNrListas))
+
+                    self.lblMaqAuto = Label(self.containerEsquerda,
+                                            text='Sequenciamento  de Setups:',
+                                            font=Fontes.fontePadraoBold,
+                                            bg=Cores.bgCinza,
+                                            fg='white')
+                    self.lblMaqAuto.grid(row=4,
+                                         column=0,
+                                         pady=10,
+                                         padx=10)
+
+                    self.varMaqAuto = StringVar()
+                    self.varMaqAuto.set(self.maquinaAutomatica)
+
+                    self.selSeqCabo = Radiobutton(self.containerEsquerda,
+                                                  text="Por Cabo",
+                                                  indicatoron=0,
+                                                  bg=Cores.bgCinza,
+                                                  fg='white',
+                                                  activeforeground=Cores.letraVerde,
+                                                  selectcolor=Cores.bgVerde,
+                                                  width=15,
+                                                  height=2,
+                                                  font=Fontes.fontePadrao,
+                                                  variable=self.varMaqAuto,
+                                                  value='False')
+                    self.selSeqCabo.grid(row=4,
+                                         column=1,
+                                         pady=10,
+                                         sticky='we')
+
+                    self.selSeqAcab = Radiobutton(self.containerEsquerda,
+                                                  text="Por Acabamento",
+                                                  indicatoron=0,
+                                                  bg=Cores.bgCinza,
+                                                  fg='white',
+                                                  activeforeground=Cores.letraVerde,
+                                                  selectcolor=Cores.bgVerde,
+                                                  width=15,
+                                                  height=2,
+                                                  font=Fontes.fontePadrao,
+                                                  variable=self.varMaqAuto,
+                                                  value='True')
+                    self.selSeqAcab.grid(row=4,
+                                         column=2,
+                                         pady=10,
+                                         sticky='we')
+
+                def desmontaOrdensEntry():
+                    pass
+
                 ##------ Cabeçalho ------##
                 self.logoDtk = Label(self.containerCabecalho,
                                   text="Datateck",
@@ -157,108 +359,60 @@ class Menu:
 
                 self.cboMaquina.set(self.maquina)
 
-                self.lblLimiteCircuitos = Label(self.containerEsquerda,
-                                                text='Limite Diário de Circuitos:',
-                                                font=Fontes.fontePadraoBold,
+                self.lblLoadMode = Label(self.containerEsquerda,
+                                         text='Modo de Carregamento de Lista:',
+                                         font=Fontes.fontePadraoBold,
+                                         bg=Cores.bgCinza,
+                                         fg='white')
+                self.lblLoadMode.grid(row=1,
+                                      column=0,
+                                      pady=10,
+                                      padx=10)
+
+                self.varLoadMode = StringVar()
+                self.varLoadMode.set(self.loadMode)
+
+                self.selModoAuto = Radiobutton(self.containerEsquerda,
+                                               text="Automático",
+                                               indicatoron=0,
+                                               bg=Cores.bgCinza,
+                                               fg='white',
+                                               activeforeground=Cores.letraVerde,
+                                               selectcolor=Cores.bgVerde,
+                                               width=15,
+                                               height=2,
+                                               font=Fontes.fontePadrao,
+                                               variable=self.varLoadMode,
+                                               value='False',
+                                               command=montaLimites)
+                self.selModoAuto.grid(row=1,
+                                      column=1,
+                                      pady=10,
+                                      sticky='we')
+
+                self.selModoLista = Radiobutton(self.containerEsquerda,
+                                                text="Por Ordens de Corte",
+                                                indicatoron=0,
                                                 bg=Cores.bgCinza,
-                                                fg='white')
-                self.lblLimiteCircuitos.grid(row=1,
-                                             column=0,
-                                             pady=10,
-                                             padx=10)
+                                                fg='white',
+                                                activeforeground=Cores.letraVerde,
+                                                selectcolor=Cores.bgVerde,
+                                                width=15,
+                                                height=2,
+                                                font=Fontes.fontePadrao,
+                                                variable=self.varLoadMode,
+                                                value='True',
+                                                command=montaOrdensEntry)
+                self.selModoLista.grid(row=1,
+                                       column=2,
+                                       pady=10,
+                                       sticky='we')
 
-                self.scrLimiteCircuitos = Scale(self.containerEsquerda,
-                                                orient=HORIZONTAL,
-                                                width=50,
-                                                from_=500,
-                                                to=20000,
-                                                resolution=500,
-                                                font=Fontes.fontePadraoBold,
-                                                bg=Cores.bgCinza,
-                                                fg=Cores.bgVerde,
-                                                bd=0,
-                                                highlightthickness=0)
-                self.scrLimiteCircuitos.grid(row=1,
-                                             column=1,
-                                             columnspan=2,
-                                             pady=10,
-                                             sticky='we')
-                self.scrLimiteCircuitos.set(self.limiteCircuitos)
 
-                self.lblLimiteHorizonte = Label(self.containerEsquerda,
-                                                text='Limite Horizonte de Dias:',
-                                                font=Fontes.fontePadraoBold,
-                                                bg=Cores.bgCinza,
-                                                fg='white')
-                self.lblLimiteHorizonte.grid(row=2,
-                                             column=0,
-                                             pady=10,
-                                             padx=10)
-
-                self.scrLimiteHorizonte = Scale(self.containerEsquerda,
-                                                orient=HORIZONTAL,
-                                                width=50,
-                                                from_=1,
-                                                to=30,
-                                                resolution=1,
-                                                font=Fontes.fontePadraoBold,
-                                                bg=Cores.bgCinza,
-                                                fg=Cores.bgVerde,
-                                                bd=0,
-                                                highlightthickness=0)
-                self.scrLimiteHorizonte.grid(row=2,
-                                             column=1,
-                                             columnspan=2,
-                                             pady=10,
-                                             sticky='we')
-                self.scrLimiteHorizonte.set(self.limiteHorizonte)
-
-                self.lblMaqAuto = Label(self.containerEsquerda,
-                                        text='Sequenciamento  de Setups:',
-                                        font=Fontes.fontePadraoBold,
-                                        bg=Cores.bgCinza,
-                                        fg='white')
-                self.lblMaqAuto.grid(row=3,
-                                     column=0,
-                                     pady=10,
-                                     padx=10)
-
-                self.varMaqAuto = StringVar()
-                self.varMaqAuto.set(self.maquinaAutomatica)
-
-                self.selSeqCabo = Radiobutton(self.containerEsquerda,
-                                              text="Por Cabo",
-                                              indicatoron=0,
-                                              bg=Cores.bgCinza,
-                                              fg='white',
-                                              activeforeground=Cores.letraVerde,
-                                              selectcolor=Cores.bgVerde,
-                                              width=15,
-                                              height=2,
-                                              font=Fontes.fontePadrao,
-                                              variable=self.varMaqAuto,
-                                              value='False')
-                self.selSeqCabo.grid(row=3,
-                                     column=1,
-                                     pady=10,
-                                     sticky='we')
-
-                self.selSeqAcab = Radiobutton(self.containerEsquerda,
-                                              text="Por Acabamento",
-                                              indicatoron=0,
-                                              bg=Cores.bgCinza,
-                                              fg='white',
-                                              activeforeground=Cores.letraVerde,
-                                              selectcolor=Cores.bgVerde,
-                                              width=15,
-                                              height=2,
-                                              font=Fontes.fontePadrao,
-                                              variable=self.varMaqAuto,
-                                              value='True')
-                self.selSeqAcab.grid(row=3,
-                                     column=2,
-                                     pady=10,
-                                     sticky='we')
+                if self.varLoadMode.get() == 'True':
+                    montaOrdensEntry()
+                else:
+                    montaLimites()
 
                 self.mensagemMenu = StringVar()
 
@@ -292,21 +446,120 @@ class Menu:
         self.mensagemMenu.set("Por favor aguarde enquanto as configurações são salvas")
         self.master.update()
 
-        self.configFile.set('DEFAULT', 'maquina', str(self.cboMaquina.get()))
-        self.configFile.set('DEFAULT', 'limite horizonte', str(self.scrLimiteHorizonte.get()))
-        self.configFile.set('DEFAULT', 'limitediariocircuitos', str(self.scrLimiteCircuitos.get()))
-        self.configFile.set('DEFAULT', 'maqautomatica', str(self.varMaqAuto.get()))
+        self.configFile.set('DEFAULT',
+                            'maquina',
+                            str(self.cboMaquina.get()))
+        self.configFile.set('DEFAULT',
+                            'filtralista',
+                            str(self.varLoadMode.get()))
+        self.configFile.set('DEFAULT',
+                            'maqautomatica',
+                            str(self.varMaqAuto.get()))
+
+        if self.varLoadMode.get() == 'True':
+            self.configFile.set('DEFAULT',
+                                'ordens',
+                                '({})'.format(str(self.entryNrListas.get())))
+
+        else:
+            self.configFile.set('DEFAULT',
+                                'limite horizonte',
+                                str(self.scrLimiteHorizonte.get()))
+            self.configFile.set('DEFAULT',
+                                'limitediariocircuitos',
+                                str(self.scrLimiteCircuitos.get()))
+
 
         with open(self.diretorio + '/config.ini', 'w') as configfile:
             self.configFile.write(configfile)
 
 
+        try:
+            atualiza_bdlocal.AtualizaBancoLocal()
 
-        atualiza_bdlocal.AtualizaBancoLocal()
+            self.parent.limpaTela()
+            self.parent.montaTelaPrincipal()
+            self.master.destroy()
+        except:
+            self.configFile.set('DEFAULT', 'filtralista', 'False')
 
-        self.parent.limpaTela()
-        self.parent.montaTelaPrincipal()
-        self.master.destroy()
+            with open(self.diretorio + '/config.ini', 'w') as configfile:
+                self.configFile.write(configfile)
+
+            self.mensagemMenu.set('Erro. Verifique as configurações')
+            self.lblMsgMenu['fg'] = 'red'
+
+
+
+
+
+    def virtualNumPad(self, parent):
+        parent.configure(bg='lightgreen')
+        parent.delete(0, END)
+        self.mensagemMenu.set('')
+
+        if self.virtualNumPadVisible:
+            self.popUpVNumPad.destroy()
+            self.virtualNumPadVisible = False
+            self.virtualNumPad(parent)
+
+        elif not self.virtualNumPadVisible:
+            self.virtualNumPadVisible = True
+
+            self.popUpVNumPad = Toplevel(bg=Cores.bgCinza,
+                                         bd=7,
+                                         relief=RAISED)
+            self.popUpVNumPad.overrideredirect(1)
+            self.popUpVNumPad.attributes('-topmost', 'true')
+            self.popUpVNumPad.bind('<Escape>',
+                                   lambda e: self.popUpVNumPad.destroy())
+            self.popUpVNumPad.geometry('+770+220')
+            self.popUpVNumPad.focus()
+
+            containerNumPad = Frame(self.popUpVNumPad,
+                                    bg=Cores.bgCinza)
+            containerNumPad.pack(side=TOP)
+
+            listaDeTeclas = [
+                ['1', '2', '3'],
+                ['4', '5', '6'],
+                ['7', '8', '9'],
+                [',', '0', '<']
+            ]
+
+            containerNumPadLinha = list(range(len(listaDeTeclas)))
+
+            for linha in containerNumPadLinha:
+                containerNumPadLinha[linha] = Frame(containerNumPad,
+                                                    bg=Cores.bgCinza)
+                containerNumPadLinha[linha].pack(side=TOP)
+
+                teclas = list(range(len(listaDeTeclas[linha])))
+
+                for tecla in teclas:
+                    cmd = lambda x = listaDeTeclas[linha][tecla]: kp(self,
+                                                                     x,
+                                                                     parent)
+
+                    teclas[tecla] = Button(containerNumPadLinha[linha],
+                                           text=listaDeTeclas[linha][tecla],
+                                           width=5,
+                                           height=3,
+                                           relief=RIDGE,
+                                           bd=2,
+                                           bg='black',
+                                           fg='white',
+                                           font=Fontes.fontePadraoBold,
+                                           command=cmd)
+                    teclas[tecla].pack(side=LEFT,
+                                       padx=1,
+                                       pady=1)
+
+        def kp(self, keyValue, parent):
+            if keyValue == "<":
+                parent.delete(len(parent.get()) - 1, END)
+            else:
+                parent.insert(END, keyValue)
 
 
 class Variaveis:
