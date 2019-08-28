@@ -1560,11 +1560,11 @@ class Application:
                                            expand=1)
 
                 def desabilitaLadosNaoUtilizados():
-                    if Variaveis.campos["ACABAMENTO_1"] == "None":
+                    if Variaveis.campos["ACABAMENTO_1"] is None:
                         self.entryAlturaCondutorA.config(state='disabled')
                         self.entryAlturaIsolanteA.config(state='disabled')
                         self.entryTracaoA.config(state='disabled')
-                    if Variaveis.campos["ACABAMENTO_2"] == "None":
+                    if Variaveis.campos["ACABAMENTO_2"] is None:
                         self.entryAlturaCondutorB.config(state='disabled')
                         self.entryAlturaIsolanteB.config(state='disabled')
                         self.entryTracaoB.config(state='disabled')
