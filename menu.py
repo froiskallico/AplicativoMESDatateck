@@ -74,6 +74,12 @@ class Menu:
                     file=self.diretorio + "/src/images/buttons/activeButtons/confirmarButton.png")
 
             def montaBotoes():
+                def destroyScreens():
+                    self.master.destroy()
+                    if self.virtualNumPadVisible:
+                        self.popUpVNumPad.destroy()
+                        self.virtualNumPadVisible = False
+
                 # --- Botões ---#
                 self.btnMenu = Button(self.containerBotoes,
                                       image=self.inactiveMenuButton,
@@ -97,7 +103,7 @@ class Menu:
                                       anchor="w",
                                       bd=0,
                                       highlightthickness=0)
-                self.btnSair["command"] = (lambda: self.master.destroy())
+                self.btnSair["command"] = (lambda: destroyScreens())
                 self.btnSair.image = self.redSairButton
                 self.btnSair.pack(pady=5)
 
@@ -445,6 +451,7 @@ class Menu:
     def registraAlteracoes(self):
         if self.virtualNumPadVisible:
             self.popUpVNumPad.destroy()
+            self.virtualNumPadVisible = False
 
         self.mensagemMenu.set("Por favor aguarde enquanto as configurações são salvas")
         self.master.update()
