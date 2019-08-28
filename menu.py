@@ -499,10 +499,6 @@ class Menu:
             self.mensagemMenu.set('Erro. Verifique as configurações')
             self.lblMsgMenu['fg'] = 'red'
 
-
-
-
-
     def virtualNumPad(self, parent):
         parent.configure(bg='lightgreen')
         parent.delete(0, END)
