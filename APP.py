@@ -9,7 +9,7 @@ from time import time
 import datetime
 from tkinter import ttk
 import menu as configMenu
-# import login
+import login
 import configparser as cfgprsr
 import inspect
 import os, re
@@ -235,10 +235,10 @@ class Application:
 
     # --- Inicialização do Aplicativo --- #
     def __init__(self, master=None):
-        # Variaveis.idUsuarioLogado = login.idUsuario
-        # Variaveis.nomeUsuarioLogado = login.nomeUsuario
-        #
-        # if Variaveis.idUsuarioLogado > 0:
+        Variaveis.idUsuarioLogado = login.idUsuario
+        Variaveis.nomeUsuarioLogado = login.nomeUsuario
+
+        if Variaveis.idUsuarioLogado > 0:
             self.montaTelaPrincipal()
 
             try:
@@ -246,8 +246,6 @@ class Application:
                 etq.testeImpressora()
             except:
                 pass
-
-            self.AbreMenu()
 
     # --- Geração do Layout Principal --- #
     def montaTelaPrincipal(self, master=None):
