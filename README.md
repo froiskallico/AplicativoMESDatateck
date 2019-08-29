@@ -4,7 +4,11 @@ Aplicativo para Operação Setor de Corte/Lead Prep da Datateck (M.E.S)
 # ToDo:
 - MES:
     - Ponto de inspeção de qualidade = troca de bitola/norma e terminal;
-    - No sequenciamento do sistema, colocar na frente aqueles cabos (cores) que tem maior quantidade de circuitos somados;
+    - Adicionar x de y na etiqueta (corte parcial)
+    - verificar rede
+    - Verificar Temperatura
+    - Adicionar metodo de Logoff
+    
     - Verificar caixa robusta para montagem dos dispositivos;
     - Verificar Pds repetidos se estão puxando ou não;
     - Criar instalador/empacotador para o sistema.

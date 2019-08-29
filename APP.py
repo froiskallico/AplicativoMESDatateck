@@ -241,6 +241,9 @@ class Application:
         if Variaveis.idUsuarioLogado > 0:
             self.montaTelaPrincipal()
 
+            #------- debug -------#
+
+
             try:
                 etq = etiqueta.etiqueta()
                 etq.testeImpressora()
@@ -1090,11 +1093,11 @@ class Application:
 
 
             self.vsb = Scrollbar(self.containerEsquerda,
-                                     orient="vertical",
-                                     width=80)
+                                 orient="vertical",
+                                 width=80)
             self.hsb = Scrollbar(self.containerEsquerda,
-                                     orient="horizontal",
-                                     width=30)
+                                 orient="horizontal",
+                                 width=30)
 
             self.tvw = ttk.Treeview(self.containerEsquerda,
                                     style="mystyle.Treeview",
@@ -1103,12 +1106,13 @@ class Application:
                                     xscrollcommand=self.hsb.set)
             self.tvw.bind("<ButtonRelease-1>", abrirOuFecharNode)
 
-            if self.maquinaAutomatica:
-                strCabecalho = "Par de Terminais"
-            else:
-                strCabecalho = "Cabo/PD"
+            def strCabecalho():
+                if self.maquinaAutomatica:
+                    return "Par de Terminais"
+                else:
+                    return "Cabo/PD"
 
-            self.tvw.heading("#0", text=strCabecalho)
+            self.tvw.heading("#0", text=strCabecalho())
 
             self.vsb['command'] = self.tvw.yview
             self.hsb['command'] = self.tvw.xview
@@ -1583,6 +1587,7 @@ class Application:
     def virtualNumPad(self, parent):
         parent.configure(bg='lightgreen')
         parent.delete(0, END)
+
         self.lblMensagem.config(text='')
 
         if Variaveis.virtualNumPadVisible:
@@ -1692,6 +1697,11 @@ class Application:
                     def registraNoBanco():
                         if self.lblMensagem['text'] == '' and not \
                         Variaveis.quantidadeDivergente:
+                            self.lblMensagem.config(
+                                text="Registrando no Banco de Dados",
+                                fg=Cores.letraVerde)
+                            self.popUpQtdCortada.update()
+
                             if Variaveis.virtualNumPadVisible:
                                 self.popUpVNumPad.destroy()
                                 Variaveis.virtualNumPadVisible = False
@@ -1764,6 +1774,18 @@ class Application:
                             self.divergenciaScreen.geometry('+50+50')
                             self.divergenciaScreen.focus()
 
+                            self.containerSuperior = Frame(self.divergenciaScreen,
+                                                           bg=Cores.bgCinza)
+                            self.containerSuperior.pack(side=TOP,
+                                                        fill=BOTH,
+                                                        expand=1)
+
+                            self.containerInferior = Frame(self.divergenciaScreen,
+                                                           bg=Cores.bgCinza)
+                            self.containerInferior.pack(side=BOTTOM,
+                                                        fill=BOTH,
+                                                        expand=0)
+
                         def montaWidgets():
                             def carregaLista():
                                 mot = MOTIVOS()
@@ -1772,19 +1794,30 @@ class Application:
                                 for motivo in listaMotivos:
                                     self.listaDivergencias.insert(END, motivo)
 
+                            self.vsb = Scrollbar(self.containerSuperior,
+                                                 orient="vertical",
+                                                 width=80)
+
                             self.listaDivergencias = Listbox(
-                                self.divergenciaScreen,
+                                self.containerSuperior,
                                 bg=Cores.bgAcabamentosAux,
                                 fg='black',
-                                font=('Play', 18))
-                            self.listaDivergencias.pack(side=TOP,
-                                                        fill=X,
+                                font=('Play', 18),
+                                yscrollcommand=self.vsb.set)
+                            self.listaDivergencias.pack(side=LEFT,
+                                                        fill=BOTH,
                                                         expand=1,
                                                         padx=10,
-                                                        pady=(15, 10))
+                                                        pady=(15, 0))
+
+                            self.vsb['command'] = self.listaDivergencias.yview
+
+                            self.vsb.pack(side=LEFT,
+                                          padx=(0, 15),
+                                          fill=Y)
 
                             self.btnConfirmaDiv = Button(
-                                self.divergenciaScreen,
+                                self.containerInferior,
                                 text="Confirmar",
                                 font=Fontes.fontePadrao,
                                 bg=Cores.bgCinza,
@@ -1793,37 +1826,13 @@ class Application:
                                 image=activeButtons.confirmarButton)
                             self.btnConfirmaDiv[
                                 "command"] = lambda: confirmaJustificativa()
-                            self.btnConfirmaDiv.pack(side=BOTTOM,
+                            self.btnConfirmaDiv.pack(side=TOP,
                                                      pady=20)
 
                             carregaLista()
 
                         montaScreen()
                         montaWidgets()
-
-                    def registraUltMedida():
-                        if (self.entryUltMedida.get() not in ('0', '')):
-                            registro = []
-                            registro.append(Variaveis.campos.get("PK_IRP"))
-                            registro.append(2)
-                            try:
-                                registro.append(
-                                    float(
-                                        self.entryUltMedida.get().replace(
-                                            ',',
-                                            '.')))
-                            except:
-                                self.lblMensagem.config(
-                                    text='Digite corretamente um valor de medida'
-                                )
-                            registro.append(0)
-                            registro.append(Variaveis.idUsuarioLogado)
-                            registro.append(self.maquina)
-                            dados.append(list(registro))
-                        else:
-                            self.entryUltMedida.config(bg='indian red')
-                            self.lblMensagem.config(
-                                text='Informe a Ultima Medida!')
 
                     def registraQtdCortada():
                         if (self.entryQtdCortada.get() not in ('0', '')):
@@ -1845,22 +1854,50 @@ class Application:
 
                             elif int((Variaveis.quantidadeCortada)) > int(
                                     Variaveis.quantidadePendente):
-                                self.lblMensagem.config(
-                                    text='A quantidade cortada não pode ser maior que a quantidade a cortar'
+                                self.lblMensagem.config(text='A quantidade cortada não pode ser maior que a quantidade a cortar'
                                 )
                                 self.entryQtdCortada.config(bg='indian red')
 
                             else:
                                 Variaveis.quantidadeDivergente = False
-                                registraNoBanco()
+                                try:
+                                    registraNoBanco()
+                                except:
+                                    self.lblMensagem.config(text='Erro ao registrar no Banco')
+
 
                         else:
                             self.entryQtdCortada.config(bg='indian red')
                             self.lblMensagem.config(
                                 text='Informe a Quantidade Cortada!')
 
+                    def registraUltMedida():
+                        if (self.entryUltMedida.get() not in ('0', '')):
+                            registro = []
+                            registro.append(Variaveis.campos.get("PK_IRP"))
+                            registro.append(2)
+                            try:
+                                registro.append(
+                                    float(
+                                        self.entryUltMedida.get().replace(
+                                            ',',
+                                            '.')))
+                            except:
+                                self.lblMensagem.config(
+                                    text='Digite corretamente um valor de medida'
+                                )
+                            registro.append(0)
+                            registro.append(Variaveis.idUsuarioLogado)
+                            registro.append(self.maquina)
+                            dados.append(list(registro))
+                            registraQtdCortada()
+                        else:
+                            self.entryUltMedida.config(bg='indian red')
+                            self.lblMensagem.config(
+                                text='Informe a Ultima Medida!')
+
+
                     registraUltMedida()
-                    registraQtdCortada()
 
                 def montaScreen():
                     def fechaPopUpQtdCortada():
@@ -2162,14 +2199,16 @@ class Application:
                                        fg='red',
                                        justify=CENTER)
 
-                self.listaParadas = Listbox(self.frameLista,
-                                            bg=Cores.bgAcabamentosAux,
-                                            fg='black',
-                                            font=('Play', 18))
-
                 self.vsb = Scrollbar(self.frameLista,
                                      orient="vertical",
                                      width=80)
+
+                self.listaParadas = Listbox(self.frameLista,
+                                            bg=Cores.bgAcabamentosAux,
+                                            fg='black',
+                                            yscrollcommand=self.vsb.set,
+                                            font=('Play', 18))
+
                 self.vsb['command'] = self.listaParadas.yview
 
                 self.lblMensagem = Label(self.frameButtons,

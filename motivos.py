@@ -15,7 +15,7 @@ class MOTIVOS(object):
                          FROM 
                              MOTIVOS_DIVERGENCIAS
                          ORDER BY
-                             PK_MDV
+                             DESCRICAO
                        ''')
 
             linhas = c.fetchall()
