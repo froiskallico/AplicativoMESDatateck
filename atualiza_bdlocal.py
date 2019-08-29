@@ -41,7 +41,7 @@ class AtualizaBancoLocal:
                 dadosOrigem = pd.read_sql_query("""SELECT
                                                        *
                                                    FROM
-                                                       PDS_PENDENTES_CORTE
+                                                       PDS_PENDENTES_CORTE_NEW
                                                    WHERE
                                                        "NR. ORDEM CORTE" in %s AND
                                                        "MÁQUINA" = '%s'
@@ -70,7 +70,7 @@ class AtualizaBancoLocal:
                 dadosOrigem = pd.read_sql_query("""SELECT 
                                                     * 
                                                 FROM 
-                                                    PDS_PENDENTES_CORTE
+                                                    PDS_PENDENTES_CORTE_NEW
                                                 WHERE
                                                     "DATA ENTREGA" <= CURRENT_DATE + %i AND
                                                     "MÁQUINA" = '%s'
@@ -127,6 +127,7 @@ class AtualizaBancoLocal:
                  'VIAS',
                  'BITOLA',
                  'UNIDADE',
+                 'NORMA',
                  'QTD PD REQ',
                  'QTD_CORTADA',
                  'MEDIDA',
@@ -159,6 +160,7 @@ class AtualizaBancoLocal:
                'INTEGER',
                'TEXT',
                'INTEGER',
+               'TEXT',
                'TEXT',
                'INTEGER',
                'INTEGER',

@@ -51,6 +51,7 @@ class Variaveis:
                'VIAS',
                'BITOLA',
                'UNIDADE',
+               'NORMA',
                'QTD_PD_REQ',
                'QTD_CORTADA',
                'MEDIDA',
@@ -75,42 +76,43 @@ class Variaveis:
                'COR_TEXTO')
 
     campos = {
-        "PK_IRP":                   "",
-        "REQUISICAO":               "",
-        "CELULA":                   "",
-        "DATA_GERACAO":             "",
-        "DATA_ENTREGA":             "",
-        "OBSERVACAO_REQ":           "",
-        "CHICOTE":                  "",
-        "PD":                       "",
-        "CPD":                      "",
-        "CABO":                     "",
-        "FK_CRS":                   "",
-        "VIAS":                     "",
-        "BITOLA":                   "",
-        "UNIDADE":                  "",
-        "QTD_PD_REQ":               "",
-        "QTD_CORTADA":              "",
-        "MEDIDA":                   "",
-        "DECAPE_A":                 "",
-        "DECAPE_B":                 "",
-        "ACABAMENTO_1":             "",
-        "PONTE_1":                  "",
-        "ACABAMENTO_2":             "",
-        "PONTE_2":                  "",
-        "ACABAMENTO_3":             "",
-        "PONTE_3":                  "",
-        "ACABAMENTO_4":             "",
-        "PONTE_4":                  "",
-        "OBSERVACAO":               "",
-        "GRAVACAO":                 "",
-        "MAQUINA":                  "",
-        "NR_ORDEM_CORTE":           "",
-        "PRIORIDADE":               "",
-        "DESCRICAO":                "",
-        "PRIMARIA":                 "",
-        "SECUNDARIA":               "",
-        "COR_TEXTO":                ""}
+        "PK_IRP":            "",
+        "REQUISICAO":        "",
+        "CELULA":            "",
+        "DATA_GERACAO":      "",
+        "DATA_ENTREGA":      "",
+        "OBSERVACAO_REQ":    "",
+        "CHICOTE":           "",
+        "PD":                "",
+        "CPD":               "",
+        "CABO":              "",
+        "FK_CRS":            "",
+        "VIAS":              "",
+        "BITOLA":            "",
+        "UNIDADE":           "",
+        "NORMA":             "",
+        "QTD_PD_REQ":        "",
+        "QTD_CORTADA":       "",
+        "MEDIDA":            "",
+        "DECAPE_A":          "",
+        "DECAPE_B":          "",
+        "ACABAMENTO_1":      "",
+        "PONTE_1":           "",
+        "ACABAMENTO_2":      "",
+        "PONTE_2":           "",
+        "ACABAMENTO_3":      "",
+        "PONTE_3":           "",
+        "ACABAMENTO_4":      "",
+        "PONTE_4":           "",
+        "OBSERVACAO":        "",
+        "GRAVACAO":          "",
+        "MAQUINA":           "",
+        "NR_ORDEM_CORTE":    "",
+        "PRIORIDADE":        "",
+        "DESCRICAO":         "",
+        "PRIMARIA":          "",
+        "SECUNDARIA":        "",
+        "COR_TEXTO":         ""}
 
     estados = ('Ocioso',
                'Carregado',
@@ -141,6 +143,12 @@ class Variaveis:
     maquinaParada = False
     paradaEmSetup = False
     paradaEmCorte = False
+
+    ultimaNorma = None
+    ultimoAcabamento1 = None
+    ultimoAcabamento2 = None
+
+
 
 
 class Fontes:

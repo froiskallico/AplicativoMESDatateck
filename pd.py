@@ -79,7 +79,6 @@ class PD(object):
         except e:
             return "Ocorreu um erro na busca do PD"
 
-
     def registraRQSetup(self, pdID, dados=()):
         banco = BANCO()
         agora = dt.now()
@@ -122,8 +121,8 @@ class PD(object):
 
             try:
                 curOrigem.execute("""EXECUTE PROCEDURE ATUALIZA_QTD_CORTADA(%s, %s)""" % (ID, qtdCortada))
-
-                conOrigem.commit()
+                # Todo descomentar abaixo
+                # conOrigem.commit()
             except:
                 print("Erro na gravação dos dados na origem!")
 
@@ -143,8 +142,8 @@ class PD(object):
                             WHERE
                                 PK_IRP = %d
                         """ % (qtdCortada, ID))
-
-            banco.conexao.commit()
+            # Todo descomentar abaixo
+            # banco.conexao.commit()
         except:
             print('Erro ao registrar quantidade cortada no Banco de Dados Local')
                   
