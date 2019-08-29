@@ -1138,6 +1138,7 @@ class Application:
                                       bg=Cores.bgCinza,
                                       fg="white",
                                       bd=0,
+                                      highlightthickness=0,
                                       relief=FLAT,
                                       image=activeButtons.confirmarButton)
             self.btnConfirma.bind("<Button-1>", listaSelectBtn)
@@ -1353,6 +1354,8 @@ class Application:
                                             bg=Cores.bgCinza,
                                             fg='white',
                                             relief=FLAT,
+                                            bd=0,
+                                            highlightthickness=0,
                                             image=activeButtons.confirmarButton)
                     self.btnConfirmaRQ["command"] = registraRQSetup
 
@@ -1362,6 +1365,8 @@ class Application:
                                                bg=Cores.bgCinza,
                                                fg='white',
                                                relief=FLAT,
+                                               bd=0,
+                                               highlightthickness=0,
                                                image=redButtons.cancelarButton)
                     self.btnCancelaRQ["command"] = cancelarpopUpRQSetup
 
@@ -2116,13 +2121,11 @@ class Application:
                 self.popUpParada.destroy()
 
             def montaScreen():
-                self.popUpParada = Toplevel(bg=Cores.bgCinza,
-                                                bd=7,
-                                                relief=RAISED)
+                self.popUpParada = Toplevel(bg=Cores.bgCinza)
                 self.popUpParada.overrideredirect(1)
                 self.popUpParada.attributes('-topmost', 'true')
-                self.popUpParada.bind('<Escape>',
-                                          lambda e: cancelaParada())
+                # self.popUpParada.bind('<Escape>',
+                #                           lambda e: cancelaParada())
                 self.popUpParada.geometry(Definicoes.configFile['DISPLAY']['RES'])
                 self.popUpParada.focus()
 
@@ -2132,7 +2135,7 @@ class Application:
                                       pady=(20,5))
 
                 self.frameLista = Frame(self.popUpParada,
-                                bg=Cores.bgCinza)
+                                        bg=Cores.bgCinza)
                 self.frameLista.pack(side=TOP,
                                      fill=BOTH,
                                      expand=1,
@@ -2140,7 +2143,7 @@ class Application:
                                      padx=20)
 
                 self.frameButtons = Frame(self.popUpParada,
-                                  bg=Cores.bgCinza)
+                                          bg=Cores.bgCinza)
                 self.frameButtons.pack(side=BOTTOM,
                                        pady=(30,25))
 
@@ -2181,6 +2184,8 @@ class Application:
                                           bg=Cores.bgCinza,
                                           fg='white',
                                           relief=FLAT,
+                                          bd=0,
+                                          highlightthickness=0,
                                           image=activeButtons.confirmarButton)
                 self.btnConfirma["command"] = confirmaParada
 
@@ -2259,9 +2264,9 @@ class Application:
                 self.popUpMenu = Toplevel(bg=Cores.bgCinza)
                 self.popUpMenu.overrideredirect(1)
                 self.popUpMenu.attributes('-topmost', 'true')
-                self.popUpMenu.bind("<Escape>",
-                                              lambda
-                                                  e: self.popUpMenu.destroy())
+                # self.popUpMenu.bind("<Escape>",
+                #                               lambda
+                #                                   e: self.popUpMenu.destroy())
                 self.popUpMenu.geometry(Definicoes.configFile['DISPLAY']['RES'])
                 self.popUpMenu.option_add('*TCombobox*Listbox.font',
                                 ('Play', 24))
