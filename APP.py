@@ -148,7 +148,12 @@ class Variaveis:
     ultimoAcabamento1 = None
     ultimoAcabamento2 = None
 
-
+    ultimaAltCondA = None
+    ultimaAltIsolA = None
+    ultimaAltCondB = None
+    ultimaAltIsolB = None
+    ultimaTracaoA = None
+    ultimaTracaoB = None
 
 
 class Fontes:
@@ -1305,6 +1310,7 @@ class Application:
                                     text='Informe a Primeira Medida!')
 
                         def registraMedidas():
+                            #Todo: Salvar valores nas variaveis.ult...
                             for L in (1, 2):
                                 if Variaveis.campos.get(
                                         "ACABAMENTO_%s" % L) is not None:
