@@ -25,12 +25,12 @@ class PD(object):
             strOrdenacao = """ORDER BY
                                   PDS.PRIORIDADE,
                                   BITOLA,
-                                  CABO,
+                                  (SELECT SUM([QTD PD REQ]) FROM PDS P where P.CABO = PDS.CABO GROUP BY CABO) DESC,
                                   MEDIDA DESC"""
         else:
             strOrdenacao = """ORDER BY
                                   BITOLA,
-                                  CABO,
+                                  (SELECT SUM([QTD PD REQ]) FROM PDS P where P.CABO = PDS.CABO GROUP BY CABO) DESC,
                                   MEDIDA DESC"""
 
         try:
