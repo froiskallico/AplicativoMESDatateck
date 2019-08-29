@@ -1299,7 +1299,7 @@ class Application:
                         def registraMedidas():
                             for L in (1, 2):
                                 if Variaveis.campos.get(
-                                        "ACABAMENTO_%s" % L) != 'None':
+                                        "ACABAMENTO_%s" % L) is not None:
                                     for ele in self.frameCamposRQ.winfo_children():
                                         if ele.winfo_class() == 'Entry' \
                                                 and int(
