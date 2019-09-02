@@ -3,10 +3,12 @@ Aplicativo para Operação Setor de Corte/Lead Prep da Datateck (M.E.S)
 
 # ToDo:
 - MES:
-    - Ponto de inspeção de qualidade = troca de bitola/norma e terminal;
+    - Indicar na Treeview quando for Ponte
+    - Quando for Ponte não pedir RegQual
+    - Aumentar teclas do Keypad
+    - Verificar impressão de etiquetas em lotes (Ex, 1000pçs > 10etq. 100pçs em cada)
     - verificar rede;
     - Verificar Temperatura;
-    - Adicionar metodo de Logoff;
     
     - Verificar caixa robusta para montagem dos dispositivos;
     - Verificar Pds repetidos se estão puxando ou não;
