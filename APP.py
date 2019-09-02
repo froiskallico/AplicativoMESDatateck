@@ -51,6 +51,7 @@ class Variaveis:
                'VIAS',
                'BITOLA',
                'UNIDADE',
+               'NORMA',
                'QTD_PD_REQ',
                'QTD_CORTADA',
                'MEDIDA',
@@ -75,42 +76,43 @@ class Variaveis:
                'COR_TEXTO')
 
     campos = {
-        "PK_IRP":                   "",
-        "REQUISICAO":               "",
-        "CELULA":                   "",
-        "DATA_GERACAO":             "",
-        "DATA_ENTREGA":             "",
-        "OBSERVACAO_REQ":           "",
-        "CHICOTE":                  "",
-        "PD":                       "",
-        "CPD":                      "",
-        "CABO":                     "",
-        "FK_CRS":                   "",
-        "VIAS":                     "",
-        "BITOLA":                   "",
-        "UNIDADE":                  "",
-        "QTD_PD_REQ":               "",
-        "QTD_CORTADA":              "",
-        "MEDIDA":                   "",
-        "DECAPE_A":                 "",
-        "DECAPE_B":                 "",
-        "ACABAMENTO_1":             "",
-        "PONTE_1":                  "",
-        "ACABAMENTO_2":             "",
-        "PONTE_2":                  "",
-        "ACABAMENTO_3":             "",
-        "PONTE_3":                  "",
-        "ACABAMENTO_4":             "",
-        "PONTE_4":                  "",
-        "OBSERVACAO":               "",
-        "GRAVACAO":                 "",
-        "MAQUINA":                  "",
-        "NR_ORDEM_CORTE":           "",
-        "PRIORIDADE":               "",
-        "DESCRICAO":                "",
-        "PRIMARIA":                 "",
-        "SECUNDARIA":               "",
-        "COR_TEXTO":                ""}
+        "PK_IRP":            "",
+        "REQUISICAO":        "",
+        "CELULA":            "",
+        "DATA_GERACAO":      "",
+        "DATA_ENTREGA":      "",
+        "OBSERVACAO_REQ":    "",
+        "CHICOTE":           "",
+        "PD":                "",
+        "CPD":               "",
+        "CABO":              "",
+        "FK_CRS":            "",
+        "VIAS":              "",
+        "BITOLA":            "",
+        "UNIDADE":           "",
+        "NORMA":             "",
+        "QTD_PD_REQ":        "",
+        "QTD_CORTADA":       "",
+        "MEDIDA":            "",
+        "DECAPE_A":          "",
+        "DECAPE_B":          "",
+        "ACABAMENTO_1":      "",
+        "PONTE_1":           "",
+        "ACABAMENTO_2":      "",
+        "PONTE_2":           "",
+        "ACABAMENTO_3":      "",
+        "PONTE_3":           "",
+        "ACABAMENTO_4":      "",
+        "PONTE_4":           "",
+        "OBSERVACAO":        "",
+        "GRAVACAO":          "",
+        "MAQUINA":           "",
+        "NR_ORDEM_CORTE":    "",
+        "PRIORIDADE":        "",
+        "DESCRICAO":         "",
+        "PRIMARIA":          "",
+        "SECUNDARIA":        "",
+        "COR_TEXTO":         ""}
 
     estados = ('Ocioso',
                'Carregado',
@@ -131,6 +133,8 @@ class Variaveis:
 
     RQPreenchido = False
 
+    exigeRegQual = True
+
     virtualNumPadVisible = False
 
     quantidadePendente = 0
@@ -141,6 +145,12 @@ class Variaveis:
     maquinaParada = False
     paradaEmSetup = False
     paradaEmCorte = False
+
+    ultimaNorma = None
+    ultimoAcabamento1 = None
+    ultimoAcabamento2 = None
+
+    ultimoRegistro = []
 
 
 class Fontes:
@@ -982,8 +992,8 @@ class Application:
                 casais = []
 
                 for item in self.data:
-                    casal = '%s | %s' % (str(item[19]), str(item[21]))
-                    casal_invertido = '%s | %s' % (str(item[21]), str(item[19]))
+                    casal = '%s | %s' % (str(item[20]), str(item[22]))
+                    casal_invertido = '%s | %s' % (str(item[22]), str(item[20]))
                     if casal not in casais and casal_invertido not in casais:
                         casais.append(casal)
 
@@ -992,17 +1002,16 @@ class Application:
 
                 qtd_Total = 0
                 for item in self.data:
-                    casal = '%s | %s' % (str(item[19]), str(item[21]))
-                    casal_invertido = '%s | %s' % (str(item[21]), str(item[19]))
+                    casal = '%s | %s' % (str(item[20]), str(item[22]))
+                    casal_invertido = '%s | %s' % (str(item[22]), str(item[20]))
                     cabo = item[9]
-                    medida = item[16]
-                    qtd_req = round(item[14])
-                    qtd_cortada = item[15]
+                    medida = item[17]
+                    qtd_req = round(item[15])
+                    qtd_cortada = item[16]
                     qtd_pendente = qtd_req - qtd_cortada
                     qtd_Total += qtd_pendente
                     requisicao = item[1]
                     pk_irp = item[0]
-                    # print("PK: %i - QTD REQ: %i - QTD_CORT: %i" % (item[0], item[14], item[15]))
 
                     try:
                         self.tvw.insert(casal,
@@ -1039,9 +1048,9 @@ class Application:
                 for item in self.data:
                     cabo = item[9]
                     pd = item[8]
-                    medida = item[16]
-                    qtd_req = round(item[14])
-                    qtd_cortada = item[15]
+                    medida = item[17]
+                    qtd_req = round(item[15])
+                    qtd_cortada = item[16]
                     qtd_pendente = qtd_req - qtd_cortada
                     qtd_Total += qtd_pendente
                     requisicao = item[1]
@@ -1235,6 +1244,17 @@ class Application:
             if Variaveis.estadoEquipamento == 2 and not Variaveis.RQPreenchido:
                 Variaveis.estadoEquipamento = 3
 
+                UN = Variaveis.ultimaNorma
+                NA = Variaveis.campos['NORMA']
+                UA1 = Variaveis.ultimoAcabamento1
+                A1A = Variaveis.campos['ACABAMENTO_1']
+                UA2 = Variaveis.ultimoAcabamento2
+                A2A = Variaveis.campos['ACABAMENTO_2']
+
+                Variaveis.exigeRegQual = not (UN == NA and (
+                                         ((A1A == UA1) and (A2A == UA2)) or
+                                         ((A1A == UA2) and (A2A == UA1))))
+
                 self.btnRQ.configure(image=inactiveButtons.rqButton)
 
                 def montaScreen():
@@ -1270,7 +1290,7 @@ class Application:
                             Variaveis.virtualNumPadVisible = False
 
                         pd = PD
-                        dados = []
+                        self.dadosRQ = []
 
                         def registraPriMedida():
 
@@ -1289,7 +1309,7 @@ class Application:
                                 registro.append(0)
                                 registro.append(Variaveis.idUsuarioLogado)
                                 registro.append(self.maquina)
-                                dados.append(list(registro))
+                                self.dadosRQ.append(list(registro))
 
                             else:
                                 self.entryPriMedida.config(bg='indian red')
@@ -1297,38 +1317,42 @@ class Application:
                                     text='Informe a Primeira Medida!')
 
                         def registraMedidas():
-                            for L in (1, 2):
-                                if Variaveis.campos.get(
-                                        "ACABAMENTO_%s" % L) is not None:
-                                    for ele in self.frameCamposRQ.winfo_children():
-                                        if ele.winfo_class() == 'Entry' \
-                                                and int(
-                                            ele.winfo_name()[-1:]) == L:
-                                            if ele.get() in ('0',''):
-                                                ele.config(bg='indian red')
-                                                self.lblMensagem.config(
-                                                    text='Informe as medidas para registro')
-                                            else:
-                                                registro = []
-                                                registro.append(
-                                                    Variaveis.campos.get(
-                                                        "PK_IRP"))
-                                                registro.append(int(
-                                                    ele.winfo_name()[-2:-1]))
-                                                try:
-                                                    registro.append(float(
-                                                        ele.get().replace(',',
-                                                                          '.')))
-                                                except:
+                            if Variaveis.exigeRegQual:
+                                for L in (1, 2):
+                                    if Variaveis.campos.get(
+                                            "ACABAMENTO_%s" % L) is not None:
+                                        for ele in self.frameCamposRQ.winfo_children():
+                                            if ele.winfo_class() == 'Entry' \
+                                                    and int(
+                                                ele.winfo_name()[-1:]) == L:
+                                                if ele.get() in ('0',''):
+                                                    ele.config(bg='indian red')
                                                     self.lblMensagem.config(
-                                                        text='Digite corretamente um valor de medida')
-                                                registro.append(
-                                                    int(ele.winfo_name()[-1:]))
-                                                registro.append(
-                                                    Variaveis.idUsuarioLogado)
-                                                registro.append(
-                                                    self.maquina)
-                                                dados.append(registro)
+                                                        text='Informe as medidas para registro')
+                                                else:
+                                                    registro = []
+                                                    registro.append(
+                                                        Variaveis.campos.get(
+                                                            "PK_IRP"))
+                                                    registro.append(int(
+                                                        ele.winfo_name()[-2:-1]))
+                                                    try:
+                                                        registro.append(float(
+                                                            ele.get().replace(',',
+                                                                              '.')))
+                                                    except:
+                                                        self.lblMensagem.config(
+                                                            text='Digite corretamente um valor de medida')
+                                                    registro.append(
+                                                        int(ele.winfo_name()[-1:]))
+                                                    registro.append(
+                                                        Variaveis.idUsuarioLogado)
+                                                    registro.append(
+                                                        self.maquina)
+                                                    self.dadosRQ.append(registro)
+                                                    Variaveis.ultimoRegistro = self.dadosRQ
+                            else:
+                                self.dadosRQ = Variaveis.ultimoRegistro
 
                         registraPriMedida()
 
@@ -1341,9 +1365,13 @@ class Application:
                                 Variaveis.virtualNumPadVisible = False
 
                             try:
-                                dados = list(dados)
-                                pd.registraRQSetup(0, Variaveis.ID, dados)
+                                self.dadosRQ = list(self.dadosRQ)
+                                pd.registraRQSetup(0, Variaveis.ID, self.dadosRQ)
                                 Variaveis.RQPreenchido = True
+                                Variaveis.ultimaNorma = Variaveis.campos['NORMA']
+                                Variaveis.ultimoAcabamento1 = Variaveis.campos['ACABAMENTO_1']
+                                Variaveis.ultimoAcabamento2 = Variaveis.campos['ACABAMENTO_2']
+
                             except:
                                 self.lblMensagem['text'] = 'Erro ao salvar os registros!'
 
@@ -1352,221 +1380,225 @@ class Application:
                                 self.popUpRQSetupScreen.destroy()
                                 Variaveis.estadoEquipamento = 2
 
-                    self.btnConfirmaRQ = Button(self.frameBotoesRQ,
-                                            text="Confirmar",
-                                            font=Fontes.fontePadrao,
-                                            bg=Cores.bgCinza,
-                                            fg='white',
-                                            relief=FLAT,
-                                            bd=0,
-                                            highlightthickness=0,
-                                            image=activeButtons.confirmarButton)
-                    self.btnConfirmaRQ["command"] = registraRQSetup
+                    def configWidgets():
+                        self.btnConfirmaRQ = Button(self.frameBotoesRQ,
+                                                text="Confirmar",
+                                                font=Fontes.fontePadrao,
+                                                bg=Cores.bgCinza,
+                                                fg='white',
+                                                relief=FLAT,
+                                                bd=0,
+                                                highlightthickness=0,
+                                                image=activeButtons.confirmarButton)
+                        self.btnConfirmaRQ["command"] = registraRQSetup
 
-                    self.btnCancelaRQ = Button(self.frameBotoesRQ,
-                                               text="Cancelar",
-                                               font=Fontes.fontePadrao,
-                                               bg=Cores.bgCinza,
-                                               fg='white',
-                                               relief=FLAT,
-                                               bd=0,
-                                               highlightthickness=0,
-                                               image=redButtons.cancelarButton)
-                    self.btnCancelaRQ["command"] = cancelarpopUpRQSetup
+                        self.btnCancelaRQ = Button(self.frameBotoesRQ,
+                                                   text="Cancelar",
+                                                   font=Fontes.fontePadrao,
+                                                   bg=Cores.bgCinza,
+                                                   fg='white',
+                                                   relief=FLAT,
+                                                   bd=0,
+                                                   highlightthickness=0,
+                                                   image=redButtons.cancelarButton)
+                        self.btnCancelaRQ["command"] = cancelarpopUpRQSetup
 
-                    self.lblRegQualidade = Label(self.frameCamposRQ,
-                                                 text="REGISTROS DE QUALIDADE",
-                                                 font=Fontes.fonteCabecalho,
-                                                 bg=Cores.bgCinza,
-                                                 fg='azure2',
-                                                 justify=CENTER)
+                        self.lblRegQualidade = Label(self.frameCamposRQ,
+                                                     text="REGISTROS DE QUALIDADE",
+                                                     font=Fontes.fonteCabecalho,
+                                                     bg=Cores.bgCinza,
+                                                     fg='azure2',
+                                                     justify=CENTER)
 
-                    self.lblPriMedida = Label(self.frameCamposRQ,
-                                              text="PRIMEIRA MEDIDA (mm)",
+                        self.lblPriMedida = Label(self.frameCamposRQ,
+                                                  text="PRIMEIRA MEDIDA (mm)",
+                                                  font=Fontes.fontePadrao,
+                                                  bg=Cores.bgCinza,
+                                                  fg=Cores.letraVerde,
+                                                  justify=CENTER)
+
+                        self.entryPriMedida = Entry(self.frameCamposRQ,
+                                                    name='entry10',
+                                                    width=10,
+                                                    bg='lightcyan2',
+                                                    disabledbackground='dark slate gray',
+                                                    font=Fontes.fonteCabecalho,
+                                                    justify=CENTER)
+                        self.entryPriMedida.bind("<Button-1>",
+                                                 lambda x:
+                                                 self.virtualNumPad(
+                                                     self.entryPriMedida))
+
+                        self.lblLadoA = Label(self.frameCamposRQ,
+                                              text="LADO A",
                                               font=Fontes.fontePadrao,
                                               bg=Cores.bgCinza,
                                               fg=Cores.letraVerde,
                                               justify=CENTER)
 
-                    self.entryPriMedida = Entry(self.frameCamposRQ,
-                                                name='entry10',
-                                                width=10,
-                                                bg='lightcyan2',
-                                                disabledbackground='dark slate gray',
-                                                font=Fontes.fonteCabecalho,
-                                                justify=CENTER)
-                    self.entryPriMedida.bind("<Button-1>",
-                                             lambda x:
-                                             self.virtualNumPad(
-                                                 self.entryPriMedida))
-
-                    self.lblLadoA = Label(self.frameCamposRQ,
-                                          text="LADO A",
-                                          font=Fontes.fontePadrao,
-                                          bg=Cores.bgCinza,
-                                          fg=Cores.letraVerde,
-                                          justify=CENTER)
-
-                    self.lblLadoB = Label(self.frameCamposRQ,
-                                          text="LADO B",
-                                          font=Fontes.fontePadrao,
-                                          bg=Cores.bgCinza,
-                                          fg=Cores.letraVerde,
-                                          justify=CENTER)
-
-                    self.entryAlturaIsolanteA = Entry(self.frameCamposRQ,
-                                                      name='entry31',
-                                                      width=10,
-                                                      bg='lightcyan2',
-                                                      disabledbackground='dark slate gray',
-                                                      font=Fontes.fonteCabecalho,
-                                                      justify=CENTER)
-                    self.entryAlturaIsolanteA.bind("<Button-1>",
-                                             lambda x:
-                                             self.virtualNumPad(
-                                                 self.entryAlturaIsolanteA))
-
-                    self.lblAlturaIsolante = Label(self.frameCamposRQ,
-                                                   text="Altura Isolante (mm)",
-                                                   font=Fontes.fontePadrao,
-                                                   bg=Cores.bgCinza,
-                                                   fg='white',
-                                                   justify=CENTER)
-
-                    self.entryAlturaIsolanteB = Entry(self.frameCamposRQ,
-                                                      name='entry32',
-                                                      width=10,
-                                                      bg='lightcyan2',
-                                                      disabledbackground='dark slate gray',
-                                                      font=Fontes.fonteCabecalho,
-                                                      justify=CENTER)
-                    self.entryAlturaIsolanteB.bind("<Button-1>",
-                                                   lambda x:
-                                                   self.virtualNumPad(
-                                                       self.entryAlturaIsolanteB))
-
-                    self.entryAlturaCondutorA = Entry(self.frameCamposRQ,
-                                                      name='entry41',
-                                                      width=10,
-                                                      bg='lightcyan2',
-                                                      disabledbackground='dark slate gray',
-                                                      font=Fontes.fonteCabecalho,
-                                                      justify=CENTER)
-                    self.entryAlturaCondutorA.bind("<Button-1>",
-                                                   lambda x:
-                                                   self.virtualNumPad(
-                                                       self.entryAlturaCondutorA))
-
-                    self.lblAlturaCondutor = Label(self.frameCamposRQ,
-                                                   text="Altura Condutor (mm)",
-                                                   font=Fontes.fontePadrao,
-                                                   bg=Cores.bgCinza,
-                                                   fg='white',
-                                                   justify=CENTER)
-
-                    self.entryAlturaCondutorB = Entry(self.frameCamposRQ,
-                                                      name='entry42',
-                                                      width=10,
-                                                      bg='lightcyan2',
-                                                      disabledbackground='dark slate gray',
-                                                      font=Fontes.fonteCabecalho,
-                                                      justify=CENTER)
-                    self.entryAlturaCondutorB.bind("<Button-1>",
-                                                   lambda x:
-                                                   self.virtualNumPad(
-                                                       self.entryAlturaCondutorB))
-
-                    self.entryTracaoA = Entry(self.frameCamposRQ,
-                                              name='entry51',
-                                              width=10,
-                                              bg='lightcyan2',
-                                              disabledbackground='dark slate gray',
-                                              font=Fontes.fonteCabecalho,
+                        self.lblLadoB = Label(self.frameCamposRQ,
+                                              text="LADO B",
+                                              font=Fontes.fontePadrao,
+                                              bg=Cores.bgCinza,
+                                              fg=Cores.letraVerde,
                                               justify=CENTER)
-                    self.entryTracaoA.bind("<Button-1>",
-                                                   lambda x:
-                                                   self.virtualNumPad(
-                                                       self.entryTracaoA))
 
-                    self.lblTracao = Label(self.frameCamposRQ,
-                                           text="Tração (kgf)",
-                                           font=Fontes.fontePadrao,
-                                           bg=Cores.bgCinza,
-                                           fg='white',
-                                           justify=CENTER)
+                        self.entryAlturaIsolanteA = Entry(self.frameCamposRQ,
+                                                          name='entry31',
+                                                          width=10,
+                                                          bg='lightcyan2',
+                                                          disabledbackground='dark slate gray',
+                                                          font=Fontes.fonteCabecalho,
+                                                          justify=CENTER)
+                        self.entryAlturaIsolanteA.bind("<Button-1>",
+                                                 lambda x:
+                                                 self.virtualNumPad(
+                                                     self.entryAlturaIsolanteA))
 
-                    self.entryTracaoB = Entry(self.frameCamposRQ,
-                                              name='entry52',
-                                              width=10,
-                                              bg='lightcyan2',
-                                              disabledbackground='dark slate gray',
-                                              font=Fontes.fonteCabecalho,
-                                              justify=CENTER)
-                    self.entryTracaoB.bind("<Button-1>",
-                                                   lambda x:
-                                                   self.virtualNumPad(
-                                                       self.entryTracaoB))
+                        self.lblAlturaIsolante = Label(self.frameCamposRQ,
+                                                       text="Altura Isolante (mm)",
+                                                       font=Fontes.fontePadrao,
+                                                       bg=Cores.bgCinza,
+                                                       fg='white',
+                                                       justify=CENTER)
 
-                    self.lblMensagem = Label(self.frameBotoesRQ,
-                                             text= '',
-                                             font=Fontes.fontePadrao,
-                                             bg=Cores.bgCinza,
-                                             fg='red',
-                                             justify=CENTER)
+                        self.entryAlturaIsolanteB = Entry(self.frameCamposRQ,
+                                                          name='entry32',
+                                                          width=10,
+                                                          bg='lightcyan2',
+                                                          disabledbackground='dark slate gray',
+                                                          font=Fontes.fonteCabecalho,
+                                                          justify=CENTER)
+                        self.entryAlturaIsolanteB.bind("<Button-1>",
+                                                       lambda x:
+                                                       self.virtualNumPad(
+                                                           self.entryAlturaIsolanteB))
 
-                    self.lblRegQualidade.grid(column=0,
-                                              row=0,
-                                              columnspan=5,
-                                              pady=10)
+                        self.entryAlturaCondutorA = Entry(self.frameCamposRQ,
+                                                          name='entry41',
+                                                          width=10,
+                                                          bg='lightcyan2',
+                                                          disabledbackground='dark slate gray',
+                                                          font=Fontes.fonteCabecalho,
+                                                          justify=CENTER)
+                        self.entryAlturaCondutorA.bind("<Button-1>",
+                                                       lambda x:
+                                                       self.virtualNumPad(
+                                                           self.entryAlturaCondutorA))
 
-                    self.lblPriMedida.grid(column=0,
-                                           row=1,
-                                           columnspan=3,
-                                           pady=10)
-                    self.entryPriMedida.grid(column=0,
-                                             row=2,
-                                             columnspan=3)
+                        self.lblAlturaCondutor = Label(self.frameCamposRQ,
+                                                       text="Altura Condutor (mm)",
+                                                       font=Fontes.fontePadrao,
+                                                       bg=Cores.bgCinza,
+                                                       fg='white',
+                                                       justify=CENTER)
 
-                    if self.maquinaAutomatica == 'True':
-                        self.lblLadoA.grid(column=0,
-                                           row=3)
-                        self.lblLadoB.grid(column=2,
-                                           row=3)
+                        self.entryAlturaCondutorB = Entry(self.frameCamposRQ,
+                                                          name='entry42',
+                                                          width=10,
+                                                          bg='lightcyan2',
+                                                          disabledbackground='dark slate gray',
+                                                          font=Fontes.fonteCabecalho,
+                                                          justify=CENTER)
+                        self.entryAlturaCondutorB.bind("<Button-1>",
+                                                       lambda x:
+                                                       self.virtualNumPad(
+                                                           self.entryAlturaCondutorB))
 
-                        self.entryAlturaIsolanteA.grid(column=0,
-                                                       row=4)
-                        self.lblAlturaIsolante.grid(column=1,
-                                                    row=4)
-                        self.entryAlturaIsolanteB.grid(column=2,
-                                                       row=4)
+                        self.entryTracaoA = Entry(self.frameCamposRQ,
+                                                  name='entry51',
+                                                  width=10,
+                                                  bg='lightcyan2',
+                                                  disabledbackground='dark slate gray',
+                                                  font=Fontes.fonteCabecalho,
+                                                  justify=CENTER)
+                        self.entryTracaoA.bind("<Button-1>",
+                                                       lambda x:
+                                                       self.virtualNumPad(
+                                                           self.entryTracaoA))
 
-                        self.entryAlturaCondutorA.grid(column=0,
-                                                       row=5)
-                        self.lblAlturaCondutor.grid(column=1,
-                                                    row=5,
-                                                    pady=10)
-                        self.entryAlturaCondutorB.grid(column=2,
-                                                       row=5)
+                        self.lblTracao = Label(self.frameCamposRQ,
+                                               text="Tração (kgf)",
+                                               font=Fontes.fontePadrao,
+                                               bg=Cores.bgCinza,
+                                               fg='white',
+                                               justify=CENTER)
 
-                        self.entryTracaoA.grid(column=0,
-                                               row=6)
-                        self.lblTracao.grid(column=1,
-                                            row=6)
-                        self.entryTracaoB.grid(column=2,
-                                               row=6)
+                        self.entryTracaoB = Entry(self.frameCamposRQ,
+                                                  name='entry52',
+                                                  width=10,
+                                                  bg='lightcyan2',
+                                                  disabledbackground='dark slate gray',
+                                                  font=Fontes.fonteCabecalho,
+                                                  justify=CENTER)
+                        self.entryTracaoB.bind("<Button-1>",
+                                                       lambda x:
+                                                       self.virtualNumPad(
+                                                           self.entryTracaoB))
 
-                    self.lblMensagem.pack(side=TOP,
-                                          anchor='center',
-                                          fill=X,
-                                          expand=1)
-                    self.btnConfirmaRQ.pack(side=LEFT,
-                                            anchor='center',
-                                            fill=X,
-                                            expand=1)
-                    self.btnCancelaRQ.pack(side=LEFT,
-                                           anchor='center',
-                                           fill=X,
-                                           expand=1)
+                        self.lblMensagem = Label(self.frameBotoesRQ,
+                                                 text= '',
+                                                 font=Fontes.fontePadrao,
+                                                 bg=Cores.bgCinza,
+                                                 fg='red',
+                                                 justify=CENTER)
+                    configWidgets()
+
+                    def displayWidgets():
+                        self.lblRegQualidade.grid(column=0,
+                                                  row=0,
+                                                  columnspan=5,
+                                                  pady=10)
+
+                        self.lblPriMedida.grid(column=0,
+                                               row=1,
+                                               columnspan=3,
+                                               pady=10)
+                        self.entryPriMedida.grid(column=0,
+                                                 row=2,
+                                                 columnspan=3)
+
+                        if self.maquinaAutomatica == 'True' and Variaveis.exigeRegQual:
+                            self.lblLadoA.grid(column=0,
+                                               row=3)
+                            self.lblLadoB.grid(column=2,
+                                               row=3)
+
+                            self.entryAlturaIsolanteA.grid(column=0,
+                                                           row=4)
+                            self.lblAlturaIsolante.grid(column=1,
+                                                        row=4)
+                            self.entryAlturaIsolanteB.grid(column=2,
+                                                           row=4)
+
+                            self.entryAlturaCondutorA.grid(column=0,
+                                                           row=5)
+                            self.lblAlturaCondutor.grid(column=1,
+                                                        row=5,
+                                                        pady=10)
+                            self.entryAlturaCondutorB.grid(column=2,
+                                                           row=5)
+
+                            self.entryTracaoA.grid(column=0,
+                                                   row=6)
+                            self.lblTracao.grid(column=1,
+                                                row=6)
+                            self.entryTracaoB.grid(column=2,
+                                                   row=6)
+
+                        self.lblMensagem.pack(side=TOP,
+                                              anchor='center',
+                                              fill=X,
+                                              expand=1)
+                        self.btnConfirmaRQ.pack(side=LEFT,
+                                                anchor='center',
+                                                fill=X,
+                                                expand=1)
+                        self.btnCancelaRQ.pack(side=LEFT,
+                                               anchor='center',
+                                               fill=X,
+                                               expand=1)
+                    displayWidgets()
 
                 def desabilitaLadosNaoUtilizados():
                     if Variaveis.campos["ACABAMENTO_1"] is None:
@@ -1835,7 +1867,7 @@ class Application:
                         montaWidgets()
 
                     def registraQtdCortada():
-                        if (self.entryQtdCortada.get() not in ('0', '')):
+                        if (self.entryQtdCortada.get() not in ('')):
                             try:
                                 Variaveis.quantidadeCortada = int(
                                     self.entryQtdCortada.get()
@@ -1846,7 +1878,6 @@ class Application:
 
                             if int((Variaveis.quantidadeCortada)) < int(
                                     Variaveis.quantidadePendente):
-                                # print("QTD DIVERGENTE")
                                 self.lblMensagem.config(
                                     text='Quantidade divergente. Justifique!')
                                 Variaveis.quantidadeDivergente = True

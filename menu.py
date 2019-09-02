@@ -72,6 +72,8 @@ class Menu:
                     file=self.diretorio + "/src/images/buttons/sairButton.png")
                 self.activeConfirmarButton = PhotoImage(
                     file=self.diretorio + "/src/images/buttons/activeButtons/confirmarButton.png")
+                self.logoutButton = PhotoImage(
+                    file=self.diretorio + "/src/images/buttons/logoutButton.png")
 
             def montaBotoes():
                 def destroyScreens():
@@ -106,6 +108,19 @@ class Menu:
                 self.btnSair["command"] = (lambda: destroyScreens())
                 self.btnSair.image = self.redSairButton
                 self.btnSair.pack(pady=5)
+
+                self.btnLogout = Button(self.containerBotoes,
+                                      image=self.logoutButton,
+                                      width=130,
+                                      height=50,
+                                      bg=Cores.bgCinza,
+                                      relief=FLAT,
+                                      anchor="w",
+                                      bd=0,
+                                      highlightthickness=0)
+                self.btnLogout["command"] = (lambda: os.system('sudo pkill -9 python && sudo systemctl restart app'))
+                self.btnLogout.image = self.logoutButton
+                self.btnLogout.pack(pady=5)
 
                 self.btnConfirmar = Button(self.contRodapemenu,
                                            image=self.activeConfirmarButton,

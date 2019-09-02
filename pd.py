@@ -79,7 +79,6 @@ class PD(object):
         except e:
             return "Ocorreu um erro na busca do PD"
 
-
     def registraRQSetup(self, pdID, dados=()):
         banco = BANCO()
         agora = dt.now()
@@ -109,7 +108,7 @@ class PD(object):
                                           int(linha[3]),
                                           int(linha[4]),
                                           linha[5]))
-        banco.conexao.commit()
+        # banco.conexao.commit()
 
     def registraCorteNoBanco(self, ID, qtdCortada):
         try:
