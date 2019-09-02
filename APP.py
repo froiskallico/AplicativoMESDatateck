@@ -1260,11 +1260,9 @@ class Application:
                 print('Ultimo Acab2: {}'.format(UA2))
                 print('Acab2 Atual: {} \n'.format(A2A))
 
-                Variaveis.exigeRegQual = (UN == NA and (
+                Variaveis.exigeRegQual = not (UN == NA and (
                                          ((A1A == UA1) and (A2A == UA2)) or
                                          ((A1A == UA2) and (A2A == UA1))))
-
-                Variaveis.exigeRegQual = not Variaveis.exigeRegQual
 
                 print('exigeRegQual: {} \n'.format(Variaveis.exigeRegQual))
 
