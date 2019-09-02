@@ -110,7 +110,7 @@ class etiqueta(object):
         self.port.write(str.encode('Célula de Produção: %s \n' % self.CELULA))
         self.port.write(str.encode('Data de Entrega: %s \n' % self.DATA_ENTREGA))
         self.port.write(str.encode('Usuário: %s \n' % nomeUsuario))
-            'Data de Impressao: %s \n' % datetime.datetime.now().strftime(
+        self.port.write(str.encode('Data de Impressao: %s \n' % datetime.datetime.now().strftime(
                 '%d-%m-%Y  %H:%M:%S')))
 
 
