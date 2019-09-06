@@ -108,7 +108,7 @@ class PD(object):
                                           int(linha[3]),
                                           int(linha[4]),
                                           linha[5]))
-        # banco.conexao.commit()
+        banco.conexao.commit()
 
     def registraCorteNoBanco(self, ID, qtdCortada):
         try:
@@ -146,4 +146,3 @@ class PD(object):
             banco.conexao.commit()
         except:
             print('Erro ao registrar quantidade cortada no Banco de Dados Local')
-                  
