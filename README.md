@@ -5,7 +5,6 @@ Aplicativo para Operação Setor de Corte/Lead Prep da Datateck (M.E.S)
 - MES:
     - Indicar na Treeview quando for Ponte
     - Quando for Ponte não pedir RegQual
-    - Aumentar teclas do Keypad
     - Verificar impressão de etiquetas em lotes (Ex, 1000pçs > 10etq. 100pçs em cada)
     - verificar rede;
     - Verificar Temperatura;

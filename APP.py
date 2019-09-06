@@ -9,7 +9,7 @@ from time import time
 import datetime
 from tkinter import ttk
 import menu as configMenu
-#import login
+import login
 import configparser as cfgprsr
 import inspect
 import os, re
@@ -246,15 +246,13 @@ class Application:
 
     # --- Inicialização do Aplicativo --- #
     def __init__(self, master=None):
-#       Variaveis.idUsuarioLogado = login.idUsuario
-#       Variaveis.nomeUsuarioLogado = login.nomeUsuario
+      Variaveis.idUsuarioLogado = login.idUsuario
+      Variaveis.nomeUsuarioLogado = login.nomeUsuario
 
-#       if Variaveis.idUsuarioLogado > 0:
+      if Variaveis.idUsuarioLogado > 0:
             self.montaTelaPrincipal()
 
             #------- debug -------#
-            Variaveis.estadoEquipamento = 2
-            self.popUpRQSetup() 
 
             try:
                 etq = etiqueta.etiqueta()
@@ -1447,7 +1445,7 @@ class Application:
 
                         self.entryAlturaIsolanteA = Entry(self.frameCamposRQ,
                                                           name='entry31',
-                                                          width=5,
+                                                          width=7,
                                                           bg='lightcyan2',
                                                           disabledbackground='dark slate gray',
                                                           font=Fontes.fontePadraoEntry,
@@ -1466,7 +1464,7 @@ class Application:
 
                         self.entryAlturaIsolanteB = Entry(self.frameCamposRQ,
                                                           name='entry32',
-                                                          width=5,
+                                                          width=7,
                                                           bg='lightcyan2',
                                                           disabledbackground='dark slate gray',
                                                           font=Fontes.fontePadraoEntry,
@@ -1478,7 +1476,7 @@ class Application:
 
                         self.entryAlturaCondutorA = Entry(self.frameCamposRQ,
                                                           name='entry41',
-                                                          width=5,
+                                                          width=7,
                                                           bg='lightcyan2',
                                                           disabledbackground='dark slate gray',
                                                           font=Fontes.fontePadraoEntry,
@@ -1497,7 +1495,7 @@ class Application:
 
                         self.entryAlturaCondutorB = Entry(self.frameCamposRQ,
                                                           name='entry42',
-                                                          width=5,
+                                                          width=7,
                                                           bg='lightcyan2',
                                                           disabledbackground='dark slate gray',
                                                           font=Fontes.fontePadraoEntry,
@@ -1509,7 +1507,7 @@ class Application:
 
                         self.entryTracaoA = Entry(self.frameCamposRQ,
                                                   name='entry51',
-                                                  width=5,
+                                                  width=7,
                                                   bg='lightcyan2',
                                                   disabledbackground='dark slate gray',
                                                   font=Fontes.fontePadraoEntry,
@@ -1528,7 +1526,7 @@ class Application:
 
                         self.entryTracaoB = Entry(self.frameCamposRQ,
                                                   name='entry52',
-                                                  width=5,
+                                                  width=7,
                                                   bg='lightcyan2',
                                                   disabledbackground='dark slate gray',
                                                   font=Fontes.fontePadraoEntry,
@@ -1562,18 +1560,19 @@ class Application:
 
                         if self.maquinaAutomatica == 'True' and Variaveis.exigeRegQual:
                             self.lblLadoA.grid(column=0,
-                                               row=3,
-                                               sticky='we')
+                                               row=3)
                             self.lblLadoB.grid(column=2,
-                                               row=3,
-                                               sticky='we')
+                                               row=3)
 
                             self.entryAlturaIsolanteA.grid(column=0,
-                                                           row=4)
+                                                           row=4,
+                                                           sticky='we')
                             self.lblAlturaIsolante.grid(column=1,
-                                                        row=4)
+                                                        row=4,
+                                                        sticky='we')
                             self.entryAlturaIsolanteB.grid(column=2,
-                                                           row=4)
+                                                           row=4,
+                                                           sticky='we')
 
                             self.entryAlturaCondutorA.grid(column=0,
                                                            row=5)
@@ -1954,7 +1953,7 @@ class Application:
                     self.popUpQtdCortada.attributes('-topmost', 'true')
                     self.popUpQtdCortada.bind('<Escape>',
                                               lambda e:fechaPopUpQtdCortada())
-                    self.popUpQtdCortada.geometry('+100+100')
+                    self.popUpQtdCortada.geometry('600x600+0+0')
                     self.popUpQtdCortada.focus()
 
                 def montaWidgets():
@@ -1985,7 +1984,7 @@ class Application:
                                                 width=10,
                                                 bg='lightcyan2',
                                                 disabledbackground='dark slate gray',
-                                                font=Fontes.fonteCabecalho,
+                                                font=Fontes.fontePadraoEntry,
                                                 justify=CENTER)
                     self.entryUltMedida.bind("<Button-1>",
                                              lambda x:self.virtualNumPad(
@@ -2002,7 +2001,7 @@ class Application:
                                                 width=10,
                                                 bg='lightcyan2',
                                                 disabledbackground='dark slate gray',
-                                                font=Fontes.fonteCabecalho,
+                                                font=Fontes.fontePadraoEntry,
                                                 justify=CENTER)
                     self.entryQtdCortada.bind("<Button-1>",
                                              lambda x:
