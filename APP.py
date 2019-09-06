@@ -9,7 +9,7 @@ from time import time
 import datetime
 from tkinter import ttk
 import menu as configMenu
-#import login
+import login
 import configparser as cfgprsr
 import inspect
 import os, re
@@ -245,15 +245,13 @@ class Application:
 
     # --- Inicialização do Aplicativo --- #
     def __init__(self, master=None):
-#        Variaveis.idUsuarioLogado = login.idUsuario
- #       Variaveis.nomeUsuarioLogado = login.nomeUsuario
+       Variaveis.idUsuarioLogado = login.idUsuario
+       Variaveis.nomeUsuarioLogado = login.nomeUsuario
 
-  #      if Variaveis.idUsuarioLogado > 0:
+       if Variaveis.idUsuarioLogado > 0:
             self.montaTelaPrincipal()
 
             #------- debug -------#
-            self.virtualNumPad(None)
-
             try:
                 etq = etiqueta.etiqueta()
                 etq.testeImpressora()
@@ -1637,12 +1635,14 @@ class Application:
             self.popUpVNumPad.attributes('-topmost', 'true')
             self.popUpVNumPad.bind('<Escape>',
                                    lambda e: self.popUpVNumPad.destroy())
-            self.popUpVNumPad.geometry('300x600+600+0')
+            self.popUpVNumPad.geometry('500x600+600+0')
             self.popUpVNumPad.focus()
 
             containerNumPad = Frame(self.popUpVNumPad,
                                     bg=Cores.bgCinza)
-            containerNumPad.pack(side=TOP)
+            containerNumPad.pack(side=TOP,
+                                 fill=BOTH,
+                                 expand=TRUE)
 
             listaDeTeclas = [
                 ['1', '2', '3'],
@@ -1658,7 +1658,7 @@ class Application:
                                                     bg=Cores.bgCinza)
                 containerNumPadLinha[linha].pack(side=TOP,
                                                  fill=BOTH,
-                                                 expand=1)
+                                                 expand=TRUE)
 
                 teclas = list(range(len(listaDeTeclas[linha])))
 
@@ -1669,8 +1669,8 @@ class Application:
 
                     teclas[tecla] = Button(containerNumPadLinha[linha],
                                            text=listaDeTeclas[linha][tecla],
-#                                           width=9,
-#                                           height=6,
+                                           # width=9,
+                                           # height=6,
                                            relief=RIDGE,
                                            bd=2,
                                            bg='black',
@@ -1679,7 +1679,7 @@ class Application:
                                            command=cmd)
                     teclas[tecla].pack(side=LEFT,
                                        fill=BOTH,
-                                       expand=1,
+                                       expand=TRUE,
                                        padx=1,
                                        pady=1)
 
