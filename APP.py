@@ -9,7 +9,7 @@ from time import time
 import datetime
 from tkinter import ttk
 import menu as configMenu
-import login
+#import login
 import configparser as cfgprsr
 import inspect
 import os, re
@@ -245,14 +245,14 @@ class Application:
 
     # --- Inicialização do Aplicativo --- #
     def __init__(self, master=None):
-        Variaveis.idUsuarioLogado = login.idUsuario
-        Variaveis.nomeUsuarioLogado = login.nomeUsuario
+#        Variaveis.idUsuarioLogado = login.idUsuario
+ #       Variaveis.nomeUsuarioLogado = login.nomeUsuario
 
-        if Variaveis.idUsuarioLogado > 0:
+  #      if Variaveis.idUsuarioLogado > 0:
             self.montaTelaPrincipal()
 
             #------- debug -------#
-
+            self.virtualNumPad(None)
 
             try:
                 etq = etiqueta.etiqueta()
@@ -1264,7 +1264,7 @@ class Application:
                     self.popUpRQSetupScreen.overrideredirect(1)
                     self.popUpRQSetupScreen.attributes('-topmost', 'true')
                     self.popUpRQSetupScreen.bind('<Escape>', cancelarpopUpRQSetup)
-                    self.popUpRQSetupScreen.geometry('+50+50')
+                    self.popUpRQSetupScreen.geometry('+15+50')
                     self.popUpRQSetupScreen.focus()
 
                     self.frameCamposRQ = Frame(self.popUpRQSetupScreen,
@@ -1631,13 +1631,13 @@ class Application:
             Variaveis.virtualNumPadVisible = True
 
             self.popUpVNumPad = Toplevel(bg=Cores.bgCinza,
-                                         bd=7,
-                                         relief=RAISED)
+                                         bd=3,
+                                         relief=FLAT)
             self.popUpVNumPad.overrideredirect(1)
             self.popUpVNumPad.attributes('-topmost', 'true')
             self.popUpVNumPad.bind('<Escape>',
                                    lambda e: self.popUpVNumPad.destroy())
-            self.popUpVNumPad.geometry('+700+50')
+            self.popUpVNumPad.geometry('300x600+600+0')
             self.popUpVNumPad.focus()
 
             containerNumPad = Frame(self.popUpVNumPad,
@@ -1656,7 +1656,9 @@ class Application:
             for linha in containerNumPadLinha:
                 containerNumPadLinha[linha] = Frame(containerNumPad,
                                                     bg=Cores.bgCinza)
-                containerNumPadLinha[linha].pack(side=TOP)
+                containerNumPadLinha[linha].pack(side=TOP,
+                                                 fill=BOTH,
+                                                 expand=1)
 
                 teclas = list(range(len(listaDeTeclas[linha])))
 
@@ -1667,8 +1669,8 @@ class Application:
 
                     teclas[tecla] = Button(containerNumPadLinha[linha],
                                            text=listaDeTeclas[linha][tecla],
-                                           width=5,
-                                           height=3,
+#                                           width=9,
+#                                           height=6,
                                            relief=RIDGE,
                                            bd=2,
                                            bg='black',
@@ -1676,6 +1678,8 @@ class Application:
                                            font=Fontes.fontePadraoBold,
                                            command=cmd)
                     teclas[tecla].pack(side=LEFT,
+                                       fill=BOTH,
+                                       expand=1,
                                        padx=1,
                                        pady=1)
 
