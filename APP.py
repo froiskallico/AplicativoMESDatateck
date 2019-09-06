@@ -9,7 +9,7 @@ from time import time
 import datetime
 from tkinter import ttk
 import menu as configMenu
-import login
+#import login
 import configparser as cfgprsr
 import inspect
 import os, re
@@ -155,6 +155,7 @@ class Variaveis:
 
 class Fontes:
     fontePadrao = ("Play", 12)
+    fontePadraoEntry = ("Play", 32, "bold")
     fontePadraoBold = ("Play", 12, "bold")
     fonteCabecalho = ("Play", 18, "bold")
     fonteQuantidadePendente = ("Play", 32, "bold")
@@ -245,13 +246,16 @@ class Application:
 
     # --- Inicialização do Aplicativo --- #
     def __init__(self, master=None):
-       Variaveis.idUsuarioLogado = login.idUsuario
-       Variaveis.nomeUsuarioLogado = login.nomeUsuario
+#       Variaveis.idUsuarioLogado = login.idUsuario
+#       Variaveis.nomeUsuarioLogado = login.nomeUsuario
 
-       if Variaveis.idUsuarioLogado > 0:
+#       if Variaveis.idUsuarioLogado > 0:
             self.montaTelaPrincipal()
 
             #------- debug -------#
+            Variaveis.estadoEquipamento = 2
+            self.popUpRQSetup() 
+
             try:
                 etq = etiqueta.etiqueta()
                 etq.testeImpressora()
@@ -1262,7 +1266,7 @@ class Application:
                     self.popUpRQSetupScreen.overrideredirect(1)
                     self.popUpRQSetupScreen.attributes('-topmost', 'true')
                     self.popUpRQSetupScreen.bind('<Escape>', cancelarpopUpRQSetup)
-                    self.popUpRQSetupScreen.geometry('+15+50')
+                    self.popUpRQSetupScreen.geometry('600x600+0+0')
                     self.popUpRQSetupScreen.focus()
 
                     self.frameCamposRQ = Frame(self.popUpRQSetupScreen,
@@ -1420,7 +1424,7 @@ class Application:
                                                     width=10,
                                                     bg='lightcyan2',
                                                     disabledbackground='dark slate gray',
-                                                    font=Fontes.fonteCabecalho,
+                                                    font=Fontes.fontePadraoEntry,
                                                     justify=CENTER)
                         self.entryPriMedida.bind("<Button-1>",
                                                  lambda x:
@@ -1443,10 +1447,10 @@ class Application:
 
                         self.entryAlturaIsolanteA = Entry(self.frameCamposRQ,
                                                           name='entry31',
-                                                          width=10,
+                                                          width=5,
                                                           bg='lightcyan2',
                                                           disabledbackground='dark slate gray',
-                                                          font=Fontes.fonteCabecalho,
+                                                          font=Fontes.fontePadraoEntry,
                                                           justify=CENTER)
                         self.entryAlturaIsolanteA.bind("<Button-1>",
                                                  lambda x:
@@ -1462,10 +1466,10 @@ class Application:
 
                         self.entryAlturaIsolanteB = Entry(self.frameCamposRQ,
                                                           name='entry32',
-                                                          width=10,
+                                                          width=5,
                                                           bg='lightcyan2',
                                                           disabledbackground='dark slate gray',
-                                                          font=Fontes.fonteCabecalho,
+                                                          font=Fontes.fontePadraoEntry,
                                                           justify=CENTER)
                         self.entryAlturaIsolanteB.bind("<Button-1>",
                                                        lambda x:
@@ -1474,10 +1478,10 @@ class Application:
 
                         self.entryAlturaCondutorA = Entry(self.frameCamposRQ,
                                                           name='entry41',
-                                                          width=10,
+                                                          width=5,
                                                           bg='lightcyan2',
                                                           disabledbackground='dark slate gray',
-                                                          font=Fontes.fonteCabecalho,
+                                                          font=Fontes.fontePadraoEntry,
                                                           justify=CENTER)
                         self.entryAlturaCondutorA.bind("<Button-1>",
                                                        lambda x:
@@ -1493,10 +1497,10 @@ class Application:
 
                         self.entryAlturaCondutorB = Entry(self.frameCamposRQ,
                                                           name='entry42',
-                                                          width=10,
+                                                          width=5,
                                                           bg='lightcyan2',
                                                           disabledbackground='dark slate gray',
-                                                          font=Fontes.fonteCabecalho,
+                                                          font=Fontes.fontePadraoEntry,
                                                           justify=CENTER)
                         self.entryAlturaCondutorB.bind("<Button-1>",
                                                        lambda x:
@@ -1505,10 +1509,10 @@ class Application:
 
                         self.entryTracaoA = Entry(self.frameCamposRQ,
                                                   name='entry51',
-                                                  width=10,
+                                                  width=5,
                                                   bg='lightcyan2',
                                                   disabledbackground='dark slate gray',
-                                                  font=Fontes.fonteCabecalho,
+                                                  font=Fontes.fontePadraoEntry,
                                                   justify=CENTER)
                         self.entryTracaoA.bind("<Button-1>",
                                                        lambda x:
@@ -1524,10 +1528,10 @@ class Application:
 
                         self.entryTracaoB = Entry(self.frameCamposRQ,
                                                   name='entry52',
-                                                  width=10,
+                                                  width=5,
                                                   bg='lightcyan2',
                                                   disabledbackground='dark slate gray',
-                                                  font=Fontes.fonteCabecalho,
+                                                  font=Fontes.fontePadraoEntry,
                                                   justify=CENTER)
                         self.entryTracaoB.bind("<Button-1>",
                                                        lambda x:
@@ -1558,9 +1562,11 @@ class Application:
 
                         if self.maquinaAutomatica == 'True' and Variaveis.exigeRegQual:
                             self.lblLadoA.grid(column=0,
-                                               row=3)
+                                               row=3,
+                                               sticky='we')
                             self.lblLadoB.grid(column=2,
-                                               row=3)
+                                               row=3,
+                                               sticky='we')
 
                             self.entryAlturaIsolanteA.grid(column=0,
                                                            row=4)
@@ -1635,7 +1641,7 @@ class Application:
             self.popUpVNumPad.attributes('-topmost', 'true')
             self.popUpVNumPad.bind('<Escape>',
                                    lambda e: self.popUpVNumPad.destroy())
-            self.popUpVNumPad.geometry('500x600+600+0')
+            self.popUpVNumPad.geometry('424x600+600+0')
             self.popUpVNumPad.focus()
 
             containerNumPad = Frame(self.popUpVNumPad,
