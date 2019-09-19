@@ -1766,29 +1766,34 @@ class Application:
                                 novaQtdCortada = int(Variaveis.quantidadeCortada) + int(Variaveis.campos.get(
                                     "QTD_CORTADA"))
 
-                                pd.registraCorteNoBanco(0, Variaveis.ID,
-                                                        novaQtdCortada)
+                                if not pd.registraCorteNoBanco(0, Variaveis.ID,
+                                                        novaQtdCortada):
+                                    self.lblMensagem.config(text="Erro ao salvar os dados. Tente novamente!",
+                                                            fg="red")
+                                    print("erro")
+                                else:
+                                    try:
+                                        self.Etiqueta()
+                                    except:
+                                        self.lblMensagem.config(
+                                        text='Erro ao imprimir a etiqueta'
+                                    )
 
-                                try:
-                                    self.Etiqueta()
-                                except:
-                                    self.lblMensagem.config(
-                                    text='Erro ao imprimir a etiqueta'
-                                )
+                                    Variaveis.RQPreenchido = True
 
-                                Variaveis.RQPreenchido = True
+                                    self.popUpQtdCortada.destroy()
+                                    Variaveis.estadoEquipamento = 0
 
-                                self.popUpQtdCortada.destroy()
-                                Variaveis.estadoEquipamento = 0
-
-                                Variaveis.RQPreenchido = False
-                                limpaTela()
-                                self.montaTelaPrincipal()
+                                    Variaveis.RQPreenchido = False
+                                    limpaTela()
+                                    self.montaTelaPrincipal()
 
                             except:
                                 self.lblMensagem.config(
                                     text='Erro ao salvar os registros'
                                 )
+                                print("erro ao salvar")
+                                registraNoBanco()
 
                     def justificativaDivergencia():
                         def confirmaJustificativa():

@@ -121,13 +121,14 @@ class PD(object):
 
             try:
                 curOrigem.execute("""EXECUTE PROCEDURE ATUALIZA_QTD_CORTADA(%s, %s)""" % (ID, qtdCortada))
-
                 conOrigem.commit()
             except:
                 print("Erro na gravação dos dados na origem!")
+                return False
 
         except:
             print("Erro na conexão com o banco de dados de origem!")
+            return False
 
 
         banco = BANCO()
@@ -146,3 +147,4 @@ class PD(object):
             banco.conexao.commit()
         except:
             print('Erro ao registrar quantidade cortada no Banco de Dados Local')
+            return False
