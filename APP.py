@@ -1447,7 +1447,7 @@ class Application:
 
                         self.entryAlturaIsolanteA = Entry(self.frameCamposRQ,
                                                           name='entry31',
-                                                          width=7,
+                                                          width=5,
                                                           bg='lightcyan2',
                                                           disabledbackground='dark slate gray',
                                                           font=Fontes.fontePadraoEntry,
@@ -1466,7 +1466,7 @@ class Application:
 
                         self.entryAlturaIsolanteB = Entry(self.frameCamposRQ,
                                                           name='entry32',
-                                                          width=7,
+                                                          width=5,
                                                           bg='lightcyan2',
                                                           disabledbackground='dark slate gray',
                                                           font=Fontes.fontePadraoEntry,
@@ -1478,7 +1478,7 @@ class Application:
 
                         self.entryAlturaCondutorA = Entry(self.frameCamposRQ,
                                                           name='entry41',
-                                                          width=7,
+                                                          width=5,
                                                           bg='lightcyan2',
                                                           disabledbackground='dark slate gray',
                                                           font=Fontes.fontePadraoEntry,
@@ -1497,7 +1497,7 @@ class Application:
 
                         self.entryAlturaCondutorB = Entry(self.frameCamposRQ,
                                                           name='entry42',
-                                                          width=7,
+                                                          width=5,
                                                           bg='lightcyan2',
                                                           disabledbackground='dark slate gray',
                                                           font=Fontes.fontePadraoEntry,
@@ -1509,7 +1509,7 @@ class Application:
 
                         self.entryTracaoA = Entry(self.frameCamposRQ,
                                                   name='entry51',
-                                                  width=7,
+                                                  width=5,
                                                   bg='lightcyan2',
                                                   disabledbackground='dark slate gray',
                                                   font=Fontes.fontePadraoEntry,
@@ -1528,7 +1528,7 @@ class Application:
 
                         self.entryTracaoB = Entry(self.frameCamposRQ,
                                                   name='entry52',
-                                                  width=7,
+                                                  width=5,
                                                   bg='lightcyan2',
                                                   disabledbackground='dark slate gray',
                                                   font=Fontes.fontePadraoEntry,
