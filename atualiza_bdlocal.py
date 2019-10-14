@@ -4,6 +4,7 @@ import configparser as cfgprsr
 import os
 import pandas as pd
 from tempo_restante import TempoRestanteAteOFinalDoExpediente as TR
+import logger
 
 
 class AtualizaBancoLocal:
@@ -29,12 +30,13 @@ class AtualizaBancoLocal:
 
     def origem(self):
         try:
-            conGlobal = fdb.connect(dsn='192.168.1.100:/app/database/DADOS.FDB',
+            conGlobal = fdb.connect(dsn='192.168.1.100:/app/database/DADOS_PCP.FDB',
                                     user='SYSDBA',
                                     password='el0perdid0',
                                     charset='WIN1252')
-        except:
-            print ("Erro na conexão com o banco de dados de origem!")
+        except Exception as e:
+            logger.logError("Erro na conexao com o banco de dados de origem!    -    Details: {}".format(str(e)))
+
 
         if self.filtraLista == 'True':
             try:
@@ -63,8 +65,8 @@ class AtualizaBancoLocal:
                                                               PRO.FK_CAD != 13;
                                                          """,
                                                          conGlobal)
-            except :
-                print("Erro na obtenção dos dados de origem!")
+            except Exception as e:
+                logger.logError("Erro na obtenção dos dados de origem!    -    Details: {}".format(str(e)))
         else:
             try:
                 dadosOrigem = pd.read_sql_query("""SELECT 
@@ -97,8 +99,8 @@ class AtualizaBancoLocal:
                                                          PRO.FK_CAD != 13;
                                                     """, conGlobal)
 
-            except :
-                print("Erro na obtenção dos dados de origem!")
+            except Exception as e:
+                logger.logError("Erro na obtenção dos dados de origem!    -    Details: {}".format(str(e)))
 
         self.origem2destino()
 
@@ -107,9 +109,8 @@ class AtualizaBancoLocal:
             conLocal = sqlite3.connect(database=self.diretorio + '/database/DADOS.db')
             # conLocal.text_factory = lambda x: str(x, 'cp1252')
 
-        except:
-            print("Erro na conexao com o banco de dados de destino local!")
-
+        except Exception as e:
+            logger.logError("Erro na conexao com o banco de dados de destino local!    -    Details: {}".format(str(e)))
 
         try:
             self.dadosLimitados.insert(31, 'PRIORIDADE', 0)
@@ -189,8 +190,8 @@ class AtualizaBancoLocal:
                                        if_exists='replace',
                                        index=False,
                                        dtype=schema)
-        except e:
-            print("Erro ao salvar dados no BD Local")
+        except Exception as e:
+            logger.logError("Erro ao salvar dados no BD Local    -    Details: {}".format(str(e)))
 
 
 AtualizaBancoLocal()

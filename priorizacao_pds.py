@@ -147,7 +147,7 @@ class AlgoritmoSeparacao:
 
                     continue
 
-                except :
+                except:
                     pass
 
             else:

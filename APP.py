@@ -13,6 +13,7 @@ import login
 import configparser as cfgprsr
 import inspect
 import os, re
+import logger
 
 diretorio = os.path.dirname(os.path.abspath(__file__))
 
@@ -1372,8 +1373,9 @@ class Application:
                                 Variaveis.ultimoAcabamento1 = Variaveis.campos['ACABAMENTO_1']
                                 Variaveis.ultimoAcabamento2 = Variaveis.campos['ACABAMENTO_2']
 
-                            except:
+                            except Exception as e:
                                 self.lblMensagem['text'] = 'Erro ao salvar os registros!'
+                                logger.logError("Erro ao salvar os registros de Qualidade no Banco de Dados    -    Details: {}".format(str(e)))
 
 
                             if Variaveis.RQPreenchido:
@@ -1770,14 +1772,15 @@ class Application:
                                                         novaQtdCortada):
                                     self.lblMensagem.config(text="Erro ao salvar os dados. Tente novamente!",
                                                             fg="red")
-                                    print("erro")
+                                    logger.logError("Erro ao tentar salvar a quantidade cortada no Banco de Dados    -    Details: {}".format(str(e)))
                                 else:
                                     try:
                                         self.Etiqueta()
-                                    except:
+                                    except Exception as e:
                                         self.lblMensagem.config(
                                         text='Erro ao imprimir a etiqueta'
                                     )
+                                        logger.logError("Erro ao imprimir a etiqueta    -    Details: {}    -    Conteudo a ser impresso: {}".format(str(e), str([Variaveis.quantidadeCortada, Variaveis.nomeUsuarioLogado, Variaveis.campos])))
 
                                     Variaveis.RQPreenchido = True
 
@@ -1788,11 +1791,11 @@ class Application:
                                     limpaTela()
                                     self.montaTelaPrincipal()
 
-                            except:
+                            except Exception as e:
                                 self.lblMensagem.config(
                                     text='Erro ao salvar os registros'
                                 )
-                                print("erro ao salvar")
+                                logger.logError("Erro ao salvar os registros no Banco de Dados   -    Details: {}".format(str(e)))
                                 registraNoBanco()
 
                     def justificativaDivergencia():
@@ -1907,9 +1910,9 @@ class Application:
                                 Variaveis.quantidadeDivergente = False
                                 try:
                                     registraNoBanco()
-                                except:
+                                except Exception as e:
                                     self.lblMensagem.config(text='Erro ao registrar no Banco')
-
+                                    logger.logError("Erro ao registrar quantidade cortada no Banco de Dados    -    Details: {}".format(str(e)))
 
                         else:
                             self.entryQtdCortada.config(bg='indian red')

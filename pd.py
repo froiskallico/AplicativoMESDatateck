@@ -3,6 +3,7 @@ import fdb
 import configparser as cfgprsr
 from banco import BANCO
 from datetime import datetime as dt
+import logger
 
 class PD(object):
 
@@ -50,8 +51,9 @@ class PD(object):
 
             return "Busca feita com sucesso!"
 
-        except:
+        except Exception as e:
             return "Ocorreu um erro na busca do PD"
+            logger.logError("Ocorreu um erro na busca do PD    -    Details: {}".format(str(e)))
 
     def buscaPD(self, ID):
         banco = BANCO()
@@ -76,8 +78,9 @@ class PD(object):
 
             return "Busca feita com sucesso!"
 
-        except e:
+        except Exception as e:
             return "Ocorreu um erro na busca do PD"
+            logger.logError("Ocorreu um erro na busca do PD    -    Details: {}".format(str(e)))
 
     def registraRQSetup(self, pdID, dados=()):
         banco = BANCO()
@@ -113,7 +116,7 @@ class PD(object):
     def registraCorteNoBanco(self, ID, qtdCortada):
         try:
             conOrigem = fdb.connect(
-                dsn='192.168.1.100:/app/database/DADOS.FDB',
+                dsn='192.168.1.100:/app/database/DADOS_PCP.FDB',
                 user='SYSDBA',
                 password='el0perdid0',
                 charset='WIN1252')
@@ -122,12 +125,12 @@ class PD(object):
             try:
                 curOrigem.execute("""EXECUTE PROCEDURE ATUALIZA_QTD_CORTADA(%s, %s)""" % (ID, qtdCortada))
                 conOrigem.commit()
-            except:
-                print("Erro na gravação dos dados na origem!")
+            except Exception as e:
+                logger.logError("Erro na gravação dos dados na origem!    -    Details: {}".format(str(e)))
                 return False
 
-        except:
-            print("Erro na conexão com o banco de dados de origem!")
+        except Exception as e:
+            logger.logError("Erro na conexão com o banco de dados de origem!    -    Details: {}".format(str(e)))
             return False
 
 
@@ -145,6 +148,9 @@ class PD(object):
                         """ % (qtdCortada, ID))
 
             banco.conexao.commit()
-        except:
-            print('Erro ao registrar quantidade cortada no Banco de Dados Local')
+
+            return True
+
+        except Exception as e:
+            logger.logError("Erro ao registrar quantidade cortada no Banco de Dados Local    -    Details: {}".format(str(e)))
             return False

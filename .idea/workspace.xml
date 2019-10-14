@@ -5,8 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1669bfa9-4d23-45d3-8e49-192f3859084d" name="Default Changelist" comment="Versão 1.1.4">
+      <change afterPath="$PROJECT_DIR$/logger.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/AplicativoMESDatateck.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/AplicativoMESDatateck.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/database/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/APP.py" beforeDir="false" afterPath="$PROJECT_DIR$/APP.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/atualiza_bdlocal.py" beforeDir="false" afterPath="$PROJECT_DIR$/atualiza_bdlocal.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config.ini" beforeDir="false" afterPath="$PROJECT_DIR$/config.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/login.py" beforeDir="false" afterPath="$PROJECT_DIR$/login.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/menu.py" beforeDir="false" afterPath="$PROJECT_DIR$/menu.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/motivos.py" beforeDir="false" afterPath="$PROJECT_DIR$/motivos.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pd.py" beforeDir="false" afterPath="$PROJECT_DIR$/pd.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/priorizacao_pds.py" beforeDir="false" afterPath="$PROJECT_DIR$/priorizacao_pds.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tempos.py" beforeDir="false" afterPath="$PROJECT_DIR$/tempos.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -25,72 +36,6 @@
       </list>
     </option>
   </component>
-  <component name="FindInProjectRecents">
-    <findStrings>
-      <find>diretorio</find>
-      <find>self.logoImg</find>
-      <find>'Maq'</find>
-      <find>Definicoes.maquina</find>
-      <find>insert</find>
-      <find>.insert(</find>
-      <find>limiteHorizonte</find>
-      <find>maquina</find>
-      <find>limiteCircuitos</find>
-      <find>Variaveis.campos.get(&quot;QTD_CORTADA&quot;)</find>
-      <find>int(</find>
-      <find>print(</find>
-      <find>print</find>
-      <find>COR</find>
-      <find>btnM</find>
-      <find>self.popUpMe</find>
-      <find>diverge</find>
-      <find>MOTIVO</find>
-      <find>self.vsb</find>
-      <find>yscroll</find>
-      <find>ttk</find>
-      <find>scroll</find>
-      <find>height</find>
-      <find>DIVERGENCIA</find>
-      <find>registra</find>
-      <find>vsb</find>
-      <find>is not</find>
-      <find>item[</find>
-      <find>Cabo/pd</find>
-      <find>width=6</find>
-    </findStrings>
-    <replaceStrings>
-      <replace>GERACAO</replace>
-      <replace>OBSERVACAO</replace>
-      <replace>DATA_GERACAO</replace>
-      <replace>DATA_ENTREGA</replace>
-      <replace>OBSERVACAO_REQ</replace>
-      <replace>QTD_CHICOTE_PENDENTE</replace>
-      <replace>QTD_PD_REQ</replace>
-      <replace>DECAPE_A</replace>
-      <replace>DECAPE_B</replace>
-      <replace>ACABAMENTO_</replace>
-      <replace>PONTE_</replace>
-      <replace>NR_ORDEM_CORTE</replace>
-      <replace>PK_IRP</replace>
-      <replace>ACABAMENTO 2</replace>
-      <replace>self.apl</replace>
-      <replace>self.connLocal</replace>
-      <replace>ACABAMENTO</replace>
-      <replace>self.ranking</replace>
-      <replace>Acab1</replace>
-      <replace>Acab2</replace>
-      <replace>menuMaster</replace>
-      <replace>master</replace>
-      <replace>self.master</replace>
-      <replace>self</replace>
-      <replace>self.diretorio</replace>
-      <replace>self.limiteHorizonte</replace>
-      <replace>self.maquina</replace>
-      <replace>self.limiteCircuitos</replace>
-      <replace>CABO</replace>
-      <replace>width=7</replace>
-    </replaceStrings>
-  </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
@@ -103,37 +48,32 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/APP.py" root0="SKIP_INSPECTION" />
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="113" />
-    <option name="y" value="37" />
-    <option name="width" value="1366" />
-    <option name="height" value="728" />
-  </component>
   <component name="ProjectId" id="1SC05fmOcXPJtd2pM9o4eGuFVib" />
   <component name="PropertiesComponent">
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="Python&#10;TEXT" />
     <property name="full.screen.before.presentation.mode" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/database" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="preferences.general" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="PyFindUsagesOptions">
     <option name="isSearchForTextOccurrences" value="true" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\Usuario\Desktop\GIT\Repositório\AplicativoMESDatateck\database" />
-      <recent name="C:\Users\Usuario\Desktop\GIT\Repositório\AplicativoMESDatateck" />
-      <recent name="C:\Users\Usuario\Desktop\GIT\Repositório\AplicativoMESDatateck\src\fonts" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Usuario\Desktop\GIT\Repositório\AplicativoMESDatateck\.kivy" />
       <recent name="C:\Users\Usuario\Desktop\GIT\Repositório\AplicativoMESDatateck\" />
       <recent name="C:\Users\Usuario\Desktop\GIT\Repositório\AplicativoMESDatateck" />
       <recent name="C:\Users\Usuario\Desktop\GIT\Repositório\AplicativoMESDatateck\src\images\buttons\redButtons" />
       <recent name="C:\Users\Usuario\Desktop\GIT\Repositório\AplicativoMESDatateck\src\images\buttons\activeButtons" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="F:\Kallico(Local)\GIT\Repositório\AplicativoMESDatateck\database" />
+      <recent name="C:\Users\Usuario\Desktop\GIT\Repositório\AplicativoMESDatateck\database" />
+      <recent name="C:\Users\Usuario\Desktop\GIT\Repositório\AplicativoMESDatateck" />
+      <recent name="C:\Users\Usuario\Desktop\GIT\Repositório\AplicativoMESDatateck\src\fonts" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -212,6 +152,27 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="logger" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="AplicativoMESDatateck" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/logger.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="login" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="AplicativoMESDatateck" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -254,34 +215,13 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="priorizacao_pds" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="AplicativoMESDatateck" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/priorizacao_pds.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Python.APP" />
         <item itemvalue="Python.login" />
         <item itemvalue="Python.atualiza_bdlocal" />
+        <item itemvalue="Python.logger" />
         <item itemvalue="Python.menu" />
-        <item itemvalue="Python.priorizacao_pds" />
       </list>
     </recent_temporary>
   </component>
@@ -693,6 +633,18 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/APP.py</url>
+          <line>1</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/APP.py</url>
+          <line>1720</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
       <default-breakpoints>
         <breakpoint type="python-exception">
           <properties notifyOnTerminate="true" exception="BaseException">

@@ -3,7 +3,7 @@
   <component name="Encoding" defaultCharsetForPropertiesFiles="windows-1252">
     <file url="file://$PROJECT_DIR$/.kivy/menu.kv" charset="windows-1252" />
     <file url="file://$PROJECT_DIR$/.kivy/menu_kv.py" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/TODO.txt" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/errors.log" charset="windows-1252" />
     <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>

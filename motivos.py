@@ -1,4 +1,5 @@
 from banco import BANCO
+import logger
 
 class MOTIVOS(object):
 
@@ -26,8 +27,9 @@ class MOTIVOS(object):
             c.close()
 
             return self.listaMotivos
-        except:
-            print("Ocorreu um erro na busca dos motivos")
+        except Exception as e:
+            logger.logError("Ocorreu um erro na busca dos motivos    -    Details: {}".format(str(e)))
+
 
     def buscaListaMotivosParada(self):
         banco = BANCO()
@@ -50,5 +52,5 @@ class MOTIVOS(object):
             c.close()
 
             return self.listaMotivos
-        except:
-            print("Ocorreu um erro na busca dos motivos")
+        except Exception as e:
+            logger.logError("Ocorreu um erro na busca dos motivos    -    Details: {}".format(str(e)))

@@ -585,7 +585,7 @@ class Menu:
 
 class Variaveis:
     def BuscaMaquinas():
-        bdGlobal = fdb.connect(dsn='192.168.1.100:/app/database/DADOS.FDB',
+        bdGlobal = fdb.connect(dsn='192.168.1.100:/app/database/DADOS_PCP.FDB',
                                user='SYSDBA',
                                password='el0perdid0',
                                charset='WIN1252')

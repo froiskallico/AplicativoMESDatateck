@@ -3,6 +3,7 @@ import os
 from tkinter import *
 from banco import BANCO
 import configparser as cfgprsr
+import logger
 
 diretorio = os.path.dirname(__file__)
 
@@ -236,9 +237,11 @@ class Application:
 
             else:
                 self.lblMensagem["text"] = "Senha incorreta"
+                logger.logError("Tentativa de Login inválida    -    Details: Senha incorreta para usuario '{}'".format(str(usr)))
 
         except:
             self.lblMensagem["text"] = "Usuário não encontrado"
+            logger.logError("Tentativa de Login inválida    -    Details: Usuário '{}' não encontrado".format(str(usr)))
 
 
 Application(loginRoot)
