@@ -116,7 +116,7 @@ class PD(object):
     def registraCorteNoBanco(self, ID, qtdCortada):
         try:
             conOrigem = fdb.connect(
-                dsn='192.168.1.100:/app/database/DADOS_PCP.FDB',
+                dsn='192.168.1.100:/app/database/DADOS.FDB',
                 user='SYSDBA',
                 password='el0perdid0',
                 charset='WIN1252')
