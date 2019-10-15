@@ -335,7 +335,11 @@ class Menu:
                                          sticky='we')
 
                 def desmontaOrdensEntry():
-                    pass
+                    try:
+                        self.popUpVNumPad.destroy()
+                    except:
+                        pass
+
 
                 ##------ Cabeçalho ------##
                 self.logoDtk = Label(self.containerCabecalho,

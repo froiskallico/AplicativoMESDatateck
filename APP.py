@@ -2282,6 +2282,8 @@ class Application:
                                          bg=Cores.bgCinza,
                                          fg='white',
                                          relief=FLAT,
+                                         bd=0,
+                                         highlightthickness=0,
                                          image=redButtons.cancelarButton)
                 self.btnCancela["command"] = cancelaParada
 
