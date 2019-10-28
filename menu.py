@@ -6,15 +6,8 @@ from tkinter import *
 from tkinter import ttk
 import configparser as cfgprsr
 import os
-<<<<<<< HEAD
 import logger
-=======
 import banco
-<<<<<<< HEAD
->>>>>>> refs/remotes/origin/master
-=======
-import logger
->>>>>>> 24e870e6b0eecfa2ae2bc89a728de62293e5c226
 
 class Menu:
     def __init__(self, parent, master=None):
