@@ -1,7 +1,7 @@
 import os
 import fdb
 import configparser as cfgprsr
-from banco import BANCO
+from banco import BANCO, GLOBAL_DATABASE
 from datetime import datetime as dt
 import logger
 
@@ -18,6 +18,7 @@ class PD(object):
         self.configFile.read(self.diretorio + '/config.ini')
         self.maquina = self.configFile['DEFAULT']['maquina']
         self.maquinaAutomatica = self.configFile['DEFAULT']['MaqAutomatica']
+        self.filtaLista = self.configFile['DEFAULT']['filtralista']
 
     def buscaLista(self):
         banco = BANCO()
@@ -36,14 +37,24 @@ class PD(object):
 
         try:
             c = banco.conexao.cursor()
-            c.execute('''SELECT
-                           *
-                         FROM
-                           PDS
-                         WHERE
-                           PDS.MÁQUINA = "%s" AND
-                           PDS."QTD PD REQ" > PDS.QTD_CORTADA
-                      ''' % self.maquina + strOrdenacao)
+            print(self.filtaLista)
+            if self.filtaLista == 'True':
+                c.execute('''SELECT
+                               *
+                             FROM
+                               PDS
+                             WHERE  
+                               PDS."QTD PD REQ" > PDS.QTD_CORTADA
+                          ''' + strOrdenacao)
+            else:
+                c.execute('''SELECT
+                               *
+                             FROM
+                               PDS
+                             WHERE
+                               PDS.MÁQUINA = "%s" AND
+                               PDS."QTD PD REQ" > PDS.QTD_CORTADA
+                          ''' % self.maquina + strOrdenacao)
 
             self.lista = c.fetchall()
 
@@ -115,11 +126,7 @@ class PD(object):
 
     def registraCorteNoBanco(self, ID, qtdCortada):
         try:
-            conOrigem = fdb.connect(
-                dsn='192.168.1.100:/app/database/DADOS.FDB',
-                user='SYSDBA',
-                password='el0perdid0',
-                charset='WIN1252')
+            conOrigem = GLOBAL_DATABASE().conexao
             curOrigem = conOrigem.cursor()
 
             try:

@@ -5,6 +5,7 @@ import os
 import pandas as pd
 from tempo_restante import TempoRestanteAteOFinalDoExpediente as TR
 import logger
+import banco
 
 
 class AtualizaBancoLocal:
@@ -21,6 +22,11 @@ class AtualizaBancoLocal:
         self.filtraLista = self.configFile['DEFAULT']['filtraLista']
         self.ordensCorte = self.configFile['DEFAULT']['ordens']
 
+        self.global_database_dsn = self.configFile['GLOBAL_DATABASE']['dsn']
+        self.global_database_user = self.configFile['GLOBAL_DATABASE']['user']
+        self.global_database_password = self.configFile['GLOBAL_DATABASE']['password']
+        self.global_database_charset = self.configFile['GLOBAL_DATABASE']['charset']
+
         self.origem()
 
 
@@ -30,10 +36,7 @@ class AtualizaBancoLocal:
 
     def origem(self):
         try:
-            conGlobal = fdb.connect(dsn='192.168.1.100:/app/database/DADOS.FDB',
-                                    user='SYSDBA',
-                                    password='el0perdid0',
-                                    charset='WIN1252')
+            conGlobal = banco.GLOBAL_DATABASE().conexao
         except Exception as e:
             logger.logError("Erro na conexao com o banco de dados de origem!    -    Details: {}".format(str(e)))
 
@@ -45,13 +48,11 @@ class AtualizaBancoLocal:
                                                    FROM
                                                        PDS_PENDENTES_CORTE_NEW
                                                    WHERE
-                                                       "NR. ORDEM CORTE" in %s AND
-                                                       "MÁQUINA" = '%s'
+                                                       "NR. ORDEM CORTE" in {}
                                                    ORDER BY
                                                        "DATA ENTREGA",
                                                        "CABO";
-                                                """ % (self.ordensCorte,
-                                                          self.maquina),
+                                                """.format(self.ordensCorte),
                                                 conGlobal)
 
                 self.dadosLimitados = dadosOrigem
@@ -106,8 +107,7 @@ class AtualizaBancoLocal:
 
     def origem2destino(self):
         try:
-            conLocal = sqlite3.connect(database=self.diretorio + '/database/DADOS.db')
-            # conLocal.text_factory = lambda x: str(x, 'cp1252')
+            conLocal = banco.BANCO().conexao
 
         except Exception as e:
             logger.logError("Erro na conexao com o banco de dados de destino local!    -    Details: {}".format(str(e)))

@@ -999,7 +999,7 @@ class Application:
                         casais.append(casal)
 
                 for casal in casais:
-                    self.tvw.insert('', 'end', casal, text=casal)
+                        self.tvw.insert('', 'end', casal, text=casal)
 
                 qtd_Total = 0
                 for item in self.data:
