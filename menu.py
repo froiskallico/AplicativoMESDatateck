@@ -6,7 +6,11 @@ from tkinter import *
 from tkinter import ttk
 import configparser as cfgprsr
 import os
+<<<<<<< HEAD
 import logger
+=======
+import banco
+>>>>>>> refs/remotes/origin/master
 
 class Menu:
     def __init__(self, parent, master=None):
@@ -593,10 +597,8 @@ class Menu:
 
 class Variaveis:
     def BuscaMaquinas():
-        bdGlobal = fdb.connect(dsn='192.168.1.100:/app/database/DADOS.FDB',
-                               user='SYSDBA',
-                               password='el0perdid0',
-                               charset='WIN1252')
+        bdGlobal = banco.GLOBAL_DATABASE().conexao
+
         lista = pd.read_sql_query("SELECT DESCRICAO FROM MAQUINAS",
                                   bdGlobal)
         return lista['DESCRICAO'].tolist()

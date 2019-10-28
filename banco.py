@@ -1,10 +1,14 @@
 import sqlite3
 import os
+import configparser as cfgprsr
+import fdb
 
 diretorio = os.path.dirname(os.path.abspath(__file__))
 
-class BANCO():
+configFile = cfgprsr.ConfigParser()
+configFile.read(diretorio + '/config.ini')
 
+class BANCO():
     def __init__(self):
         self.conexao = sqlite3.connect(diretorio + '/database/DADOS.db')
 #        self.conexao.text_factory = lambda x: str(x, 'cp1252')
@@ -70,3 +74,14 @@ class BANCO():
         c.close()
 
 
+class GLOBAL_DATABASE():
+    def __init__(self):
+        self.global_database_dsn = configFile['GLOBAL_DATABASE']['dsn']
+        self.global_database_user = configFile['GLOBAL_DATABASE']['user']
+        self.global_database_password = configFile['GLOBAL_DATABASE']['password']
+        self.global_database_charset = configFile['GLOBAL_DATABASE']['charset']
+
+        self.conexao = fdb.connect(dsn=self.global_database_dsn,
+                                   user=self.global_database_user,
+                                   password=self.global_database_password,
+                                   charset=self.global_database_charset)
