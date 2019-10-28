@@ -2153,7 +2153,7 @@ class Application:
                                           fg='white',
                                           relief=FLAT,
                                           bd=0,
-                                          highlightthinckness=0,
+                                          highlightthickness=0,
                                           image=activeButtons.retomarButton)
                 self.btnRetomar["command"] = retomar
                 self.btnRetomar.pack(side=TOP)

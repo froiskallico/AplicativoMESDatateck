@@ -6,6 +6,7 @@ from tkinter import *
 from tkinter import ttk
 import configparser as cfgprsr
 import os
+import logger
 
 class Menu:
     def __init__(self, parent, master=None):
@@ -509,13 +510,16 @@ class Menu:
             self.parent.limpaTela()
             self.parent.montaTelaPrincipal()
             self.master.destroy()
-        except:
+        except Exception as e:
             self.configFile.set('DEFAULT', 'filtralista', 'False')
 
             with open(self.diretorio + '/config.ini', 'w') as configfile:
                 self.configFile.write(configfile)
 
             self.mensagemMenu.set('Erro. Verifique as configurações')
+            logger.logError("Erro ao salvar as configurações do Menu.    -    Details: {}".format(str(e)))
+            
+            
             self.lblMsgMenu['fg'] = 'red'
 
     def virtualNumPad(self, parent):
