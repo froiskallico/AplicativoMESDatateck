@@ -10,7 +10,11 @@ import os
 import logger
 =======
 import banco
+<<<<<<< HEAD
 >>>>>>> refs/remotes/origin/master
+=======
+import logger
+>>>>>>> 24e870e6b0eecfa2ae2bc89a728de62293e5c226
 
 class Menu:
     def __init__(self, parent, master=None):
@@ -521,10 +525,9 @@ class Menu:
                 self.configFile.write(configfile)
 
             self.mensagemMenu.set('Erro. Verifique as configurações')
-            logger.logError("Erro ao salvar as configurações do Menu.    -    Details: {}".format(str(e)))
-            
-            
-            self.lblMsgMenu['fg'] = 'red'
+            lolf.lblMsgMenu['fg'] = 'red'
+
+            logger.logError("Erro ao salver as configurações do Menu.    -    Details: {}".format(str(e)))
 
     def virtualNumPad(self, parent):
         parent.configure(bg='lightgreen')

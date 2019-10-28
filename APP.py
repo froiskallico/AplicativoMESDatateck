@@ -180,6 +180,9 @@ class Imagens:
         file=diretorio + "/src/images/logos/logo.png")
     logoTri = PhotoImage(
         file=diretorio + "/src/images/logos/logoTri.png")
+    easterEgg = PhotoImage(
+        file=diretorio + "/src/images/TRI/TRI.png"
+    )
 
 
 class activeButtons:
@@ -723,6 +726,7 @@ class Application:
                                  bg=Cores.bgCinza,
                                  fg="white",
                                  anchor='se')
+            self.logoTri.bind("<Button-1>", lambda e: self.EasterEgg())
             self.logoTri.pack(side=BOTTOM,
                               pady=5,
                               anchor='w')
@@ -2355,9 +2359,7 @@ class Application:
                 self.popUpMenu = Toplevel(bg=Cores.bgCinza)
                 self.popUpMenu.overrideredirect(1)
                 self.popUpMenu.attributes('-topmost', 'true')
-                # self.popUpMenu.bind("<Escape>",
-                #                               lambda
-                #                                   e: self.popUpMenu.destroy())
+                # self.popUpMenu.bind("<Escape>", lambda e: self.popUpMenu.destroy())
                 self.popUpMenu.geometry(Definicoes.configFile['DISPLAY']['RES'])
                 self.popUpMenu.option_add('*TCombobox*Listbox.font',
                                 ('Play', 24))
@@ -2365,6 +2367,21 @@ class Application:
             montaTelaMenu()
             configMenu.Menu(self, self.popUpMenu)
 
+    def EasterEgg(self):
+        self.popUpEasterEgg = Toplevel(bg='black')
+        self.popUpEasterEgg.overrideredirect(1)
+        self.popUpEasterEgg.attributes('-topmost', 'true')
+        self.popUpEasterEgg.bind("<Escape>", lambda e: self.popUpEasterEgg.destroy())
+        self.popUpEasterEgg.geometry(Definicoes.configFile['DISPLAY']['RES'])
+
+        self.easterEggImage = Label(self.popUpEasterEgg,
+                                    text="Powered by TRI",
+                                    image=Imagens.easterEgg,
+                                    bg='black',
+                                    fg="white",
+                                    anchor='se')
+        self.easterEggImage.bind("<Button-1>", lambda e: self.popUpEasterEgg.destroy())
+        self.easterEggImage.pack(side=TOP)
 
 Application(root)
 root.mainloop()
