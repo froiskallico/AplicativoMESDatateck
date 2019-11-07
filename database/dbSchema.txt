@@ -2,6 +2,7 @@ CREATE TABLE USUARIOS (
                      PK_USU integer primary key autoincrement,
                      NOME text,
                      SENHA text);
+                     
 CREATE TABLE TIPOS_TEMPOS (
                      PK_TTM integer primary key autoincrement,
                      DESCRICAO text,

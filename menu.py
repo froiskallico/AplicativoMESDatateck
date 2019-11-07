@@ -518,7 +518,7 @@ class Menu:
                 self.configFile.write(configfile)
 
             self.mensagemMenu.set('Erro. Verifique as configurações')
-            lolf.lblMsgMenu['fg'] = 'red'
+            self.lblMsgMenu['fg'] = 'red'
 
             logger.logError("Erro ao salver as configurações do Menu.    -    Details: {}".format(str(e)))
 
