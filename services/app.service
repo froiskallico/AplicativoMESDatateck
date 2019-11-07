@@ -3,12 +3,12 @@ Description=Executando aplicativo MES
 After=network.target
 
 [Service]
-ExecStart=/home/pi/TRI/start.sh
-WorkingDirectory=/home/pi
+ExecStart=/home/tri/TRI/start.sh
+WorkingDirectory=/home/tri
 StandardOutput=inherit
 StandardError=inherit
 Restart=always
-User=pi
+User=tri
 Environment=DISPLAY=:0
 
 [Install]

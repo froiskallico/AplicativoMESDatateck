@@ -2,6 +2,6 @@
 
 while :
 do
-	/usr/bin/python3	/home/pi/TRI/atualiza_bdlocal.py
+	/usr/bin/python3	~/TRI/atualiza_bdlocal.py
 	sleep 30
 done

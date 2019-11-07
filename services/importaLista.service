@@ -3,12 +3,12 @@ Description=Executando servico de importacao de listas de Corte Automatizado
 After=network.target
 
 [Service]
-ExecStart=/home/pi/TRI/importaLista.sh
-WorkingDirectory=/home/pi
+ExecStart=/home/tri/TRI/importaLista.sh
+WorkingDirectory=/home/tri
 StandardOutput=inherit
 StandardError=inherit
 Restart=always
-User=pi
+User=tri
 
 [Install]
 WantedBy=multi-user.target

@@ -6,17 +6,18 @@ class etiqueta(object):
 
     def __init__(self):
         self.openPort()
+        self.testeImpressora()
 
     def openPort(self):
         self.port = serial.Serial(
-            "/dev/ttyACM0",
+            "/dev/usb/lp0",
             baudrate=115200,
             parity=serial.PARITY_NONE,
             writeTimeout=3,
             timeout=3)
 
-        # print(self.port.isOpen())
-        # print("Porta de impressao aberta...")
+        print(self.port.isOpen())
+        print("Porta de impressao aberta...")
 
     def closePort(self):
         while True:
@@ -144,3 +145,6 @@ www.TRITEC.rf.gd'''
         self.port.write(bytearray.fromhex('1B 69'))
         
         self.closePort()
+
+
+etiqueta()
