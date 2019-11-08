@@ -7,7 +7,7 @@ import logger
 class etiqueta(object):
 
     def __init__(self):
-        debugMode = True
+        debugMode = False
 
         diretorio = os.path.dirname(os.path.abspath(__file__))
         configFile = cfgprsr.ConfigParser()
@@ -15,10 +15,10 @@ class etiqueta(object):
         configFile.read(diretorio + '/config.ini')
         self.printer_type = configFile['PRINTER']['tipo']
         self.printer_device = configFile['PRINTER']['dispositivo']
-        self.printer_vid = configFile['PRINTER']['vid']
-        self.printer_pid = configFile['PRINTER']['pid']
-        self.printer_baudrate = configFile['PRINTER']['baudrate']
-        self.printer_timeout = configFile['PRINTER']['timeout']
+        self.printer_vid = int(configFile['PRINTER']['vid'], 16)
+        self.printer_pid = int(configFile['PRINTER']['pid'], 16)
+        self.printer_baudrate = int(configFile['PRINTER']['baudrate'])
+        self.printer_timeout = int(configFile['PRINTER']['timeout'])
         self.printer_parity = configFile['PRINTER']['parity']
 
         if debugMode:
@@ -39,6 +39,8 @@ class etiqueta(object):
                 self.printer = Usb(idVendor=self.printer_vid,
                                    idProduct=self.printer_pid,
                                    timeout=self.printer_timeout)
+
+            self.printer.codepage = 'UTF8'
         except Exception as e:
             logger.logError("Erro ao comunicar com a impressora.    -    Details: {}".format(str(e)))
 
@@ -52,7 +54,7 @@ class etiqueta(object):
         for key, value in kwargs.items():
             setattr(self, key, str(value).strip().replace('None', '-'))
 
-        self.printer.set(align='center')
+        self.printer.set(align='center', font='b')
 
         self.printer.barcode(code=self.PD,
                              bc='ITF',
@@ -66,10 +68,10 @@ class etiqueta(object):
         
         self.printer.text(cabecalhopd)
 
-        self.printer.set(align='left')
+        self.printer.set(align='left', font='a')
         self.printer.text('CPD: {} | Cabo: {}\n'.format(self.CPD, self.CABO))
 
-        self.printer.text('Bitola: {} X {}\n'.format(self.VIAS,
+        self.printer.text('Bitola: {} X {}\n\n'.format(self.VIAS,
                                                      self.BITOLA + self.UNIDADE))
         
         self.printer.set(align='center', text_type='b', width=2, height=2)
@@ -78,7 +80,6 @@ class etiqueta(object):
 
         self.printer.set(align='left', text_type='b', width=1, height=1, font='b')
 
-        # ToDo: Contiuar conversão do código a partir daqui...........
         self.printer.text('{} | {}\n'.format('Decape A'[:31].ljust(30, ' '),
                                            'Decape B'[:31].ljust(30, ' ')))
 
@@ -91,13 +92,13 @@ class etiqueta(object):
         self.printer.text('{} | {}\n'.format(self.ACABAMENTO_3[:31].ljust(30, ' '),
                                            self.ACABAMENTO_4[:31].ljust(30, ' ')))
 
-        self.printer.set(align='center', text_type='b', width=2, height=2, font='a')
+        self.printer.set(align='center', text_type='b', width=2, height=1, font='a')
 
-        self.printer.text('Quantidade: {} de {} pcs'.format(QTD_Cortada, self.QTD_PD_REQ))
+        self.printer.text('Qtd: {} de {} pcs\n'.format(QTD_Cortada, self.QTD_PD_REQ))
 
         self.printer.set(align='left', text_type='normal', width=1, height=1)
 
-        self.printer.text('\n\nObservacao: {}\n'.format(self.OBSERVACAO))
+        self.printer.text('\nObservacao: {}\n'.format(self.OBSERVACAO))
 
         self.printer.text('Gravacao: {}\n'.format(self.GRAVACAO))
 
@@ -108,6 +109,8 @@ class etiqueta(object):
         self.printer.text('Data de Entrega: {}\n'.format(self.DATA_ENTREGA))
         self.printer.text('Usuário: {}\n'.format(nomeUsuario))
         self.printer.text('Data de Impressao: {}\n'.format(datetime.datetime.now().strftime('%d-%m-%Y  %H:%M:%S')))
+
+        self.printer.cut()
 
         self.printer.close()
 
@@ -126,8 +129,8 @@ www.TRITEC.rf.gd'''
 
         self.printer.close()
 
-
-etiqueta().imprimeEtiqueta(3,
+etq = etiqueta()
+etq.imprimeEtiqueta(3,
                            'K',
                            PD='46338',
                            MAQUINA='KOMAX ALPHA 530',
