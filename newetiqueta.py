@@ -1,15 +1,14 @@
-from escpos.printer import Usb, Serial
+from escpos.printer import Usb, Serial,Dummy
 import datetime
-from collections import OrderedDict
 import configparser as cfgprsr
 import os
 import logger
 
-#ToDo: Tentar importar escpos.escpos para usar method textln() e ln() e outros.....
-
 class etiqueta(object):
 
     def __init__(self):
+        debugMode = True
+
         diretorio = os.path.dirname(os.path.abspath(__file__))
         configFile = cfgprsr.ConfigParser()
 
@@ -22,8 +21,12 @@ class etiqueta(object):
         self.printer_timeout = configFile['PRINTER']['timeout']
         self.printer_parity = configFile['PRINTER']['parity']
 
-        self.openPort()
-        self.testeImpressora()
+        if debugMode:
+            self.openDummy()
+        else:
+            self.openPort()
+
+        # self.testeImpressora()
 
     def openPort(self):
         try:
@@ -39,6 +42,9 @@ class etiqueta(object):
         except Exception as e:
             logger.logError("Erro ao comunicar com a impressora.    -    Details: {}".format(str(e)))
 
+    def openDummy(self):
+        self.printer = Dummy()
+
     def closePort(self):
         self.printer.close()
 
@@ -48,7 +54,7 @@ class etiqueta(object):
 
         self.printer.set(align='center')
 
-        self.printer.barcode(code=self.pd,
+        self.printer.barcode(code=self.PD,
                              bc='ITF',
                              height=64,
                              width=6,
@@ -66,74 +72,48 @@ class etiqueta(object):
         self.printer.text('Bitola: {} X {}\n'.format(self.VIAS,
                                                      self.BITOLA + self.UNIDADE))
         
-        self.printer.set(align='center', bold=True)
+        self.printer.set(align='center', text_type='b', width=2, height=2)
 
-        self.printer.text(str.encode('Medida: {} mm\n' % self.MEDIDA))
+        self.printer.text('Medida: {} mm\n'.format(self.MEDIDA))
+
+        self.printer.set(align='left', text_type='b', width=1, height=1, font='b')
 
         # ToDo: Contiuar conversão do código a partir daqui...........
-        self.port.write(bytearray.fromhex('1B 61 30 1B 44 16 17 18 19 20 21 22 23 00')) 
-        
-        self.port.write(str.encode('Decape A'))
-        self.port.write(bytearray.fromhex('09 7C 09'))
-        self.port.write(str.encode('Decape B'))
-        self.port.write(bytearray.fromhex('0A'))
-        
-        self.port.write(str.encode(self.DECAPE_A))        
-        self.port.write(bytearray.fromhex('09 7C 09'))
-        self.port.write(str.encode(self.DECAPE_B))
-        self.port.write(bytearray.fromhex('0A'))
+        self.printer.text('{} | {}\n'.format('Decape A'[:31].ljust(30, ' '),
+                                           'Decape B'[:31].ljust(30, ' ')))
 
-        if self.PONTE_1 == "S":
-            self.port.write(str.encode("* "))
-        self.port.write(str.encode(self.ACABAMENTO_1))
+        self.printer.text('{} | {}\n'.format(self.DECAPE_A[:31].ljust(30, ' '),
+                                           self.DECAPE_B[:31].ljust(30, ' ')))
 
-        self.port.write(bytearray.fromhex('09 7C 09'))
+        self.printer.text('{} | {}\n'.format(self.ACABAMENTO_1[:31].ljust(30, ' '),
+                                           self.ACABAMENTO_2[:31].ljust(30, ' ')))
 
-        if self.PONTE_2 == "S":
-            self.port.write(str.encode("* "))
-        self.port.write(str.encode(self.ACABAMENTO_2))
+        self.printer.text('{} | {}\n'.format(self.ACABAMENTO_3[:31].ljust(30, ' '),
+                                           self.ACABAMENTO_4[:31].ljust(30, ' ')))
 
-        self.port.write(bytearray.fromhex('0A'))
-        
-        self.port.write(str.encode(self.ACABAMENTO_3))        
-        self.port.write(bytearray.fromhex('09 7C 09'))
-        self.port.write(str.encode(self.ACABAMENTO_4))
-        self.port.write(bytearray.fromhex('0A'))
-        
-        self.port.write(bytearray.fromhex('1B 61 31'))
-        self.port.write(str.encode('Quantidade: %s de %s pcs' % (QTD_Cortada, self.QTD_PD_REQ)))
-        self.port.write(bytearray.fromhex('0A'))
-        
-        self.port.write(bytearray.fromhex('1B 46'))
-        self.port.write(bytearray.fromhex('1B 61 30'))
-        self.port.write(str.encode('Observacao: %s \n\n' % self.OBSERVACAO))
-        self.port.write(str.encode('Gravacao: %s \n' % self.GRAVACAO))
+        self.printer.set(align='center', text_type='b', width=2, height=2, font='a')
 
-        self.port.write(str.encode('Produto Final: %s \n' % self.CHICOTE))
-        self.port.write(str.encode('Célula de Produção: %s \n' % self.CELULA))
-        self.port.write(str.encode('Data de Entrega: %s \n' % self.DATA_ENTREGA))
-        self.port.write(str.encode('Usuário: %s \n' % nomeUsuario))
-        self.port.write(str.encode('Data de Impressao: %s \n' % datetime.datetime.now().strftime(
-                '%d-%m-%Y  %H:%M:%S')))
+        self.printer.text('Quantidade: {} de {} pcs'.format(QTD_Cortada, self.QTD_PD_REQ))
 
+        self.printer.set(align='left', text_type='normal', width=1, height=1)
 
+        self.printer.text('\n\nObservacao: {}\n'.format(self.OBSERVACAO))
 
-        self.port.write(bytearray.fromhex('1B 69'))
- 
-        self.closePort()
+        self.printer.text('Gravacao: {}\n'.format(self.GRAVACAO))
+
+        self.printer.set(font='b')
+
+        self.printer.text('Produto Final: {}\n'.format(self.CHICOTE))
+        self.printer.text('Célula de Produção: {}\n'.format(self.CELULA))
+        self.printer.text('Data de Entrega: {}\n'.format(self.DATA_ENTREGA))
+        self.printer.text('Usuário: {}\n'.format(nomeUsuario))
+        self.printer.text('Data de Impressao: {}\n'.format(datetime.datetime.now().strftime('%d-%m-%Y  %H:%M:%S')))
+
+        self.printer.close()
 
     def testeImpressora(self):
-        configs = OrderedDict([
-                              ('printConfig', '1D F9 35 30'),
-                              ('printerMode', '1D F9 2D 31'),
-                              ('charAlignmt', '1B 61 31'),
-                              ('encode', '1D F9 37 38')
-                             ])
+        self.printer.set(align='center')
 
-        for value in configs.values():
-                self.port.write(bytearray.fromhex(value))
-
-        
         stringTeste = '''Bem vindo ao MES - Datateck
 Teste de impressão de etiqueta
 
@@ -142,11 +122,33 @@ A Vontade de Crescer nos Conecta
 Powered by TRI
 www.TRITEC.rf.gd'''
 
-        self.port.write(str.encode(stringTeste))
-            
-        self.port.write(bytearray.fromhex('1B 69'))
-        
-        self.closePort()
+        self.printer.text(stringTeste)
+
+        self.printer.close()
 
 
-etiqueta()
+etiqueta().imprimeEtiqueta(3,
+                           'K',
+                           PD='46338',
+                           MAQUINA='KOMAX ALPHA 530',
+                           REQUISICAO='115915',
+                           CPD='8054',
+                           BITOLA='0.5',
+                           UNIDADE='MM2',
+                           CABO='COND C.F 0,50 VD/AM 300V',
+                           VIAS='1',
+                           MEDIDA='6080',
+                           DECAPE_A='5',
+                           DECAPE_B='',
+                           ACABAMENTO_1='201.3456-01',
+                           ACABAMENTO_2='626437-1 (ET-25)',
+                           ACABAMENTO_3='-',
+                           ACABAMENTO_4='-',
+                           QTD_PD_REQ='10',
+                           OBSERVACAO='',
+                           GRAVACAO='-',
+                           CHICOTE='3X.0564.GB.8',
+                           CELULA='KITS DIÁRIA',
+                           DATA_ENTREGA='2019-09-11 00:00:00'
+                           )
+

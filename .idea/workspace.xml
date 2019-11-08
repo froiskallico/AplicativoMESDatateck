@@ -4,13 +4,9 @@
     <option name="CUSTOM_SCOPE_NAME" value="Current File" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1669bfa9-4d23-45d3-8e49-192f3859084d" name="Default Changelist" comment="Versão 1.1.5 - Ajustes">
-      <change afterPath="$PROJECT_DIR$/newetiqueta.py" afterDir="false" />
+    <list default="true" id="1669bfa9-4d23-45d3-8e49-192f3859084d" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.ini" beforeDir="false" afterPath="$PROJECT_DIR$/config.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/dbSchema.txt" beforeDir="false" afterPath="$PROJECT_DIR$/database/dbSchema.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/menu.py" beforeDir="false" afterPath="$PROJECT_DIR$/menu.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/newetiqueta.py" beforeDir="false" afterPath="$PROJECT_DIR$/newetiqueta.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -82,7 +78,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.APP">
+  <component name="RunManager" selected="Python.newetiqueta">
     <configuration name="APP" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="AplicativoMESDatateck" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -188,7 +184,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="menu" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="newetiqueta" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="AplicativoMESDatateck" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -200,7 +196,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/menu.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/newetiqueta.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -211,11 +207,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.newetiqueta" />
         <item itemvalue="Python.APP" />
         <item itemvalue="Python.atualiza_bdlocal" />
         <item itemvalue="Python.login" />
         <item itemvalue="Python.logger" />
-        <item itemvalue="Python.menu" />
       </list>
     </recent_temporary>
   </component>
@@ -229,13 +225,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1555513361887</updated>
-    </task>
-    <task id="LOCAL-00001" summary="Posição inicial da Janela alterada para +150+15">
-      <created>1555513523580</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1555513523580</updated>
     </task>
     <task id="LOCAL-00002" summary="Posição inicial da Janela alterada para +150+15">
       <created>1555513703486</created>
@@ -573,7 +562,14 @@
       <option name="project" value="LOCAL" />
       <updated>1572274628113</updated>
     </task>
-    <option name="localTasksCounter" value="50" />
+    <task id="LOCAL-00050" summary="Versão 1.2.1 - Troca do codigo de etiqueta.py, usando lib python-escpos para fazer a comunicação com a impressora.&#10;&#10;Adicao de seção PRINTER no arquivo config.ini para setar as configurações da impressora conectada">
+      <created>1573156587375</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1573156587375</updated>
+    </task>
+    <option name="localTasksCounter" value="51" />
     <servers />
   </component>
   <component name="TodoView">
@@ -653,7 +649,8 @@
     <MESSAGE value="Versão 1.1.4" />
     <MESSAGE value="Versão 1.1.5 - Modificações no sistema no sistema de acesso ao banco de dados Global (criação de classe no arquivo banco.py; Parametros criados no config.ini); Alteração nos metodos de puxada de PDs por listas de cortes (Excluido criterio de maquina para que possa puxar PDs de varias listas de corte de maquinas diferentes);" />
     <MESSAGE value="Versão 1.1.5 - Ajustes" />
-    <option name="LAST_COMMIT_MESSAGE" value="Versão 1.1.5 - Ajustes" />
+    <MESSAGE value="Versão 1.2.1 - Troca do codigo de etiqueta.py, usando lib python-escpos para fazer a comunicação com a impressora.&#10;&#10;Adicao de seção PRINTER no arquivo config.ini para setar as configurações da impressora conectada" />
+    <option name="LAST_COMMIT_MESSAGE" value="Versão 1.2.1 - Troca do codigo de etiqueta.py, usando lib python-escpos para fazer a comunicação com a impressora.&#10;&#10;Adicao de seção PRINTER no arquivo config.ini para setar as configurações da impressora conectada" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
