@@ -35,7 +35,7 @@ class etiqueta(object):
         except Exception as e:
             logger.logError("Erro ao comunicar com a impressora.    -    Details: {}".format(str(e)))
 
-        self.testeImpressora()
+#        self.testeImpressora()
 
 
 
@@ -127,5 +127,3 @@ class etiqueta(object):
         self.printer.cut()
 
         self.printer.close()
-
-
