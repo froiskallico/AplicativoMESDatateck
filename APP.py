@@ -14,6 +14,7 @@ import configparser as cfgprsr
 import inspect
 import os, re
 import logger
+import atualiza_bdlocal
 
 diretorio = os.path.dirname(os.path.abspath(__file__))
 
@@ -974,7 +975,10 @@ class Application:
             self.tvw.item(self.nodeSel, open=not self.nodeIsOpen)
 
         def populaLista():
+            atualiza_bdlocal.AtualizaBancoLocal()
             pd = PD()
+
+            self.data = None
 
             if self.maquinaAutomatica == 'True':
                 def montaTelaCarregamento():
@@ -989,7 +993,7 @@ class Application:
 
                 montaTelaCarregamento()
 
-                priori.AlgoritmoSeparacao(self.popUpBarraProgresso)
+                #priori.AlgoritmoSeparacao(self.popUpBarraProgresso)
 
                 pd.buscaLista()
                 self.data = pd.lista
@@ -1794,6 +1798,10 @@ class Application:
                                     Variaveis.RQPreenchido = False
                                     limpaTela()
                                     self.montaTelaPrincipal()
+                                    self.montaLista()
+                                    atualiza_bdlocal.AtualizaBancoLocal()
+
+
 
                             except Exception as e:
                                 self.lblMensagem.config(

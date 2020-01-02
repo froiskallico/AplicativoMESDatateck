@@ -37,13 +37,13 @@ class PD(object):
 
         try:
             c = banco.conexao.cursor()
-            print(self.filtaLista)
+            #print(self.filtaLista)
             if self.filtaLista == 'True':
                 c.execute('''SELECT
                                *
                              FROM
                                PDS
-                             WHERE  
+                             WHERE
                                PDS."QTD PD REQ" > PDS.QTD_CORTADA
                           ''' + strOrdenacao)
             else:
@@ -132,6 +132,7 @@ class PD(object):
             try:
                 curOrigem.execute("""EXECUTE PROCEDURE ATUALIZA_QTD_CORTADA(%s, %s)""" % (ID, qtdCortada))
                 conOrigem.commit()
+                conOrigem.close()
             except Exception as e:
                 logger.logError("Erro na gravação dos dados na origem!    -    Details: {}".format(str(e)))
                 return False
@@ -155,6 +156,7 @@ class PD(object):
                         """ % (qtdCortada, ID))
 
             banco.conexao.commit()
+            banco.conexao.close()
 
             return True
 
