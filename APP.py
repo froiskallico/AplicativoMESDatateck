@@ -258,6 +258,7 @@ class Application:
             self.montaTelaPrincipal()
 
             #------- debug -------#
+            Variaveis.estadoEquipamento = 5
 
             try:
                 etq = etiqueta.etiqueta()
@@ -1977,7 +1978,10 @@ class Application:
                     self.popUpQtdCortada.focus()
 
                 def montaWidgets():
-                    self.btnConfirma = Button(self.popUpQtdCortada,
+                    self.containerBotoes = Frame(self.popUpQtdCortada,
+                                                 bg=Cores.bgCinza)
+
+                    self.btnConfirma = Button(self.containerBotoes,
                                                 text="Confirmar",
                                                 font=Fontes.fontePadrao,
                                                 bg=Cores.bgCinza,
@@ -1985,6 +1989,15 @@ class Application:
                                                 relief=FLAT,
                                                 image=activeButtons.confirmarButton)
                     self.btnConfirma["command"] = registraRQCorte
+
+                    self.btnCancela = Button(self.containerBotoes,
+                                                text="Cancelar",
+                                                font=Fontes.fontePadrao,
+                                                bg=Cores.bgCinza,
+                                                fg='white',
+                                                relief=FLAT,
+                                                image=redButtons.cancelarButton)
+                    self.btnCancela["command"] = lambda: self.popUpQtdCortada.destroy()
 
                     self.lblRegQualidade = Label(self.popUpQtdCortada,
                                                  text="REGISTROS DE QUALIDADE",
@@ -2072,8 +2085,14 @@ class Application:
                                             padx=5,
                                             pady=(0,5))
 
-                    self.btnConfirma.pack(side=BOTTOM,
+                    self.containerBotoes.pack(side=BOTTOM)
+
+                    self.btnCancela.pack(side=RIGHT,
+                                         pady=(5,25))
+
+                    self.btnConfirma.pack(side=LEFT,
                                           pady=(5,25))
+
 
                     self.lblMensagem.pack(side=BOTTOM)
 
