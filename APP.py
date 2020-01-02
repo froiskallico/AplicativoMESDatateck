@@ -258,7 +258,6 @@ class Application:
             self.montaTelaPrincipal()
 
             #------- debug -------#
-            Variaveis.estadoEquipamento = 5
 
             try:
                 etq = etiqueta.etiqueta()
@@ -1960,12 +1959,13 @@ class Application:
 
                     registraUltMedida()
 
+                def fechaPopUpQtdCortada():
+                    if Variaveis.virtualNumPadVisible:
+                        self.popUpVNumPad.destroy()
+                        Variaveis.virtualNumPadVisible = False
+                    self.popUpQtdCortada.destroy()
+
                 def montaScreen():
-                    def fechaPopUpQtdCortada():
-                        if Variaveis.virtualNumPadVisible:
-                            self.popUpVNumPad.destroy()
-                            Variaveis.virtualNumPadVisible = False
-                        self.popUpQtdCortada.destroy()
 
                     self.popUpQtdCortada = Toplevel(bg=Cores.bgCinza,
                                                  bd=7,
@@ -1997,7 +1997,8 @@ class Application:
                                                 fg='white',
                                                 relief=FLAT,
                                                 image=redButtons.cancelarButton)
-                    self.btnCancela["command"] = lambda: self.popUpQtdCortada.destroy()
+                    self.btnCancela["command"] = lambda: fechaPopUpQtdCortada()
+                    Variaveis.virtualNumPadVisible = False
 
                     self.lblRegQualidade = Label(self.popUpQtdCortada,
                                                  text="REGISTROS DE QUALIDADE",

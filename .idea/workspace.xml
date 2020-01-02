@@ -7,7 +7,6 @@
     <list default="true" id="1669bfa9-4d23-45d3-8e49-192f3859084d" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/APP.py" beforeDir="false" afterPath="$PROJECT_DIR$/APP.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.ini" beforeDir="false" afterPath="$PROJECT_DIR$/config.ini" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -226,13 +225,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1555513361887</updated>
-    </task>
-    <task id="LOCAL-00003" summary="Em Construção">
-      <created>1555525058349</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1555525058349</updated>
     </task>
     <task id="LOCAL-00004" summary="Criado Documento com TODO do Projeto">
       <created>1555962862112</created>
@@ -570,7 +562,14 @@
       <option name="project" value="LOCAL" />
       <updated>1577987850270</updated>
     </task>
-    <option name="localTasksCounter" value="52" />
+    <task id="LOCAL-00052" summary="Botão adicionado ao final do ciclo">
+      <created>1577989006095</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1577989006095</updated>
+    </task>
+    <option name="localTasksCounter" value="53" />
     <servers />
   </component>
   <component name="TodoView">
@@ -652,16 +651,12 @@
     <MESSAGE value="Versão 1.1.5 - Ajustes" />
     <MESSAGE value="Versão 1.2.1 - Troca do codigo de etiqueta.py, usando lib python-escpos para fazer a comunicação com a impressora.&#10;&#10;Adicao de seção PRINTER no arquivo config.ini para setar as configurações da impressora conectada" />
     <MESSAGE value="Initial commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="Initial commit" />
+    <MESSAGE value="Botão adicionado ao final do ciclo" />
+    <option name="LAST_COMMIT_MESSAGE" value="Botão adicionado ao final do ciclo" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/APP.py</url>
-          <line>1729</line>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/banco.py</url>
           <line>76</line>
