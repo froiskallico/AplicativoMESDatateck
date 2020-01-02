@@ -6,7 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="1669bfa9-4d23-45d3-8e49-192f3859084d" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/newetiqueta.py" beforeDir="false" afterPath="$PROJECT_DIR$/newetiqueta.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config.ini" beforeDir="false" afterPath="$PROJECT_DIR$/config.ini" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -78,7 +78,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.newetiqueta">
+  <component name="RunManager" selected="Python.APP">
     <configuration name="APP" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="AplicativoMESDatateck" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -207,8 +207,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.newetiqueta" />
         <item itemvalue="Python.APP" />
+        <item itemvalue="Python.newetiqueta" />
         <item itemvalue="Python.atualiza_bdlocal" />
         <item itemvalue="Python.login" />
         <item itemvalue="Python.logger" />
@@ -657,7 +657,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/APP.py</url>
-          <line>1724</line>
+          <line>1728</line>
           <option name="timeStamp" value="3" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
