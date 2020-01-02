@@ -946,7 +946,6 @@ class Application:
                 Variaveis.quantidadePendente = Variaveis.campos.get(
                     "QTD_PD_REQ") - Variaveis.campos.get("QTD_CORTADA")
 
-
                 self.limpaTela()
                 self.montaTelaPrincipal()
 
@@ -2410,6 +2409,7 @@ class Application:
                                     anchor='se')
         self.easterEggImage.bind("<Button-1>", lambda e: self.popUpEasterEgg.destroy())
         self.easterEggImage.pack(side=TOP)
+
 
 Application(root)
 root.mainloop()
