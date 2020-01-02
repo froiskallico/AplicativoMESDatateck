@@ -993,7 +993,7 @@ class Application:
 
                 montaTelaCarregamento()
 
-                #priori.AlgoritmoSeparacao(self.popUpBarraProgresso)
+                priori.AlgoritmoSeparacao(self.popUpBarraProgresso)
 
                 pd.buscaLista()
                 self.data = pd.lista
