@@ -9,7 +9,7 @@ from time import time
 import datetime
 from tkinter import ttk
 import menu as configMenu
-import login
+# import login
 import configparser as cfgprsr
 import inspect
 import os, re
@@ -251,20 +251,20 @@ class Application:
 
     # --- Inicialização do Aplicativo --- #
     def __init__(self, master=None):
-        Variaveis.idUsuarioLogado = login.idUsuario
-        Variaveis.nomeUsuarioLogado = login.nomeUsuario
-
-        if Variaveis.idUsuarioLogado > 0:
+        # Variaveis.idUsuarioLogado = login.idUsuario
+        # Variaveis.nomeUsuarioLogado = login.nomeUsuario
+        #
+        # if Variaveis.idUsuarioLogado > 0:
             self.montaTelaPrincipal()
-
-            #------- debug -------#
-
-
-            try:
-                etq = etiqueta.etiqueta()
-                etq.testeImpressora()
-            except:
-                pass
+        #
+        #     #------- debug -------#
+        #
+        #
+        #     try:
+        #         etq = etiqueta.etiqueta()
+        #         etq.testeImpressora()
+        #     except:
+        #         pass
 
     # --- Geração do Layout Principal --- #
     def montaTelaPrincipal(self, master=None):
@@ -982,6 +982,8 @@ class Application:
 
             self.tvw.item(self.nodeSel, open=not self.nodeIsOpen)
 
+
+
         def populaLista():
             atualiza_bdlocal.AtualizaBancoLocal()
             pd = PD()
@@ -1031,6 +1033,12 @@ class Application:
                     requisicao = item[1]
                     pk_irp = item[0]
 
+                    tag = 'zerado'
+
+                    if qtd_cortada > 0:
+                        tag = 'parcial'
+                        qtd_pendente = "*{}".format(qtd_pendente)
+
                     try:
                         self.tvw.insert(casal,
                                         'end',
@@ -1039,7 +1047,9 @@ class Application:
                                                 medida,
                                                 qtd_pendente,
                                                 requisicao,
-                                                pk_irp))
+                                                pk_irp),
+                                        tags=tag)
+
                     except:
                         self.tvw.insert(casal_invertido,
                                         'end',
@@ -1048,7 +1058,8 @@ class Application:
                                                 medida,
                                                 qtd_pendente,
                                                 requisicao,
-                                                pk_irp))
+                                                pk_irp),
+                                        tags=tag)
 
             else:
                 pd.buscaLista()
@@ -1062,9 +1073,13 @@ class Application:
                         cabos.append(str(cabo))
 
                 for cabo in cabos:
-                    self.tvw.insert('', 'end', cabo, text=cabo)
+                    self.tvw.insert('',
+                                    'end',
+                                    cabo,
+                                    text=cabo)
 
                 qtd_Total = 0
+
                 for item in self.data:
                     cabo = item[9]
                     pd = item[8]
@@ -1076,14 +1091,21 @@ class Application:
                     requisicao = item[1]
                     pk_irp = item[0]
 
-                    self.tvw.insert(
-                        cabo,
-                        'end',
-                        text=pd, values=(
-                            medida,
-                            qtd_pendente,
-                            requisicao,
-                            pk_irp))
+                    tag = 'zerado'
+
+                    if qtd_cortada > 0:
+                        tag = 'parcial'
+                        qtd_pendente = "*{}".format(qtd_pendente)
+
+                    self.tvw.insert(cabo,
+                                    'end',
+                                    text=pd,
+                                    values=(medida,
+                                            qtd_pendente,
+                                            requisicao,
+                                            pk_irp),
+                                    tags=tag)
+
 
             self.listaCount.configure(
                 text='Total de PDs: %s   -   Total de Circuitos: %s' % (

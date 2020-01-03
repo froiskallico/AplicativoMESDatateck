@@ -4,7 +4,7 @@
     <option name="CUSTOM_SCOPE_NAME" value="Current File" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1669bfa9-4d23-45d3-8e49-192f3859084d" name="Default Changelist" comment="Hotfix:&#10;&#10;Adicionado na etiqueta a informação de quantidade &quot;já cortados&quot;">
+    <list default="true" id="1669bfa9-4d23-45d3-8e49-192f3859084d" name="Default Changelist" comment="Hotfix:&#10;&#10;- No campo observação quando a string armazenada em Variaveis.campos[&quot;OBSERVACAO&quot;] for muito grande o container não mais se propagará empurrando os demais widgets para fora do campo de visão. Ao invés disso a string será &quot;cortada&quot; no inicio e final, e ficará sobreposta pelos outros widgets. Para exibir a string completa o usuario podera clicar no campo observação e este abrirá um popUp de detalhamento;&#10;- Adicionado popUpDetail Method que abre um pop up exibindo o header e o data passados como argumentos na chamada do método... Caso a string passada no &quot;data&quot; seja maior que 50cc é feita quebra de linha no popUp para exibir o conteudo;">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/APP.py" beforeDir="false" afterPath="$PROJECT_DIR$/APP.py" afterDir="false" />
     </list>
@@ -142,27 +142,6 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="logger" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="AplicativoMESDatateck" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/logger.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <configuration name="login" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="AplicativoMESDatateck" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -205,13 +184,34 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="scratch" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="AplicativoMESDatateck" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$APPLICATION_CONFIG_DIR$/scratches" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$APPLICATION_CONFIG_DIR$/scratches/scratch.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Python.APP" />
+        <item itemvalue="Python.scratch" />
         <item itemvalue="Python.newetiqueta" />
         <item itemvalue="Python.atualiza_bdlocal" />
         <item itemvalue="Python.login" />
-        <item itemvalue="Python.logger" />
       </list>
     </recent_temporary>
   </component>
@@ -225,13 +225,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1555513361887</updated>
-    </task>
-    <task id="LOCAL-00004" summary="Criado Documento com TODO do Projeto">
-      <created>1555962862112</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1555962862112</updated>
     </task>
     <task id="LOCAL-00005" summary="em Construção">
       <created>1557153684672</created>
@@ -569,7 +562,14 @@
       <option name="project" value="LOCAL" />
       <updated>1577989006095</updated>
     </task>
-    <option name="localTasksCounter" value="53" />
+    <task id="LOCAL-00053" summary="Hotfix:&#10;&#10;- No campo observação quando a string armazenada em Variaveis.campos[&quot;OBSERVACAO&quot;] for muito grande o container não mais se propagará empurrando os demais widgets para fora do campo de visão. Ao invés disso a string será &quot;cortada&quot; no inicio e final, e ficará sobreposta pelos outros widgets. Para exibir a string completa o usuario podera clicar no campo observação e este abrirá um popUp de detalhamento;&#10;- Adicionado popUpDetail Method que abre um pop up exibindo o header e o data passados como argumentos na chamada do método... Caso a string passada no &quot;data&quot; seja maior que 50cc é feita quebra de linha no popUp para exibir o conteudo;">
+      <created>1578057276824</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1578057276824</updated>
+    </task>
+    <option name="localTasksCounter" value="54" />
     <servers />
   </component>
   <component name="TodoView">
@@ -597,17 +597,6 @@
         <entry key="MAIN">
           <value>
             <State>
-              <option name="FILTERS">
-                <map>
-                  <entry key="branch">
-                    <value>
-                      <list>
-                        <option value="origin/master" />
-                      </list>
-                    </value>
-                  </entry>
-                </map>
-              </option>
               <option name="COLUMN_ORDER" />
             </State>
           </value>
@@ -652,7 +641,8 @@
     <MESSAGE value="Versão 1.2.1 - Troca do codigo de etiqueta.py, usando lib python-escpos para fazer a comunicação com a impressora.&#10;&#10;Adicao de seção PRINTER no arquivo config.ini para setar as configurações da impressora conectada" />
     <MESSAGE value="Initial commit" />
     <MESSAGE value="Botão adicionado ao final do ciclo" />
-    <option name="LAST_COMMIT_MESSAGE" value="Botão adicionado ao final do ciclo" />
+    <MESSAGE value="Hotfix:&#10;&#10;- No campo observação quando a string armazenada em Variaveis.campos[&quot;OBSERVACAO&quot;] for muito grande o container não mais se propagará empurrando os demais widgets para fora do campo de visão. Ao invés disso a string será &quot;cortada&quot; no inicio e final, e ficará sobreposta pelos outros widgets. Para exibir a string completa o usuario podera clicar no campo observação e este abrirá um popUp de detalhamento;&#10;- Adicionado popUpDetail Method que abre um pop up exibindo o header e o data passados como argumentos na chamada do método... Caso a string passada no &quot;data&quot; seja maior que 50cc é feita quebra de linha no popUp para exibir o conteudo;" />
+    <option name="LAST_COMMIT_MESSAGE" value="Hotfix:&#10;&#10;- No campo observação quando a string armazenada em Variaveis.campos[&quot;OBSERVACAO&quot;] for muito grande o container não mais se propagará empurrando os demais widgets para fora do campo de visão. Ao invés disso a string será &quot;cortada&quot; no inicio e final, e ficará sobreposta pelos outros widgets. Para exibir a string completa o usuario podera clicar no campo observação e este abrirá um popUp de detalhamento;&#10;- Adicionado popUpDetail Method que abre um pop up exibindo o header e o data passados como argumentos na chamada do método... Caso a string passada no &quot;data&quot; seja maior que 50cc é feita quebra de linha no popUp para exibir o conteudo;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -661,11 +651,6 @@
           <url>file://$PROJECT_DIR$/banco.py</url>
           <line>76</line>
           <option name="timeStamp" value="12" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/APP.py</url>
-          <line>250</line>
-          <option name="timeStamp" value="16" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
