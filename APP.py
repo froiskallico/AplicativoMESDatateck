@@ -9,7 +9,7 @@ from time import time
 import datetime
 from tkinter import ttk
 import menu as configMenu
-import login
+# import login
 import configparser as cfgprsr
 import inspect
 import os, re
@@ -251,13 +251,14 @@ class Application:
 
     # --- Inicialização do Aplicativo --- #
     def __init__(self, master=None):
-      Variaveis.idUsuarioLogado = login.idUsuario
-      Variaveis.nomeUsuarioLogado = login.nomeUsuario
-
-      if Variaveis.idUsuarioLogado > 0:
+      # Variaveis.idUsuarioLogado = login.idUsuario
+      # Variaveis.nomeUsuarioLogado = login.nomeUsuario
+      #
+      # if Variaveis.idUsuarioLogado > 0:
             self.montaTelaPrincipal()
 
             #------- debug -------#
+
 
             try:
                 etq = etiqueta.etiqueta()
@@ -963,7 +964,10 @@ class Application:
 
             self.itemSel = self.tvw.focus()
             self.itemData = self.tvw.item(self.itemSel)
-            Variaveis.ID = self.itemData.get('values')[3]
+
+            treeview_item_id = len(self.itemData.get('values')) - 1
+
+            Variaveis.ID = self.itemData.get('values')[treeview_item_id]
 
             carregaDadosDoPDNaTela()
 
@@ -1012,6 +1016,7 @@ class Application:
                 for item in self.data:
                     casal = '%s | %s' % (str(item[20]), str(item[22]))
                     casal_invertido = '%s | %s' % (str(item[22]), str(item[20]))
+                    pd = item[8]
                     cabo = item[9]
                     medida = item[17]
                     qtd_req = round(item[15])
@@ -1025,7 +1030,8 @@ class Application:
                         self.tvw.insert(casal,
                                         'end',
                                         text=cabo,
-                                        values=(medida,
+                                        values=(pd,
+                                                medida,
                                                 qtd_pendente,
                                                 requisicao,
                                                 pk_irp))
@@ -1033,7 +1039,8 @@ class Application:
                         self.tvw.insert(casal_invertido,
                                         'end',
                                         text=cabo,
-                                        values=(medida,
+                                        values=(pd,
+                                                medida,
                                                 qtd_pendente,
                                                 requisicao,
                                                 pk_irp))
@@ -1087,10 +1094,18 @@ class Application:
 
             self.limpaContainerEsquerda()
 
-            self.dataCols = ('Medida',
-                             'Quantidade',
-                             'Requisição',
-                             'ID')
+            if self.maquinaAutomatica == "True":
+                self.dataCols = ('PD',
+                                 'Medida',
+                                 'Quantidade',
+                                 'Requisição',
+                                 'ID')
+
+            else:
+                self.dataCols = ('Medida',
+                                 'Quantidade',
+                                 'Requisição',
+                                 'ID')
 
             self.containerEsquerda.grid_rowconfigure(0, weight=1)
             self.containerEsquerda.grid_columnconfigure(0, weight=1)
@@ -1124,7 +1139,7 @@ class Application:
             self.tvw.bind("<ButtonRelease-1>", abrirOuFecharNode)
 
             def strCabecalho():
-                if self.maquinaAutomatica:
+                if self.maquinaAutomatica == "True":
                     return "Par de Terminais"
                 else:
                     return "Cabo/PD"

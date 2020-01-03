@@ -99,7 +99,8 @@ class etiqueta(object):
         self.port.write(bytearray.fromhex('0A'))
         
         self.port.write(bytearray.fromhex('1B 61 31'))
-        self.port.write(str.encode('Quantidade: %s de %s pcs' % (QTD_Cortada, self.QTD_PD_REQ)))
+        self.port.write(str.encode('Quantidade: %s de %s pcs \n' % (QTD_Cortada, self.QTD_PD_REQ)))
+        self.port.write(str.encode('Já cortados: %s' % self.QTD_CORTADA))
         self.port.write(bytearray.fromhex('0A'))
         
         self.port.write(bytearray.fromhex('1B 46'))
