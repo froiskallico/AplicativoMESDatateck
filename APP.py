@@ -9,7 +9,7 @@ from time import time
 import datetime
 from tkinter import ttk
 import menu as configMenu
-# import login
+import login
 import configparser as cfgprsr
 import inspect
 import os, re
@@ -251,10 +251,10 @@ class Application:
 
     # --- Inicialização do Aplicativo --- #
     def __init__(self, master=None):
-      # Variaveis.idUsuarioLogado = login.idUsuario
-      # Variaveis.nomeUsuarioLogado = login.nomeUsuario
-      #
-      # if Variaveis.idUsuarioLogado > 0:
+        Variaveis.idUsuarioLogado = login.idUsuario
+        Variaveis.nomeUsuarioLogado = login.nomeUsuario
+
+        if Variaveis.idUsuarioLogado > 0:
             self.montaTelaPrincipal()
 
             #------- debug -------#
@@ -359,9 +359,11 @@ class Application:
 
             ######--- Observação ---######
             self.containerObservacao = Frame(self.containerDetalhesMeio,
-                                             bg=Cores.bgCinza)
+                                             bg=Cores.bgCinza,
+                                             height=60)
             self.containerObservacao.pack(fill=X,
                                           expand=1)
+            self.containerObservacao.pack_propagate(0)
 
             ######--- Gravação ---######
             self.containerGravacao = Frame(self.containerDetalhesMeio,
@@ -377,6 +379,8 @@ class Application:
             ######--- Acabamento 2 ---######
             self.containerAcabamento2 = Frame(self.containerLadoB,
                                               bg=Cores.bgVerde)
+            # self.containerAcabamento2.pack(side=TOP,
+            #                                pady=10)
             self.containerAcabamento2.pack(side=TOP,
                                            pady=10)
 
@@ -643,9 +647,10 @@ class Application:
                                        bg=Cores.bgCinza,
                                        fg="white")
             self.lblObservacao.pack()
+            self.lblObservacao.bind('<Button-1>', lambda e: self.PopUpDetail("Observação", Variaveis.campos.get("OBSERVACAO")))
 
             ####--- Gravacao ---####
-            self.lblLabelGravacao = Label(self.containerObservacao,
+            self.lblLabelGravacao = Label(self.containerGravacao,
                                           text="Gravação",
                                           font=Fontes.fontePadrao,
                                           bg=Cores.bgCinza,
@@ -2386,6 +2391,40 @@ class Application:
                                     fg="white",
                                     bd=0,
                                     height=4,
+                                    justify=LEFT)
+            self.lblCaboExt.pack(side=TOP,
+                                 padx=20,
+                                 pady=15,
+                                 expand=1,
+                                 fill=X)
+
+        montaScreen()
+
+    def PopUpDetail(self, header, data):
+        def montaScreen():
+            self.popUpDetail = Toplevel(bg=Cores.bgCinza,
+                                            bd=7,
+                                            relief=RAISED)
+            self.popUpDetail.overrideredirect(1)
+            self.popUpDetail.attributes('-topmost', 'true')
+            self.popUpDetail.bind("<Button-1>", lambda e: self.popUpDetail.destroy())
+            self.popUpDetail.geometry('+50+150')
+            self.popUpDetail.focus()
+
+            newData = data
+
+            if len(data) > 50:
+                lines = len(data) // 50 + 1
+                newData = ""
+                for line in range(lines):
+                    newData = newData + "{}\n".format(data[line*51 : line*50+50])
+
+            self.lblCaboExt = Label(self.popUpDetail,
+                                    text="%s:\n  %s" % (header, newData),
+                                    font=Fontes.fonteCabecalho,
+                                    bg=Cores.bgCinza,
+                                    fg="white",
+                                    bd=0,
                                     justify=LEFT)
             self.lblCaboExt.pack(side=TOP,
                                  padx=20,
