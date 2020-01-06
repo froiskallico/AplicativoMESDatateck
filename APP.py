@@ -9,7 +9,7 @@ from time import time
 import datetime
 from tkinter import ttk
 import menu as configMenu
-import login
+# import login
 import configparser as cfgprsr
 import inspect
 import os, re
@@ -251,19 +251,20 @@ class Application:
 
     # --- Inicialização do Aplicativo --- #
     def __init__(self, master=None):
-      Variaveis.idUsuarioLogado = login.idUsuario
-      Variaveis.nomeUsuarioLogado = login.nomeUsuario
-
-      if Variaveis.idUsuarioLogado > 0:
+        # Variaveis.idUsuarioLogado = login.idUsuario
+        # Variaveis.nomeUsuarioLogado = login.nomeUsuario
+        #
+        # if Variaveis.idUsuarioLogado > 0:
             self.montaTelaPrincipal()
-
-            #------- debug -------#
-
-            try:
-                etq = etiqueta.etiqueta()
-                etq.testeImpressora()
-            except:
-                pass
+        #
+        #     #------- debug -------#
+        #
+        #
+        #     try:
+        #         etq = etiqueta.etiqueta()
+        #         etq.testeImpressora()
+        #     except:
+        #         pass
 
     # --- Geração do Layout Principal --- #
     def montaTelaPrincipal(self, master=None):
@@ -358,9 +359,11 @@ class Application:
 
             ######--- Observação ---######
             self.containerObservacao = Frame(self.containerDetalhesMeio,
-                                             bg=Cores.bgCinza)
+                                             bg=Cores.bgCinza,
+                                             height=60)
             self.containerObservacao.pack(fill=X,
                                           expand=1)
+            self.containerObservacao.pack_propagate(0)
 
             ######--- Gravação ---######
             self.containerGravacao = Frame(self.containerDetalhesMeio,
@@ -376,6 +379,8 @@ class Application:
             ######--- Acabamento 2 ---######
             self.containerAcabamento2 = Frame(self.containerLadoB,
                                               bg=Cores.bgVerde)
+            # self.containerAcabamento2.pack(side=TOP,
+            #                                pady=10)
             self.containerAcabamento2.pack(side=TOP,
                                            pady=10)
 
@@ -642,9 +647,10 @@ class Application:
                                        bg=Cores.bgCinza,
                                        fg="white")
             self.lblObservacao.pack()
+            self.lblObservacao.bind('<Button-1>', lambda e: self.PopUpDetail("Observação", Variaveis.campos.get("OBSERVACAO")))
 
             ####--- Gravacao ---####
-            self.lblLabelGravacao = Label(self.containerObservacao,
+            self.lblLabelGravacao = Label(self.containerGravacao,
                                           text="Gravação",
                                           font=Fontes.fontePadrao,
                                           bg=Cores.bgCinza,
@@ -946,7 +952,6 @@ class Application:
                 Variaveis.quantidadePendente = Variaveis.campos.get(
                     "QTD_PD_REQ") - Variaveis.campos.get("QTD_CORTADA")
 
-
                 self.limpaTela()
                 self.montaTelaPrincipal()
 
@@ -964,7 +969,10 @@ class Application:
 
             self.itemSel = self.tvw.focus()
             self.itemData = self.tvw.item(self.itemSel)
-            Variaveis.ID = self.itemData.get('values')[3]
+
+            treeview_item_id = len(self.itemData.get('values')) - 1
+
+            Variaveis.ID = self.itemData.get('values')[treeview_item_id]
 
             carregaDadosDoPDNaTela()
 
@@ -973,6 +981,8 @@ class Application:
             self.nodeIsOpen = self.tvw.item(self.nodeSel, option='open')
 
             self.tvw.item(self.nodeSel, open=not self.nodeIsOpen)
+
+
 
         def populaLista():
             atualiza_bdlocal.AtualizaBancoLocal()
@@ -1013,6 +1023,7 @@ class Application:
                 for item in self.data:
                     casal = '%s | %s' % (str(item[20]), str(item[22]))
                     casal_invertido = '%s | %s' % (str(item[22]), str(item[20]))
+                    pd = item[8]
                     cabo = item[9]
                     medida = item[17]
                     qtd_req = round(item[15])
@@ -1022,22 +1033,33 @@ class Application:
                     requisicao = item[1]
                     pk_irp = item[0]
 
+                    tag = 'zerado'
+
+                    if qtd_cortada > 0:
+                        tag = 'parcial'
+                        qtd_pendente = "*{}".format(qtd_pendente)
+
                     try:
                         self.tvw.insert(casal,
                                         'end',
                                         text=cabo,
-                                        values=(medida,
+                                        values=(pd,
+                                                medida,
                                                 qtd_pendente,
                                                 requisicao,
-                                                pk_irp))
+                                                pk_irp),
+                                        tags=tag)
+
                     except:
                         self.tvw.insert(casal_invertido,
                                         'end',
                                         text=cabo,
-                                        values=(medida,
+                                        values=(pd,
+                                                medida,
                                                 qtd_pendente,
                                                 requisicao,
-                                                pk_irp))
+                                                pk_irp),
+                                        tags=tag)
 
             else:
                 pd.buscaLista()
@@ -1051,9 +1073,13 @@ class Application:
                         cabos.append(str(cabo))
 
                 for cabo in cabos:
-                    self.tvw.insert('', 'end', cabo, text=cabo)
+                    self.tvw.insert('',
+                                    'end',
+                                    cabo,
+                                    text=cabo)
 
                 qtd_Total = 0
+
                 for item in self.data:
                     cabo = item[9]
                     pd = item[8]
@@ -1065,14 +1091,21 @@ class Application:
                     requisicao = item[1]
                     pk_irp = item[0]
 
-                    self.tvw.insert(
-                        cabo,
-                        'end',
-                        text=pd, values=(
-                            medida,
-                            qtd_pendente,
-                            requisicao,
-                            pk_irp))
+                    tag = 'zerado'
+
+                    if qtd_cortada > 0:
+                        tag = 'parcial'
+                        qtd_pendente = "*{}".format(qtd_pendente)
+
+                    self.tvw.insert(cabo,
+                                    'end',
+                                    text=pd,
+                                    values=(medida,
+                                            qtd_pendente,
+                                            requisicao,
+                                            pk_irp),
+                                    tags=tag)
+
 
             self.listaCount.configure(
                 text='Total de PDs: %s   -   Total de Circuitos: %s' % (
@@ -1088,10 +1121,18 @@ class Application:
 
             self.limpaContainerEsquerda()
 
-            self.dataCols = ('Medida',
-                             'Quantidade',
-                             'Requisição',
-                             'ID')
+            if self.maquinaAutomatica == "True":
+                self.dataCols = ('PD',
+                                 'Medida',
+                                 'Quantidade',
+                                 'Requisição',
+                                 'ID')
+
+            else:
+                self.dataCols = ('Medida',
+                                 'Quantidade',
+                                 'Requisição',
+                                 'ID')
 
             self.containerEsquerda.grid_rowconfigure(0, weight=1)
             self.containerEsquerda.grid_columnconfigure(0, weight=1)
@@ -1125,7 +1166,7 @@ class Application:
             self.tvw.bind("<ButtonRelease-1>", abrirOuFecharNode)
 
             def strCabecalho():
-                if self.maquinaAutomatica:
+                if self.maquinaAutomatica == "True":
                     return "Par de Terminais"
                 else:
                     return "Cabo/PD"
@@ -1959,12 +2000,13 @@ class Application:
 
                     registraUltMedida()
 
+                def fechaPopUpQtdCortada():
+                    if Variaveis.virtualNumPadVisible:
+                        self.popUpVNumPad.destroy()
+                        Variaveis.virtualNumPadVisible = False
+                    self.popUpQtdCortada.destroy()
+
                 def montaScreen():
-                    def fechaPopUpQtdCortada():
-                        if Variaveis.virtualNumPadVisible:
-                            self.popUpVNumPad.destroy()
-                            Variaveis.virtualNumPadVisible = False
-                        self.popUpQtdCortada.destroy()
 
                     self.popUpQtdCortada = Toplevel(bg=Cores.bgCinza,
                                                  bd=7,
@@ -1977,7 +2019,10 @@ class Application:
                     self.popUpQtdCortada.focus()
 
                 def montaWidgets():
-                    self.btnConfirma = Button(self.popUpQtdCortada,
+                    self.containerBotoes = Frame(self.popUpQtdCortada,
+                                                 bg=Cores.bgCinza)
+
+                    self.btnConfirma = Button(self.containerBotoes,
                                                 text="Confirmar",
                                                 font=Fontes.fontePadrao,
                                                 bg=Cores.bgCinza,
@@ -1985,6 +2030,16 @@ class Application:
                                                 relief=FLAT,
                                                 image=activeButtons.confirmarButton)
                     self.btnConfirma["command"] = registraRQCorte
+
+                    self.btnCancela = Button(self.containerBotoes,
+                                                text="Cancelar",
+                                                font=Fontes.fontePadrao,
+                                                bg=Cores.bgCinza,
+                                                fg='white',
+                                                relief=FLAT,
+                                                image=redButtons.cancelarButton)
+                    self.btnCancela["command"] = lambda: fechaPopUpQtdCortada()
+                    Variaveis.virtualNumPadVisible = False
 
                     self.lblRegQualidade = Label(self.popUpQtdCortada,
                                                  text="REGISTROS DE QUALIDADE",
@@ -2072,8 +2127,14 @@ class Application:
                                             padx=5,
                                             pady=(0,5))
 
-                    self.btnConfirma.pack(side=BOTTOM,
+                    self.containerBotoes.pack(side=BOTTOM)
+
+                    self.btnCancela.pack(side=RIGHT,
+                                         pady=(5,25))
+
+                    self.btnConfirma.pack(side=LEFT,
                                           pady=(5,25))
+
 
                     self.lblMensagem.pack(side=BOTTOM)
 
@@ -2361,6 +2422,40 @@ class Application:
 
         montaScreen()
 
+    def PopUpDetail(self, header, data):
+        def montaScreen():
+            self.popUpDetail = Toplevel(bg=Cores.bgCinza,
+                                            bd=7,
+                                            relief=RAISED)
+            self.popUpDetail.overrideredirect(1)
+            self.popUpDetail.attributes('-topmost', 'true')
+            self.popUpDetail.bind("<Button-1>", lambda e: self.popUpDetail.destroy())
+            self.popUpDetail.geometry('+50+150')
+            self.popUpDetail.focus()
+
+            newData = data
+
+            if len(data) > 50:
+                lines = len(data) // 50 + 1
+                newData = ""
+                for line in range(lines):
+                    newData = newData + "{}\n".format(data[line*51 : line*50+50])
+
+            self.lblCaboExt = Label(self.popUpDetail,
+                                    text="%s:\n  %s" % (header, newData),
+                                    font=Fontes.fonteCabecalho,
+                                    bg=Cores.bgCinza,
+                                    fg="white",
+                                    bd=0,
+                                    justify=LEFT)
+            self.lblCaboExt.pack(side=TOP,
+                                 padx=20,
+                                 pady=15,
+                                 expand=1,
+                                 fill=X)
+
+        montaScreen()
+
     def AbreMenu(self):
         if Variaveis.estadoEquipamento in (0, 6):
             def montaTelaMenu():
@@ -2390,6 +2485,7 @@ class Application:
                                     anchor='se')
         self.easterEggImage.bind("<Button-1>", lambda e: self.popUpEasterEgg.destroy())
         self.easterEggImage.pack(side=TOP)
+
 
 Application(root)
 root.mainloop()

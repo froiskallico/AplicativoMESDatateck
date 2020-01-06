@@ -81,7 +81,7 @@ class AtualizaBancoLocal:
                                                     "DATA ENTREGA",
                                                     "CABO";
                                                 """ % (int(self.limiteHorizonte),
-                                                             self.maquina),
+                                                           self.maquina),
                                                 conGlobal)
 
                 dadosOrdenados = dadosOrigem.sort_values(

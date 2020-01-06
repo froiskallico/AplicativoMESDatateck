@@ -99,7 +99,8 @@ class etiqueta(object):
         self.port.write(bytearray.fromhex('0A'))
         
         self.port.write(bytearray.fromhex('1B 61 31'))
-        self.port.write(str.encode('Quantidade: %s de %s pcs' % (QTD_Cortada, self.QTD_PD_REQ)))
+        self.port.write(str.encode('Quantidade: %s de %s pcs \n' % (QTD_Cortada, self.QTD_PD_REQ)))
+        self.port.write(str.encode('Já cortados: %s' % self.QTD_CORTADA))
         self.port.write(bytearray.fromhex('0A'))
         
         self.port.write(bytearray.fromhex('1B 46'))
@@ -109,7 +110,7 @@ class etiqueta(object):
 
         self.port.write(str.encode('Produto Final: %s \n' % self.CHICOTE))
         self.port.write(str.encode('Célula de Produção: %s \n' % self.CELULA))
-        self.port.write(str.encode('Data de Entrega: %s \n' % self.DATA_ENTREGA))
+        self.port.write(str.encode('Data de Entrega: %s \n' % datetime.datetime.strptime(self.DATA_ENTREGA, "%Y-%m-%d %H:%M:%S").strftime("%d/%m/%Y")))
         self.port.write(str.encode('Usuário: %s \n' % nomeUsuario))
         self.port.write(str.encode('Data de Impressao: %s \n' % datetime.datetime.now().strftime(
                 '%d-%m-%Y  %H:%M:%S')))
