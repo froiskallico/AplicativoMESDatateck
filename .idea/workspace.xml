@@ -5,8 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1669bfa9-4d23-45d3-8e49-192f3859084d" name="Default Changelist" comment="Hotfix:&#10;&#10;- No campo observação quando a string armazenada em Variaveis.campos[&quot;OBSERVACAO&quot;] for muito grande o container não mais se propagará empurrando os demais widgets para fora do campo de visão. Ao invés disso a string será &quot;cortada&quot; no inicio e final, e ficará sobreposta pelos outros widgets. Para exibir a string completa o usuario podera clicar no campo observação e este abrirá um popUp de detalhamento;&#10;- Adicionado popUpDetail Method que abre um pop up exibindo o header e o data passados como argumentos na chamada do método... Caso a string passada no &quot;data&quot; seja maior que 50cc é feita quebra de linha no popUp para exibir o conteudo;">
+      <change afterPath="$PROJECT_DIR$/test.config.ini" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/APP.py" beforeDir="false" afterPath="$PROJECT_DIR$/APP.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config.ini" beforeDir="false" afterPath="$PROJECT_DIR$/config.ini" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -28,7 +30,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="hotfix_diferenciar_itens_parciais_menu" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -51,19 +53,19 @@
     <option name="isSearchForTextOccurrences" value="true" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\Usuario\Desktop\GIT\Repositório\AplicativoMESDatateck\.kivy" />
-      <recent name="C:\Users\Usuario\Desktop\GIT\Repositório\AplicativoMESDatateck\" />
-      <recent name="C:\Users\Usuario\Desktop\GIT\Repositório\AplicativoMESDatateck" />
-      <recent name="C:\Users\Usuario\Desktop\GIT\Repositório\AplicativoMESDatateck\src\images\buttons\redButtons" />
-      <recent name="C:\Users\Usuario\Desktop\GIT\Repositório\AplicativoMESDatateck\src\images\buttons\activeButtons" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="F:\Kallico(Local)\GIT\Repositório\AplicativoMESDatateck" />
       <recent name="F:\Kallico(Local)\GIT\Repositório\AplicativoMESDatateck\database" />
       <recent name="C:\Users\Usuario\Desktop\GIT\Repositório\AplicativoMESDatateck\database" />
       <recent name="C:\Users\Usuario\Desktop\GIT\Repositório\AplicativoMESDatateck" />
       <recent name="C:\Users\Usuario\Desktop\GIT\Repositório\AplicativoMESDatateck\src\fonts" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Usuario\Desktop\GIT\Repositório\AplicativoMESDatateck\.kivy" />
+      <recent name="C:\Users\Usuario\Desktop\GIT\Repositório\AplicativoMESDatateck\" />
+      <recent name="C:\Users\Usuario\Desktop\GIT\Repositório\AplicativoMESDatateck" />
+      <recent name="C:\Users\Usuario\Desktop\GIT\Repositório\AplicativoMESDatateck\src\images\buttons\redButtons" />
+      <recent name="C:\Users\Usuario\Desktop\GIT\Repositório\AplicativoMESDatateck\src\images\buttons\activeButtons" />
     </key>
   </component>
   <component name="RunDashboard">

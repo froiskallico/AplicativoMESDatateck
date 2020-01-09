@@ -9,7 +9,6 @@ from time import time
 import datetime
 from tkinter import ttk
 import menu as configMenu
-# import login
 import configparser as cfgprsr
 import inspect
 import os, re
@@ -17,6 +16,11 @@ import logger
 import atualiza_bdlocal
 
 diretorio = os.path.dirname(os.path.abspath(__file__))
+
+testMode = True
+
+if not testMode:
+    import login
 
 class Definicoes:
     configFile = cfgprsr.ConfigParser()
@@ -251,22 +255,24 @@ class Application:
 
     # --- Inicialização do Aplicativo --- #
     def __init__(self, master=None):
-        # Variaveis.idUsuarioLogado = login.idUsuario
-        # Variaveis.nomeUsuarioLogado = login.nomeUsuario
-        #
-        # if Variaveis.idUsuarioLogado > 0:
+        if not testMode:
+            Variaveis.idUsuarioLogado = login.idUsuario
+            Variaveis.nomeUsuarioLogado = login.nomeUsuario
+
+            if Variaveis.idUsuarioLogado > 0:
+                self.montaTelaPrincipal()
+        else:
             self.montaTelaPrincipal()
-        #
-        #     #------- debug -------#
-        #
-        #
-        #     try:
-        #         etq = etiqueta.etiqueta()
-        #         etq.testeImpressora()
-        #     except:
-        #         pass
+
+
+            try:
+                etq = etiqueta.etiqueta()
+                etq.testeImpressora()
+            except:
+                pass
 
     # --- Geração do Layout Principal --- #
+
     def montaTelaPrincipal(self, master=None):
         self.configFile = cfgprsr.ConfigParser()
         self.configFile.read(diretorio + '/config.ini')
@@ -418,6 +424,9 @@ class Application:
                               bg=Cores.bgCinza,
                               fg="white")
             self.logo.pack(side=LEFT)
+
+            if testMode:
+                self.maquina = self.maquina + " - MODO DE TESTE"
 
             self.lblMaquina = Label(self.containerCabecalho,
                                     text=self.maquina,
@@ -717,9 +726,7 @@ class Application:
 
             # --- Rodape ---#
             self.lblRodape = Label(self.containerRodape,
-                                   text="%s - Logado desde:  %s" %
-                                        (Variaveis.nomeUsuarioLogado,
-                                         Variaveis.inicioSecao),
+                                   text="%s - Logado desde:  %s" % (Variaveis.nomeUsuarioLogado, Variaveis.inicioSecao),
                                    bg=Cores.bgCinza,
                                    fg='white',
                                    anchor='sw')
