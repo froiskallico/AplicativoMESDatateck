@@ -4,10 +4,10 @@
     <option name="CUSTOM_SCOPE_NAME" value="Current File" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1669bfa9-4d23-45d3-8e49-192f3859084d" name="Default Changelist" comment="Hotfix:&#10;&#10;- No campo observação quando a string armazenada em Variaveis.campos[&quot;OBSERVACAO&quot;] for muito grande o container não mais se propagará empurrando os demais widgets para fora do campo de visão. Ao invés disso a string será &quot;cortada&quot; no inicio e final, e ficará sobreposta pelos outros widgets. Para exibir a string completa o usuario podera clicar no campo observação e este abrirá um popUp de detalhamento;&#10;- Adicionado popUpDetail Method que abre um pop up exibindo o header e o data passados como argumentos na chamada do método... Caso a string passada no &quot;data&quot; seja maior que 50cc é feita quebra de linha no popUp para exibir o conteudo;">
-      <change afterPath="$PROJECT_DIR$/test.config.ini" afterDir="false" />
+    <list default="true" id="1669bfa9-4d23-45d3-8e49-192f3859084d" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/APP.py" beforeDir="false" afterPath="$PROJECT_DIR$/APP.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/atualiza_bdlocal.py" beforeDir="false" afterPath="$PROJECT_DIR$/atualiza_bdlocal.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config.ini" beforeDir="false" afterPath="$PROJECT_DIR$/config.ini" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -30,7 +30,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="hotfix_diferenciar_itens_parciais_menu" />
+        <entry key="$PROJECT_DIR$" value="master" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -227,13 +227,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1555513361887</updated>
-    </task>
-    <task id="LOCAL-00005" summary="em Construção">
-      <created>1557153684672</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1557153684672</updated>
     </task>
     <task id="LOCAL-00006" summary="em Construção">
       <created>1558448298377</created>
@@ -571,7 +564,14 @@
       <option name="project" value="LOCAL" />
       <updated>1578057276824</updated>
     </task>
-    <option name="localTasksCounter" value="54" />
+    <task id="LOCAL-00054" summary="build:&#10;&#10;- Adicionado &quot;testMode&quot; no APP.py">
+      <created>1578569565207</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1578569565208</updated>
+    </task>
+    <option name="localTasksCounter" value="55" />
     <servers />
   </component>
   <component name="TodoView">
@@ -644,7 +644,8 @@
     <MESSAGE value="Initial commit" />
     <MESSAGE value="Botão adicionado ao final do ciclo" />
     <MESSAGE value="Hotfix:&#10;&#10;- No campo observação quando a string armazenada em Variaveis.campos[&quot;OBSERVACAO&quot;] for muito grande o container não mais se propagará empurrando os demais widgets para fora do campo de visão. Ao invés disso a string será &quot;cortada&quot; no inicio e final, e ficará sobreposta pelos outros widgets. Para exibir a string completa o usuario podera clicar no campo observação e este abrirá um popUp de detalhamento;&#10;- Adicionado popUpDetail Method que abre um pop up exibindo o header e o data passados como argumentos na chamada do método... Caso a string passada no &quot;data&quot; seja maior que 50cc é feita quebra de linha no popUp para exibir o conteudo;" />
-    <option name="LAST_COMMIT_MESSAGE" value="Hotfix:&#10;&#10;- No campo observação quando a string armazenada em Variaveis.campos[&quot;OBSERVACAO&quot;] for muito grande o container não mais se propagará empurrando os demais widgets para fora do campo de visão. Ao invés disso a string será &quot;cortada&quot; no inicio e final, e ficará sobreposta pelos outros widgets. Para exibir a string completa o usuario podera clicar no campo observação e este abrirá um popUp de detalhamento;&#10;- Adicionado popUpDetail Method que abre um pop up exibindo o header e o data passados como argumentos na chamada do método... Caso a string passada no &quot;data&quot; seja maior que 50cc é feita quebra de linha no popUp para exibir o conteudo;" />
+    <MESSAGE value="build:&#10;&#10;- Adicionado &quot;testMode&quot; no APP.py" />
+    <option name="LAST_COMMIT_MESSAGE" value="build:&#10;&#10;- Adicionado &quot;testMode&quot; no APP.py" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

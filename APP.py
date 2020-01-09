@@ -50,6 +50,7 @@ class Variaveis:
                'DATA_ENTREGA',
                'OBSERVACAO_REQ',
                'CHICOTE',
+               'CORTE',
                'PD',
                'CPD',
                'CABO',
@@ -89,6 +90,7 @@ class Variaveis:
         "DATA_ENTREGA":      "",
         "OBSERVACAO_REQ":    "",
         "CHICOTE":           "",
+        "CORTE":             "",
         "PD":                "",
         "CPD":               "",
         "CABO":              "",
@@ -989,8 +991,6 @@ class Application:
 
             self.tvw.item(self.nodeSel, open=not self.nodeIsOpen)
 
-
-
         def populaLista():
             atualiza_bdlocal.AtualizaBancoLocal()
             pd = PD()
@@ -1018,8 +1018,8 @@ class Application:
                 casais = []
 
                 for item in self.data:
-                    casal = '%s | %s' % (str(item[20]), str(item[22]))
-                    casal_invertido = '%s | %s' % (str(item[22]), str(item[20]))
+                    casal = '%s | %s' % (str(item[21]), str(item[23]))
+                    casal_invertido = '%s | %s' % (str(item[23]), str(item[21]))
                     if casal not in casais and casal_invertido not in casais:
                         casais.append(casal)
 
@@ -1028,13 +1028,13 @@ class Application:
 
                 qtd_Total = 0
                 for item in self.data:
-                    casal = '%s | %s' % (str(item[20]), str(item[22]))
-                    casal_invertido = '%s | %s' % (str(item[22]), str(item[20]))
-                    pd = item[8]
-                    cabo = item[9]
-                    medida = item[17]
-                    qtd_req = round(item[15])
-                    qtd_cortada = item[16]
+                    casal = '%s | %s' % (str(item[21]), str(item[23]))
+                    casal_invertido = '%s | %s' % (str(item[23]), str(item[21]))
+                    pd = item[9]
+                    cabo = item[10]
+                    medida = item[18]
+                    qtd_req = round(item[16])
+                    qtd_cortada = item[17]
                     qtd_pendente = qtd_req - qtd_cortada
                     qtd_Total += qtd_pendente
                     requisicao = item[1]
@@ -1074,7 +1074,7 @@ class Application:
                 cabos = []
 
                 for item in self.data:
-                    cabo = item[9]
+                    cabo = item[10]
 
                     if cabo not in cabos:
                         cabos.append(str(cabo))
@@ -1088,11 +1088,11 @@ class Application:
                 qtd_Total = 0
 
                 for item in self.data:
-                    cabo = item[9]
-                    pd = item[8]
-                    medida = item[17]
-                    qtd_req = round(item[15])
-                    qtd_cortada = item[16]
+                    cabo = item[10]
+                    pd = item[9]
+                    medida = item[18]
+                    qtd_req = round(item[16])
+                    qtd_cortada = item[17]
                     qtd_pendente = qtd_req - qtd_cortada
                     qtd_Total += qtd_pendente
                     requisicao = item[1]
