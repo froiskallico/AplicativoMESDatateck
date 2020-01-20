@@ -42,7 +42,7 @@ class PD(object):
                 c.execute('''SELECT
                                *
                              FROM
-                               PDS
+                               newPDS
                              WHERE
                                PDS."QTD PD REQ" > PDS.QTD_CORTADA
                           ''' + strOrdenacao)
@@ -50,7 +50,7 @@ class PD(object):
                 c.execute('''SELECT
                                *
                              FROM
-                               PDS
+                               newPDS
                              WHERE
                                PDS.MÁQUINA = "%s" AND
                                PDS."QTD PD REQ" > PDS.QTD_CORTADA

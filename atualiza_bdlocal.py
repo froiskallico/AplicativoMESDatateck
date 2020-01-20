@@ -187,11 +187,11 @@ class AtualizaBancoLocal:
 
             print(self.dadosLimitados.to_string())
 
-            # self.dadosLimitados.to_sql("PDS",
-            #                            conLocal,
-            #                            if_exists='replace',
-            #                            index=False,
-            #                            dtype=schema)
+            self.dadosLimitados.to_sql("newPDS",
+                                       conLocal,
+                                       if_exists='replace',
+                                       index=False,
+                                       dtype=schema)
         except Exception as e:
             logger.logError("Erro ao salvar dados no BD Local    -    Details: {}".format(str(e)))
 
