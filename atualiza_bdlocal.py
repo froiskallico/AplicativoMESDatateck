@@ -114,8 +114,10 @@ class AtualizaBancoLocal:
 
         try:
             self.dadosLimitados.insert(31, 'PRIORIDADE', 0)
+            self.dadosLimitados.insert(0, 'PK_RCQ', 0)
 
-            labels=['REQUISICAO',
+            labels=['PK_RCQ',
+                    'REQUISICAO',
                     'CORTE',
                     'NR. ORDEM CORTE',
                     'MÁQUINA',
@@ -152,6 +154,7 @@ class AtualizaBancoLocal:
             types=['INTEGER',
                    'INTEGER',
                    'INTEGER',
+                   'INTEGER',
                    'TEXT',
                    'TEXT',
                    'TEXT',
@@ -184,6 +187,11 @@ class AtualizaBancoLocal:
                    'INTEGER']
 
             schema = {k:v for k, v in zip(labels, types)}
+
+            self.dadosLimitados['PK_RCQ'] = self.dadosLimitados['REQUISICAO'].astype(str).str.split('.', expand=True) + \
+                                            self.dadosLimitados['CORTE'].astype(str).str.split('.', expand=True) + \
+                                            self.dadosLimitados['QTD PD RQ'].astype(str).str.split('.', expand=True)
+
 
             print(self.dadosLimitados.to_string())
 
