@@ -1,5 +1,4 @@
 import os
-import fdb
 import configparser as cfgprsr
 from banco import BANCO, GLOBAL_DATABASE
 from datetime import datetime as dt
@@ -23,37 +22,37 @@ class PD(object):
     def buscaLista(self):
         banco = BANCO()
 
-        if self.maquinaAutomatica:
+        if self.maquinaAutomatica == 'True':
             strOrdenacao = """ORDER BY
                                   PDS.PRIORIDADE,
                                   BITOLA,
-                                  (SELECT SUM([QTD PD REQ]) FROM PDS P where P.CABO = PDS.CABO GROUP BY CABO) DESC,
+                                  (SELECT SUM([QTD_PD_REQ]) FROM PDS P where P.CABO = PDS.CABO GROUP BY CABO) DESC,
                                   MEDIDA DESC"""
         else:
             strOrdenacao = """ORDER BY
                                   BITOLA,
-                                  (SELECT SUM([QTD PD REQ]) FROM PDS P where P.CABO = PDS.CABO GROUP BY CABO) DESC,
+                                  (SELECT SUM([QTD_PD_REQ]) FROM PDS P where P.CABO = PDS.CABO GROUP BY CABO) DESC,
                                   MEDIDA DESC"""
 
         try:
             c = banco.conexao.cursor()
-            #print(self.filtaLista)
+
             if self.filtaLista == 'True':
                 c.execute('''SELECT
                                *
                              FROM
-                               newPDS
+                               PDS
                              WHERE
-                               PDS."QTD PD REQ" > PDS.QTD_CORTADA
+                               PDS."QTD_PD_REQ" > PDS.QTD_CORTADA
                           ''' + strOrdenacao)
             else:
                 c.execute('''SELECT
                                *
                              FROM
-                               newPDS
+                               PDS
                              WHERE
-                               PDS.MÁQUINA = "%s" AND
-                               PDS."QTD PD REQ" > PDS.QTD_CORTADA
+                               PDS.MAQUINA = "%s" AND
+                               PDS."QTD_PD_REQ" > PDS.QTD_CORTADA
                           ''' % self.maquina + strOrdenacao)
 
             self.lista = c.fetchall()
@@ -82,8 +81,8 @@ class PD(object):
                                 LEFT JOIN
                                     CORES ON (CORES.PK_CRS = PDS.COR) 
                                 WHERE
-                                    PK_IRP = %i
-                             ''' % ID)
+                                    PK_RCQ = "{}"
+                             '''.format(str(ID)))
 
             self.dadosPD = curDados.fetchone()
 
@@ -110,13 +109,13 @@ class PD(object):
                                 MAQUINA)
                             VALUES
                                 ("%s",
-                                %i,
+                                "%s",
                                 %i,
                                 %d,
                                 %i,
                                 %i,
                                 "%s")""" % (agora,
-                                          int(linha[0]),
+                                          pdID,
                                           int(linha[1]),
                                           float(linha[2]),
                                           int(linha[3]),
@@ -130,7 +129,12 @@ class PD(object):
             curOrigem = conOrigem.cursor()
 
             try:
-                curOrigem.execute("""EXECUTE PROCEDURE ATUALIZA_QTD_CORTADA(%s, %s)""" % (ID, qtdCortada))
+                id_array = ID.split('|')
+                requisicao = id_array[0]
+                corte = id_array[1]
+                quantidade = id_array[2]
+
+                curOrigem.execute("""EXECUTE PROCEDURE ATENDE_CORTES1(%s, %s, %s, %s)""" % (requisicao, corte, quantidade, qtdCortada))
                 conOrigem.commit()
                 conOrigem.close()
             except Exception as e:
@@ -150,10 +154,10 @@ class PD(object):
             cur.execute(""" UPDATE
                                 PDS
                             SET
-                                QTD_CORTADA = %d
+                                QTD_CORTADA = {}
                             WHERE
-                                PK_IRP = %d
-                        """ % (qtdCortada, ID))
+                                PK_RCQ = {}
+                        """.format(int(qtdCortada), str(ID)))
 
             banco.conexao.commit()
             banco.conexao.close()

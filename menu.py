@@ -1,7 +1,6 @@
 #--- Imports ---#
 import atualiza_bdlocal
 import pandas as pd
-import fdb
 from tkinter import *
 from tkinter import ttk
 import configparser as cfgprsr

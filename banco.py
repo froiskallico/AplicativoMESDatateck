@@ -2,6 +2,7 @@ import sqlite3
 import os
 import configparser as cfgprsr
 import fdb
+import logger
 
 diretorio = os.path.dirname(os.path.abspath(__file__))
 
@@ -10,9 +11,13 @@ configFile.read(diretorio + '/config.ini')
 
 class BANCO():
     def __init__(self):
-        self.conexao = sqlite3.connect(diretorio + '/database/DADOS.db')
+        try:
+            self.conexao = sqlite3.connect(diretorio + '/database/DADOS.db')
+        except Exception as e:
+            logger.logError("Erro ao conectar ao banco de dados local.    -    Details: {}".format(str(e)))
+
 #        self.conexao.text_factory = lambda x: str(x, 'cp1252')
-        self.createTable()
+            self.createTable()
 
     def createTable(self):
         c = self.conexao.cursor()
@@ -76,12 +81,18 @@ class BANCO():
 
 class GLOBAL_DATABASE():
     def __init__(self):
-        self.global_database_dsn = configFile['GLOBAL_DATABASE']['dsn']
-        self.global_database_user = configFile['GLOBAL_DATABASE']['user']
-        self.global_database_password = configFile['GLOBAL_DATABASE']['password']
-        self.global_database_charset = configFile['GLOBAL_DATABASE']['charset']
+        try:
+            self.global_database_dsn = configFile['GLOBAL_DATABASE']['dsn']
+            self.global_database_user = configFile['GLOBAL_DATABASE']['user']
+            self.global_database_password = configFile['GLOBAL_DATABASE']['password']
+            self.global_database_charset = configFile['GLOBAL_DATABASE']['charset']
+        except Exception as e:
+            logger.logError("Erro ao ler as variáveis de ambiente.    -    Details: {}".format(str(e)))
 
-        self.conexao = fdb.connect(dsn=self.global_database_dsn,
+        try:
+            self.conexao = fdb.connect(dsn=self.global_database_dsn,
                                    user=self.global_database_user,
                                    password=self.global_database_password,
                                    charset=self.global_database_charset)
+        except Exception as e:
+            logger.logError("Erro ao abrir a conexão com o banco global (Delphus).    -    Details: {}".format(str(e)))

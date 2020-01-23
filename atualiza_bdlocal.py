@@ -1,5 +1,3 @@
-import fdb
-import sqlite3
 import configparser as cfgprsr
 import os
 import pandas as pd
@@ -48,9 +46,9 @@ class AtualizaBancoLocal:
                                                    FROM
                                                        PDS_PENDENTES_CORTE_COR
                                                    WHERE
-                                                       "NR. ORDEM CORTE" in {}
+                                                       "NR_ORDEM_CORTE" in {}
                                                    ORDER BY
-                                                       "DATA ENTREGA",
+                                                       "DATA_ENTREGA",
                                                        "CABO";
                                                 """.format(self.ordensCorte),
                                                 conGlobal)
@@ -75,10 +73,10 @@ class AtualizaBancoLocal:
                                                 FROM 
                                                     PDS_PENDENTES_CORTE_COR
                                                 WHERE
-                                                    "DATA ENTREGA" <= CURRENT_DATE + %i AND
-                                                    "MÁQUINA" = '%s'
+                                                    "DATA_ENTREGA" <= CURRENT_DATE + %i AND
+                                                    "MAQUINA" = '%s'
                                                 ORDER BY
-                                                    "DATA ENTREGA",
+                                                    "DATA_ENTREGA",
                                                     "CABO";
                                                 """ % (int(self.limiteHorizonte),
                                                            self.maquina),
@@ -113,18 +111,18 @@ class AtualizaBancoLocal:
             logger.logError("Erro na conexao com o banco de dados de destino local!    -    Details: {}".format(str(e)))
 
         try:
-            self.dadosLimitados.insert(31, 'PRIORIDADE', 0)
+            self.dadosLimitados.insert(32, 'PRIORIDADE', 0)
             self.dadosLimitados.insert(0, 'PK_RCQ', 0)
 
             labels=['PK_RCQ',
                     'REQUISICAO',
                     'CORTE',
-                    'NR. ORDEM CORTE',
-                    'MÁQUINA',
+                    'NR_ORDEM_CORTE',
+                    'MAQUINA',
                     'CELULA',
-                    'DATA GERAÇÃO',
-                    'DATA ENTREGA',
-                    'OBSERVAÇÃO REQ',
+                    'DATA_GERACAO',
+                    'DATA_ENTREGA',
+                    'OBSERVACAO_REQ',
                     'CHICOTE',
                     'PD',
                     'CPD',
@@ -134,24 +132,24 @@ class AtualizaBancoLocal:
                     'BITOLA',
                     'UNIDADE',
                     'NORMA',
-                    'QTD PD RQ',
+                    'QTD_PD_REQ',
                     'QTD_CORTADA',
                     'MEDIDA',
-                    'DECAPE A',
-                    'DECAPE B',
-                    'ACABAMENTO 1',
-                    'PONTE 1',
-                    'ACABAMENTO 2',
-                    'PONTE 2',
-                    'ACABAMENTO 3',
-                    'PONTE 3',
-                    'ACABAMENTO 4',
-                    'PONTE 4',
-                    'OBSERVAÇÃO',
-                    'GRAVAÇÃO',
+                    'DECAPE_A',
+                    'DECAPE_B',
+                    'ACABAMENTO_1',
+                    'PONTE_1',
+                    'ACABAMENTO_2',
+                    'PONTE_2',
+                    'ACABAMENTO_3',
+                    'PONTE_3',
+                    'ACABAMENTO_4',
+                    'PONTE_4',
+                    'OBSERVACAO',
+                    'GRAVACAO',
                     'PRIORIDADE']
 
-            types=['INTEGER',
+            types=['TEXT',
                    'INTEGER',
                    'INTEGER',
                    'INTEGER',
@@ -188,14 +186,9 @@ class AtualizaBancoLocal:
 
             schema = {k:v for k, v in zip(labels, types)}
 
-            self.dadosLimitados['PK_RCQ'] = self.dadosLimitados['REQUISICAO'].astype(str).str.split('.', expand=True) + \
-                                            self.dadosLimitados['CORTE'].astype(str).str.split('.', expand=True) + \
-                                            self.dadosLimitados['QTD PD RQ'].astype(str).str.split('.', expand=True)
+            self.dadosLimitados['PK_RCQ'] = self.dadosLimitados['REQUISICAO'].astype(str).str.split('.', expand=True) + '|' + self.dadosLimitados['CORTE'].astype(str).str.split('.', expand=True) + '|' + self.dadosLimitados['QTD_PD_REQ'].astype(str).str.split('.', expand=True)
 
-
-            print(self.dadosLimitados.to_string())
-
-            self.dadosLimitados.to_sql("newPDS",
+            self.dadosLimitados.to_sql("PDS",
                                        conLocal,
                                        if_exists='replace',
                                        index=False,
