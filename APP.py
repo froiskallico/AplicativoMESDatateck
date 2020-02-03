@@ -255,6 +255,7 @@ class Application:
 
     # --- Inicialização do Aplicativo --- #
     def __init__(self, master=None):
+<<<<<<< HEAD
         if not testMode:
             Variaveis.idUsuarioLogado = login.idUsuario
             Variaveis.nomeUsuarioLogado = login.nomeUsuario
@@ -264,6 +265,16 @@ class Application:
         else:
             self.montaTelaPrincipal()
 
+=======
+        Variaveis.idUsuarioLogado = login.idUsuario
+        Variaveis.nomeUsuarioLogado = login.nomeUsuario
+
+        if Variaveis.idUsuarioLogado > 0:
+            self.montaTelaPrincipal()
+
+            #------- debug -------#
+
+>>>>>>> d24f524ec797b76faa0bff7a337a1475ebe7e9f1
 
             try:
                 etq = etiqueta.etiqueta()

@@ -121,7 +121,7 @@ class Menu:
                                       anchor="w",
                                       bd=0,
                                       highlightthickness=0)
-                self.btnLogout["command"] = (lambda: os.system('pkill -9 python && sudo systemctl restart app'))
+                self.btnLogout["command"] = (lambda: os.system('sudo pkill -9 python && sudo systemctl restart app'))
                 self.btnLogout.image = self.logoutButton
                 self.btnLogout.pack(pady=5)
 
