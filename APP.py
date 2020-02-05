@@ -14,6 +14,7 @@ import inspect
 import os, re
 import logger
 import atualiza_bdlocal
+from cycle import cycle
 
 diretorio = os.path.dirname(os.path.abspath(__file__))
 
@@ -36,7 +37,9 @@ def montaRoot():
     root.attributes('-topmost', 'false')
     root.bind('<Escape>', lambda e: root.destroy())
     root.resizable(width=True, height=True)
+
 montaRoot()
+
 
 class Variaveis:
     inicioSecao = datetime.datetime.now().strftime('%d-%m-%Y  %H:%M:%S')
@@ -270,6 +273,8 @@ class Application:
             etq.testeImpressora()
         except:
             pass
+
+        self.ciclo = cycle()
 
     # --- Geração do Layout Principal --- #
 
@@ -970,6 +975,8 @@ class Application:
                                   1,
                                   Variaveis.idUsuarioLogado,
                                   self.maquina)
+
+                self.ciclo.cycle_start(Variaveis.nomeUsuarioLogado, Variaveis.campos)
 
                 self.btnSetup.configure(image=activeButtons.setupButton)
                 self.btnMenu.configure(image=inactiveButtons.menuButton)
@@ -1765,6 +1772,8 @@ class Application:
                               Variaveis.idUsuarioLogado,
                               self.maquina)
 
+            self.ciclo.cut_start()
+
             Variaveis.tAcumulado = 0
             Variaveis.t0 = time()
 
@@ -1821,6 +1830,8 @@ class Application:
                                                   Variaveis.idUsuarioLogado,
                                                   self.maquina)
 
+                                self.ciclo.cycle_stop(Variaveis.quantidadePendente, Variaveis.quantidadeCortada)
+
                                 novaQtdCortada = int(Variaveis.quantidadeCortada) + int(Variaveis.campos.get(
                                     "QTD_CORTADA"))
 
@@ -1860,7 +1871,9 @@ class Application:
 
                     def justificativaDivergencia():
                         def confirmaJustificativa():
-                            item = self.listaDivergencias.curselection()
+                            motivo_corte_parcial = self.listaDivergencias.curselection()[0]
+                        
+                            self.ciclo.justify_partial_cut(motivo_corte_parcial)
 
 
                             self.divergenciaScreen.destroy()
@@ -2162,6 +2175,17 @@ class Application:
                                   self.maquina,
                                   self.idMotivo)
 
+                tempo_total_parada = datetime.datetime.now() - self.hora_inicio_parada
+
+                if Variaveis.estadoEquipamento in (0, 1, 4, 6, 7):
+                    estado_parada = "ocioso"
+                elif Variaveis.estadoEquipamento in (2, 3):
+                    estado_parada = "setup"
+                elif Variaveis.estadoEquipamento == 5:
+                    estado_parada = "corte"
+
+                self.ciclo.cycle_pause(self.descMotivo, self.hora_inicio_parada, tempo_total_parada, estado_parada)
+
                 Variaveis.estadoEquipamento = Variaveis.estadoAntesDaParada
                 Variaveis.t0 = time()
                 self.atualizaCronografo()
@@ -2248,6 +2272,10 @@ class Application:
                                   Variaveis.idUsuarioLogado,
                                   self.maquina,
                                   self.idMotivo)
+
+                self.hora_inicio_parada = datetime.datetime.now()
+
+
 
                 if Variaveis.estadoAntesDaParada == 5:
                     Variaveis.paradaEmCorte = True
