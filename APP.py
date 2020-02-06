@@ -2177,12 +2177,12 @@ class Application:
 
                 tempo_total_parada = datetime.datetime.now() - self.hora_inicio_parada
 
-                if Variaveis.estadoEquipamento in (0, 1, 4, 6, 7):
-                    estado_parada = "ocioso"
-                elif Variaveis.estadoEquipamento in (2, 3):
+                if Variaveis.paradaEmSetup:
                     estado_parada = "setup"
-                elif Variaveis.estadoEquipamento == 5:
+                elif Variaveis.paradaEmCorte:
                     estado_parada = "corte"
+                else:
+                    estado_parada = "ocioso"
 
                 self.ciclo.cycle_pause(self.descMotivo, self.hora_inicio_parada, tempo_total_parada, estado_parada)
 

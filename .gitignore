@@ -2,3 +2,4 @@ errors.log
 # database/DADOS.db
 database/sqlite3.exe
 config.ini
+cycleSchema.json
