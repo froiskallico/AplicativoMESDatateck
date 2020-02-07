@@ -7,7 +7,11 @@
 
 ## Geral  
  
- -Sistema para controle de produção fabril. 
+- Sistema para controle de produção fabril. 
 - Comunica em tempo real com banco de dados Firebird do ERP da fábrica
 - Pesca a cada 1 minuto as demandas para cada equipamento onde este sistema está instalado;
 - Capaz de trabalhar offline;
+
+## Solução REAL
+
+Sistema atualmente me produção na Datateck Chicotes Elétricos em Guaíba.
