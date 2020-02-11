@@ -125,7 +125,7 @@ class PD(object):
 
     def registraCorteNoBanco(self, ID, qtdCortada):
         try:
-            conOrigem = GLOBAL_DATABASE().conexao
+            conOrigem = GLOBAL_DATABASE().conexao   
             curOrigem = conOrigem.cursor()
 
             try:
@@ -134,7 +134,10 @@ class PD(object):
                 corte = id_array[1]
                 quantidade = id_array[2]
 
-                curOrigem.execute("""EXECUTE PROCEDURE ATENDE_CORTES1(%s, %s, %s, %s)""" % (requisicao, corte, quantidade, qtdCortada))
+                print(ID)
+                print(qtdCortada)
+
+                curOrigem.execute("EXECUTE PROCEDURE ATUALIZA_IQC({}, {}, {}, {})".format(str(requisicao), str(corte), str(quantidade), str(qtdCortada)))
                 conOrigem.commit()
                 conOrigem.close()
             except Exception as e:
