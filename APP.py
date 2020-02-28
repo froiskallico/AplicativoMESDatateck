@@ -2286,7 +2286,6 @@ class Application:
                 self.hora_inicio_parada = datetime.datetime.now()
 
 
-
                 if Variaveis.estadoAntesDaParada == 5:
                     Variaveis.paradaEmCorte = True
                     t.tomaTempoEvento(Variaveis.ID,
