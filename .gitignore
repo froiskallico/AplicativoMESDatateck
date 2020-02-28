@@ -3,3 +3,4 @@ errors.log
 database/sqlite3.exe
 config.ini
 cycleSchema.json
+__pycache__
