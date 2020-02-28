@@ -1,9 +1,10 @@
 import pandas as pd
 import configparser as cfgprsr
-import sqlite3
+from banco import BANCO
 import os
 from tkinter import *
 from tkinter import ttk
+import logger
 
 class AlgoritmoSeparacao:
     def __init__(self, master=None, headless=False):
@@ -61,44 +62,56 @@ class AlgoritmoSeparacao:
         self.OrdenaLista()
 
     def Definicoes(self):
-        self.diretorio = os.path.dirname(os.path.abspath(__file__))
-        self.configFile = cfgprsr.ConfigParser()
-        self.configFile.read(self.diretorio + '/config.ini')
-        self.maquina = self.configFile['DEFAULT']['maquina']
+        try:
+            self.diretorio = os.path.dirname(os.path.abspath(__file__))
+            self.configFile = cfgprsr.ConfigParser()
+            self.configFile.read(self.diretorio + '/config.ini')
+            self.maquina = self.configFile['DEFAULT']['maquina']
+        except Exception as e:
+            logger.logError("Erro ao ler as variáveis de ambiente.    -    Details: {}".format(str(e)))
 
-        self.connLocal = sqlite3.connect(self.diretorio + '/database/DADOS.db')
+        try:
+            self.connLocal = BANCO().conexao
+        except Exception as e:
+            logger.logError("Erro ao conectar ao banco de dados Local para priorização dos PDs.    -    Details: {}".format(str(e)))         
 
     def ImportaLista(self):
-        self.lco = pd.read_sql_query("""
-                                     SELECT 
-                                         PK_IRP, 
-                                         [QTD PD REQ] - [QTD_CORTADA] AS "QTD",
-                                         [ACABAMENTO 1],
-                                         [ACABAMENTO 2],
-                                         PRIORIDADE
-                                     FROM 
-                                         PDS
-                                     WHERE
-                                         [QTD PD REQ] - [QTD_CORTADA] > 0 AND
-                                         MÁQUINA = '%s';    
-                                     """ % self.maquina,
-                                     self.connLocal).fillna('Vazio')
+        try:
+            self.lco = pd.read_sql_query("""
+                                         SELECT 
+                                             PK_RCQ, 
+                                             [QTD_PD_REQ] - [QTD_CORTADA] AS "QTD",
+                                             [ACABAMENTO_1],
+                                             [ACABAMENTO_2],
+                                             PRIORIDADE
+                                         FROM 
+                                             PDS
+                                         WHERE
+                                             [QTD_PD_REQ] - [QTD_CORTADA] > 0 AND
+                                             MAQUINA = '%s';    
+                                         """ % self.maquina,
+                                         self.connLocal).fillna('Vazio')
+        except Exception as e:
+            logger.logError("Erro ao importar a lista de PDs para priorização de PDs.    -    Details: {}".format(str(e)))
 
     def ImportaAplicaveis(self):
-        self.apl = pd.read_sql_query("""
-                                         SELECT
-                                             *
-                                         FROM
-                                             APLICAVEL;
-                                     """,
-                                     self.connLocal)
+        try:
+            self.apl = pd.read_sql_query("""
+                                             SELECT
+                                                 *
+                                             FROM
+                                                 APLICAVEL;
+                                         """,
+                                         self.connLocal)
+        except Exception as e:
+            logger.logError("Erro ao ler a tabela APLICAVEL do banco de dados local.    -    Details: {}".format(str(e)))
 
     def ExtraiTerminais(self):
         self.ImportaLista()
         self.ImportaAplicaveis()
 
-        self.terminais = pd.Series(pd.concat([self.lco['ACABAMENTO 1'],
-                                              self.lco['ACABAMENTO 2']]).unique())
+        self.terminais = pd.Series(pd.concat([self.lco['ACABAMENTO_1'],
+                                              self.lco['ACABAMENTO_2']]).unique())
 
         self.n = len(self.terminais)
         self.c = sum(range(self.n))
@@ -107,14 +120,17 @@ class AlgoritmoSeparacao:
             self.barraProgresso['max'] = self.n
 
     def DefineRankeamento(self):
-        self.ExtraiTerminais()
+        try:
+            self.ExtraiTerminais()
+        except Exception as e:
+            logger.logError("Erro ao extrair os terminais da lista de PDs para priorização dos PDs.    -    Details: {}".format(str(e)))
 
         self.ranking = pd.DataFrame()
         vol = pd.Series([])
 
         for t in self.terminais:
             q = 0
-            for a in ('ACABAMENTO 1', 'ACABAMENTO 2'):
+            for a in ('ACABAMENTO_1', 'ACABAMENTO_2'):
                 q += self.lco[self.lco[a]==t].sum()['QTD']
 
             vol[len(vol)] = q
@@ -130,11 +146,14 @@ class AlgoritmoSeparacao:
                                    .reset_index(drop=True)
 
     def DefinePrioridades(self):
-        self.DefineRankeamento()
+        try:
+            self.DefineRankeamento()
+        except Exception as e:
+            logger.logError("Erro ao definir o ranking de terminais para priorização dos PDs.    -    Details: {}".format(str(e)))
 
         prioridade = 1
-        Acab1 = self.lco['ACABAMENTO 1']
-        Acab2 = self.lco['ACABAMENTO 2']
+        Acab1 = self.lco['ACABAMENTO_1']
+        Acab2 = self.lco['ACABAMENTO_2']
 
         for t in self.ranking['ACABAMENTO']:
             if t == 'Vazio':
@@ -201,7 +220,10 @@ class AlgoritmoSeparacao:
         print(self.lco.sort_values('PRIORIDADE').to_string())
 
     def RegistraOrdenacaoNoBanco(self):
-        self.DefinePrioridades()
+        try:
+            self.DefinePrioridades()
+        except Exception as e:
+            logger.logError("Erro ao definir as prioridades no algoritmo de Priorização de PDS.    -    Details: {}".format(str(e)))
 
         self.lco.sort_values('PRIORIDADE').to_sql('tempTabelaOrdenada',
                                                   self.connLocal,
@@ -219,15 +241,21 @@ class AlgoritmoSeparacao:
                                               FROM 
                                                   tempTabelaOrdenada TEMP
                                               WHERE
-                                                  TEMP.PK_IRP = PDS.PK_IRP);""")
+                                                  TEMP.PK_RCQ = PDS.PK_RCQ);""")
 
         curLocal.execute("DROP TABLE tempTabelaOrdenada;")
+
+        self.connLocal.commit()
 
         curLocal.close()
         self.connLocal.close()
 
     def OrdenaLista(self):
-        self.RegistraOrdenacaoNoBanco()
+        try:
+            self.RegistraOrdenacaoNoBanco()
+        except Exception as e:
+            logger.logError("Erro ao registrar a lista já priorizada no banco de dados local.    -    Details: {}".format(str(e)))
+
         # self.ExibeResultados()
 
         if not self.headless:

@@ -18,7 +18,7 @@ from cycle import cycle
 
 diretorio = os.path.dirname(os.path.abspath(__file__))
 
-testMode = True
+testMode = False
 
 if not testMode:
     import login
@@ -46,8 +46,11 @@ class Variaveis:
     idUsuarioLogado = 0
     nomeUsuarioLogado = None
 
-    colunas = ('PK_IRP',
+    colunas = ('PK_RCQ',
                'REQUISICAO',
+               'CORTE',
+               'NR_ORDEM_CORTE',
+               'MAQUINA',
                'CELULA',
                'DATA_GERACAO',
                'DATA_ENTREGA',
@@ -56,7 +59,7 @@ class Variaveis:
                'PD',
                'CPD',
                'CABO',
-               'FK_CRS',
+               'COR',
                'VIAS',
                'BITOLA',
                'UNIDADE',
@@ -76,52 +79,50 @@ class Variaveis:
                'PONTE_4',
                'OBSERVACAO',
                'GRAVACAO',
-               'MAQUINA',
-               'NR_ORDEM_CORTE',
                'PRIORIDADE',
                'DESCRICAO',
                'PRIMARIA',
                'SECUNDARIA',
                'COR_TEXTO')
 
-    campos = {
-        "PK_IRP":            "",
-        "REQUISICAO":        "",
-        "CELULA":            "",
-        "DATA_GERACAO":      "",
-        "DATA_ENTREGA":      "",
-        "OBSERVACAO_REQ":    "",
-        "CHICOTE":           "",
-        "PD":                "",
-        "CPD":               "",
-        "CABO":              "",
-        "FK_CRS":            "",
-        "VIAS":              "",
-        "BITOLA":            "",
-        "UNIDADE":           "",
-        "NORMA":             "",
-        "QTD_PD_REQ":        "",
-        "QTD_CORTADA":       "",
-        "MEDIDA":            "",
-        "DECAPE_A":          "",
-        "DECAPE_B":          "",
-        "ACABAMENTO_1":      "",
-        "PONTE_1":           "",
-        "ACABAMENTO_2":      "",
-        "PONTE_2":           "",
-        "ACABAMENTO_3":      "",
-        "PONTE_3":           "",
-        "ACABAMENTO_4":      "",
-        "PONTE_4":           "",
-        "OBSERVACAO":        "",
-        "GRAVACAO":          "",
-        "MAQUINA":           "",
-        "NR_ORDEM_CORTE":    "",
-        "PRIORIDADE":        "",
-        "DESCRICAO":         "",
-        "PRIMARIA":          "",
-        "SECUNDARIA":        "",
-        "COR_TEXTO":         ""}
+    campos = { "PK_RCQ":            "",
+               "REQUISICAO":        "",
+               "CORTE":             "",
+               "NR_ORDEM_CORTE":    "",
+               "MAQUINA":           "",
+               "CELULA":            "",
+               "DATA_GERACAO":      "",
+               "DATA_ENTREGA":      "",
+               "OBSERVACAO_REQ":    "",
+               "CHICOTE":           "",
+               "PD":                "",
+               "CPD":               "",
+               "CABO":              "",
+               "COR":               "",
+               "VIAS":              "",
+               "BITOLA":            "",
+               "UNIDADE":           "",
+               "NORMA":             "",
+               "QTD_PD_REQ":        "",
+               "QTD_CORTADA":       "",
+               "MEDIDA":            "",
+               "DECAPE_A":          "",
+               "DECAPE_B":          "",
+               "ACABAMENTO_1":      "",
+               "PONTE_1":           "",
+               "ACABAMENTO_2":      "",
+               "PONTE_2":           "",
+               "ACABAMENTO_3":      "",
+               "PONTE_3":           "",
+               "ACABAMENTO_4":      "",
+               "PONTE_4":           "",
+               "OBSERVACAO":        "",
+               "GRAVACAO":          "",
+               "PRIORIDADE":        "",
+               "DESCRICAO":         "",
+               "PRIMARIA":          "",
+               "SECUNDARIA":        "",
+               "COR_TEXTO":         ""}
 
     estados = ('Ocioso',
                'Carregado',
@@ -952,8 +953,7 @@ class Application:
 
                 for i in range(len(dadosDoPD)):
                     try:
-                        Variaveis.campos[Variaveis.colunas[i]] = round(
-                            dadosDoPD[i], 2)
+                        Variaveis.campos[Variaveis.colunas[i]] = round(dadosDoPD[i], 2)
                     except:
                         Variaveis.campos[Variaveis.colunas[i]] = dadosDoPD[i]
 
@@ -961,8 +961,7 @@ class Application:
                 Cores.bgCorDaListra = Variaveis.campos.get("SECUNDARIA")
                 Cores.fgCorDoCabo = Variaveis.campos.get("COR_TEXTO")
 
-                Variaveis.quantidadePendente = Variaveis.campos.get(
-                    "QTD_PD_REQ") - Variaveis.campos.get("QTD_CORTADA")
+                Variaveis.quantidadePendente = Variaveis.campos.get("QTD_PD_REQ") - Variaveis.campos.get("QTD_CORTADA")
 
                 self.limpaTela()
                 self.montaTelaPrincipal()
@@ -996,13 +995,21 @@ class Application:
 
             self.tvw.item(self.nodeSel, open=not self.nodeIsOpen)
 
-
-
         def populaLista():
             atualiza_bdlocal.AtualizaBancoLocal()
             pd = PD()
 
             self.data = None
+
+            index_acab1     = 23
+            index_acab2     = 25
+            index_pd        = 10
+            index_cabo      = 12
+            index_medida    = 20
+            index_qtd_req   = 18
+            index_qtd_cort  = 19
+            index_req       = 1
+            index_pk_rcq    = 0
 
             if self.maquinaAutomatica == 'True':
                 def montaTelaCarregamento():
@@ -1025,8 +1032,8 @@ class Application:
                 casais = []
 
                 for item in self.data:
-                    casal = '%s | %s' % (str(item[20]), str(item[22]))
-                    casal_invertido = '%s | %s' % (str(item[22]), str(item[20]))
+                    casal = '%s | %s' % (str(item[index_acab1]), str(item[index_acab2]))
+                    casal_invertido = '%s | %s' % (str(item[index_acab2]), str(item[index_acab1]))
                     if casal not in casais and casal_invertido not in casais:
                         casais.append(casal)
 
@@ -1035,17 +1042,17 @@ class Application:
 
                 qtd_Total = 0
                 for item in self.data:
-                    casal = '%s | %s' % (str(item[20]), str(item[22]))
-                    casal_invertido = '%s | %s' % (str(item[22]), str(item[20]))
-                    pd = item[8]
-                    cabo = item[9]
-                    medida = item[17]
-                    qtd_req = round(item[15])
-                    qtd_cortada = item[16]
+                    casal = '%s | %s' % (str(item[index_acab1]), str(item[index_acab2]))
+                    casal_invertido = '%s | %s' % (str(item[index_acab2]), str(item[index_acab1]))
+                    pd = item[index_pd]
+                    cabo = item[index_cabo]
+                    medida = item[index_medida]
+                    qtd_req = round(item[index_qtd_req])
+                    qtd_cortada = item[index_qtd_cort]
                     qtd_pendente = qtd_req - qtd_cortada
                     qtd_Total += qtd_pendente
-                    requisicao = item[1]
-                    pk_irp = item[0]
+                    requisicao = item[index_req]
+                    pk_rcq = item[index_pk_rcq]
 
                     tag = 'zerado'
 
@@ -1061,7 +1068,7 @@ class Application:
                                                 medida,
                                                 qtd_pendente,
                                                 requisicao,
-                                                pk_irp),
+                                                pk_rcq),
                                         tags=tag)
 
                     except:
@@ -1072,7 +1079,7 @@ class Application:
                                                 medida,
                                                 qtd_pendente,
                                                 requisicao,
-                                                pk_irp),
+                                                pk_rcq),
                                         tags=tag)
 
             else:
@@ -1081,7 +1088,7 @@ class Application:
                 cabos = []
 
                 for item in self.data:
-                    cabo = item[9]
+                    cabo = item[index_cabo]
 
                     if cabo not in cabos:
                         cabos.append(str(cabo))
@@ -1095,15 +1102,15 @@ class Application:
                 qtd_Total = 0
 
                 for item in self.data:
-                    cabo = item[9]
-                    pd = item[8]
-                    medida = item[17]
-                    qtd_req = round(item[15])
-                    qtd_cortada = item[16]
+                    cabo = item[index_cabo]
+                    pd = item[index_pd]
+                    medida = item[index_medida]
+                    qtd_req = round(item[index_qtd_req])
+                    qtd_cortada = item[index_qtd_cort]
                     qtd_pendente = qtd_req - qtd_cortada
                     qtd_Total += qtd_pendente
-                    requisicao = item[1]
-                    pk_irp = item[0]
+                    requisicao = item[index_req]
+                    pk_rcq = item[index_pk_rcq]
 
                     tag = 'zerado'
 
@@ -1117,7 +1124,7 @@ class Application:
                                     values=(medida,
                                             qtd_pendente,
                                             requisicao,
-                                            pk_irp),
+                                            pk_rcq),
                                     tags=tag)
 
 
@@ -1360,7 +1367,7 @@ class Application:
 
                             if (self.entryPriMedida.get() not in ('0', '')):
                                 registro = []
-                                registro.append(Variaveis.campos.get("PK_IRP"))
+                                registro.append(Variaveis.campos.get("PK_RCQ"))
                                 registro.append(1)
                                 try: registro.append(
                                     float(
@@ -1397,7 +1404,7 @@ class Application:
                                                     registro = []
                                                     registro.append(
                                                         Variaveis.campos.get(
-                                                            "PK_IRP"))
+                                                            "PK_RCQ"))
                                                     registro.append(int(
                                                         ele.winfo_name()[-2:-1]))
                                                     try:
@@ -1835,6 +1842,9 @@ class Application:
                                 novaQtdCortada = int(Variaveis.quantidadeCortada) + int(Variaveis.campos.get(
                                     "QTD_CORTADA"))
 
+                                novaQtdCortada *= Variaveis.campos.get("MEDIDA") / 1000
+                                novaQtdCortada = round(novaQtdCortada, 2)
+
                                 if not pd.registraCorteNoBanco(0, Variaveis.ID,
                                                         novaQtdCortada):
                                     self.lblMensagem.config(text="Erro ao salvar os dados. Tente novamente!",
@@ -1995,7 +2005,7 @@ class Application:
                     def registraUltMedida():
                         if (self.entryUltMedida.get() not in ('0', '')):
                             registro = []
-                            registro.append(Variaveis.campos.get("PK_IRP"))
+                            registro.append(Variaveis.ID)
                             registro.append(2)
                             try:
                                 registro.append(
