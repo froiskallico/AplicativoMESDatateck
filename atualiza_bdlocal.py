@@ -1,5 +1,3 @@
-import fdb
-import sqlite3
 import configparser as cfgprsr
 import os
 import pandas as pd
@@ -46,11 +44,11 @@ class AtualizaBancoLocal:
                 dadosOrigem = pd.read_sql_query("""SELECT
                                                        *
                                                    FROM
-                                                       PDS_PENDENTES_CORTE_NEW
+                                                       PDS_PENDENTES_CORTE_COR
                                                    WHERE
-                                                       "NR. ORDEM CORTE" in {}
+                                                       "NR_ORDEM_CORTE" in {}
                                                    ORDER BY
-                                                       "DATA ENTREGA",
+                                                       "DATA_ENTREGA",
                                                        "CABO";
                                                 """.format(self.ordensCorte),
                                                 conGlobal)
@@ -73,12 +71,12 @@ class AtualizaBancoLocal:
                 dadosOrigem = pd.read_sql_query("""SELECT 
                                                     * 
                                                 FROM 
-                                                    PDS_PENDENTES_CORTE_NEW
+                                                    PDS_PENDENTES_CORTE_COR
                                                 WHERE
-                                                    "DATA ENTREGA" <= CURRENT_DATE + %i AND
-                                                    "MÁQUINA" = '%s'
+                                                    "DATA_ENTREGA" <= CURRENT_DATE + %i AND
+                                                    "MAQUINA" = '%s'
                                                 ORDER BY
-                                                    "DATA ENTREGA",
+                                                    "DATA_ENTREGA",
                                                     "CABO";
                                                 """ % (int(self.limiteHorizonte),
                                                            self.maquina),
@@ -87,7 +85,7 @@ class AtualizaBancoLocal:
                 dadosOrdenados = dadosOrigem.sort_values(
                     by='DATA ENTREGA').reset_index(drop=True)
 
-                qtdAcumulada = pd.Series(dadosOrdenados['QTD PD REQ'].cumsum())
+                qtdAcumulada = pd.Series(dadosOrdenados['QTD_PD_REQ'].cumsum())
 
                 self.dadosLimitados = dadosOrdenados[:qtdAcumulada.where(qtdAcumulada <= int(self.limiteCircuitos)).idxmax(skipna=True)]
 
@@ -112,86 +110,93 @@ class AtualizaBancoLocal:
         except Exception as e:
             logger.logError("Erro na conexao com o banco de dados de destino local!    -    Details: {}".format(str(e)))
 
-        try:
-            self.dadosLimitados.insert(31, 'PRIORIDADE', 0)
+        # try:
+        self.dadosLimitados.insert(32, 'PRIORIDADE', 0)
+        self.dadosLimitados.insert(0, 'PK_RCQ', 0)
 
-            labels=['PK_IRP',
-                     'REQUISICAO',
-                     'CELULA',
-                     'DATA GERAÇÃO',
-                     'DATA ENTREGA',
-                     'OBSERVAÇÃO REQ',
-                     'CHICOTE',
-                     'PD',
-                     'CPD',
-                     'CABO',
-                     'COR',
-                     'VIAS',
-                     'BITOLA',
-                     'UNIDADE',
-                     'NORMA',
-                     'QTD PD REQ',
-                     'QTD_CORTADA',
-                     'MEDIDA',
-                     'DECAPE A',
-                     'DECAPE B',
-                     'ACABAMENTO 1',
-                     'PONTE 1',
-                     'ACABAMENTO 2',
-                     'PONTE 2',
-                     'ACABAMENTO 3',
-                     'PONTE 3',
-                     'ACABAMENTO 4',
-                     'PONTE 4',
-                     'OBSERVAÇÃO',
-                     'GRAVAÇÃO',
-                     'MÁQUINA',
-                     'NR. ORDEM CORTE',
-                     'PRIORIDADE']
+        labels=['PK_RCQ',
+                'REQUISICAO',
+                'CORTE',
+                'NR_ORDEM_CORTE',
+                'MAQUINA',
+                'CELULA',
+                'DATA_GERACAO',
+                'DATA_ENTREGA',
+                'OBSERVACAO_REQ',
+                'CHICOTE',
+                'PD',
+                'CPD',
+                'CABO',
+                'COR',
+                'VIAS',
+                'BITOLA',
+                'UNIDADE',
+                'NORMA',
+                'QTD_PD_REQ',
+                'QTD_CORTADA',
+                'MEDIDA',
+                'DECAPE_A',
+                'DECAPE_B',
+                'ACABAMENTO_1',
+                'PONTE_1',
+                'ACABAMENTO_2',
+                'PONTE_2',
+                'ACABAMENTO_3',
+                'PONTE_3',
+                'ACABAMENTO_4',
+                'PONTE_4',
+                'OBSERVACAO',
+                'GRAVACAO',
+                'PRIORIDADE']
 
-            types=['INTEGER',
-                   'INTEGER',
-                   'TEXT',
-                   'INTEGER',
-                   'INTEGER',
-                   'TEXT',
-                   'TEXT',
-                   'INTEGER',
-                   'INTEGER',
-                   'TEXT',
-                   'INTEGER',
-                   'TEXT',
-                   'INTEGER',
-                   'TEXT',
-                   'TEXT',
-                   'INTEGER',
-                   'INTEGER',
-                   'INTEGER',
-                   'TEXT',
-                   'TEXT',
-                   'TEXT',
-                   'TEXT',
-                   'TEXT',
-                   'TEXT',
-                   'TEXT',
-                   'TEXT',
-                   'TEXT',
-                   'TEXT',
-                   'TEXT',
-                   'TEXT',
-                   'TEXT',
-                   'INTEGER',
-                   'INTEGER']
+        types=['TEXT',
+                'INTEGER',
+                'INTEGER',
+                'INTEGER',
+                'TEXT',
+                'TEXT',
+                'TEXT',
+                'TEXT',
+                'TEXT',
+                'TEXT',
+                'INTEGER',
+                'INTEGER',
+                'TEXT',
+                'INTEGER',
+                'TEXT',
+                'INTEGER',
+                'TEXT',
+                'TEXT',
+                'INTEGER',
+                'INTEGER',
+                'INTEGER',
+                'TEXT',
+                'TEXT',
+                'TEXT',
+                'TEXT',
+                'TEXT',
+                'TEXT',
+                'TEXT',
+                'TEXT',
+                'TEXT',
+                'TEXT',
+                'TEXT',
+                'TEXT',
+                'INTEGER']
 
-            schema = {k:v for k, v in zip(labels, types)}
+        schema = {k:v for k, v in zip(labels, types)}
 
-            self.dadosLimitados.to_sql("PDS",
-                                       conLocal,
-                                       if_exists='replace',
-                                       index=False,
-                                       dtype=schema)
-        except Exception as e:
-            logger.logError("Erro ao salvar dados no BD Local    -    Details: {}".format(str(e)))
+        self.dadosLimitados['PK_RCQ'] = self.dadosLimitados['REQUISICAO'].astype(str).str.split('.', expand=True) + '|' + \
+                                        self.dadosLimitados['CORTE'].astype(str).str.split('.', expand=True) + '|' + \
+                                        self.dadosLimitados['QTD_PD_REQ'].astype(str).str.split('.', expand=True)
+
+        self.dadosLimitados.to_sql("PDS",
+                                    conLocal,
+                                    if_exists='replace',
+                                    index=False,
+                                    dtype=schema)
+        # except Exception as e:
+        #     logger.logError("Erro ao salvar dados no BD Local    -    Details: {}".format(str(e)))
 
 
 AtualizaBancoLocal()

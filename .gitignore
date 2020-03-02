@@ -1,4 +1,11 @@
-errors.log
+__pycache__
+
+.vscode
+.kivy
+
 database/DADOS.db
 database/sqlite3.exe
+database/dbSchema.txt
+
 config.ini
+errors.log
