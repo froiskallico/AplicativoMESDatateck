@@ -1,7 +1,7 @@
 from pymongo import MongoClient
 import datetime
 import os
-import configparser
+import configparser as cfgprsr
 
 class cycle(object):
   def __init__(self):
@@ -73,11 +73,12 @@ class cycle(object):
 
   def define_parameters(self):
     diretorio = os.path.dirname(os.path.abspath(__file__))
-    
-    configFile = configparser.ConfigParser()
-    configFile.read(diretorio + './config.ini')
+
+    configFile = cfgprsr.ConfigParser()
+    configFile.read('./config.ini')
 
     self.maquina = configFile['DEFAULT']['maquina']
+
     self.paradas = []
 
   def cycle_start(self, operador, dados_PD):
