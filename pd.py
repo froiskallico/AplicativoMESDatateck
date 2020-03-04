@@ -127,15 +127,12 @@ class PD(object):
         try:
             conOrigem = GLOBAL_DATABASE().conexao   
             curOrigem = conOrigem.cursor()
-
+            
             try:
                 id_array = ID.split('|')
                 requisicao = id_array[0]
                 corte = id_array[1]
                 quantidade = id_array[2]
-
-                print(ID)
-                print(qtdCortada)
 
                 curOrigem.execute("EXECUTE PROCEDURE ATUALIZA_IQC({}, {}, {}, {})".format(str(requisicao), str(corte), str(quantidade), str(qtdCortada)))
                 conOrigem.commit()

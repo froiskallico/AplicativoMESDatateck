@@ -91,8 +91,6 @@ class cycle(object):
     self.hora_inicio_corte = datetime.datetime.now()
 
   def cycle_pause(self, motivo_parada, hora_incio_parada, tempo_total_parada, estado_equipamento_parada):
-    print(tempo_total_parada)
-
     self.paradas.append({
       "stopReason": motivo_parada,
       "stopStartTime": hora_incio_parada,
@@ -127,11 +125,8 @@ class cycle(object):
         self.tempo_total_paradas_corte += parada.get('stopTotalTime') 
 
     self.tempo_total_ciclo = self.tempo_total_ciclo.total_seconds()
-    print(self.tempo_total_ciclo)
     self.tempo_total_setup = self.tempo_total_setup.total_seconds() 
-    print(self.tempo_total_setup)
     self.tempo_total_corte = self.tempo_total_corte.total_seconds()
-    print(self.tempo_total_corte)
 
     self.consolidate_data()
         

@@ -28,10 +28,6 @@ class AtualizaBancoLocal:
         self.origem()
 
 
-        # print("Linhas na Origem: %i" % self.dadosLimitados.shape[0])
-        # print("Linhas na Destino: %i" % len(dadosDestino))
-        # print('FIM')
-
     def origem(self):
         try:
             conGlobal = banco.GLOBAL_DATABASE().conexao
@@ -186,9 +182,12 @@ class AtualizaBancoLocal:
 
         schema = {k:v for k, v in zip(labels, types)}
 
-        self.dadosLimitados['PK_RCQ'] = self.dadosLimitados['REQUISICAO'].astype(str).str.split('.', expand=True) + '|' + \
-                                        self.dadosLimitados['CORTE'].astype(str).str.split('.', expand=True) + '|' + \
-                                        self.dadosLimitados['QTD_PD_REQ'].astype(str).str.split('.', expand=True)
+        try:
+            self.dadosLimitados['PK_RCQ'] = self.dadosLimitados['REQUISICAO'].astype(str).str.split('.', expand=True) + '|' + \
+                                            self.dadosLimitados['CORTE'].astype(str).str.split('.', expand=True) + '|' + \
+                                            self.dadosLimitados['QTD_PD_REQ'].astype(str).str.split('.', expand=True)
+        except:
+            pass                                    
 
         self.dadosLimitados.to_sql("PDS",
                                     conLocal,
