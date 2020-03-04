@@ -3,6 +3,8 @@ import datetime
 import os
 import configparser as cfgprsr
 
+diretorio = os.path.dirname(os.path.abspath(__file__))
+
 class cycle(object):
   def __init__(self):
     self.reset_values()
@@ -39,7 +41,7 @@ class cycle(object):
     self.motivo_corte_parcial = 7
     self.paradas = [
         {
-            "stopReason": "REUNIÃO/TREINAMENTO",
+            "stopReason": "REUNIAO/TREINAMENTO",
             "stopStartTime": "2020-02-07 08:34:43.645670",
             "stopTotalTime": 2.467489,
             "stopEquipmentStatus": "ocioso"
@@ -51,13 +53,13 @@ class cycle(object):
             "stopEquipmentStatus": "setup"
         },
         {
-            "stopReason": "FALTA DE PROGRAMA\\u00c7\\u00c3O (PCP)",
+            "stopReason": "FALTA DE PROGRAMACAO (PCP)",
             "stopStartTime": "2020-02-07 08:35:05.125849",
             "stopTotalTime": 3.406472,
             "stopEquipmentStatus": "ocioso"
         },
         {
-            "stopReason": "MANUTEN\\u00c7\\u00c3O",
+            "stopReason": "MANUTENCAO",
             "stopStartTime": "2020-02-07 08:35:12.909366",
             "stopTotalTime": 5.484992,
             "stopEquipmentStatus": "corte"
@@ -72,10 +74,9 @@ class cycle(object):
     self.tempo_total_paradas_corte = None
 
   def define_parameters(self):
-    diretorio = os.path.dirname(os.path.abspath(__file__))
-
+    print(diretorio)
     configFile = cfgprsr.ConfigParser()
-    configFile.read('./config.ini')
+    configFile.read(diretorio + '/config.ini')
 
     self.maquina = configFile['DEFAULT']['maquina']
 
@@ -83,7 +84,7 @@ class cycle(object):
 
   def cycle_start(self, operador, dados_PD):
     self.operador = operador
-    
+
     self.dados_PD = dados_PD
     self.hora_inicio_ciclo = datetime.datetime.now()
 
