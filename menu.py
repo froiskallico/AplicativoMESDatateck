@@ -7,7 +7,7 @@ import configparser as cfgprsr
 import os
 import logger
 import banco
-#import priorizacao_pds as priori
+import priorizacao_pds as priori
 
 class Menu:
     def __init__(self, parent, master=None):
@@ -507,7 +507,7 @@ class Menu:
 
         try:
             atualiza_bdlocal.AtualizaBancoLocal()
-            #priori.AlgoritmoSeparacao(headless=True)
+            priori.AlgoritmoSeparacao(headless=True)
 
             self.parent.limpaTela()
             self.parent.montaTelaPrincipal()

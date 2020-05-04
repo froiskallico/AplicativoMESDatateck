@@ -125,45 +125,57 @@ class PD(object):
 
     def registraCorteNoBanco(self, ID, qtdCortada):
         try:
-            conOrigem = GLOBAL_DATABASE().conexao   
-            curOrigem = conOrigem.cursor()
-            
+            try:
+                conOrigem = GLOBAL_DATABASE().conexao
+                curOrigem = conOrigem.cursor()
+            except Exception as e:
+                logger.logError("Erro no metodo: pd.registraCorteNoBanco() -> Erro na conexão com o banco de dados de origem!    -    Details: {}".format(str(e)))
+                return False
+
             try:
                 id_array = ID.split('|')
                 requisicao = id_array[0]
                 corte = id_array[1]
                 quantidade = id_array[2]
 
-                curOrigem.execute("EXECUTE PROCEDURE ATUALIZA_IQC({}, {}, {}, {})".format(str(requisicao), str(corte), str(quantidade), str(qtdCortada)))
-                conOrigem.commit()
-                conOrigem.close()
+                curOrigem.execute("EXECUTE PROCEDURE ATUALIZA_IQC({}, {}, {}, {})".format(str(requisicao), str(corte), str(quantidade), str(qtdCortada)))       
             except Exception as e:
-                logger.logError("Erro na gravação dos dados na origem!    -    Details: {}".format(str(e)))
+                logger.logError("Erro no metodo: pd.registraCorteNoBanco() -> Erro ao tentar transmissao para o Banco de dados Global!    -    Details: {}".format(str(e)))
                 return False
 
+            try:
+                bancoLocal = BANCO()
+                curLocal = bancoLocal.conexao.cursor()
+            except Exception as e:
+                logger.logError("Erro no metodo: pd.registraCorteNoBanco() -> Erro na conexão com o banco de dados local!    -    Details: {}".format(str(e)))
+                return False
+
+            try:
+                curLocal.execute(""" UPDATE
+                                        PDS
+                                    SET
+                                        QTD_CORTADA = {}
+                                    WHERE
+                                        PK_RCQ = {}
+                            """.format(int(qtdCortada), str(ID)))
+            except Exception as e:
+                logger.logError("Erro no metodo: pd.registraCorteNoBanco() -> Erro ao tentar transmissao para o Banco de dados Local!    -    Details: {}".format(str(e)))
+                return False
+
+            try:
+                conOrigem.commit()
+                bancoLocal.conexao.commit()
+                conOrigem.close()
+                bancoLocal.conexao.close()
+
+                return True
+            except Exception as e:
+                logger.logError("Erro ao commitar registro de corte nos bancos!    -    Details: {}".format(str(e)))
+
         except Exception as e:
-            logger.logError("Erro na conexão com o banco de dados de origem!    -    Details: {}".format(str(e)))
-            return False
+            logger.logError("Erro ao registrar o corte nos bancos!    -    Details: {} ".format(str(e)))
 
 
-        banco = BANCO()
 
-        cur = banco.conexao.cursor()
 
-        try:
-            cur.execute(""" UPDATE
-                                PDS
-                            SET
-                                QTD_CORTADA = {}
-                            WHERE
-                                PK_RCQ = {}
-                        """.format(int(qtdCortada), str(ID)))
-
-            banco.conexao.commit()
-            banco.conexao.close()
-
-            return True
-
-        except Exception as e:
-            logger.logError("Erro ao registrar quantidade cortada no Banco de Dados Local    -    Details: {}".format(str(e)))
-            return False
+        

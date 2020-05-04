@@ -2,7 +2,7 @@
 from pd import PD
 import tempos
 import etiqueta
-import priorizacao_pds as priori
+# import priorizacao_pds as priori
 from motivos import MOTIVOS
 from tkinter import *
 from time import time
@@ -996,7 +996,6 @@ class Application:
             self.tvw.item(self.nodeSel, open=not self.nodeIsOpen)
 
         def populaLista():
-            atualiza_bdlocal.AtualizaBancoLocal()
             pd = PD()
 
             self.data = None
@@ -1024,7 +1023,7 @@ class Application:
 
                 montaTelaCarregamento()
 
-                priori.AlgoritmoSeparacao(self.popUpBarraProgresso)
+                # priori.AlgoritmoSeparacao(self.popUpBarraProgresso)
 
                 pd.buscaLista()
                 self.data = pd.lista
