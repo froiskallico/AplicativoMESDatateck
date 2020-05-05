@@ -159,7 +159,7 @@ class PD(object):
                             WHERE
                                 PK_RCQ = '{}';
                         """.format(str(qtdCortadaEmPecas), str(ID))
-                print(query)
+                        
                 curLocal.execute(query)
             except Exception as e:
                 logger.logError("Erro no metodo: pd.registraCorteNoBanco() -> Erro ao tentar transmissao para o Banco de dados Local!    -    Details: {}".format(str(e)))
