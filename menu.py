@@ -1,5 +1,4 @@
 #--- Imports ---#
-import atualiza_bdlocal
 import pandas as pd
 from tkinter import *
 from tkinter import ttk
@@ -506,6 +505,7 @@ class Menu:
 
 
         try:
+            import atualiza_bdlocal
             atualiza_bdlocal.AtualizaBancoLocal()
             priori.AlgoritmoSeparacao(headless=True)
 

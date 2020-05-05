@@ -123,7 +123,7 @@ class PD(object):
                                           linha[5]))
         banco.conexao.commit()
 
-    def registraCorteNoBanco(self, ID, qtdCortada):
+    def registraCorteNoBanco(self, ID, qtdCortadaEmPecas, qtdCortadaEmMetros):
         try:
             try:
                 conOrigem = GLOBAL_DATABASE().conexao
@@ -138,7 +138,7 @@ class PD(object):
                 corte = id_array[1]
                 quantidade = id_array[2]
 
-                curOrigem.execute("EXECUTE PROCEDURE ATUALIZA_IQC({}, {}, {}, {})".format(str(requisicao), str(corte), str(quantidade), str(qtdCortada)))       
+                curOrigem.execute("EXECUTE PROCEDURE ATUALIZA_IQC({}, {}, {}, {})".format(str(requisicao), str(corte), str(quantidade), str(qtdCortadaEmMetros)))       
             except Exception as e:
                 logger.logError("Erro no metodo: pd.registraCorteNoBanco() -> Erro ao tentar transmissao para o Banco de dados Global!    -    Details: {}".format(str(e)))
                 return False
@@ -151,13 +151,16 @@ class PD(object):
                 return False
 
             try:
-                curLocal.execute(""" UPDATE
-                                        PDS
-                                    SET
-                                        QTD_CORTADA = {}
-                                    WHERE
-                                        PK_RCQ = {}
-                            """.format(int(qtdCortada), str(ID)))
+                query = """ 
+                            UPDATE
+                                PDS
+                            SET
+                                QTD_CORTADA = {}
+                            WHERE
+                                PK_RCQ = '{}';
+                        """.format(str(qtdCortadaEmPecas), str(ID))
+                print(query)
+                curLocal.execute(query)
             except Exception as e:
                 logger.logError("Erro no metodo: pd.registraCorteNoBanco() -> Erro ao tentar transmissao para o Banco de dados Local!    -    Details: {}".format(str(e)))
                 return False
@@ -174,6 +177,7 @@ class PD(object):
 
         except Exception as e:
             logger.logError("Erro ao registrar o corte nos bancos!    -    Details: {} ".format(str(e)))
+            return False
 
 
 

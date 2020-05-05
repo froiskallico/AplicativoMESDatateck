@@ -13,7 +13,7 @@ import configparser as cfgprsr
 import inspect
 import os, re
 import logger
-import atualiza_bdlocal
+# import atualiza_bdlocal
 from cycle import cycle
 
 diretorio = os.path.dirname(os.path.abspath(__file__))
@@ -1021,7 +1021,7 @@ class Application:
                     self.popUpBarraProgresso.geometry(Definicoes.configFile['DISPLAY']['RES'])
                     self.popUpBarraProgresso.focus()
 
-                montaTelaCarregamento()
+                # montaTelaCarregamento()
 
                 # priori.AlgoritmoSeparacao(self.popUpBarraProgresso)
 
@@ -1838,14 +1838,14 @@ class Application:
 
                                 self.ciclo.cycle_stop(Variaveis.quantidadePendente, Variaveis.quantidadeCortada)
 
-                                novaQtdCortada = int(Variaveis.quantidadeCortada) + int(Variaveis.campos.get(
+                                qtdCortadaEmMetros = int(Variaveis.quantidadeCortada) + int(Variaveis.campos.get(
                                     "QTD_CORTADA"))
 
-                                novaQtdCortada *= Variaveis.campos.get("MEDIDA") / 1000
-                                novaQtdCortada = round(novaQtdCortada, 2)
+                                qtdCortadaEmMetros *= Variaveis.campos.get("MEDIDA") / 1000
+                                qtdCortadaEmMetros = round(qtdCortadaEmMetros, 2)
 
                                 if not pd.registraCorteNoBanco(0, Variaveis.ID,
-                                                        novaQtdCortada):
+                                                        Variaveis.quantidadeCortada, qtdCortadaEmMetros):
                                     self.lblMensagem.config(text="Erro ao salvar os dados. Tente novamente!",
                                                             fg="red")
                                     logger.logError("Erro ao tentar salvar a quantidade cortada no Banco de Dados    -    Details: {}".format(str(e)))
@@ -1867,7 +1867,7 @@ class Application:
                                     limpaTela()
                                     self.montaTelaPrincipal()
                                     self.montaLista()
-                                    atualiza_bdlocal.AtualizaBancoLocal()
+                                    # atualiza_bdlocal.AtualizaBancoLocal()
 
 
 
