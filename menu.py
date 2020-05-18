@@ -7,6 +7,7 @@ import os
 import logger
 import banco
 import priorizacao_pds as priori
+import socket 
 
 class Menu:
     def __init__(self, parent, master=None):
@@ -448,6 +449,18 @@ class Menu:
                                         bg=Cores.bgCinza,
                                         fg='limegreen')
                 self.lblMsgMenu.pack(side=TOP,
+                                     fill=X,
+                                     expand=1)
+
+                self.hostname = socket.gethostname()
+                self.ip_address = socket.gethostbyname(self.hostname)
+
+                self.lblIPAddress = Label(self.contRodapemenu,
+                                        textvariable='Hostname: {} - IP: {}'.format(str(self.hostname), str(self.ip_address)),
+                                        font=Fontes.fontePadraoBold,
+                                        bg=Cores.bgCinza,
+                                        fg='grey')
+                self.lblIPAddress.pack(side=BOTTOM,
                                      fill=X,
                                      expand=1)
 
