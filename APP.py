@@ -1838,8 +1838,10 @@ class Application:
 
                                 self.ciclo.cycle_stop(Variaveis.quantidadePendente, Variaveis.quantidadeCortada)
 
-                                qtdCortadaEmMetros = int(Variaveis.quantidadeCortada) + int(Variaveis.campos.get(
+                                Variaveis.quantidadeCortada += int(Variaveis.campos.get(
                                     "QTD_CORTADA"))
+
+                                qtdCortadaEmMetros = int(Variaveis.quantidadeCortada)
 
                                 qtdCortadaEmMetros *= Variaveis.campos.get("MEDIDA") / 1000
                                 qtdCortadaEmMetros = round(qtdCortadaEmMetros, 2)
@@ -1971,6 +1973,7 @@ class Application:
                                 Variaveis.quantidadeCortada = int(
                                     self.entryQtdCortada.get()
                                 )
+
                             except:
                                 self.lblMensagem.config(
                                     text='Digite corretamente a quantidade cortada')
